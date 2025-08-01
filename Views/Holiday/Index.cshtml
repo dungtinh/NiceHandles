@@ -1,0 +1,31 @@
+﻿@model List<NiceHandles.Models.Holiday>
+<h2>Danh sách ngày nghỉ lễ</h2>
+
+<form method="post" action="/Holiday/Add">
+    <input type="date" name="date" required />
+    <input type="text" name="description" placeholder="Mô tả" required />
+    <button type="submit">Thêm</button>
+</form>
+
+<table>
+    <tr><th>Ngày</th><th>Mô tả</th><th>Thao tác</th></tr>
+    @foreach (var h in Model)
+    {
+        <tr>
+            <td>@h.Date.ToString("dd/MM/yyyy")</td>
+            <td>
+                <form method="post" action="/Holiday/Edit">
+                    <input type="hidden" name="id" value="@h.Id" />
+                    <input name="description" value="@h.Description" />
+                    <button>Lưu</button>
+                </form>
+            </td>
+            <td>
+                <form method="post" action="/Holiday/Delete">
+                    <input type="hidden" name="id" value="@h.Id" />
+                    <button>Xóa</button>
+                </form>
+            </td>
+        </tr>
+    }
+</table>

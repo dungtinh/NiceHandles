@@ -1,0 +1,219 @@
+﻿@model PagedList.IPagedList<NiceHandles.Models.DSBanLamViec>
+@using PagedList.Mvc;
+@using NiceHandles.Models
+
+@{
+    ViewBag.Title = "Trang 4";
+    var db = (NiceHandles.Models.NHModel)ViewBag.db;
+}
+<br />
+
+<p style="text-align: right;">
+    <a class="btn btn-info" href="/di1cua/page4">DS đi 1 cửa trang 4</a>&nbsp;
+</p>
+
+
+@using (Html.BeginForm("Page4", "Contracts", FormMethod.Get))
+{
+    <div class="row">
+        <div class="col-sm-1">
+            <div class="form-group">
+                @Html.TextBox("Search_Data", ViewBag.FilterValue as string, new { @class = "form-control", placeholder = "Tìm kiếm" })
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                @Html.DropDownList("add", ViewBag.ADDRESS as SelectList, "--- Địa chỉ ---", new { @class = "form-control", title = "Địa chỉ" })
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                @Html.DropDownList("par", ViewBag.PARTNER as SelectList, "--- Đối tác ---", new { @class = "form-control", title = "Đối tác" })
+            </div>
+        </div>
+        <div class="col-sm-1">
+            <div class="form-group">
+                <button type="submit" class="btn btn-danger" style="height: 32px; width: 100px;">Tìm kiếm</button>
+            </div>
+        </div>
+    </div>
+}
+<table class="table table-hover" id="blv">
+    <thead>
+        <tr>
+            <th style="width: 30%;">
+                Tên khách hàng
+            </th>
+            <th>
+                Đối tác
+            </th>
+            <th>
+                Số điện thoại
+            </th>
+            <th>
+                Địa chỉ
+            </th>
+            <th>
+                Ngày nhận
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            var href = string.Empty;
+            href = "<a href='/NhiemVus/?id=" + item.id + "&step=" + item.step + "'>" + item.customer_name + "</a>";
+            <tr class="contextmenu" id="@item.id" title="@item.message" data-html="true">
+                <td>
+                    @Html.Raw(href)
+                    <a href='/Infomations/Edit?contract_id=@item.id' class="h"> - Nhập thông tin</a>
+                </td>
+                <td>
+                    @item.partner_name
+                </td>
+                <td>
+                    @item.sodienthoai
+                </td>
+                <td>
+                    @item.address_name
+                </td>
+
+                <td>
+                    @item.time.ToString("dd/MM/yyyy")
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@if (Model.PageCount > 1)
+{
+    <div class="row" style="margin-top: 10px;">
+        <div class="col-sm-1">
+            Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+        </div>
+        <div class="col-sm-10">
+            @Html.PagedListPager(Model, Page_No => Url.Action("Page4", new { Page_No, Filter_Value = ViewBag.FilterValue, add = ViewBag.ADD, par = ViewBag.PAR }))
+        </div>
+    </div>
+}
+
+<div class="modal" id="myModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="font-size: 16px; color: deeppink; text-align: center;">CẬP NHẬT GHI CHÚ</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.TextArea("txtMessage", "", new { @class = "form-control summernote", @style = "resize: vertical;", @rows = 30 })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="SaveNote();" data-dismiss="modal" class="btn btn-primary">Lưu lại</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div type="context" id="menu" style="display: none">
+    <p style="text-align:center; color: khaki; margin-top: 10px;">HÀNH ĐỘNG</p>
+    <ul style="list-style: none; padding: 0; margin: 0;">
+        <li style="list-style: none; padding: 5px 15px;"><a style="color: white;" href="javascript:EditContractNote();">Ghi chú</a></li>
+    </ul>
+    <p style="text-align:center; color: khaki; margin-top: 10px;">ĐI TỚI BƯỚC THỰC HIỆN</p>
+    <ul style="list-style: none; padding: 0; margin: 0;">
+        @if (User.IsInRole("SuperAdmin") || User.IsInRole("Manager"))
+        {
+            foreach (var item in db.Steps.Where(x => (x.code.Equals("HOSOMOI") || x.code.Equals("NOP1CUA") || x.code.Equals("THANHCONG"))))
+            {
+                <li style="list-style: none; padding: 5px 15px;"><a style="color: white;" href="javascript:GoToStep(@item.id);">@item.name</a></li>
+            }
+        }
+    </ul>
+</div>
+
+<iframe id="my_iframe" style="display:none;"></iframe>
+@section Style {
+    <style>
+        .tooltip-inner {
+            min-width: 800px; /* the minimum width */
+        }
+    </style>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        var current;
+        $(document).ready(function () {
+            $(".contextmenu").each(function () {
+                var id = $(this).attr("id");
+                var menu = document.getElementById('menu');
+                this.addEventListener("contextmenu", function (e) {
+                    e.preventDefault();
+                    menu.style.display = 'block';
+                    menu.style.left = e.x + 'px';
+                    menu.style.top = e.pageY + 'px';
+                    current = id;
+                });
+                document.addEventListener("click", function (e) {
+                    menu.style.display = 'none';
+                });
+            });
+            $(".contextmenu").tooltip();
+        });
+        function GoToStep(step) {
+            $.ajax({
+                url: '/Contracts/GotoStep',
+                type: "POST",
+                dataType: "JSON",
+                data: { id: current, sp: step },
+                success: function (obj) {
+                    toastr.success("Đã chuyển", "THÀNH CÔNG", { timeOut: 5000 });
+                }
+            });
+        }
+        function EditContractNote() {
+            $.ajax({
+                url: '/Contracts/ContractGetMessage',
+                type: "POST",
+                dataType: "JSON",
+                data: { id: current },
+                success: function (mess) {
+                    $('#txtMessage').summernote('code', mess);
+                },
+                error: function () {
+                    $('#txtMessage').summernote('code', "");
+                }
+            });
+            $("#myModal").modal("show");
+        }
+        function SaveNote() {
+            var obj = new Object();
+            obj.contract_id = current;
+            var message = $('#txtMessage').summernote('code');
+            $.ajax({
+                url: '/NhiemVus/SaveNote',
+                type: "POST",
+                dataType: "JSON",
+                data: { obj: obj, message: message },
+                success: function () {
+                    $("#" + current).attr('title', message);
+                    $("#" + current).tooltip('fixTitle');
+                    toastr.options = {
+                        "preventDuplicates": true,
+                        "preventOpenDuplicates": true
+                    };
+                    toastr.success("Đã lưu", "THÀNH CÔNG", { timeOut: 5000 });
+                }
+            });
+        }
+    </script>
+}

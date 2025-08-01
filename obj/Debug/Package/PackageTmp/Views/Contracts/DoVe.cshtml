@@ -1,0 +1,126 @@
+﻿@model PagedList.IPagedList<NiceHandles.Models.DSBanLamViec>
+@using PagedList.Mvc;
+@using NiceHandles.Models
+
+@{
+    ViewBag.Title = "Bàn làm việc";
+    var db = (NiceHandles.Models.NHModel)ViewBag.db;
+}
+<br />
+
+@using (Html.BeginForm("DoVe", "Contracts", FormMethod.Get))
+{
+    <div class="row">
+        <div class="col-sm-2">
+            <div class="form-group">
+                @Html.TextBox("Search_Data", ViewBag.FilterValue as string, new { @class = "form-control", placeholder = "Tìm kiếm" })
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                @Html.DropDownList("ste", ViewBag.STEPS as SelectList, "--- Bước thực hiện ---", new { @class = "form-control", title = "Bước thực hiện" })
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                @Html.DropDownList("add", ViewBag.ADDRESS as SelectList, "--- Địa chỉ ---", new { @class = "form-control", title = "Địa chỉ" })
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                @Html.DropDownList("ser", ViewBag.SERVICES as SelectList, "--- Dịch vụ ---", new { @class = "form-control", title = "Dịch vụ" })
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                @Html.DropDownList("par", ViewBag.PARTNER as SelectList, "--- Đối tác ---", new { @class = "form-control", title = "Đối tác" })
+            </div>
+        </div>
+        <div class="col-lg-2">
+            <div class="form-group">
+                <button type="submit" class="btn btn-danger" style="height: 32px; width: 100px;">Tìm kiếm</button>
+            </div>
+        </div>
+    </div>
+}
+<table class="table table-hover" id="blv">
+    <thead>
+        <tr>
+            <th style="width: 25%;">
+                Tên khách hàng
+            </th>
+            <th>
+                Đối tác
+            </th>
+            <th>
+                Số điện thoại
+            </th>
+            <th>
+                Địa chỉ
+            </th>
+            <th>
+                Dịch vụ
+            </th>
+            <th>
+                Bước thực hiện
+            </th>
+            <th>
+                Ngày nhận
+            </th>
+            <th>
+                Ưu tiên
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            var href = string.Empty;
+            href = "<a href='/NhiemVus/?id=" + item.id + "&step=" + item.step + "'>" + item.customer_name + "</a>";
+            <tr>
+                <td>
+                    @Html.Raw(href)
+                    <a href='/Infomations/Edit?contract_id=@item.id' class="h"> - Nhập thông tin</a>
+                </td>
+                <td>
+                    @item.partner_name
+                </td>
+                <td>
+                    @item.sodienthoai
+                </td>
+                <td>
+                    @item.address_name
+                </td>
+                <td>
+                    @item.service_name
+                </td>
+                <td style="color: @item.step_color">
+                    @item.step_name
+                </td>
+                <td>
+                    @item.time.ToString("dd/MM/yyyy")
+                </td>
+                <td>
+                    @XContract.sPriority[item.Priority]
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@if (Model.PageCount > 1)
+{
+    <div class="row" style="margin-top: 10px;">
+        <div class="col-sm-1">
+            Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+        </div>
+        <div class="col-sm-10">
+            @Html.PagedListPager(Model, Page_No => Url.Action("DoVe", new { Page_No, Filter_Value = ViewBag.FilterValue, add = ViewBag.ADD, ser = ViewBag.SER, par = ViewBag.PAR, ste = ViewBag.STEP }))
+        </div>
+    </div>
+}
+
+
+<iframe id="my_iframe" style="display:none;"></iframe>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")    
+}

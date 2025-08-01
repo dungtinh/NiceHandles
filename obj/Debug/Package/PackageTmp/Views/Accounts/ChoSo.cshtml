@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewBag.Title = "ChoSo";
+}
+
+<h2>ChoSo</h2>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        var url = "@ViewBag.URL";
+        this.location.href = url;
+        setTimeout(function () { this.location.href = "@ViewBag.GO"; }, 3000);
+    </script>
+}

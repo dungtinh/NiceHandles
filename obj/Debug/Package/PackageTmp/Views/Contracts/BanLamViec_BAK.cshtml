@@ -1,0 +1,319 @@
+﻿@model PagedList.IPagedList<NiceHandles.Models.DSBanLamViec>
+@using PagedList.Mvc;
+@using NiceHandles.Models
+
+@{
+    ViewBag.Title = "Bàn làm việc";
+    var db = (NiceHandles.Models.NHModel)ViewBag.db;
+    var accounts = db.Accounts.Where(x => x.hasNote == (int)XModels.eYesNo.Yes).ToArray();
+}
+
+
+<link href="~/Content/Jobs.css" rel="stylesheet" />
+
+<h2>NHIỆM VỤ</h2>
+@*<button type="button" class="btn btn-info" onclick="Print();">Bản in tổng</button> &nbsp;*@
+<p style="text-align: right;">
+    @*<button type="button" class="btn btn-info" onclick="Go();">Đi 1 cửa</button>&nbsp;*@
+    @*<button type="button" class="btn btn-primary" onclick="GoDiaChinh();">DS nộp xã</button>&nbsp;*@
+    <button type="button" class="btn btn-primary" onclick="GoGiayTo();">DS giao nhận giấy tờ</button>&nbsp;
+    <button type="button" class="btn btn-info" onclick="AlreadyGo();">DS đi 1 cửa</button>&nbsp;
+</p>
+
+<div class="row">
+    @foreach (var acc in accounts)
+    {
+        <div class="col-sm-3">
+            <h4>@acc.fullname.ToUpper()<button onclick="Print(@acc.id);" class="btn btn-info" style="float: right;">In</button></h4>
+            <a onclick="btnNew_click(@acc.id)">Thêm việc mới</a>
+            <div class="form-group">
+                <ul id="@( "myUL" + acc.id)" class="ulb">
+                    @foreach (var item in db.Jobs.Where(x => x.process_by == acc.id).OrderBy(x => x.status))
+                    {
+                        var lstT = db.tasks.Where(x => x.job_id == item.id).OrderBy(x => x.status);
+                        var ca = db.tasks.Where(x => x.job_id == item.id).Count();
+                        var cf = db.tasks.Where(x => x.job_id == item.id && x.status == (int)XJob.eStatus.Complete).Count();
+
+                        <li id="@Html.Raw("j" + item.id)">
+                            <span class="caret">@Html.Raw(item.name + "(" + cf + "/" + ca + ")") </span><a class="edit" onclick='DelJob_Click(@item.id);'>X</a>
+                            <ul class="nested">
+                                <li><a onclick='AddTask_Click(this);'>Thêm nhiệm vụ</a>&nbsp;|&nbsp; <a onclick='EditTask_Click(this);'>Xóa</a></li>
+                                @foreach (var t in lstT)
+                                {
+                                    <li>
+                                        <input type="checkbox" class="task" id="@t.id" @Html.Raw(t.status == (int)XJob.eStatus.Complete ? "checked" : "") />@t.name
+                                        <a class="edit" onclick='DelTask_Click(@t.id);'>X</a>
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="modal" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="font-size: 16px; color: deeppink; text-align: center;">ĐI 1 CỬA</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Hợp đồng</label>
+                                <div class="col-md-10">
+                                    <select id="cboHopDong" class="form-control"></select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Ngày nộp</label>
+                                <div class="col-md-10">
+                                    <input type="text" class="form-control datetime" id="txtNgayNop" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Ngày trả KQ</label>
+                                <div class="col-md-10">
+                                    <input type="text" class="form-control datetime" id="txtNgayTraKQ" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Cán bộ 1 cửa</label>
+                                <div class="col-md-10">
+                                    <input type="text" class="form-control" id="txtCanBo1Cua" />
+                                </div>
+                            </div>
+
+                            @*<div class="form-group">
+                                    <label class="control-label col-md-2">Cán bộ phụ trách</label>
+                                    <div class="col-md-10">
+                                        <input type="text" class="form-control" id="txtCanBoPhuTrach" />
+                                    </div>
+                                </div>*@
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Mã phiếu hẹn</label>
+                                <div class="col-md-10">
+                                    <input type="text" class="form-control" id="txtMaPhieuHen" />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="OnGo();">Nộp 1 cửa</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<h2>Bàn làm việc</h2>
+
+@using (Html.BeginForm("BanLamViec", "Contracts", FormMethod.Get))
+{
+    <div class="row">
+        <div class="col-sm-2">
+            <div class="form-group">
+                @Html.TextBox("Search_Data", ViewBag.FilterValue as string, new { @class = "form-control", placeholder = "Tìm kiếm" })
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                @Html.DropDownList("ste", ViewBag.STEPS as SelectList, "--- Bước thực hiện ---", new { @class = "form-control", title = "Bước thực hiện" })
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                @Html.DropDownList("add", ViewBag.ADDRESS as SelectList, "--- Địa chỉ ---", new { @class = "form-control", title = "Địa chỉ" })
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                @Html.DropDownList("ser", ViewBag.SERVICES as SelectList, "--- Dịch vụ ---", new { @class = "form-control", title = "Dịch vụ" })
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                @Html.DropDownList("par", ViewBag.PARTNER as SelectList, "--- Đối tác ---", new { @class = "form-control", title = "Đối tác" })
+            </div>
+        </div>
+        <div class="col-lg-2">
+            <div class="form-group">
+                <button type="submit" class="btn btn-danger" style="height: 32px; width: 100px;">Tìm kiếm</button>
+            </div>
+        </div>
+    </div>
+}
+<table class="table table-hover" id="blv">
+    <thead>
+        <tr>
+            <th style="width: 25%;">
+                Tên khách hàng
+            </th>
+            <th>
+                Đối tác
+            </th>
+            <th>
+                Số điện thoại
+            </th>
+            <th>
+                Địa chỉ
+            </th>
+            <th>
+                Dịch vụ
+            </th>
+            <th>
+                Bước thực hiện
+            </th>
+            <th>
+                Gia phả
+            </th>
+            <th>
+                Nhập thông Tin
+            </th>
+            <th>
+                Ngày nhận
+            </th>
+            @*<th>
+                    Ngày hạn
+                </th>*@
+            <th>
+                Ưu tiên
+            </th>
+            @*<th>
+                </th>*@
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            var href = string.Empty;
+            var nguoithuchien = string.Empty;
+            //switch (item.step_code)
+            //{
+            //    case "NOP1CUA":
+            //        var odi1cua = db.di1cua.Where(x => x.contract_id == item.id).SingleOrDefault();
+            //        if (odi1cua == null)
+            //        {
+            //            odi1cua = new di1cua();
+            //            odi1cua.contract_id = item.id;
+            //            odi1cua.ngaynop = DateTime.Now;
+            //            odi1cua.trangthai = (int)Xdi1cua.eStatus.ChoNop;
+            //            odi1cua.ngaytra = DateTime.Now.AddDays(30);
+            //            var canbo = db.CanBoes.Where(x => x.motcua == (int)XModels.eYesNo.Yes).FirstOrDefault();
+            //            odi1cua.canbo1cua = canbo != null ? canbo.id : db.CanBoes.First().id;
+            //            db.di1cua.Add(odi1cua);
+            //        }
+            //        href = "<a href='/di1cua/Edit/" + odi1cua.id + "'>" + item.customer_name + "</a>";
+            //        break;
+            //    default:
+            //        href = "<a href='/NhiemVus/?id=" + item.id + "&step=" + item.step + "'>" + item.customer_name + "</a>";
+            //        break;
+            //}
+            href = "<a href='/NhiemVus/?id=" + item.id + "&step=" + item.step + "'>" + item.customer_name + "</a>";
+            nguoithuchien = item.account_id.HasValue ?
+            item.account_name + "<a href='/contracts/cancelassign/?id=" + item.id + "' style='color: red; vertical-align: 2px; padding-left: 5px;'>x</a>" :
+            "<a href='/contracts/assign/?id=" + item.id + "' class='text-success'>Nhận việc</a>";
+            <tr>
+                <td>
+                    @Html.Raw(href)
+                    <a href='/Infomations/Edit?contract_id=@item.id' class="h"> - Nhập thông tin</a>
+                </td>
+                <td>
+                    @item.partner_name
+                </td>
+                <td>
+                    @item.sodienthoai
+                </td>
+                <td>
+                    @item.address_name
+                </td>
+                <td>
+                    @item.service_name
+                </td>
+                <td style="color: @item.step_color">
+                    @item.step_name
+                </td>
+                <td>
+                    @if (item.hasfile.HasValue)
+                    {
+                        @Html.ActionLink("Xem", "GiaPha", "Home", new { c = item.id }, new { @class = "fa-solid fa-eye" })
+                    }
+                    else
+                    {
+                        <i>---</i>
+                    }
+
+                </td>
+                <td>
+                    @Html.Raw(nguoithuchien)
+                </td>
+                <td>
+                    @item.time.ToString("dd/MM/yyyy")
+                </td>
+                @*<td>
+                        @if (item.obj.exp.HasValue)
+                        {
+                            if (item.obj.exp.Value < DateTime.Now && item.obj.status == (int)Xwf_contract.eStatus.Processing)
+                            {
+                                <i style="color: red">
+                                    @item.obj.exp.Value.ToString("dd/MM/yyyy")
+                                </i>
+                            }
+                            else
+                            {
+                                @item.obj.exp.Value.ToString("dd/MM/yyyy")
+                            }
+                        }
+                    </td>*@
+                <td>
+                    @XContract.sPriority[item.Priority]
+                </td>
+                @*<td>
+                        @if (item.obj.status == (int)XContract.eStatus.Processing)
+                        {
+                            @Html.ActionLink("Bước tiếp", "Next", "Contracts", new { id = item.obj.id }, new { style = "background-color:aliceblue;color:#337ab7;" })
+                            @Html.Raw(" |")
+                            @Html.ActionLink("Trả về", "Prev", "Contracts", new { id = item.obj.id }, new { style = "background-color:aliceblue;color:deeppink;" })
+                        }
+                    </td>*@
+            </tr>
+        }
+    </tbody>
+</table>
+@if (Model.PageCount > 1)
+{
+    <div class="row" style="margin-top: 10px;">
+        <div class="col-sm-1">
+            Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+        </div>
+        <div class="col-sm-10">
+            @Html.PagedListPager(Model, Page_No => Url.Action("BanLamViec", new { Page_No, Filter_Value = ViewBag.FilterValue, add = ViewBag.ADD, ser = ViewBag.SER, par = ViewBag.PAR, ste = ViewBag.STEP }))
+        </div>
+    </div>
+}
+
+
+<iframe id="my_iframe" style="display:none;"></iframe>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/Jobs.js"></script>
+
+}

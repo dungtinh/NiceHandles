@@ -1,0 +1,113 @@
+﻿@model NiceHandles.Models.HoSo
+@using NiceHandles.Models
+@{
+    ViewBag.Title = "Đơn Thư";
+    var db = new NHModel();
+    var progress = db.Progresses.FirstOrDefault(x => x.type == (int)XProgress.eType.DonThu);
+    var option = db.progress_file_option.FirstOrDefault(x => x.hoso_id == Model.id && x.progress_id == progress.id);
+    if (option == null)
+    {
+        option = new progress_file_option() { hoso_id = Model.id, progress_id = progress.id };
+        db.progress_file_option.Add(option);
+        db.SaveChanges();
+    }
+    var files = db.progress_file.Where(x => x.hoso_id == Model.id && x.progress_id == progress.id);
+}
+<section id="ss@("_" + progress.type + Model.id)" class="progressfile">
+    <fieldset>
+        <div class="progress_header">
+            <div class="row" style="margin: 0;">
+                <div class="col-sm-4 title">
+                    <span class="fa fa-letters text-danger"> @progress.sort. @progress.title </span>
+                </div>
+                <div class="col-sm-5 desc">
+                    <i>@progress.description</i>
+                </div>
+                <div class="col-sm-3 tool">
+                    <label style="font-size: 14px;"><input type="checkbox" onchange="ProgressFileStatus(@Model.id, @progress.id,@progress.type, this);" @Html.Raw(option.status == (int)XModels.eLevel.Level1 ? "" : "checked") />  Hoàn thành</label>
+                    <a onclick="ProgressDownload(@progress.id, @Model.id);"> <i class="fad fa-file-download"></i></a>
+                    @*<i class="fad fa-print"></i>*@
+                    <a onclick="ProgressSetting(@progress.id, @Model.id);"> <i class="fad fa-cogs" style="padding-right: 10px;"></i></a>
+                    <a data-toggle="collapse" href="#ss@("_" + progress.type + Model.id) .collapse" role="button" aria-expanded="false" aria-controls="#ss@("_" + progress.type + Model.id) .collapse">
+                        <i onclick="UpDownPanel(this)" class="fa fa-angle-down" style="padding-right: 10px;"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="progress_body collapse">
+            <div class="row">
+                <div class="col-sm-2" style="text-align: right;">
+                    Đơn thư đi
+                </div>
+                <div class="col-sm-4">
+                    <input type="file" class="btn btn-info txtDonThuDi" />
+                </div>
+                <div class="col-sm-2">
+                    <input value="Upload" type="button" onclick="UploadProgressFile('#ss@("_" + progress.type + Model.id) .txtDonThuDi','#ss@("_" + progress.type + Model.id) .lstDonThuDi', @(Model.id) , @(progress.id) , @((int)XProgressFile.eType.DonThuDi) );" class="btn btn-info" />
+                </div>
+                <div class="col-sm-4 lstDonThuDi">
+                    <ul style="margin:0; padding: 0; list-style: decimal;">
+                        @foreach (var item in files.Where(x => x.type == (int)XProgressFile.eType.DonThuDi))
+                        {
+                            <li>
+                                <a href="@item.url" target="_blank">@item.name</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2" style="text-align: right;">
+                    VB hồi âm
+                </div>
+                <div class="col-sm-4">
+                    <input type="file" class="btn btn-info txtDonThuDen" />
+                </div>
+                <div class="col-sm-2">
+                    <input value="Upload" type="button" onclick="UploadProgressFile('#ss@("_" + progress.type + Model.id) .txtDonThuDen','#ss@("_" + progress.type + Model.id) .lstDonThuDen', @(Model.id) , @(progress.id) , @((int)XProgressFile.eType.DonThuDen) );" class="btn btn-info" />
+                </div>
+                <div class="col-sm-4 lstDonThuDen">
+                    <ul style="margin:0; padding: 0; list-style: decimal;">
+                        @foreach (var item in files.Where(x => x.type == (int)XProgressFile.eType.DonThuDen))
+                        {
+                            <li>
+                                <a href="@item.url" target="_blank">@item.name</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            <div class="row alarm">
+                <div class="col-md-2" style="text-align: right;">
+                    <p> <i class="fa fa-alarm-clock icon"></i></p>
+                    <p>Nội dung </p>
+                    <p>Ngày nhắc </p>
+                </div>
+                <div class="col-md-6">
+                    <p> <strong><i>Lịch nhắc nhớ</i></strong></p>
+                    <p> <input type="text" class="form-control" name="viecphailam_name" /></p>
+                    <p>
+                        <input type="text" class="datetime form-control" name="viecphailam_time" style="width: 200px; display: inline; margin-right: 10px;" />
+                        <button class="btn btn-primary" onclick="TaoLich( @Model.id, @((int)XProgress.eType.DonThu ));">Tạo lịch</button>
+                    </p>
+                </div>
+                <div class="col-md-4">
+                    <div class="note">
+                        <i class="fal fa-lightbulb-on icon" style="color: crimson;"></i>
+                        <i>  @progress.note</i>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-10 col-md-offset-2">
+                    <label>Nhật ký nhắc nhớ</label>
+                </div>
+                <div class="col-md-10 col-md-offset-2">
+                    <div class="row" name="viecphailam">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+</section>

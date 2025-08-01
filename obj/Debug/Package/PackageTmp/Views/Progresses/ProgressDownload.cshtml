@@ -1,0 +1,53 @@
+﻿@model NiceHandles.Models.xTemp
+@using NiceHandles.Models
+@{
+    //int1 = process_id
+    //int2= hoso_id
+
+    var db = new NHModel();
+    var progress = db.Progresses.Find(Model.int1);
+    var lstSettings = db.TaiLieux.Where(x => x.type == (progress.type + 100)).ToList();
+    //var hoso = db.HoSoes.Find(Model.int2);
+    var checkeddoc = db.Progress_Document.Where(x => x.progress_type == progress.type).Select(x => x.document_id).ToArray();
+    var documents = db.Documents.Where(x => checkeddoc.Contains(x.id)).ToArray();
+}
+<section id="ss_download">
+    <div class="form-horizontal" style="padding: 20px;">
+        <h4>Văn bản tải về</h4>
+        <hr />
+        <div class="row">
+            <div class="col-md-7">
+                <h5 class="text-primary">VĂN BẢN THEO HỒ SƠ</h5>
+                <div class="row" id="wrap_docs">
+                    @foreach (var t in XDocument.sType)
+                    {
+                        <h5 class="text-danger center" style="float: left; width: 100%;"><i>  @t.Value </i></h5>
+                        foreach (var item in documents.Where(x => x.type == t.Key))
+                        {
+                            <div class="col-sm-6">
+                                <a href="javascript:Download(@item.id,@Model.int2)">@item.name</a>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+            <div class="col-md-5" style="border: 1px solid #0094ff; border-radius: 10px;">
+                <h5 class="text-primary">VĂN BẢN MẪU TRẮNG</h5>
+                <ul>
+                    @foreach (var item in lstSettings)
+                    {
+                        <li>
+                            <a href="@item.link" target="_blank"> @item.name</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+<style>
+    #ss_filetai .fa {
+        background-color: transparent;
+        border: none;
+    }
+</style>

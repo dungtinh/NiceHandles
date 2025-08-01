@@ -1,0 +1,162 @@
+﻿@model NiceHandles.Models.ThuaDat
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ThuaDat</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.infomation_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.infomation_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.sogiaychungnhan)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.sogiaychungnhan)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.sothua)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.sothua)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tobando)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tobando)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.diachithuadat)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.diachithuadat)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.dientich)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dientich)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.hinhthucsudung)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.hinhthucsudung)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.mucdichsudung)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.mucdichsudung)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.nguongoc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nguongoc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ghichu)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ghichu)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ngaycap)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ngaycap)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.noicap)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.noicap)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.sovaoso)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.sovaoso)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.loaidat1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.loaidat1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.dientich1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dientich1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.loaidat2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.loaidat2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.dientich2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dientich2)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

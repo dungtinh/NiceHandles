@@ -1,0 +1,61 @@
+﻿@model NiceHandles.Models.HoSo
+@using NiceHandles.Models
+@{
+    ViewBag.Title = "Gia phả";
+    var db = new NHModel();
+    var progress = db.Progresses.FirstOrDefault(x => x.type == (int)XProgress.eType.GiaPha);
+    var passvalue = new xTemp() { int1 = Model.id, int2 = progress.type };
+    var option = db.progress_file_option.FirstOrDefault(x => x.hoso_id == Model.id && x.progress_id == progress.id);
+    if (option == null)
+    {
+        option = new progress_file_option() { hoso_id = Model.id, progress_id = progress.id };
+        db.progress_file_option.Add(option);
+        db.SaveChanges();
+    }
+    var files = db.progress_file.Where(x => x.hoso_id == Model.id && x.progress_id == progress.id);
+}
+<section id="ss@("_" + progress.type + Model.id)" class="progressfile">
+    <fieldset>
+        <div class="progress_header">
+            <div class="row" style="margin: 0;">
+                <div class="col-sm-4 title">
+                    <span class="fa fa-sitemap"> @progress.sort. @progress.title (@progress.phantram%)</span>
+                </div>
+                <div class="col-sm-5 desc">
+                    <i>@progress.description</i>
+                </div>
+                <div class="col-sm-3 tool">
+                    <label style="font-size: 14px;"><input type="checkbox" onchange="ProgressFileStatus(@Model.id, @progress.id,@progress.type, this);" @Html.Raw(option.status == (int)XModels.eLevel.Level1 ? "" : "checked") />  Hoàn thành</label>
+                    <a onclick="ProgressDownload(@progress.id, @Model.id);"> <i class="fad fa-file-download"></i></a>
+                    @*<i class="fad fa-print"></i>*@
+                    <a onclick="ProgressSetting(@progress.id, @Model.id);"> <i class="fad fa-cogs" style="padding-right: 10px;"></i></a>
+                    <a data-toggle="collapse" href="#ss@("_" + progress.type + Model.id) .collapse" role="button" aria-expanded="false" aria-controls="#ss@("_" + progress.type + Model.id) .collapse">
+                        <i onclick="UpDownPanel(this)" class="fa fa-angle-down" style="padding-right: 10px;"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="progress_body collapse">
+            <div class="row">
+                <div class="col-md-offset-2 col-md-4">
+                    <input type="file" class="btn btn-info txtFile" />
+                </div>
+                <div class="col-sm-2">
+                    <input value="Upload" type="button" onclick="UploadProgressFile('#ss@("_" + progress.type + Model.id) .txtFile','#ss@("_" + progress.type + Model.id) .lstFile', @(Model.id) , @(progress.id) , @((int)XProgressFile.eType.UnType) );" class="btn btn-info" />
+                </div>
+                <div class="col-sm-4 lstFile">
+                    <ul style="margin:0; padding: 0; list-style: decimal;">
+                        @foreach (var item in files)
+                        {
+                            <li>
+                                <a href="@item.url" target="_blank">@item.name</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            @Html.Partial("../Progresses/ViecPhaiLam", passvalue)
+            @Html.Partial("../Progresses/PartNhatKyNhacNho")
+        </div>
+    </fieldset>
+</section>

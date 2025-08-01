@@ -1,0 +1,47 @@
+﻿@model IEnumerable<NiceHandles.Models.TaiLieu>
+@using NiceHandles.Models
+@{
+    ViewBag.Title = "Quy chế";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Quy chế</h2>
+
+<p>
+    @Html.ActionLink("Thêm mới", "Create", new { type = (int)XTaiLieu.eType.QuyChe })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Tiêu đề
+        </th>
+        <th>
+            Link tải
+        </th>
+        <th>
+            Ghi chú
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+            <td>
+                <a href="@item.link"  target="_blank" class="fa fa-eye">Xem</a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.note)
+            </td>
+            <td>
+                @Html.ActionLink("Chỉnh sửa", "Edit", new { id = item.id }) |
+                @Html.ActionLink("Xóa", "Delete", new { id = item.id })
+            </td>
+        </tr>
+    }
+
+</table>
+

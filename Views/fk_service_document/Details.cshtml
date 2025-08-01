@@ -1,0 +1,34 @@
+﻿@model NiceHandles.Models.fk_service_document
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>fk_service_document</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.service_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.service_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.document_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.document_id)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

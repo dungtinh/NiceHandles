@@ -1,0 +1,82 @@
+﻿@model NiceHandles.Models.GiaoNhanGiayTo
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>GiaoNhanGiayTo</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.contract_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.contract_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.account_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.account_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.giayto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.giayto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.noinhan)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.noinhan)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.nguoinhan)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nguoinhan)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ngaygiao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ngaygiao)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ngayhan)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ngayhan)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.trangthai)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.trangthai)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

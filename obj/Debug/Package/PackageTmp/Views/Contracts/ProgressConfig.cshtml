@@ -1,0 +1,111 @@
+﻿@model NiceHandles.Models.service_step_day
+@using NiceHandles.Models
+@{
+    ViewBag.Title = "Cấu hình số ngày thực hiện";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var db = new NHModel();
+    var steps = db.Steps.Where(x => !x.code.Equals("THANHCONG")).OrderBy(x => x.sort).ToArray();
+}
+
+<h2>Cấu hình số ngày thực hiện</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Tiến trình</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.Label("Dịch vụ", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("service_id", new SelectList(db.Services, "id", "name"), new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Số ngày thực hiện", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <ul style="margin: 0; padding: 0;" id="progress">
+                    @foreach (var item in steps.Select(x => new { Key = x.id, Value = x.name }))
+                    {
+                        <li style="list-style: none; float: left; width: 45%; height: 36px;" id="@item.Key">
+                            <input style="height: 28px; width: 50px; display: inline-block; border-color: #f0ad4e; " type="number" name="yellow" />
+                            <input style="height: 28px; width: 50px; display: inline-block; border-color: #d9534f;" type="number" name="red" />
+                            <span style="vertical-align: middle;">@item.Value</span>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" value="Lưu lại" class="btn btn-primary" onclick="Submit();" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Về danh sách", "TheoDoiTienDo")
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            $("#service_id").change(function () {
+                var service_id = $(this).val();
+                var current;
+                $.ajax({
+                    url: '/Contracts/TDTDChangeService',
+                    type: "POST",
+                    dataType: "JSON",
+                    data: { service_id: service_id },
+                    success: function (lst) {
+                        var cli;
+                        $.each(lst, function (i) {
+                            current = $(this)[0];
+                            cli = $("li#" + current.step_id);
+                            $("[name='yellow']", cli).val(current.yellow);
+                            $("[name='red']", cli).val(current.red);
+                        });
+                    }
+                });
+            });
+            $("#service_id").trigger("change");
+        });
+        function Submit() {
+            var chitieus = [];
+            var service_id = $("#service_id").val();
+            var stop = false;
+            $("#progress li").each(function () {
+                var per = [];
+                per.push($(this).attr("id"));
+                var yellow = $("[name='yellow']", $(this)).val() ?? 0;
+                var red = $("[name='red']", $(this)).val() ?? 0;
+                per.push(yellow);
+                per.push(red);
+                chitieus.push(per);
+                if (yellow < 0 || red < 0) {
+                    stop = true;
+                }
+            });
+            if (stop) {
+                alert("Không được nhập số ngày nhỏ hơn 0.");
+                return;
+            }
+            $.ajax({
+                url: '/Contracts/TDTDSubmit',
+                type: "POST",
+                dataType: "JSON",
+                data: { service_id: service_id, chitieus: chitieus },
+                success: function (url) {
+                    location.pathname = url;
+                }
+            });
+        }
+    </script>
+}

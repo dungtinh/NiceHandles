@@ -1,0 +1,615 @@
+﻿@model IEnumerable<NiceHandles.Models.TachThua>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.infomation_id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.a_loaigiayto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.a_sogiayto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.a_hoten)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.a_ngaysinh)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.a_gioitinh)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.a_quoctich)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.a_nguyenquan)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.a_hktt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.a_thon)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.a_xa)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.a_huyen)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.a_tinh)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.a_ngaycap_gt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.a_noicap_gt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.a_masothue)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.a_loaigiayto1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.a_sogiayto1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.a_hoten1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.a_ngaysinh1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.a_gioitinh1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.a_quoctich1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.a_nguyenquan1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.a_hktt1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.a_ngaycap_gt1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.a_noicap_gt1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.b_csh)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.b_hoten)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.b_ngaysinh)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.b_loaigiayto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.b_sogiayto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.b_diachithuongtru)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.b_sogiaychungnhan)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.b_sothua)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.b_tobando)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.b_thon)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.b_xa)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.b_huyen)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.b_tinh)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.b_diachithuadat)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.b_dientich)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.b_hinhthucsudung)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.b_mucdichsudung)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.b_nguongoc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.b_ghichu)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.b_ngaycap)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.b_noicap)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.b_sovaoso)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.b_loaidat1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.b_dientich1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.b_loaidat2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.b_dientich2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.b_loainguongoc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.b_chuyenquyen)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.c_xaphuong)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.c_xa)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.c_baocao_veviec)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.c_dondenghi_noidung)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.d_sogiayto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.d_hoten)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.d_ngaysinh)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.d_gioitinh)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.d_quoctich)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.d_nguyenquan)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.d_hktt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.d_loaigiayto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.d_ngaycap_gt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.d_noicap_gt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.d_masothue)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.d_sogiayto1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.d_loaigiayto1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.d_hoten1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.d_ngaysinh1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.d_gioitinh1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.d_hktt1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.d_ngaycap_gt1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.d_noicap_gt1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.d_loaibiendong)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.d_noidungbiendong)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.d_lydobiendong)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.d_sohopdong)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.d_noicongchung)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.d_ngaycongchung)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.d_tienhopdong)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.d_vitrithuadat)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.e_sogiayto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.e_hoten)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.e_ngaysinh)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.e_gioitinh)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.e_quoctich)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.e_nguyenquan)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.e_hktt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.e_ngaycap_gt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.e_noicap_gt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.e_masothue)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.e_giayuyquyenso)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.e_ngayuyquyen)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.e_doituong)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.infomation_id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.a_loaigiayto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.a_sogiayto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.a_hoten)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.a_ngaysinh)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.a_gioitinh)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.a_quoctich)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.a_nguyenquan)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.a_hktt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.a_thon)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.a_xa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.a_huyen)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.a_tinh)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.a_ngaycap_gt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.a_noicap_gt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.a_masothue)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.a_loaigiayto1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.a_sogiayto1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.a_hoten1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.a_ngaysinh1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.a_gioitinh1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.a_quoctich1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.a_nguyenquan1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.a_hktt1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.a_ngaycap_gt1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.a_noicap_gt1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.b_csh)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.b_hoten)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.b_ngaysinh)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.b_loaigiayto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.b_sogiayto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.b_diachithuongtru)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.b_sogiaychungnhan)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.b_sothua)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.b_tobando)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.b_thon)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.b_xa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.b_huyen)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.b_tinh)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.b_diachithuadat)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.b_dientich)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.b_hinhthucsudung)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.b_mucdichsudung)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.b_nguongoc)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.b_ghichu)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.b_ngaycap)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.b_noicap)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.b_sovaoso)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.b_loaidat1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.b_dientich1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.b_loaidat2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.b_dientich2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.b_loainguongoc)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.b_chuyenquyen)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.c_xaphuong)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.c_xa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.c_baocao_veviec)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.c_dondenghi_noidung)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.d_sogiayto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.d_hoten)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.d_ngaysinh)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.d_gioitinh)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.d_quoctich)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.d_nguyenquan)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.d_hktt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.d_loaigiayto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.d_ngaycap_gt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.d_noicap_gt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.d_masothue)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.d_sogiayto1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.d_loaigiayto1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.d_hoten1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.d_ngaysinh1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.d_gioitinh1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.d_hktt1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.d_ngaycap_gt1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.d_noicap_gt1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.d_loaibiendong)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.d_noidungbiendong)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.d_lydobiendong)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.d_sohopdong)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.d_noicongchung)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.d_ngaycongchung)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.d_tienhopdong)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.d_vitrithuadat)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.e_sogiayto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.e_hoten)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.e_ngaysinh)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.e_gioitinh)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.e_quoctich)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.e_nguyenquan)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.e_hktt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.e_ngaycap_gt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.e_noicap_gt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.e_masothue)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.e_giayuyquyenso)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.e_ngayuyquyen)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.e_doituong)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id })
+        </td>
+    </tr>
+}
+
+</table>

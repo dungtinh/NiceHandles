@@ -1,0 +1,218 @@
+﻿@model PagedList.IPagedList<NiceHandles.Models.QuyDove>
+@using PagedList.Mvc;
+@using NiceHandles.Models
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>
+    Quỹ đo vẽ
+    <button type="button" style="float: right;" class="btn btn-info" onclick="Print();">Bản in</button>
+</h2>
+<p>
+    @Html.ActionLink("Thêm mới", "Create")
+</p>
+@using (Html.BeginForm("Index", "QuyDoves", FormMethod.Get))
+{
+    <div class="row">
+        <div class="col-sm-2">
+            <div class="form-group">
+                @Html.TextBox("Search_Data", ViewBag.FilterValue as string, new { @class = "form-control", placeholder = "Tìm kiếm" })
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                @Html.DropDownList("type", XCategory.sType.Select(x => new SelectListItem { Value = x.Key.ToString(), Text = x.Value }), "Loại", new { @class = "form-control", @onchange = "FillCategory()" })
+            </div>
+        </div>
+
+        <div class="col-sm-2">
+            <div class="form-group">
+                @Html.TextBox("fromdate", ViewBag.FROMDATE as string, new { @class = "form-control datetime", placeholder = "Từ ngày", autocomplete = "off" })
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                @Html.TextBox("todate", ViewBag.TODATE as string, new { @class = "form-control datetime", placeholder = "Đến ngày", autocomplete = "off" })
+            </div>
+        </div>
+
+        <div class="col-sm-1">
+            <div class="form-group">
+                <button type="submit" class="btn btn-danger fa fa-search" style="height: 32px; width: 100px;">Tìm kiếm</button>
+            </div>
+        </div>
+    </div>
+}
+<div class="row" style="background-color:aliceblue;">
+    <div style="border-radius: 10px; background-color: aliceblue; margin: 15px; padding: 15px; padding-bottom: 30px;">
+        <h4>TỔNG THU CHI</h4>
+        <div class="col-sm-4">Tổng thu: <b> @ViewBag.TONGTHU </b></div>
+        <div class="col-sm-4">Tổng chi: <b>@ViewBag.TONGCHI </b></div>
+        <div class="col-sm-4" style="color: red; font-size: 19px;">Thu - Chi (còn lại): <b>@ViewBag.THUCHI </b></div>
+    </div>
+</div>
+<table class="table">
+    <tr>
+        <th>
+            Thời gian
+        </th>
+        <th>
+            Loại thu/chi
+        </th>
+        <th>
+            Số tiền
+        </th>
+        <th>
+            Ghi chú
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr class="@(Html.Raw(item.type == (int)XCategory.eType.Chi ? "text-danger" : ""))" data-id="@item.id" data-html="true" data-toggle="tooltip">
+            <td>
+                @item.time.ToString("dd/MM/yyyy")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => XCategory.sType[item.type])
+            </td>
+            <td>
+                @item.amount.ToString("N0")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.note)
+            </td>
+            <td>
+                @Html.ActionLink("Sửa", "Edit", new { id = item.id }) |
+                @Html.ActionLink("Xóa", "Delete", new { id = item.id })
+            </td>
+        </tr>
+    }
+</table>
+@if (Model.PageCount > 1)
+{
+    <div class="row" style="margin-top: 10px;">
+        <div class="col-sm-1">
+            Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+        </div>
+        <div class="col-sm-10">
+            @Html.PagedListPager(Model, Page_No => Url.Action("Index", new { Page_No, Filter_Value = ViewBag.FilterValue, type = ViewBag.type, fromdate = ViewBag.FROMDATE, todate = ViewBag.TODATE }))
+        </div>
+    </div>
+}
+<iframe id="my_iframe" style="display:none;"></iframe>
+<div id="tooltip"></div>
+<style>
+    #tooltip {
+        position: absolute;
+        z-index: 9999;
+        background: #fff;
+        border: 1px solid #243a76;
+        width: 390px;
+        -webkit-box-shadow: 0 3px 7px 0 rgba(0,0,0,.25);
+        box-shadow: 0 3px 7px 0 rgba(0,0,0,.25);
+        padding-bottom: 10px;
+        border-radius: 8px;
+        display: none;
+    }
+</style>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            $(".datetime").datepicker({
+                "autoclose": true,
+                "todayHighlight": true,
+                "dateFormat": "dd/mm/yyyy",
+                "format": "dd/mm/yyyy",
+            }).datepicker();
+            //Tooltip
+            tooltip2019();
+        });
+        // Copy Tooltip
+        function tooltip2019() {
+            var current = 0;
+            $(".table tr").mousemove(function (e) {
+                let $tooltip = $(this);
+                let id = $tooltip.attr("data-id");
+                if (id && id != current) {
+                    current = id;
+                    $.ajax({
+                        url: '/QuyDoves/GetWF',
+                        data: {
+                            id: id
+                        },
+                        type: "GET",
+                        dataType: "JSON",
+                        success: function (data) {
+                            var w_tooltip = $("#tooltip").width();
+                            var h_tooltip = 0;
+                            var pad = 10;
+                            var x_mouse = 0; var y_mouse = 0;
+                            var wrap_left = 0;
+                            var wrap_right = 0;
+                            var wrap_top = 0;
+                            var wrap_bottom = 0;
+                            content_tooltip = data;
+                            if (content_tooltip.length == 0) {
+                                return;
+                                $("#tooltip").hide();
+                            }
+                            $("#tooltip").html(content_tooltip);
+
+                            wrap_left = 0;
+                            wrap_top = $(window).scrollTop();
+                            wrap_bottom = $(window).height();
+                            wrap_right = $(window).width();
+                            x_mouse = e.pageX;
+                            y_mouse = e.pageY;
+                            h_tooltip = $("#tooltip").height();
+
+                            if (x_mouse + w_tooltip > wrap_right) $("#tooltip").css("left", x_mouse - w_tooltip - pad);
+                            else $("#tooltip").css("left", x_mouse + pad);
+
+                            if (y_mouse - h_tooltip < wrap_top) $("#tooltip").css("top", wrap_top);
+                            else $("#tooltip").css("top", y_mouse - h_tooltip - pad);
+                            $("#tooltip").show();
+                        }
+                    });
+                }
+                $(".table tr").mouseout(function () {
+                    $("#tooltip").hide();
+                });
+            });
+            $(".table tr").mouseout(function () {
+                $("#tooltip").hide();
+            });
+        }
+        // END
+        function Print() {
+            var Search_Data = $("#Search_Data").val();
+            var account_id = $("#account_id").val();
+            var type = $("#type").val();
+            var category_id = $("#category_id").val();
+            var fromdate = $("#fromdate").val();
+            var todate = $("#todate").val();
+
+            $.ajax({
+                url: '/QuyDoves/BanInThuChi',
+                data: {
+                    Search_Data: Search_Data,
+                    type: type,
+                    fromdate: fromdate,
+                    todate: todate
+                },
+                type: "GET",
+                dataType: "JSON",
+                success: function (url) {
+                    document.getElementById('my_iframe').src = url;
+                }
+            });
+        }
+    </script>
+}
+

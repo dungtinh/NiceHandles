@@ -1,0 +1,37 @@
+﻿@model NiceHandles.Models.DuChiNhatKyWF[]
+@using NiceHandles.Models;
+@{
+    var db = new NHModel();
+}
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>
+                Người thực hiện
+            </th>
+            <th>
+                Thời gian
+            </th>
+            <th>
+                Trạng thái
+            </th>
+            <th>
+                Mô tả
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            var acc = db.Accounts.Find(item.account_id);
+            <tr>
+                <td>@acc.fullname</td>
+                <td>@item.time.ToString("dd/MM/yyyy")</td>
+                <td>@XDuChiNhatKy.sStatus[item.status]</td>
+                <td>
+                    @item.note
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

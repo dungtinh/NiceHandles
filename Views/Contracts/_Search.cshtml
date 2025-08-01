@@ -1,0 +1,44 @@
+﻿@{
+    var controller = this.ViewContext.RouteData.Values["controller"].ToString();
+    var action = this.ViewContext.RouteData.Values["action"].ToString();
+}
+@using (Html.BeginForm(action, controller, FormMethod.Get))
+{
+    <div class="row">
+        <div class="col-sm-1">
+            <div class="form-group">
+                @Html.TextBox("Search_Data", ViewBag.FilterValue as string, new { @class = "form-control", placeholder = "Tìm kiếm" })
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                @Html.DropDownList("uq", ViewBag.UYQUYENS as SelectList, "--- Phụ trách ---", new { @class = "form-control", title = "Người thực hiện" })
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                @Html.DropDownList("ste", ViewBag.STEPS as SelectList, "--- Bước thực hiện ---", new { @class = "form-control", title = "Bước thực hiện" })
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                @Html.DropDownList("add", ViewBag.ADDRESS as SelectList, "--- Địa chỉ ---", new { @class = "form-control", title = "Địa chỉ" })
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                @Html.DropDownList("ser", ViewBag.SERVICES as SelectList, "--- Dịch vụ ---", new { @class = "form-control", title = "Dịch vụ" })
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                @Html.DropDownList("par", ViewBag.PARTNER as SelectList, "--- Đối tác ---", new { @class = "form-control", title = "Đối tác" })
+            </div>
+        </div>
+        <div class="col-sm-1">
+            <div class="form-group">
+                <button type="submit" class="btn btn-danger" style="height: 32px; width: 100px;">Tìm kiếm</button>
+            </div>
+        </div>
+    </div>
+}

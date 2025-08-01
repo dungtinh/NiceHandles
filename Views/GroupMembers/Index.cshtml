@@ -1,0 +1,39 @@
+﻿@model IEnumerable<NiceHandles.Models.vSettingGroupMember>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutSetting.cshtml";
+}
+<h2>Danh sách</h2>
+<p>
+    @Html.ActionLink("Thêm mới", "Create", "GroupMembers")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Người quản lý
+        </th>
+        <th>
+            Tên nhóm
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.fullname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+            <td>
+                @Html.ActionLink("Sửa", "Edit", "GroupMembers", new { id = item.id }, null) |
+                @Html.ActionLink("Chi tiết", "Details", "GroupMembers", new { id = item.id }, null) |
+                @Html.ActionLink("Xóa", "Delete", "GroupMembers", new { id = item.id }, null)
+            </td>
+        </tr>
+    }
+
+</table>

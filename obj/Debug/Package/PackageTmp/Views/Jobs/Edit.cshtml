@@ -1,0 +1,276 @@
+﻿@model NiceHandles.Models.Job
+@using Microsoft.AspNet.Identity;
+@using NiceHandles.Models;
+@{
+    var db = (NiceHandles.Models.NHModel)ViewBag.db;
+    var username = User.Identity.GetUserName();
+    var acc = db.Accounts.Where(x => x.UserName.Equals(username)).Single();
+    var tasks = db.tasks.Where(x => x.job_id == Model.id);
+    var hoso = db.HoSoes.Find(Model.hoso_id);
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>
+            ISSUES
+            @Html.ActionLink("Hoàn thành", "HoanThanh", new { id = Model.id }, new { @class = "btn btn-success" })
+            @Html.ActionLink("Xóa", "Delete", new { id = Model.id }, new { @class = "btn btn-danger", @style = "float: right;" })
+        </h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.id)
+        @Html.HiddenFor(model => model.created_by)
+
+        <div class="form-group">
+            @Html.Label("Tên Issue", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Ngày bắt đầu", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.start_date, new { htmlAttributes = new { @class = "form-control datetime", autocomplete = "off", Value = Html.Raw(Model.start_date.ToString("dd/MM/yyyy")) } })
+                @Html.ValidationMessageFor(model => model.start_date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Ngày hạn", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.exp_date, new { htmlAttributes = new { @class = "form-control datetime", autocomplete = "off", Value = Html.Raw(Model.exp_date.ToString("dd/MM/yyyy")) } })
+                @Html.ValidationMessageFor(model => model.exp_date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Người thực hiện", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.process_by, new SelectList(db.Accounts, "id", "fullname", acc.id), new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.process_by, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Kết quả", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.note, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.note, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Trạng thái", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.status, new SelectList(XJob.sStatus, "Key", "Value"), new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.status, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <fieldset style="background-color: aliceblue;">
+            <div class="form-group">
+                @Html.Label("Hồ sơ", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(x => x.hoso_id, hoso != null ? (new SelectListItem[1] { new SelectListItem() { Text = hoso.name, Value = hoso.id.ToString(), Selected = true } }) : new SelectListItem[0], "Hồ sơ", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("Thư mục", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(x => x.progress_type, new SelectList(XProgress.sType, "Key", "Value"), new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("Loại chuông", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(x => x.label, new SelectList(XProgress.sBellType, "Key", "Value"), "Loại chuông", new { @class = "form-control" })
+                </div>
+            </div>
+        </fieldset>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Lưu lại" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+<h4>CHI TIẾT NHIỆM VỤ</h4>
+<p>
+    <a href="#" onclick="AddTask()">Thêm mới</a>
+</p>
+<table class="table">
+    <tr>
+        <th style="width: 100px;">
+            Hoàn thành
+        </th>
+        <th>
+            Task
+        </th>
+        <th>
+            Trạng thái
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in tasks)
+    {
+        var hoanthanh = item.status == (int)XModels.eStatus.Complete ? true : false;
+        <tr>
+            <td style="text-align: right;">
+                @Html.CheckBox("cboStatus", hoanthanh, new { onclick = "cboStatusChange(" + item.id + ",this.checked);" })
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+            <td>
+                @XModels.sStatus[item.status]
+            </td>
+            <td>
+                <a href="#" onclick="ShowEdit(@item.id)">Sửa</a>  |
+                <a href="#" onclick="DeleteTask(@item.id)">Xóa</a>
+            </td>
+        </tr>
+    }
+
+</table>
+
+@*MODAL*@
+<div class="modal" tabindex="-1" role="dialog" id="TaskModal" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalLabel">Task</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Đóng lại">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-horizontal">
+                    <input type="hidden" id="txtid" />
+                    <input type="hidden" id="txtjob" value="@Model.id" />
+
+                    <div class="form-group">
+                        @Html.Label("Tên", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextBox("task_name", "", new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Trạng thái", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("task_status", new SelectList(XModels.sStatus, "Key", "Value"), new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="fnTaskSave()">Đồng ý</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng lại</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("Về danh sách", "Issue")
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            $(".datetime").datepicker({
+                "autoclose": true,
+                "todayHighlight": true,
+                "dateFormat": "dd/mm/yyyy",
+                "format": "dd/mm/yyyy",
+            });
+            SetSelect2("#hoso_id", "/Hosoes/GetHosoService", "VD: Nguyễn Văn A");
+            $("#hoso_id").change(function () {
+                if (!$("#name").val() || $("#name").val() == '') {
+                    var data = $('#hoso_id').select2('data');
+                    $("#name").val(data[0].name + " - " + data[0].text);
+                }
+            });
+            $('#hoso_id').on('select2:select', function (e) {
+                $("#name").select().focus();
+            });
+        });
+        $(function () {
+            $.validator.methods.date = function (value, element) {
+                return this.optional(element) || moment(value, "DD/MM/YYYY", true).isValid();
+            }
+        });
+        function ShowEdit(id) {
+            $.ajax({
+                url: '/Tasks/DetailsX',
+                type: "GET",
+                dataType: "JSON",
+                data: { id: id },
+                success: function (obj) {
+                    $("#task_name").val(obj.name);
+                    $("#task_status").val(obj.status);
+                    $("#txtid").val(obj.id);
+                }
+            });
+            $("#TaskModal").modal("show");
+        }
+        function cboStatusChange(id, b) {
+            $.ajax({
+                url: '/Tasks/StatusChange',
+                type: "POST",
+                dataType: "JSON",
+                data: { id: id, b: b },
+                success: function (obj) {
+                    location.href = location.pathname;
+                }
+            });
+        }
+        function fnTaskSave() {
+            var obj = new Object();
+            obj.id = $("#txtid").val() ?? 0;
+            obj.name = $("#task_name").val();
+            obj.status = $("#task_status").val();
+            obj.job_id = $("#txtjob").val();
+
+            $.ajax({
+                url: '/Tasks/SaveX',
+                type: "POST",
+                dataType: "JSON",
+                data: { t: obj },
+                success: function (obj) {
+                    location.href = location.pathname;
+                    $("#TaskModal").modal("hide");
+                }
+            });
+        }
+        function AddTask() {
+            $("#task_name").val("");
+            $("#task_status").val(0);
+            $("#txtid").val(0);
+            $("#TaskModal").modal("show");
+        }
+        function DeleteTask(id) {
+            $.ajax({
+                url: '/Tasks/DeleteX',
+                type: "POST",
+                dataType: "JSON",
+                data: { id: id },
+                success: function (obj) {
+                    location.href = location.pathname;
+                }
+            });
+        }
+
+
+    </script>
+}

@@ -1,0 +1,180 @@
+﻿@model PagedList.IPagedList<NiceHandles.Models.vMyFile>
+@using PagedList.Mvc;
+@using NiceHandles.Models
+
+@{
+    ViewBag.Title = "DS hồ sơ hoa hồng";
+    var db = (NiceHandles.Models.NHModel)ViewBag.db;
+    //var accounts = db.Accounts.Where(x => x.hasNote == (int)XModels.eYesNo.Yes).ToArray();
+}
+
+<br />
+
+<h2>DS hồ sơ hoa hồng</h2>
+
+@using (Html.BeginForm("MyFile", "Contracts", FormMethod.Get))
+{
+    <div class="row">
+        <div class="col-sm-2">
+            <div class="form-group">
+                @Html.TextBox("Search_Data", ViewBag.FilterValue as string, new { @class = "form-control", placeholder = "Tìm kiếm" })
+            </div>
+        </div>
+
+        @if (User.IsInRole("SuperAdmin") || User.IsInRole("Manager") || User.IsInRole("Accounting"))
+        {
+            <div class="col-sm-2">
+                <div class="form-group">
+                    @Html.DropDownList("acc", ViewBag.ACCOUNTS as SelectList, "--- Tài khoản ---", new { @class = "form-control", title = "Tài khoản" })
+                </div>
+            </div>
+        }
+
+        <div class="col-sm-2">
+            <div class="form-group">
+                @Html.DropDownList("ste", ViewBag.STEPS as SelectList, "--- Bước thực hiện ---", new { @class = "form-control", title = "Bước thực hiện" })
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                @Html.DropDownList("add", ViewBag.ADDRESS as SelectList, "--- Địa chỉ ---", new { @class = "form-control", title = "Địa chỉ" })
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                @Html.DropDownList("par", ViewBag.PARTNER as SelectList, "--- Đối tác ---", new { @class = "form-control", title = "Đối tác" })
+            </div>
+        </div>
+        <div class="col-lg-2">
+            <div class="form-group">
+                <button type="submit" class="btn btn-danger" style="height: 32px; width: 100px;">Tìm kiếm</button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+
+        </div>
+        <div class="col-sm-4">
+            <strong>Tổng thưởng: </strong> @ViewBag.TONGTHUONG
+        </div>
+        <div class="col-sm-4">
+            <strong>Tiền đã nhận: </strong> @ViewBag.DANHAN
+        </div>
+    </div>
+}
+<table class="table table-hover" id="blv">
+    <thead>
+        <tr>
+            <th style="width: 20%;">
+                Tên khách hàng
+            </th>
+            <th>
+                Đối tác
+            </th>
+            <th>
+                Địa chỉ
+            </th>
+            <th>
+                Dịch vụ
+            </th>
+            <th>
+                VP thu
+            </th>
+            <th>
+                Đối tác thu
+            </th>
+            <th>
+                Đã thu
+            </th>
+            <th>
+                Hoa hồng
+            </th>
+            <th>
+                Đã nhận
+            </th>
+            <th>
+                Tác vụ
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            var href = string.Empty;
+            href = "<a href='/NhiemVus/?id=" + item.id + "'>" + item.customer_name + "</a>";
+            var thuchi = from io in db.InOuts
+                         where io.contract_id == item.id
+                         select new { io.amount, io.category_id, io.type };
+            var claimed = from io in thuchi
+                          where io.category_id == 1034
+                          select io.amount;
+            var dathu = thuchi.Where(x => x.type == (int)XCategory.eType.Thu);
+            <tr>
+                <td>
+                    @Html.Raw(href)
+                    <a href='/Infomations/Edit?contract_id=@item.id' class="h"> - Nhập thông tin</a>
+                </td>
+                <td>
+                    @item.partner_name
+                </td>
+                <td>
+                    @item.address_name
+                </td>
+                <td>
+                    @item.service_name
+                </td>
+                <td>
+                    @item.amount.ToString("N0")
+                </td>
+                <td>
+                    @item.consuming.ToString("N0")
+                </td>
+                <td>
+                    @Html.Raw(dathu.Count() > 0 ? dathu.Sum(x => x.amount).ToString("N0") : null)
+                </td>
+                <td>
+                    @Html.Raw(item.rose.ToString("N0"))
+                </td>
+                <td>
+                    @Html.Raw(claimed.Count() > 0 ? claimed.Sum().ToString("N0") : null)
+                </td>
+                <td>
+                    @if (User.IsInRole("SuperAdmin") && claimed.Count() == 0)
+                    {
+                        <button class="btn btn-warning" onclick="DuyetChi(@item.id);">Duyệt chi</button>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@if (Model.PageCount > 1)
+{
+    <div class="row" style="margin-top: 10px;">
+        <div class="col-sm-1">
+            Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+        </div>
+        <div class="col-sm-10">
+            @Html.PagedListPager(Model, Page_No => Url.Action("MyFile", new { Page_No, Filter_Value = ViewBag.FilterValue, add = ViewBag.ADD, par = ViewBag.PAR, ste = ViewBag.STEP, acc = ViewBag.ACC }))
+        </div>
+    </div>
+}
+
+<iframe id="my_iframe" style="display:none;"></iframe>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        function DuyetChi(id) {
+            $.ajax({
+                url: '/Contracts/DuyetChiHoaHong',
+                type: "GET",
+                dataType: "JSON",
+                data: { id: id },
+                success: function (flag) {
+                    location.href = document.location.href;
+                }
+            });
+        }
+    </script>
+}

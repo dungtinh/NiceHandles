@@ -1,0 +1,79 @@
+﻿@model NiceHandles.Models.Category
+@using NiceHandles.Models
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_LayoutSetting.cshtml";
+}
+
+<h2>Thêm mới</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(x => x.parent_id)
+        @Html.HiddenFor(x => x.type)
+        <div class="form-group">
+            @Html.Label("Tên", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Cần lãnh đạo duyệt", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.duyet, XCategory.sDuyet.Select(x => new SelectListItem { Value = x.Key.ToString(), Text = x.Value }), new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.duyet, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Nhóm", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.nhom, XCategory.sNhom.Select(x => new SelectListItem { Value = x.Key.ToString(), Text = x.Value }), new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.nhom, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Phân loại (Dành cho lập trình)", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.kind, XCategory.sKind.Select(x => new SelectListItem { Value = x.Key.ToString(), Text = x.Value }), new { @class = "form-control", @style = "background-color: pink;" })
+                @Html.ValidationMessageFor(model => model.kind, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Cặp thu chi (Dành cho lập trình)", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.pair, XCategory.sPair.Select(x => new SelectListItem { Value = x.Key.ToString(), Text = x.Value }), new { @class = "form-control", @style = "background-color: pink;" })
+                @Html.ValidationMessageFor(model => model.pair, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Theo dõi (Dành cho lập trình)", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.theodoi, XCategory.sTheoDoi.Select(x => new SelectListItem { Value = x.Key.ToString(), Text = x.Value }), new { @class = "form-control", @style = "background-color: pink;" })
+                @Html.ValidationMessageFor(model => model.theodoi, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Tạm ứng (Dành cho lập trình)", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.tamung, XCategory.sTamUng.Select(x => new SelectListItem { Value = x.Key.ToString(), Text = x.Value }), new { @class = "form-control", @style = "background-color: pink;" })
+                @Html.ValidationMessageFor(model => model.tamung, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Thêm mới" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Về danh sách", "Index")
+</div>

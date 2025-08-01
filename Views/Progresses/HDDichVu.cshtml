@@ -1,0 +1,28 @@
+﻿@model NiceHandles.Models.HoSo
+@using NiceHandles.Models
+@{
+    var db = new NHModel();
+    var service = db.Services.Find(Model.service_id);
+}
+<section id="ssHDDichVu" class="progressfile">
+    <fieldset style="background-color: aliceblue;">
+        <div class="progress_header">
+            <div class="row" style="margin: 0;">
+                <div class="col-sm-9 title">
+                    <span class="fa fa-lightbulb-on"> Checklist việc phải làm: @service.name </span>
+                </div>
+                <div class="col-sm-3 tool">
+                    <a onclick=""> <i class="fad fa-cogs"></i></a>
+                    <a data-toggle="collapse" href="#ssHDDichVu .collapse" role="button" aria-expanded="false" aria-controls="#ssHDDichVu .collapse">
+                        <i onclick="UpDownPanel(this)" class="fa fa-angle-down" style="padding-right: 10px;"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="progress_body collapse">
+            <div style="padding: 3px 10px; margin-bottom: 10px;">
+                @Html.Raw(service.trainning)
+            </div>
+        </div>
+    </fieldset>
+</section>

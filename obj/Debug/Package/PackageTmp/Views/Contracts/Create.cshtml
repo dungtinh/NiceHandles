@@ -1,0 +1,301 @@
+﻿@model NiceHandles.Models.XContract
+@using NiceHandles.Models
+@{
+    ViewBag.Title = "Create";
+    NHModel db = new NHModel();
+    var ADDRESS = new SelectList(db.Addresses, "id", "name");
+    var PARTNER = new SelectList(db.Partners.OrderBy(x => x.sothutu), "id", "name");
+    var ACCOUNTS = new SelectList(db.Accounts.Where(x => x.sta == (int)XContract.eStatus.Processing), "id", "fullname");
+    var SERVICES = new SelectList(db.Services, "id", "name");
+    var lastItem = db.Contracts.OrderByDescending(x => x.id).First();
+}
+
+<h2>Thêm mới</h2>
+
+@using (Html.BeginForm("Create", "Contracts", FormMethod.Post, new { role = "form", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Hợp đồng</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.Label("Mã", new { @class = "control-label col-md-2" })
+            <div class="col-md-5">
+                @Html.EditorFor(model => model.contract.code, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.HiddenFor(model => model.contract.code)
+                @Html.ValidationMessageFor(model => model.contract.code, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-5" style="line-height: 32px;">
+                <label class="text-danger bg-success">Mã hiện tại: @lastItem.code</label>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Tên khách hàng", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.contract.name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.HiddenFor(model => model.hoso.name)
+                @Html.ValidationMessageFor(model => model.contract.name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Địa chỉ thửa đất", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.contract.address_id, ADDRESS, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.contract.address_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Số điện thoại", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.contract.sodienthoai, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.contract.sodienthoai, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("SĐT của ai?", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.contract.sodienthoai_mota, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.contract.sodienthoai_mota, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Người giới thiệu", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.contract.partner, PARTNER, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.contract.partner, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Người ký HĐ", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.contract.nguoiky_id, ACCOUNTS, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.contract.nguoiky_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Dịch vụ", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.contract.service_id, SERVICES, new { @class = "form-control", style = "background-color: #eee;" })
+                @Html.ValidationMessageFor(model => model.contract.service_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Loại hợp đồng thường/trang 4", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.contract.type, new SelectList(XContract.sType, "Key", "Value"), new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.contract.type, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Loại hợp đồng cá nhân/công ty", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.contract.loai, new SelectList(XContract.sLoai, "Key", "Value"), new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.contract.loai, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Giá trị hợp đồng", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.HiddenFor(model => model.contract.amount)
+                @Html.TextBox("msk_contract_amount", "", new { @class = "form-control numberic", style = "background-color: pink;" })
+                @Html.ValidationMessageFor(model => model.contract.amount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Dự chi", new { @class = "control-label col-md-2" })
+            <div class="col-md-1">
+                <button class="btn btn-info fa fa-calculator" onclick="ShowDuChi();"> Các khoản dự chi</button>
+            </div>
+            <div class="col-md-9">
+                @Html.HiddenFor(model => model.contract.consuming)
+                @Html.TextBox("msk_contract_consuming", "", new { @class = "form-control numberic", style = "background-color: antiquewhite;" })
+                @Html.ValidationMessageFor(model => model.contract.consuming, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("File hợp đồng", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.HardFileLinks, new { @class = "form-control", @type = "file" })
+            </div>
+        </div>
+        <fieldset style="border: 1px solid #eee; border-radius: 10px; background-color: #eee;">
+            <legend style="float: left; padding-left: 10px; font-size: 14px; font-weight: bold; line-height: 30px; color: deeppink;">CHI THƯỞNG CỐ ĐỊNH TRONG HỢP ĐỒNG</legend>
+            <div class="form-group">
+                @Html.Label("Chi hoa hồng đối tác", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.HiddenFor(model => model.contract.outrose)
+                    @Html.TextBox("msk_contract_outrose", "", new { @class = "form-control numberic" })
+                    @Html.ValidationMessageFor(model => model.contract.outrose, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("Chi hoa hồng nhân viên", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.HiddenFor(model => model.contract.rose)
+                    @Html.TextBox("msk_contract_rose", "", new { @class = "form-control numberic" })
+                    @Html.ValidationMessageFor(model => model.contract.rose, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("Tiền đo vẽ", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.HiddenFor(model => model.contract.dove)
+                    @Html.TextBox("msk_contract_dove", "", new { @class = "form-control numberic" })
+                    @Html.ValidationMessageFor(model => model.contract.dove, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("ĐM thực hiện", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.HiddenFor(model => model.contract.remunerate)
+                    @Html.TextBox("msk_contract_remunerate", "", new { @class = "form-control numberic" })
+                    @Html.ValidationMessageFor(model => model.contract.remunerate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </fieldset>
+        <fieldset style="border: 1px solid #eee; border-radius: 10px; background-color: #eee; margin-top: 15px;">
+            <legend style="float: left; padding-left: 10px; font-size: 14px; font-weight: bold; line-height: 30px; color: deeppink;">GIAO NHIỆM VỤ</legend>
+            <div class="form-group">
+                @Html.Label("Người thực hiện", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.contract.account_id, ACCOUNTS, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.contract.account_id, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("Người theo dõi", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.contract.nguoitheodoi_id, ACCOUNTS, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.contract.nguoitheodoi_id, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("Người soạn thảo", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.hoso.account_id_soanthao, ACCOUNTS, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.hoso.account_id_soanthao, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+        </fieldset>
+
+        <div class="form-group">
+            @Html.Label("Thời hạn mục tiêu hoàn thành", new { @class = "control-label col-md-2" })
+            <div class="col-md-1">
+                @Html.EditorFor(model => model.contract.time_exp, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.contract.time_exp, "", new { @class = "text-danger" })
+            </div>
+            <label style="margin-top:5px;" class="col-md-1">10 ngày <input style="float: left; margin-right: 10px;" value="10" type="radio" name="rdoexp" /></label>
+            <label style="margin-top:5px;" class="col-md-1">15 ngày <input style="float: left; margin-right: 10px;" value="15" type="radio" name="rdoexp" /></label>
+            <label style="margin-top:5px;" class="col-md-1">20 ngày <input style="float: left; margin-right: 10px;" value="20" type="radio" name="rdoexp" /></label>
+            <label style="margin-top:5px;" class="col-md-1">30 ngày <input style="float: left; margin-right: 10px;" value="30" type="radio" name="rdoexp" /></label>
+            <label style="margin-top:5px;" class="col-md-1">45 ngày <input style="float: left; margin-right: 10px;" value="45" type="radio" name="rdoexp" /></label>
+            <label style="margin-top:5px;" class="col-md-1">60 ngày <input style="float: left; margin-right: 10px;" value="60" type="radio" name="rdoexp" /></label>
+            <label style="margin-top:5px;" class="col-md-1">90 ngày <input style="float: left; margin-right: 10px;" value="90" type="radio" name="rdoexp" /></label>
+            <label style="margin-top:5px;" class="col-md-1">120 ngày <input style="float: left; margin-right: 10px;" value="120" type="radio" name="rdoexp" /></label>
+        </div>
+        <div class="form-group">
+            @Html.Label("Thời hạn deadline hợp đồng", new { @class = "control-label col-md-2" })
+            <div class="col-md-1">
+                @Html.EditorFor(model => model.contract.deadline, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.contract.deadline, "", new { @class = "text-danger" })
+            </div>
+            <label style="margin-top:5px;" class="col-md-1">10 ngày <input style="float: left; margin-right: 10px;" value="10" type="radio" name="rdodeadline" /></label>
+            <label style="margin-top:5px;" class="col-md-1">15 ngày <input style="float: left; margin-right: 10px;" value="15" type="radio" name="rdodeadline" /></label>
+            <label style="margin-top:5px;" class="col-md-1">20 ngày <input style="float: left; margin-right: 10px;" value="20" type="radio" name="rdodeadline" /></label>
+            <label style="margin-top:5px;" class="col-md-1">30 ngày <input style="float: left; margin-right: 10px;" value="30" type="radio" name="rdodeadline" /></label>
+            <label style="margin-top:5px;" class="col-md-1">45 ngày <input style="float: left; margin-right: 10px;" value="45" type="radio" name="rdodeadline" /></label>
+            <label style="margin-top:5px;" class="col-md-1">60 ngày <input style="float: left; margin-right: 10px;" value="60" type="radio" name="rdodeadline" /></label>
+            <label style="margin-top:5px;" class="col-md-1">90 ngày <input style="float: left; margin-right: 10px;" value="90" type="radio" name="rdodeadline" /></label>
+            <label style="margin-top:5px;" class="col-md-1">120 ngày <input style="float: left; margin-right: 10px;" value="120" type="radio" name="rdodeadline" /></label>
+        </div>
+        <div class="form-group">
+            @Html.Label("Ưu tiên", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.contract.Priority, new SelectList(XContract.sPriority, "Key", "Value"), new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.contract.Priority, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Ghi chú", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.contract.note, new { @class = "form-control summernote", @rows = 10 })
+                @Html.ValidationMessageFor(model => model.contract.note, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Thêm mới" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+@Html.Partial("_PartialDuChi")
+<div>
+    @Html.ActionLink("Về danh sách", "Index")
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("[name='rdodeadline']").click(function () {
+                $("#contract_deadline").val(this.value);
+            });
+            $("[name='rdoexp']").click(function () {
+                $("#contract_time_exp").val(this.value);
+            });
+            $("#contract_name").change(function () {
+                $("#hoso_name").val(this.value);
+            });
+            $('.summernote').summernote({
+                height: 500,
+                fontSizes: ['8', '9', '10', '11', '12', '14', '18'],
+                fontNames: ['Arial', 'Tahoma'],
+                toolbar: [
+                    ['style', ['bold', 'italic', 'underline']],
+                    ['fontsize', ['fontsize']],
+                    ['font', ['strikethrough']],
+                    ['para', ['ol', 'paragraph']],
+                    ['color', ['color']],
+                ]
+            });
+            SetSelect2("#contract_partner", "/Partners/GetPartnerService", "Chọn đối tác");
+
+            $(":submit").click(function () {
+                $("#contract_amount").val($("#msk_contract_amount").autoNumeric('get') || 0);
+                $("#contract_consuming").val($("#msk_contract_consuming").autoNumeric('get') || 0);
+                $("#contract_outrose").val($("#msk_contract_outrose").autoNumeric('get') || 0);
+                $("#contract_rose").val($("#msk_contract_rose").autoNumeric('get') || 0);
+                $("#contract_dove").val($("#msk_contract_dove").autoNumeric('get') || 0);
+                $("#contract_remunerate").val($("#msk_contract_remunerate").autoNumeric('get') || 0);
+            });
+            //$(".btnduchi").click(function () {
+            //    var id = this.id.replace("sub", "");
+            //    var amount = parseInt($("#amount" + id).autoNumeric('get') || 0);
+            //    var current = parseInt($("#sumDuChi").autoNumeric('get') || 0);
+            //    $("#sumDuChi").autoNumeric('set', amount + current);
+            //});
+            $(".txtduchi").change(function () {
+                SumDuChi();
+            });
+            SumDuChi();
+            $("#dongyduchi").click(function () {
+                var current = parseInt($("#sumDuChi").autoNumeric('get') || 0);
+                $("#msk_contract_consuming").autoNumeric('set', current);
+            });
+        });
+        function ShowDuChi() {
+            $("#mdlShowDuChi").modal("show");
+        }
+        function SumDuChi() {
+            var amount = 0;
+            $(".txtduchi").each(function () {
+                amount = amount + parseInt($(this).autoNumeric('get') || 0);
+            });
+            $("#sumDuChi").autoNumeric('set', amount);
+        }
+    </script>
+}

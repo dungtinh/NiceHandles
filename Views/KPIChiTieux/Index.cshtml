@@ -1,0 +1,45 @@
+﻿@model IEnumerable<NiceHandles.Models.Account>
+@using NiceHandles.Models
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var db = new NHModel();
+}
+
+<h2>KPI chỉ tiêu</h2>
+
+<p>
+    @Html.ActionLink("Cập nhật chỉ tiêu", "Edit")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Tài khoản
+        </th>
+        @foreach (var item in XKPI.sType.Select(x => new { Key = x.Key, Value = x.Value }))
+        {
+            <th>
+                @item.Value
+            </th>
+        }
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        var chiteus = db.KPIChiTieux.Where(x => x.user_id == item.id).ToArray();
+        <tr>
+            <td>
+                @item.fullname
+            </td>
+            @foreach (var per in XKPI.sType.Select(x => new { Key = x.Key, Value = x.Value }))
+            {
+                var chitieu = chiteus.Where(x => x.type == per.Key).SingleOrDefault();
+                var val = chitieu != null ? chitieu.chitieu : 0;
+                <td>
+                    @val
+                </td>
+            }
+        </tr>
+    }
+
+</table>

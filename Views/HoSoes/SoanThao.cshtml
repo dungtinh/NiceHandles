@@ -1,0 +1,437 @@
+﻿@model PagedList.IPagedList<NiceHandles.Models.vHoSo>
+@using PagedList.Mvc;
+@using NiceHandles.Models
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Hồ sơ của tôi";
+    var db = new NiceHandles.Models.NHModel();
+    //var accounts = db.Accounts.Where(x => x.hasNote == (int)XModels.eYesNo.Yes).ToArray();
+    var steps = db.Steps.Select(x => new { x.id, x.name }).ToArray();
+    int? group = null;
+    if (ViewBag.GROUP != null)
+    {
+        group = (int)ViewBag.GROUP;
+    }
+}
+<br />
+<span style="position: absolute; top: 80px; right: 30px;z-index: 100;">
+    <button class="btn btn-warning fa fa-ballot-check" onclick="DailyReport();"> Báo cáo</button>
+    <button class="btn btn-primary fa fa-list" onclick="DSCongViec();"> DS công việc</button>
+</span>
+<div class="row">
+    <div class="col-md-8">
+        @if (group == null || group.Value == (int)XHoSo.eView.CuaToi)
+        {
+            <h3>CỦA TÔI</h3>
+        }
+        else if (group.Value == (int)XHoSo.eView.Nhom)
+        {
+            <h3>NHÓM CỦA TÔI</h3>
+        }
+        <h4>
+            @Html.ActionLink(" DANH SÁCH HỒ SƠ", "soanthao", "hosoes", new { group = group }, new { @class = "fa fa-folders", @style = "margin-right: 15px; color: #c9302c;" })
+            @Html.ActionLink(" DANH SÁCH ĐÃ NỘP 1 CỬA", "soanthao", "di1cua", new { group = group }, new { @class = "fa fa-clipboard-list-check", @style = "margin-right: 15px;" })
+            @Html.ActionLink(" DANH SÁCH ĐÃ HOÀN THÀNH", "kholuu", "hosoes", new { group = group }, new { @class = "fa fa-archive", @style = "margin-right: 15px;" })
+            @Html.ActionLink(" DANH SÁCH ĐANG ĐƠN THƯ", "DSDonThu", "di1cua", new { group = group }, new { @class = "fa fa-volume" })
+        </h4>
+        @using (Html.BeginForm("soanthao", "Hosoes", FormMethod.Get))
+        {
+            @Html.Hidden("group", ViewBag.GROUP as string)
+            <div class="row">
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        @Html.TextBox("Search_Data", ViewBag.FilterValue as string, new { @class = "form-control", placeholder = "Từ khóa" })
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        @Html.DropDownList("par", ViewBag.PARTNER as SelectList, "--- Đối tác ---", new { @class = "form-control", title = "Đối tác" })
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        @Html.DropDownList("add", ViewBag.ADDRESS as SelectList, "--- Địa chỉ ---", new { @class = "form-control", title = "Địa chỉ" })
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        @Html.DropDownList("ser", ViewBag.SERVICES as SelectList, "--- Dịch vụ ---", new { @class = "form-control", title = "Dịch vụ" })
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        @Html.DropDownList("ste", ViewBag.STEPS as SelectList, "--- Bước thực hiện ---", new { @class = "form-control", title = "Bước thực hiện" })
+                    </div>
+                </div>
+                <div class="col-sm-1">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-danger" style="height: 32px; width: 100px;">Tìm kiếm</button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="col-md-4">
+        @Html.Partial("_Sigma")
+    </div>
+</div>
+
+<div class="tableFixHead">
+    <table class="table table-hover" id="blv">
+        <thead>
+            <tr>
+                <th>
+                    Tên khách hàng
+                </th>
+                <th>
+                    Số điện thoại
+                </th>
+                <th>
+                    Địa chỉ
+                </th>
+                <th>
+                    Dịch vụ
+                </th>
+                <th>
+                    Bước thực hiện
+                </th>
+                <th class="fixicon" title="Nhật ký">
+                    <i class="fa fa-book"></i><br />Nhật ký
+                </th>
+                <th class="fixicon" title="Họp giao nhiệm vụ">
+                    <i class="fa fa-bullseye-arrow"></i><br />Nhiệm vụ
+                </th>
+                <th class="fixicon" title="Điều tra thông tin cơ bản">
+                    <i class="fa fa-search"></i><br />Điều tra
+                </th>
+                <th class="fixicon" title="Các hàng thừa kế">
+                    <i class="fa fa-sitemap"></i><br />Gia phả
+                </th>
+                <th class="fixicon" title="Mảnh trích đo địa chính">
+                    <i class="fa fa-map"></i><br />Bản vẽ
+                </th>
+                <th class="fixicon" title="Giấy tờ hộ tích">
+                    <i class="fa fa-passport"></i><br />Hộ tịch
+                </th>
+                <th class="fixicon" title="Giấy tờ công chứng">
+                    <i class="fa fa-certificate"></i><br />C.Chứng
+                </th>
+                <th class="fixicon" title="Các giấy tờ ở xã">
+                    <i class="fa fa-file"></i><br />GT. Xã
+                </th>
+                <th class="fixicon">
+                    <i class="fa fa-letters"></i><br />Đơn thư
+                </th>
+                <th>
+                    Deadline
+                </th>
+                <th>
+                    Tiến độ
+                </th>
+                <th>
+                    Ngày nhận
+                </th>
+                <th>
+                    Ưu tiên
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                var deadline = (int)((DateTime.Now - item.time.AddDays(item.deadline)).TotalDays);
+                var step = steps.SingleOrDefault(x => x.id == item.step_id);
+                <tr id="hs@(item.id)">
+                    <td>
+                        <a href='/hosoes/details?id=@(item.id)'>@(Utils.LessString(item.name, 20, ".."))</a>
+                    </td>
+                    <td title="@item.sodienthoai_mota">
+                        @( Utils.LessString(item.sodienthoai, 13, ".."))
+                    </td>
+                    <td>
+                        @item.address_name
+                    </td>
+                    <td>
+                        @( Utils.LessString(item.service_name, 12, ".."))
+                    </td>
+                    <td>
+                        @Html.Raw(step != null ? Utils.LessString(step.name, 10, "..") : "")
+                        <span class="showbellAll"></span>
+                    </td>
+                    <td onclick="ShowTienDo(@item.id);" style="text-align: center;">
+                        <i class="fa fa-pen text-danger" style="cursor: pointer;"></i>
+                    </td>
+                    <td>
+                        <a class="fa fa-file-pdf text-primary" onclick="ShowHoSoSession(@item.id, @((int)XProgress.eType.NhiemVu));"></a>
+                        <span class="showbell" pt="@((int)XProgress.eType.NhiemVu)"></span>
+                    </td>
+                    <td>
+                        <a class="fa fa-file-pdf text-primary" onclick="ShowHoSoSession(@item.id, @((int)XProgress.eType.DieuTra));"></a>
+                        <span class="showbell" pt="@((int)XProgress.eType.DieuTra)"></span>
+                    </td>
+                    <td>
+                        <a class="fa fa-file-pdf text-primary" onclick="ShowHoSoSession(@item.id, @((int)XProgress.eType.GiaPha));"></a>
+                        <span class="showbell" pt="@((int)XProgress.eType.GiaPha)"></span>
+                    </td>
+                    <td>
+                        <a class="fa fa-file-pdf text-primary" onclick="ShowHoSoSession(@item.id, @((int)XProgress.eType.BanVe));"></a>
+                        <span class="showbell" pt="@((int)XProgress.eType.BanVe)"></span>
+                    </td>
+                    <td>
+                        <a class="fa fa-file-pdf text-primary" onclick="ShowHoSoSession(@item.id, @((int)XProgress.eType.GiayToHoTich));"></a>
+                        <span class="showbell" pt="@((int)XProgress.eType.GiayToHoTich)"></span>
+
+                    </td>
+                    <td>
+                        <a class="fa fa-file-pdf text-primary" onclick="ShowHoSoSession(@item.id, @((int)XProgress.eType.CongChung));"></a>
+                        <span class="showbell" pt="@((int)XProgress.eType.CongChung)"></span>
+                    </td>
+                    <td>
+                        <a class="fa fa-file-pdf text-primary" onclick="ShowHoSoSession(@item.id, @((int)XProgress.eType.GiayToXa));"></a>
+                        <span class="showbell" pt="@((int)XProgress.eType.GiayToXa)"></span>
+                    </td>
+                    <td>
+                        <a class="fa fa-file-pdf text-primary" onclick="ShowHoSoSession(@item.id, @((int)XProgress.eType.DonThu));"></a>
+                        <span class="showbell" pt="@((int)XProgress.eType.DonThu)"></span>
+                    </td>
+                    <td style="text-align: center">
+                        @if (deadline > 0)
+                        {
+                            <span class="text-danger">Quá @(deadline)N</span>
+                        }
+                        else
+                        {
+                            <span> Còn @(deadline)N</span>
+                        }
+                    </td>
+                    <td style="text-align: center">
+                        <span class="progress_calc"></span>
+                    </td>
+                    <td>
+                        @item.time.ToString("dd/MM/yy")
+                    </td>
+                    <td>
+                        @XContract.sPriority[item.priority]
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@if (Model.PageCount > 1)
+{
+    <div class="row" style="margin-top: 10px;">
+        <div class="col-sm-1">
+            Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+        </div>
+        <div class="col-sm-10">
+            @Html.PagedListPager(Model, Page_No => Url.Action("soanthao", new { Page_No, Filter_Value = ViewBag.FilterValue, add = ViewBag.ADD, uq = ViewBag.UQ, ser = ViewBag.SER, par = ViewBag.PAR, ste = ViewBag.STEP, group = ViewBag.GROUP }))
+        </div>
+    </div>
+}
+<div class="modal" id="myModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="font-size: 16px; color: deeppink; text-align: center;">CẬP NHẬT GHI CHÚ</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.TextArea("txtMessage", "", new { @class = "form-control summernote", @style = "resize: vertical;", @rows = 30 })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="SaveNote();" data-dismiss="modal" class="btn btn-primary">Lưu lại</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div type="context" id="menu" style="display: none">
+    <p style="text-align:center; color: khaki; margin-top: 10px;">HÀNH ĐỘNG</p>
+    <ul style="list-style: none; padding: 0; margin: 0;">
+        <li style="list-style: none; padding: 5px 15px;"><a style="color: white;" href="javascript:EditContractNote();">Ghi chú</a></li>
+    </ul>
+    <p style="text-align:center; color: khaki; margin-top: 10px;">ĐI TỚI BƯỚC THỰC HIỆN</p>
+    <ul style="list-style: none; padding: 0; margin: 0;">
+        @foreach (var item in db.Steps)
+        {
+            <li style="list-style: none; padding: 5px 15px;"><a style="color: white;" href="javascript:GoToStep(@item.id);">@item.name</a></li>
+        }
+    </ul>
+</div>
+@Html.Partial("../Shared/Modals/_ModalNH")
+<iframe id="my_iframe" style="display:none;"></iframe>
+@section Style {
+    <style>
+        .tableFixHead {
+            overflow: auto;
+            height: 800px;
+        }
+
+            .tableFixHead thead th {
+                position: sticky;
+                top: 0;
+                z-index: 1;
+            }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 8px 16px;
+        }
+
+        th {
+            background: #eee;
+        }
+
+        .tooltip-inner {
+            min-width: 800px; /* the minimum width */
+        }
+
+        table .fa {
+            font-size: 18px;
+        }
+
+        table a.fa {
+            cursor: pointer;
+        }
+
+        td .fa {
+            width: 30px;
+            display: inline-block;
+            text-align: center
+        }
+    </style>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        var current;
+        $(document).ready(function () {
+            $(".contextmenu").each(function () {
+                var id = $(this).attr("id");
+                var menu = document.getElementById('menu');
+                this.addEventListener("contextmenu", function (e) {
+                    e.preventDefault();
+                    menu.style.display = 'block';
+                    menu.style.left = e.x + 'px';
+                    menu.style.top = e.pageY + 'px';
+                    current = id;
+                });
+                document.addEventListener("click", function (e) {
+                    menu.style.display = 'none';
+                });
+            });
+            $(".contextmenu").tooltip();
+            $(".showbell").each(function () {
+                var ctr = this;
+                var hoso_id = $(ctr).parent().parent().attr("id").replace("hs", "");
+                var progress_type = $(ctr).attr("pt");
+                $.ajax({
+                    url: '/Hosoes/HoSoCheckNotice',
+                    type: 'GET',
+                    dataType: "JSON", data: { hoso_id: hoso_id, progress_type: progress_type },
+                    success: function (rs) {
+                        $(ctr).html(rs);
+                    }
+                });
+            });
+            $(".showbellAll").each(function () {
+                var ctr = this;
+                var hoso_id = $(ctr).parent().parent().attr("id").replace("hs", "");
+                $.ajax({
+                    url: '/Hosoes/HoSoCheckNoticeAll',
+                    type: 'GET',
+                    dataType: "JSON", data: { hoso_id: hoso_id },
+                    success: function (rs) {
+                        $(ctr).html(rs);
+                    }
+                });
+            });
+            $(".progress_calc").each(function () {
+                var ctr = this;
+                var hoso_id = $(ctr).parent().parent().attr("id").replace("hs", "");
+                $.ajax({
+                    url: '/Progresses/ProgressesCalculate',
+                    type: 'GET',
+                    dataType: "JSON", data: { hoso_id: hoso_id },
+                    success: function (rs) {
+                        $(ctr).html(rs > 0 ? rs + "%" : "");
+                    }
+                });
+            });
+
+        });
+        function GoToStep(step) {
+            $.ajax({
+                url: '/Contracts/GotoStep',
+                type: "POST",
+                dataType: "JSON",
+                data: { id: current, sp: step },
+                success: function (obj) {
+                    var tr = $("#" + current);
+                    $(tr).find('td:eq(5)').text(obj.name).css("color", obj.color);
+                }
+            });
+        }
+        function EditContractNote() {
+            $.ajax({
+                url: '/Contracts/ContractGetMessage',
+                type: "POST",
+                dataType: "JSON",
+                data: { id: current },
+                success: function (mess) {
+                    $('#txtMessage').summernote('code', mess);
+                },
+                error: function () {
+                    $('#txtMessage').summernote('code', "");
+                }
+            });
+            $("#myModal").modal("show");
+        }
+        function SaveNote() {
+            var obj = new Object();
+            obj.contract_id = current;
+            var message = $('#txtMessage').summernote('code');
+            $.ajax({
+                url: '/NhiemVus/SaveNote',
+                type: "POST",
+                dataType: "JSON",
+                data: { obj: obj, message: message },
+                success: function () {
+                    $("#" + current).attr('title', message);
+                    $("#" + current).tooltip('fixTitle');
+                    toastr.options = {
+                        "preventDuplicates": true,
+                        "preventOpenDuplicates": true
+                    };
+                    toastr.success("Đã lưu", "THÀNH CÔNG", { timeOut: 5000 });
+                }
+            });
+        }
+        function DailyReport() {
+            $.ajax({
+                url: '/Jobs/DailyReport',
+                type: "POST",
+                dataType: "JSON",
+                data: {},
+                success: function (data) {
+                    document.getElementById('my_iframe').src = data;
+                }
+            });
+        }
+    </script>
+}

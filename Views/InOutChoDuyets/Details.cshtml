@@ -1,0 +1,102 @@
+﻿@model NiceHandles.Models.InOutChoDuyet
+@using NiceHandles.Models;
+@{
+    ViewBag.Title = "Duyệt";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var db = new NHModel();
+    var lstDuyet = db.InOuts.Where(x => x.inoutchoduyet_id == Model.id);
+}
+<h2>Duyệt phiếu thu chi</h2>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.id)
+        @Html.HiddenFor(model => model.time)
+        @Html.HiddenFor(model => model.status)
+        <div class="form-group">
+            @Html.LabelFor(model => model.note, "Ghi chú", htmlAttributes: new { @class = "control-label col-md-1" })
+            <div class="col-md-11">
+                @Html.EditorFor(model => model.note, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.note, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <table class="table">
+            <tr>
+                <th style="width: 20px;"><input type="checkbox" id="cboAll" /></th>
+                <th>
+                    Người thực hiện
+                </th>
+                <th>
+                    Loại
+                </th>
+                <th>
+                    Số tiền
+                </th>
+                <th>
+                    Ghi chú
+                </th>
+            </tr>
+
+            @foreach (var item in lstDuyet)
+            {
+                var acc = db.Accounts.Find(item.account_id);
+                var cate = db.Categories.Find(item.category_id);
+                <tr>
+                    <td>
+                        <input type="checkbox" id="io@(item.id)" />
+                    </td>
+                    <td>
+                        @acc.fullname
+                    </td>
+                    <td>
+                        @cate.name
+                    </td>
+                    <td>
+                        @item.amount.ToString("N0")
+                    </td>
+                    <td>
+                        @item.note
+                    </td>
+                </tr>
+            }
+        </table>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                @if (Model.status == (int)XInOutChoDuyet.eStatus.DaDuyet)
+                {
+                    <input type="button" value="Đã duyệt" class="btn btn-primary" disabled />
+                }
+                else
+                {
+                    <input type="submit" value="Duyệt" onclick="setCheckedIds();" class="btn btn-primary" />
+                }
+            </div>
+        </div>
+    </div>
+    @Html.Hidden("checkedids")
+}
+<iframe id="my_iframe" style="display:none;"></iframe>
+<div>
+    @Html.ActionLink("Về danh sách", "Index")
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            $("#cboAll").click(function () {
+                $('.table input:checkbox').not(this).prop('checked', this.checked);
+            });
+        });
+        function setCheckedIds() {
+            var lst = "";
+            $("td input:checked").each(function () {
+                lst += $(this).attr("id") + ",";
+            });
+            $("#checkedids").val(lst);
+            var koduyet = $("td input:checkbox:not(:checked)").length;
+        }
+    </script>
+}

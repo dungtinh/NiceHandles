@@ -1,0 +1,81 @@
+﻿@model NiceHandles.Models.di1cua
+@using NiceHandles.Models
+@{
+    var db = new NHModel();
+    var progress = db.Progresses.FirstOrDefault(x => x.type == (int)XProgress.eType.GhiChu);
+    var CanBoes = db.CanBoes.OrderBy(x => x.name);
+    var CoQuan = db.CoQuanGiaiQuyets;
+    var files = db.progress_file.Where(x => x.hoso_id == Model.hoso_id && x.progress_id == progress.id && x.type == (int)XProgressFile.eType.PhieuTiepNhan);
+}
+<section id="ss@("_" + progress.type + Model.id)">
+    <div style="border: 1px solid; border-radius: 10px; padding: 10px 0; margin: 10px 0;" class="row text-success">
+        @Html.Hidden("1cid", Model.id)
+        @Html.Hidden("1choso_id", Model.hoso_id)
+        <div class="row form-horizontal" style="padding-right: 20px;">
+            <div class="col-md-12">
+                <div class="form-group">
+                    @Html.Label("Ngày nộp", new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBox("1cngaynop", Html.Raw(Model.ngaynop.ToString("dd/MM/yyyy")), new { @class = "form-control datetime", autocomplete = "off" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Ngày trả KQ", new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBox("1cngaytra", Html.Raw(Model.ngaytra.ToString("dd/MM/yyyy")), new { @class = "form-control datetime", autocomplete = "off" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Nơi tiếp nhận", new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("1cnoinhan", new SelectList(CoQuan, "id", "name", Model.noinhan_id), new { @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Mã phiếu hẹn", new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBox("1cmaphieuhen", Model.maphieuhen, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Trạng thái", new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("1ctrangthai", new SelectList(Xdi1cua.sStatus, "Key", "Value", Model.trangthai), new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Ghi chú", new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextArea("1cghichu", Model.ghichu, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-2" style="text-align: right;">
+                        Phiếu hẹn
+                    </div>
+                    <div class="col-md-4">
+                        <input type="file" class="btn btn-info txtPhieuHen" />
+                    </div>
+                    <div class="col-md-2">
+                        <input value="Upload" type="button" onclick="UploadProgressFile('#ss@("_" + progress.type + Model.id) .txtPhieuHen','#ss@("_" + progress.type + Model.id) .lstPhieuHen', @(Model.hoso_id) , @(progress.id) , @((int)XProgressFile.eType.PhieuTiepNhan) );" class="btn btn-info" />
+                    </div>
+                    <div class="col-md-2 lstPhieuHen" style="padding-right: 0; padding-left: 0;">
+                        <ul style="margin:0; padding: 0; list-style: decimal;">
+                            @foreach (var item in files)
+                            {
+                                <li>
+                                    <a href="@item.url" target="_blank">@item.name</a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                    <div class="col-md-2" style="text-align: right;">
+                        <button class="btn btn-info" onclick="Save1Cua();" style="">Lưu lại</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

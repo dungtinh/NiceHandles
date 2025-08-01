@@ -1,0 +1,118 @@
+﻿@model NiceHandles.Models.NhiemVu
+@using NiceHandles.Models
+@{
+    ViewBag.Title = "Index";
+    var db = new NHModel();
+    var files = ViewBag.FILES as Dictionary<int, string>;
+}
+
+<h2>@Html.Raw(((Customer)ViewBag.Customer).name)</h2>
+<input type="hidden" value="@Model.id" id="txtId" />
+<div>
+    <div class="row">
+        <div class="col-md-7">
+            <dl class="dl-horizontal">
+                <dt>
+                    Địa chỉ
+                </dt>
+
+                <dd>
+                    @Html.Raw(((Address)ViewBag.Address).name)
+                </dd>
+
+            </dl>
+
+            <div style="border: 1px solid; border-radius: 10px; padding: 10px 0; margin: 10px 0;" class="row text-info">
+                <form id="frmDCTD">
+                    <div class="text-info col-sm-3" style="text-align: right;">
+                        Địa chỉ thửa đất
+                    </div>
+                    <div class="col-sm-9">
+
+                        <input style="display: inline-block;" class="form-control" value="@( ((Contract)ViewBag.CONTRACT).LinkGmap)" />
+                    </div>
+                    <p style="clear: both;"></p>
+                    <div class="text-info col-sm-3" style="text-align: right;">
+                        Link file CAD
+                    </div>
+                    <div class="col-sm-9">
+                        <input value="@( ((Contract)ViewBag.CONTRACT).GoogleLink)" style="display: inline-block; width: 70%;" class="form-control" id="txtCAD" readonly="readonly" />
+                        <input type="file" style="display: inline-block; width: 210px; float: right;" class="btn btn-info" />
+                    </div>
+                    <p style="clear: both;"></p>
+                    <div class="text-info col-sm-3">
+                        &nbsp;
+                    </div>
+                    <div class="col-sm-9">
+                        <input type="submit" value="Cập nhật" class="btn btn-info" />
+                    </div>
+                </form>
+                <p style="clear: both;"></p>
+                <div class="text-info col-sm-3" style="text-align: right;">
+                    Ảnh chụp
+                </div>
+                <div class="col-sm-9">
+                    <form class="frmUpload" id="10">
+                        <input type="file" style="display: inline-block;" class="btn btn-info" />
+                        <input type="submit" value="Upload" class="btn btn-info" />
+                    </form>
+                </div>
+                <div class="col-sm-12" style="padding-left: 27%;">
+                    <p class="10"> @Html.Raw(files[10])</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<iframe id="my_iframe" style="display:none;"></iframe>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            $('.frmUpload').on("submit", function (event) {
+                var frm = this;
+                var t = $(this).attr("id");
+                var formdata = new FormData(); //FormData object
+                var fileInput = $(':file', this)[0];
+                for (i = 0; i < fileInput.files.length; i++) {
+                    formdata.append(fileInput.files[i].name, fileInput.files[i]);
+                }
+                formdata.append("id", $("#txtId").val());
+                formdata.append("t", t);
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '/NhiemVus/Upload');
+                xhr.send(formdata);
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        $("p." + t).append(xhr.responseText);
+                    }
+                }
+                event.preventDefault();
+            });
+            $('#frmDCTD').on("submit", function (event) {
+                var formdata = new FormData(); //FormData object
+                var fileInput = $('#frmDCTD :file')[0];
+                for (i = 0; i < fileInput.files.length; i++) {
+                    formdata.append(fileInput.files[i].name, fileInput.files[i]);
+                }
+                var gmap = $('#frmDCTD :text').val();
+                formdata.append("id", $("#txtId").val());
+                formdata.append("g", gmap);
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '/Dove/EditDOVE');
+                xhr.send(formdata);
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        //$("p." + t).append(xhr.responseText);
+                        $('#frmDCTD :file').val(null);
+                        $('#frmDCTD #txtCAD').val(xhr.responseText);
+                    }
+                }
+                event.preventDefault();
+            });
+
+        });
+    </script>
+}

@@ -1,0 +1,111 @@
+﻿@model NiceHandles.Models.InOut
+@using NiceHandles.Models
+@using Microsoft.AspNet.Identity;
+@{
+    Layout = "~/Views/Shared/_LayoutEmpty.cshtml";
+    var db = new NHModel();
+    var contract = db.Contracts.Find(Model.contract_id);
+    var accs = db.Accounts.Where(x => x.sta == (int)XAccount.eStatus.Processing);
+    var username = User.Identity.GetUserName();
+    var us = db.Accounts.Where(x => x.UserName.Equals(username)).Single();
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal" style="width: 96%;">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(x => x.contract_id)
+        @Html.Hidden("parent_id", (int)XCategory.eParent.KhachHang)
+        <div class="form-group">
+            @Html.Label(" ", new { @class = "control-label col-md-2" })
+            <div class="col-md-10" style="font-size: x-large;">
+                <span style="color: deeppink;">THU CHI TRONG HỒ SƠ: </span>@contract.name
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Tài khoản", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.account_id, new SelectList(accs, "id", "fullname", us), "Người thực hiện", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.account_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Thu/Chi", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.type, new SelectList(XCategory.sType, "Key", "Value"), "Thu/Chi", new { @class = "form-control", @onchange = "FillCategory()" })
+                @Html.ValidationMessageFor(model => model.type, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Loại chi tiết", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.category_id, new SelectList(new Category[] { }), "Loại chi tiết", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Loại tiền", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.currency, new SelectList(XModels.sLoaiTien, "Key", "Value"), new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.currency, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Số tiền", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*@Html.EditorFor(model => model.amount, new { htmlAttributes = new { @class = "form-control", type = "number" } })*@
+                @Html.HiddenFor(model => model.amount)
+                @Html.TextBox("msk_amount", "", new { @class = "form-control numberic" })
+                @Html.ValidationMessageFor(model => model.amount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Ghi chú", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.note, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.note, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Thực hiện" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+<style>
+    body {
+        padding-top: 15px;
+    }
+</style>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            @if(ViewBag.CLOSE!=null)
+            {
+               @Html.Raw("window.parent.closeModal('#mdlCreateDuyetChi');");
+            }
+            FillCategory();
+            $(":submit").click(function () {
+                $("#amount").val($("#msk_amount").autoNumeric('get') || 0);
+            });
+        });
+        function FillCategory() {
+            var type = $('#type').val();
+            var parent_id = $('#parent_id').val();
+            $.ajax({
+                url: '/Categories/FillCategoryContract',
+                type: "GET",
+                dataType: "JSON",
+                data: { type: type, parent_id: parent_id },
+                success: function (categories) {
+                    $("#category_id").html(""); // clear before appending new list
+                    $.each(categories, function (i, cate) {
+                        $("#category_id").append(
+                            $('<option></option>').val(cate.id).html(cate.name));
+                    });
+                }
+            });
+        }
+    </script>
+}

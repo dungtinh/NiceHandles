@@ -1,0 +1,42 @@
+﻿@model NiceHandles.Models.Category
+@using NiceHandles.Models
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutSetting.cshtml";
+}
+
+<h2>Chi tiết</h2>
+
+<div>   
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Tên
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.name)
+        </dd>
+
+        <dt>
+            Loại
+        </dt>
+
+        <dd>
+            @XCategory.sType[Model.type]
+        </dd>
+        <dt>
+            Nguồn
+        </dt>
+
+        <dd>
+            @XCategory.sParent[Model.parent_id]
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Sửa", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Về danh sách", "Index")
+</p>

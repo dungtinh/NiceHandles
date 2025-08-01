@@ -1,0 +1,77 @@
+﻿@model NiceHandles.Models.thuchi
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Chỉnh sửa</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Quỹ chi tiêu</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.id)
+
+        @Html.HiddenFor(model => model.account_id)
+        @Html.HiddenFor(model => model.loai)
+        @Html.HiddenFor(model => model.trangthai)
+        @Html.HiddenFor(model => model.ngaychotso)
+
+        <div class="form-group">
+            @Html.Label("Thời gian", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.thoigian, new { htmlAttributes = new { @class = "form-control datetime", @readonly = "readonly", Value = Model.thoigian.ToString("dd/MM/yyyy") } })
+                @Html.ValidationMessageFor(model => model.thoigian, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Số tiền", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.sotien, new { htmlAttributes = new { @class = "form-control", type = "number" } })
+                @Html.ValidationMessageFor(model => model.sotien, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Lý do", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.lydo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.lydo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Chỉnh sửa" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Về danh sách", "Index")
+</div>
+@*@section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+        <script>
+            $(document).ready(function () {
+                $(".datetime").datepicker({
+                    "autoclose": true,
+                    "todayHighlight": true,
+                    "dateFormat": "dd/mm/yyyy",
+                    "format": "dd/mm/yyyy",
+                }).datepicker("setDate", new Date());
+
+            });
+            $(function () {
+                $.validator.methods.date = function (value, element) {
+                    return this.optional(element) || moment(value, "DD/MM/YYYY", true).isValid();
+                }
+            });
+        </script>
+    }*@

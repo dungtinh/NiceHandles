@@ -1,0 +1,56 @@
+﻿@using NiceHandles.Models
+@switch (((Step)ViewBag.Step).code)
+{
+    case "HOSOMOI":
+    case "NHAPTHONGTIN":
+    case "KIEMTRA":
+        <dt class="text-danger">
+            Upload hồ sơ scan ban đầu
+        </dt>
+        <dd>
+            <form id="uploader">
+                <input id="fileInput" type="file">
+                <input type="submit" value="Upload" />
+            </form>
+        </dd>
+        <dt class="text-success">
+            Upload hồ sơ scan hoàn thiện
+        </dt>
+        <dd>
+            <form id="uploaderCTV">
+                <input id="fileInputCTV" type="file">
+                <input type="submit" value="Upload" />
+            </form>
+        </dd>
+        break;
+    case "DOVEUYQUYEN":
+        <dt>
+            <label style="margin-top: 7px;">
+                Địa chỉ thửa đất
+            </label>
+        </dt>
+        <dd>
+            @Html.TextBox("txtDiaChi", ((Contract)ViewBag.Contract).QRAddress, new { @class = "form-control" })
+        </dd>
+        <dt>
+            <label style="margin-top: 7px;">
+                Link file CAD
+            </label>
+        </dt>
+        <dd>
+            @Html.TextBox("txtLinkCad", ((Contract)ViewBag.Contract).GoogleLink, new { @class = "form-control" })
+        </dd>
+        break;
+    case "HOANTHIEN":
+        <dt>
+            Đăng hồ sơ 1 cửa
+        </dt>
+        <dd>
+            <form id="uploader">
+                <input id="fileInput" type="file">
+                <input type="submit" value="Upload" />
+            </form>
+        </dd>
+        break;
+    default: break;
+}

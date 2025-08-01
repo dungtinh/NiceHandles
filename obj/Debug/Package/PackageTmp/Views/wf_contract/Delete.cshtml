@@ -1,0 +1,57 @@
+﻿@model NiceHandles.Models.Xwf_contract
+@using NiceHandles.Models
+
+@{
+    ViewBag.Title = "Xóa";
+}
+
+<h2>Xóa</h2>
+
+<div>
+    <h4>@Model.contract_name</h4>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            Người thực hiện
+        </dt>
+
+        <dd>
+            @Model.account_name
+        </dd>
+
+        <dt>
+            Thời gian
+        </dt>
+
+        <dd>
+            @Model.obj.time.ToString("dd/MM/yyyy")
+        </dd>
+        <dt>
+            Ghi chú
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.obj.note)
+        </dd>
+
+        <dt>
+            Trạng thái
+        </dt>
+
+        <dd>
+            @Xwf_contract.sStatus[Model.obj.status]
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Về danh sách", "Details", "Contracts", new { id = Model.obj.contract_id }, null)
+        </div>
+    }
+</div>

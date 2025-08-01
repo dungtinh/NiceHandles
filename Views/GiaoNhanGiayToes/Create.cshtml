@@ -1,0 +1,165 @@
+﻿@model NiceHandles.Models.GiaoNhanGiayTo
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Thêm mới</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Giao nhận giấy tờ</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.Label("Hợp đồng", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.contract_id, ViewBag.lstCT as SelectList, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.contract_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Người thực hiện", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.account_id, ViewBag.Accounts as SelectList, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.account_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Giấy tờ", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.giayto, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.giayto, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Nơi nhận", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.noinhan, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.noinhan, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Người nhận", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.nguoinhan, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.nguoinhan, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Ngày giao", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ngaygiao, new { htmlAttributes = new { @class = "form-control datetime" } })
+                @Html.ValidationMessageFor(model => model.ngaygiao, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Ngày hạn", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ngayhan, new { htmlAttributes = new { @class = "form-control datetime" } })
+                @Html.ValidationMessageFor(model => model.ngayhan, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Thêm mới" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Về danh sách", "Index")
+</div>
+@section Style {
+    <link href="~/Content/select2/select2.min.css" rel="stylesheet" />
+    <style>
+        .select2-result-repository-meta div {
+            display: inline-block;
+        }
+
+        .select2-result-repository-title {
+            width: 65%;
+        }
+
+        .select2-result-repository-description {
+            width: 30%;
+        }
+    </style>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/select2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(".datetime").datepicker({
+                "autoclose": true,
+                "todayHighlight": true,
+                "dateFormat": "dd/mm/yyyy",
+                "format": "dd/mm/yyyy",
+            }).datepicker("setDate", new Date());
+            $("#contract_id").select2({
+                ajax: {
+                    url: "/Contracts/GetContract",
+                    dataType: 'json',
+                    type: "Get",
+                    delay: 500,
+                    data: function (params) {
+                        return params;
+                    },
+                    processResults: function (data, params) {
+                        params.page = params.page || 1;
+                        return {
+                            results: data.items,
+                            pagination: {
+                                more: (params.page * 25) < data.total_count
+                            }
+                        };
+                    },
+                    cache: true
+                },
+                placeholder: 'VD: Nguyễn Văn A',
+                templateResult: formatRepo,
+                templateSelection: formatRepoSelection
+            });
+        });
+        $(function () {
+            $.validator.methods.date = function (value, element) {
+                return this.optional(element) || moment(value, "DD/MM/YYYY", true).isValid();
+            }
+        });
+        function formatRepo(repo) {
+            if (repo.loading) {
+                return repo.text;
+            }
+
+            var $container = $(
+                "<div class='select2-result-repository clearfix'>" +
+                "   <div class='select2-result-repository-meta'>" +
+                "       <div class='select2-result-repository-title'></div>" +
+                "       <div class='select2-result-repository-description'></div>" +
+                "   </div>" +
+                "</div>"
+            );
+
+            $container.find(".select2-result-repository-title").text(repo.name);
+            $container.find(".select2-result-repository-description").text(repo.text);
+
+            return $container;
+        }
+
+        function formatRepoSelection(repo) {
+            return repo.name || repo.text;
+        }
+    </script>
+}

@@ -1,0 +1,90 @@
+﻿@model NiceHandles.Models.Contract
+
+@{
+    ViewBag.Title = "Xóa";
+}
+
+<h2>Xóa</h2>
+
+<div>
+    <h4>Hợp đồng</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Tên khách hàng
+        </dt>
+
+        <dd>
+            @Model.name
+        </dd>
+
+        <dt>
+            Số tiền
+        </dt>
+
+        <dd>
+            @Model.amount.ToString("N0")
+        </dd>
+
+        <dt>
+            Thời gian tiếp nhận
+        </dt>
+
+        <dd>
+            @Model.time.ToString("dd/MM/yyyy")
+        </dd>        
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="button" value="Delete" class="btn btn-default del" />
+            <input type="submit" id="btnSubmit" class="hide" /> |
+            @Html.ActionLink("Về danh sách", "Index")
+        </div>
+    }
+</div>
+<div id="password" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="float: left;">Nhập mật khẩu xóa</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Để chắc chắn rằng mình muốn xóa, vui lòng nhập mật khẩu</p>
+                <input type="password" class="form-control" id="txtPassword" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="confirmed()">Chấp nhận</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")    
+    <script>
+
+        $(document).ready(function () {
+            $(".del").click(function () {
+                $("#password").modal("show");
+            });
+            $('#password').on('hidden.bs.modal', function () {
+                $("#btnSubmit").click();
+            });
+
+        });
+        function confirmed() {
+            var pass = $("#txtPassword").val();
+            if (pass == "@Html.Raw(NiceHandles.Models.XModels.Password)") {
+                $("#password").modal("hide");
+            }
+        }
+    </script>
+}

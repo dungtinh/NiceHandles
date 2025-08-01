@@ -1,0 +1,67 @@
+﻿@model NiceHandles.Models.TreoPhuon
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>TreoPhuon</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Images)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Images)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DvhcC1_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DvhcC1_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GoogleMap)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GoogleMap)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NgayTreo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NgayTreo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NgayKiemTra)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NgayKiemTra)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.note)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.note)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

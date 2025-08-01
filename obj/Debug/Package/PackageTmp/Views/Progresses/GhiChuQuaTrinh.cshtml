@@ -1,0 +1,202 @@
+﻿@model NiceHandles.Models.HoSo
+@using NiceHandles.Models
+@{
+    ViewBag.Title = "Ghi chú quá trình";
+    var db = new NHModel();
+    var progress = db.Progresses.FirstOrDefault(x => x.type == (int)XProgress.eType.GhiChu);
+    var passvalue = new xTemp() { int1 = Model.id, int2 = progress.type };
+    var option = db.progress_file_option.FirstOrDefault(x => x.hoso_id == Model.id && x.progress_id == progress.id);
+    if (option == null)
+    {
+        option = new progress_file_option() { hoso_id = Model.id, progress_id = progress.id };
+        db.progress_file_option.Add(option);
+        db.SaveChanges();
+    }
+    var files = db.progress_file.Where(x => x.hoso_id == Model.id && x.progress_id == progress.id);
+    var contract = db.Contracts.Find(Model.contract_id);
+    var di1cua = db.di1cua.Where(x => x.hoso_id == Model.id).OrderByDescending(x => x.ngaynop).FirstOrDefault();
+    var processing = db.wf_hoso.Where(x => x.hoso_id == Model.id).OrderByDescending(x => x.time);
+}
+<section id="ss@("_" + progress.type + Model.id)" class="progressfile">
+    <fieldset>
+        <div class="progress_header">
+            <div class="row" style="margin: 0;">
+                <div class="col-sm-5 title">
+                    <span class="fa fa-letters text-danger"> @progress.sort. @progress.title </span>
+                </div>
+                <div class="col-sm-4 desc">
+                    <i>@progress.description</i>
+                </div>
+                <div class="col-sm-3 tool">
+                    <label style="font-size: 14px;"><input type="checkbox" onchange="ProgressFileStatus(@Model.id, @progress.id,@progress.type, this);" @Html.Raw(option.status == (int)XModels.eLevel.Level1 ? "" : "checked") />  Hoàn thành</label>
+                    <a onclick="ProgressDownload(@progress.id, @Model.id);"> <i class="fad fa-file-download"></i></a>
+                    @*<i class="fad fa-print"></i>*@
+                    <a onclick="ProgressSetting(@progress.id, @Model.id);"> <i class="fad fa-cogs" style="padding-right: 10px;"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="progress_body">
+            <h4>Ghi chú sự kiện</h4>
+            <div style="border: 1px solid; border-radius: 10px; padding: 10px 0; margin: 10px 0;" class="row text-danger">
+                <div class="col-sm-10">
+                    <div class="form-group">
+                        <textarea class="form-control" rows="1" id="txtProcessing" placeholder="Bạn đang thực hiện việc gì"></textarea>
+                    </div>
+                </div>
+                <div class="col-sm-2" style="text-align: right;">
+                    <div class="form-group">
+                        <input type="button" value="Cập nhật" onclick="UpdateProcessing(@Model.id, '#txtProcessing')" class="btn btn-danger" />
+                    </div>
+                </div>
+                <ul id="ulProcessing">
+                    @foreach (var item in processing)
+                    {
+                        var us = db.Accounts.Single(x => x.id == item.account_id);
+                        <li><span>@item.time.ToString("dd/MM/yy")</span> | <span>@us.fullname</span> | @item.note</li>
+                    }
+                </ul>
+            </div>
+            <h4>Scan tài liệu</h4>
+            <div class="row">
+                <div class="col-sm-2" style="text-align: right;">
+                    Hồ sơ tiếp nhận
+                </div>
+                <div class="col-sm-4">
+                    <input type="file" class="btn btn-info txtScanTiepNhan" />
+                </div>
+                <div class="col-sm-2">
+                    <input value="Upload" type="button" onclick="UploadProgressFile('#ss@("_" + progress.type + Model.id) .txtScanTiepNhan','#ss@("_" + progress.type + Model.id) .lstScanTiepNhan', @(Model.id) , @(progress.id) , @((int)XProgressFile.eType.HSTiepNhan) );" class="btn btn-info" />
+                </div>
+                <div class="col-sm-4 lstScanTiepNhan">
+                    <ul style="margin:0; padding: 0; list-style: decimal;">
+                        @foreach (var item in files.Where(x => x.type == (int)XProgressFile.eType.HSTiepNhan))
+                        {
+                            <li>
+                                <a href="@item.url" target="_blank">@item.name</a>
+                            </li>
+
+                        }
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2" style="text-align: right;">
+                    Hồ sơ 1 cửa
+                </div>
+                <div class="col-sm-4">
+                    <input type="file" class="btn btn-info txtScan1Cua" />
+                </div>
+                <div class="col-sm-2">
+                    <input value="Upload" type="button" onclick="UploadProgressFile('#ss@("_" + progress.type + Model.id) .txtScan1Cua','#ss@("_" + progress.type + Model.id) .lstScan1Cua', @(Model.id) , @(progress.id) , @((int)XProgressFile.eType.HSMotCua) );" class="btn btn-info" />
+                </div>
+                <div class="col-sm-4 lstScan1Cua">
+                    <ul style="margin:0; padding: 0; list-style: decimal;">
+                        @foreach (var item in files.Where(x => x.type == (int)XProgressFile.eType.HSMotCua))
+                        {
+                            <li>
+                                <a href="@item.url" target="_blank">@item.name</a>
+                            </li>
+
+                        }
+                    </ul>
+                </div>
+            </div>
+            @if (di1cua != null)
+            {
+                <h4>Thông tin nộp 1 cửa</h4>
+                @Html.Partial("../Progresses/Di1Cua", di1cua)
+            }
+            <h4>Văn bản sau 1 cửa</h4>
+            <div class="row">
+                <div class="col-sm-2" style="text-align: right;">
+                    Văn bản thuế
+                </div>
+                <div class="col-sm-4">
+                    <input type="file" class="btn btn-info txtVanBanThue" />
+                </div>
+                <div class="col-sm-2">
+                    <input value="Upload" type="button" onclick="UploadProgressFile('#ss@("_" + progress.type + Model.id) .txtVanBanThue','#ss@("_" + progress.type + Model.id) .lstVanBanThue', @(Model.id) , @(progress.id) , @((int)XProgressFile.eType.VanBanThue) );" class="btn btn-info" />
+                </div>
+                <div class="col-sm-4 lstVanBanThue">
+                    <ul style="margin:0; padding: 0; list-style: decimal;">
+                        @foreach (var item in files.Where(x => x.type == (int)XProgressFile.eType.VanBanThue))
+                        {
+                            <li>
+                                <a href="@item.url" target="_blank">@item.name</a>
+                            </li>
+
+                        }
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2" style="text-align: right;">
+                    Văn bản đi
+                </div>
+                <div class="col-sm-4">
+                    <input type="file" class="btn btn-info txtVanBanDi" />
+                </div>
+                <div class="col-sm-2">
+                    <input value="Upload" type="button" onclick="UploadProgressFile('#ss@("_" + progress.type + Model.id) .txtVanBanDi','#ss@("_" + progress.type + Model.id) .lstVanBanDi', @(Model.id) , @(progress.id) , @((int)XProgressFile.eType.VanBan1CuaDi) );" class="btn btn-info" />
+                </div>
+                <div class="col-sm-4 lstVanBanDi">
+                    <ul style="margin:0; padding: 0; list-style: decimal;">
+                        @foreach (var item in files.Where(x => x.type == (int)XProgressFile.eType.VanBan1CuaDi))
+                        {
+                            <li>
+                                <a href="@item.url" target="_blank">@item.name</a>
+                            </li>
+
+                        }
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2" style="text-align: right;">
+                    Văn bản đến
+                </div>
+                <div class="col-sm-4">
+                    <input type="file" class="btn btn-info txtVanBanDen" />
+                </div>
+                <div class="col-sm-2">
+                    <input value="Upload" type="button" onclick="UploadProgressFile('#ss@("_" + progress.type + Model.id) .txtVanBanDen','#ss@("_" + progress.type + Model.id) .lstVanBanDen', @(Model.id) , @(progress.id) , @((int)XProgressFile.eType.VanBan1CuaDen) );" class="btn btn-info" />
+                </div>
+                <div class="col-sm-4 lstVanBanDen">
+                    <ul style="margin:0; padding: 0; list-style: decimal;">
+                        @foreach (var item in files.Where(x => x.type == (int)XProgressFile.eType.VanBan1CuaDen))
+                        {
+                            <li>
+                                <a href="@item.url" target="_blank">@item.name</a>
+                            </li>
+
+                        }
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2" style="text-align: right;">
+                    Kết quả thủ tục
+                </div>
+                <div class="col-sm-4">
+                    <input type="file" class="btn btn-info txtKetQua" />
+                </div>
+                <div class="col-sm-2">
+                    <input value="Upload" type="button" onclick="UploadProgressFile('#ss@("_" + progress.type + Model.id) .txtKetQua','#ss@("_" + progress.type + Model.id) .lstKetQua', @(Model.id) , @(progress.id) , @((int)XProgressFile.eType.KetQua) );" class="btn btn-info" />
+                </div>
+                <div class="col-sm-4 lstKetQua">
+                    <ul style="margin:0; padding: 0; list-style: decimal;">
+                        @foreach (var item in files.Where(x => x.type == (int)XProgressFile.eType.KetQua))
+                        {
+                            <li>
+                                <a href="@item.url" target="_blank">@item.name</a>
+                            </li>
+
+                        }
+                    </ul>
+                </div>
+            </div>
+            @Html.Partial("../Progresses/ViecPhaiLam", passvalue)
+            @Html.Partial("../Progresses/PartNhatKyNhacNho")
+        </div>
+    </fieldset>
+</section>

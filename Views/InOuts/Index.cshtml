@@ -1,0 +1,390 @@
+﻿@model PagedList.IPagedList<NiceHandles.Models.vInOut>
+@using PagedList.Mvc;
+@using NiceHandles.Models
+@using Microsoft.AspNet.Identity;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Thu chi";
+    var db = new NHModel();
+    var types = new SelectList(XCategory.sType, "Key", "Value");
+    var username = User.Identity.GetUserName();
+    var us = db.Accounts.Where(x => x.UserName.Equals(username)).Single();
+    ViewBag.ACCOUNTS = db.Accounts.Where(x => x.sta == (int)XAccount.eStatus.Processing);
+}
+<h2>
+    Quản lý thu chi
+</h2>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-12">
+                @Html.Partial("CreateX", new InOut() { time = DateTime.Now, account_id = us.id })
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div id="chartContainer" style="height: 250px; width: 100%;"></div>
+    </div>
+</div>
+
+
+@using (Html.BeginForm("Index", "InOuts", FormMethod.Get))
+{
+    <div class="row">
+
+        <div class="col-sm-1">
+            <div class="form-group">
+                @Html.TextBox("fromdate", ViewBag.FROMDATE as string, new { @class = "form-control datetime", placeholder = "Từ ngày", autocomplete = "off" })
+            </div>
+        </div>
+        <div class="col-sm-1">
+            <div class="form-group">
+                @Html.TextBox("todate", ViewBag.TODATE as string, new { @class = "form-control datetime", placeholder = "Đến ngày", autocomplete = "off" })
+            </div>
+        </div>
+        <div class="col-sm-1">
+            <div class="form-group">
+                @Html.DropDownList("s_account_id", new SelectList(ViewBag.ACCOUNTS, "id", "fullname"), "Tài khoản", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-sm-1">
+            <div class="form-group">
+                @Html.DropDownList("s_type", XCategory.sType.Select(x => new SelectListItem { Value = x.Key.ToString(), Text = x.Value }), "Loại", new { @class = "form-control", @onchange = "s_FillCategory()" })
+            </div>
+        </div>
+        <div class="col-sm-1">
+            <div class="form-group">
+                @Html.DropDownList("s_category_id", new SelectListItem[0], "Loại chi tiết", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-sm-1">
+            <div class="form-group">
+                @Html.DropDownList("s_currency", new SelectList(XModels.sLoaiTien, "Key", "Value"), "TM/CK", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-sm-1">
+            <div class="form-group">
+                @Html.TextBox("Search_Data", ViewBag.FilterValue as string, new { @class = "form-control", placeholder = "Tìm kiếm" })
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary" style="height: 32px; width: 100px;"><i class="fa fa-search"></i> Tìm kiếm</button>
+                <button type="button" style="margin-right: 10px;" class="btn btn-default" onclick="Print();"><i class="fa fa-print"></i> Bản in</button>
+            </div>
+        </div>
+    </div>
+}
+<div style="border-radius: 10px; background-color: aliceblue; padding: 15px;" class="row">
+    <div class="col-sm-2">Tổng thu: <b> @ViewBag.TONGTHU </b></div>
+    <div class="col-sm-2 text-danger">Tổng chi: <b>@ViewBag.TONGCHI </b></div>
+    <div class="col-sm-2">Thu - Chi: <b>@ViewBag.THUCHI </b></div>
+    <div class="col-sm-2 text-success">Tiền NH: <b>@ViewBag.NGANHANG </b></div>
+    <div class="col-sm-2 text-primary">Tiền mặt: <b>@ViewBag.TIENMAT </b></div>
+    <div class="col-sm-2 text-muted">Tiền tạm khóa: <b> </b></div>
+</div>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>
+                Thời gian
+            </th>
+            <th>
+                Hợp đồng
+            </th>
+            <th>
+                Người thực hiện
+            </th>
+            <th>
+                Loại
+            </th>
+            <th>
+                Loại chi tiết
+            </th>
+            <th>
+                Loại tiền
+            </th>
+            <th>
+                Số tiền
+            </th>
+            <th>
+                Ghi chú
+            </th>
+            <th>Trạng thái</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            string contract_name = string.Empty;
+            if (Model[i].contract_id.HasValue)
+            {
+                var contract = db.Contracts.Find(Model[i].contract_id.Value);
+                contract_name = contract.name;
+            }
+
+            <tr class="@(Model[i].type==(int)XCategory.eType.Chi ? "text-danger" : null )">
+                <td>@Model[i].time.ToString("dd/MM/yyyy")</td>
+                <td>@contract_name</td>
+                <td>@Html.ActionLink(Model[i].disname, "Details", new { id = Model[i].id }) </td>
+                <td>@Html.ActionLink(XCategory.sType[Model[i].type], "Details", new { id = Model[i].id }) </td>
+                <td>@Html.Raw(Model[i].name)</td>
+                <td style="text-align: right;">@XModels.sLoaiTien[Model[i].currency]</td>
+                <td style="text-align: right;">@((Model[i].type==(int)XCategory.eType.Chi ? "-" : null) + Model[i].amount.ToString("N0"))</td>
+                <td>@Model[i].note</td>
+                <td>@Html.Raw(XInOut.sStatus[Model[i].status])</td>
+                <td style="@((Model[i].status== (int)XInOut.eStatus.ChoDuyet ) ? "" : "display:none")">
+                    @*@Html.ActionLink("Sửa", "Edit", new { id = Model[i].id }) |*@
+                    <a href="#" class="del" id="del@(Model[i].id)">Hủy</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@if (Model.PageCount > 1)
+{
+    <div class="row" style="margin-top: 10px;">
+        <div class="col-sm-1">
+            Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+        </div>
+        <div class="col-sm-10">
+            @Html.PagedListPager(Model, Page_No => Url.Action("Index", new { Page_No, Filter_Value = ViewBag.FilterValue, account_id = ViewBag.account_id, category_id = ViewBag.category_id, type = ViewBag.type, fromdate = ViewBag.FROMDATE, todate = ViewBag.TODATE }))
+        </div>
+    </div>
+}
+<div id="password" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="float: left;">Nhập mật khẩu</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Yêu cầu xác nhận, vui lòng nhập mật khẩu</p>
+                <input type="password" class="form-control" id="txtPassword" />
+                <i class="text-danger hide forPassword">Sai mật khẩu</i>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="confirmed()">Chấp nhận</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<iframe id="my_iframe" style="display:none;"></iframe>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+    <script>
+        var currentDelCtr = null;
+        $(document).ready(function () {
+            $(".datetime").datepicker({
+                "autoclose": true,
+                "todayHighlight": true,
+                "dateFormat": "dd/mm/yyyy",
+                "format": "dd/mm/yyyy",
+            }).datepicker();
+
+            $(".del").click(function () {
+                currentDelCtr = this;
+                $("#password").modal("show");
+                return false;
+            });
+            var dataPoints = @ViewBag.CHART;
+            var chart = new CanvasJS.Chart("chartContainer", {
+                animationEnabled: true,
+                title: {
+                    /*text: "17%",*/
+                    horizontalAlign: "center",
+                },
+                data: [{
+                    type: "doughnut",
+                    startAngle: 50,
+                    innerRadius: 50,
+                    indexLabelFontSize: 17,
+                    indexLabel: "{label} - #percent%",
+                    toolTipContent: "<b>{label}:</b> {y} (#percent%)",
+                    dataPoints: dataPoints
+                }]
+            });
+            chart.render();
+
+            $("#lt" + @((int)XModels.eLoaiTien.TienMat)).attr("checked", false);
+            SetSelect2("#contract_id", "/Jobs/GetContract", "VD: Nguyễn Văn A");
+        });
+        function confirmed() {
+            var pass = $("#txtPassword").val();
+            if (pass == "@Html.Raw(NiceHandles.Models.XModels.Password)") {
+                $("#password").modal("hide");
+                $.ajax({
+                    url: '/Inouts/JDeleteConfirmed',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: { id: (currentDelCtr.id).replace("del","") },
+                    success: function (rs) {
+                        if (rs == true) {
+                            $(currentDelCtr).parent().parent().remove();
+                        }
+                    }
+                });
+            }
+            else {
+                $(".forPassword").removeClass("hide");
+            }
+        }
+        function FillCategory() {
+            var cate = $('#type').val();
+            if (!cate || cate == "") {
+                $("#category_id").html($('<option></option>').val("").html("Loại chi tiết"));
+            }
+            else {
+                $.ajax({
+                    url: '/Categories/FillCategory',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: { cate: cate },
+                    success: function (categories) {
+                        $("#category_id").html(""); // clear before appending new list
+                        $("#category_id").append(
+                            $('<option></option>').val("").html("Loại chi tiết"));
+                        $.each(categories, function (i, cate) {
+                            $("#category_id").append(
+                                $('<option style="' + (cate.duyet == 0 ?'background-color:antiquewhite;' : '' ) +'"></option>').val(cate.id).html(cate.name));
+                        });
+                    }
+                });
+            }
+        }
+        function FillCategoryX(cate, p, taget) {
+            $.ajax({
+                url: '/Categories/FillCategoryContract',
+                type: "GET",
+                dataType: "JSON",
+                data: { type: cate, parent_id:p },
+                success: function (categories) {
+                    $(taget).html(""); // clear before appending new list
+                    $(taget).append(
+                        $('<option></option>').val("").html("Loại chi tiết"));
+                    $.each(categories, function (i, cate) {
+                        $(taget).append(
+                            $('<option style="' + (cate.duyet == 0 ? 'background-color:antiquewhite;' : '') + '"></option>').val(cate.id).html(cate.name));
+                    });
+                }
+            });
+        }
+        function s_FillCategory() {
+            var cate = $('#s_type').val();
+            if (!cate || cate == "") {
+                $("#s_category_id").html($('<option></option>').val("").html("Loại chi tiết"));
+            }
+            else {
+                $.ajax({
+                    url: '/Categories/FillCategory',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: { cate: cate },
+                    success: function (categories) {
+                        $("#s_category_id").html(""); // clear before appending new list
+                        $("#s_category_id").append(
+                            $('<option></option>').val("").html("Loại chi tiết"));
+                        $.each(categories, function (i, cate) {
+                            $("#s_category_id").append(
+                                $('<option></option>').val(cate.id).html(cate.name));
+                        });
+                    }
+                });
+            }
+        }
+        function Print() {
+            var Search_Data = $("#Search_Data").val();
+            var account_id = $("#s_account_id").val();
+            var type = $("#s_type").val();
+            var category_id = $("#s_category_id").val();
+            var currency = $("#s_currency").val();
+            var fromdate = $("#fromdate").val();
+            var todate = $("#todate").val();
+
+            $.ajax({
+                url: '/Inouts/BanInThuChi',
+                data: {
+                    Search_Data: Search_Data,
+                    account_id: account_id,
+                    type: type,
+                    category_id: category_id,
+                    currency: currency,                    
+                    fromdate: fromdate,
+                    todate: todate
+                },
+                type: "GET",
+                dataType: "JSON",
+                success: function (url) {
+                    document.getElementById('my_iframe').src = url;
+                }
+            });
+        }
+         function TypeChange() {
+             var cate = $("#type").val();
+             var inout = $("#inout").val();
+            if (!cate || cate == "") {
+                $("#category_id").html($('<option></option>').val("").html("Loại chi tiết"));
+                $("#btnShow").attr("disabled", true);
+            }
+            else {
+                $("#btnShow").attr("disabled", false);
+                if (cate == @((int)XCategory.eType.Thu)) {
+                    $("#btnShow").val("Thực hiện thu");
+                } else {
+                    $("#btnShow").val("Chuyển duyệt chi");
+                }
+                FillCategoryX(cate, inout,"#category_id");
+             }
+            if (inout == @((int)XCategory.eParent.VanPhong)) {
+                $("#contract_id").val("").trigger("change");
+                $("#contract_id").prop("disabled", true)
+            } else {
+                $("#contract_id").prop("disabled", false)
+             }
+        }
+        function btnSubmitCreateInout() {
+            var inout = $("#inout").val();
+             if (inout == @((int)XCategory.eParent.VanPhong)) {
+                 $("#contract_id").val("");
+             } else {
+                 var contract_id = $("#contract_id").val();
+                 if (!contract_id || contract_id == "") {
+                     $(".validContract_id").removeClass("hide");
+                     return false;
+                 }
+            }
+            $("#amount").val($("#msk_amount").autoNumeric('get') || 0);
+            $("#btnSubmit").click();
+        }
+        function formatRepo(repo) {
+            if (repo.loading) {
+                return repo.text;
+            }
+
+            var $container = $(
+                "<div class='select2-result-repository clearfix'>" +
+                "   <div class='select2-result-repository-meta'>" +
+                "       <div class='select2-result-repository-title' style='font-weight: bold;'></div>" +
+                "       <div class='select2-result-repository-description'></div>" +
+                "   </div>" +
+                "</div>"
+            );
+
+            $container.find(".select2-result-repository-title").text(repo.name);
+            $container.find(".select2-result-repository-description").text(repo.text);
+
+            return $container;
+        }
+
+        function formatRepoSelection(repo) {
+            return repo.name || repo.text;
+        }
+    </script>
+}

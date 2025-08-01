@@ -1,0 +1,116 @@
+﻿@model NiceHandles.Models.HoSo
+@using NiceHandles.Models;
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var db = new NHModel();
+    var contract = db.Contracts.Find(Model.contract_id);
+    var account = db.Accounts.Find(Model.account_id);
+    var service = db.Services.Find(Model.service_id);
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Hồ sơ</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Tên hồ sơ
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.name)
+        </dd>
+        <dt>
+            Hợp đồng
+        </dt>
+        <dd>
+            @contract.name
+        </dd>
+
+        <dt>
+            Ngày tạo
+        </dt>
+
+        <dd>
+            @Model.time_created.ToString("dd/MM/yyyy"))
+        </dd>
+
+        <dt>
+            Phụ trách
+        </dt>
+
+        <dd>
+            @account.fullname
+        </dd>
+        <dt>
+            Dịch vụ
+        </dt>
+
+        <dd>
+            @service.name
+        </dd>
+
+        <dt>
+            Trạng thái
+        </dt>
+
+        <dd>
+            @XHoSo.sStatus[Model.status]
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Hủy" class="btn btn-default" /> |
+            @Html.ActionLink("Về danh sách", "Index")
+        </div>
+    }
+</div>
+<div id="password" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="float: left;">Nhập mật khẩu xóa</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Để chắc chắn rằng mình muốn xóa, vui lòng nhập mật khẩu</p>
+                <input type="password" class="form-control" id="txtPassword" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="confirmed()">Chấp nhận</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+
+        $(document).ready(function () {
+            $(".del").click(function () {
+                $("#password").modal("show");
+            });
+            $('#password').on('hidden.bs.modal', function () {
+                $("#btnSubmit").click();
+            });
+
+        });
+        function confirmed() {
+            var pass = $("#txtPassword").val();
+            if (pass == "@Html.Raw(NiceHandles.Models.XModels.Password)") {
+                $("#password").modal("hide");
+            }
+        }
+    </script>
+}

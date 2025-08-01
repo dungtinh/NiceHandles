@@ -1,0 +1,48 @@
+﻿
+@using NiceHandles.Models
+@{
+    ViewBag.Title = "Tiện ích";
+}
+<br />
+<h4>TIỆN ÍCH</h4>
+
+@using (Html.BeginForm("Plugin", "Home", FormMethod.Post, new { role = "form", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <h5><i>Tạo QR code</i></h5>
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.Label("Nhập link", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("txtLink", "", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Tạo QR" class="btn btn-danger" />
+            </div>
+        </div>
+    </div>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            var url = '@("/public" + ViewBag.URL)';
+            var flag = @(ViewBag.URL!=null? 1:0 );
+            if (flag == 1) {
+                window.open(url, "_blank");
+            }
+        });
+        function CreateQR() {
+            if (txtLink.value) {
+                window.open("https://chart.googleapis.com/chart?cht=qr&chl=" + txtLink.value + "&choe=UTF-8&chs=400x400");
+            }
+            else {
+                toastr.success("Yêu cầu nhập link", "Lỗi", { timeOut: 5000 });
+            }
+        }
+    </script>
+}
+

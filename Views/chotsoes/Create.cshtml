@@ -1,0 +1,175 @@
+﻿@model NiceHandles.Models.chotso
+@using NiceHandles.Models
+@{
+    ViewBag.Title = "Create";
+    var db = ViewBag.db as NiceHandles.Models.NHModel;
+}
+
+<h2>Thêm mới</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Chốt sổ</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.Label("Ngày chốt", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ngaythang, new { htmlAttributes = new { @class = "form-control datetime" } })
+                @Html.ValidationMessageFor(model => model.ngaythang, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Tiền thu", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.tienthu, new { htmlAttributes = new { @class = "form-control", @Value = ViewBag.YIn } })
+                @Html.ValidationMessageFor(model => model.tienthu, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Tiền chi", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.tienchi, new { htmlAttributes = new { @class = "form-control", @Value = ViewBag.YOut } })
+                @Html.ValidationMessageFor(model => model.tienchi, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Tiền còn lại", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.tiencon, new { htmlAttributes = new { @class = "form-control", @Value = ViewBag.YCurrent } })
+                @Html.ValidationMessageFor(model => model.tiencon, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Tiền chênh lệch", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.tienchenhlech, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.tienchenhlech, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Tiền ADuy nợ", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.noduy, new { htmlAttributes = new { @class = "form-control", @Value = ViewBag.NoDuy } })
+                @Html.ValidationMessageFor(model => model.noduy, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Tiền Giang nợ", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.nogiang, new { htmlAttributes = new { @class = "form-control", @Value = ViewBag.NoGiang } })
+                @Html.ValidationMessageFor(model => model.nogiang, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Tiền Tín nợ", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.notin, new { htmlAttributes = new { @class = "form-control", @Value = ViewBag.NoTin } })
+                @Html.ValidationMessageFor(model => model.notin, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Ghi chú", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ghichu, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ghichu, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Chốt sổ" class="btn btn-default" />
+            </div>
+        </div>
+
+    </div>
+}
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>
+                Người thực hiện
+            </th>
+            <th>
+                Loại
+            </th>
+            <th>
+                Loại chi tiết
+            </th>
+            <th>
+                Thời gian
+            </th>
+            <th>
+                Số tiền
+            </th>
+            <th style="width: 250px">
+                Ghi chú
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{ long tongthu = 0, tongchi = 0, thuchi = 0; }
+        @foreach (var item in ViewBag.THUCHI as IQueryable<InOut>)
+        {
+            var temp = item.account_id;
+            var us = db.Accounts.Find(temp);
+            temp = item.category_id;
+            var cate = db.Categories.Find(temp);
+            if (cate.type == (int)XCategory.eType.Thu)
+            {
+                tongthu += item.amount;
+            }
+            else
+            {
+                tongchi += item.amount;
+            }
+            <tr>
+                <td>@Html.ActionLink(us != null ? us.fullname : "Tài khoản đã bị xóa", "Details", "InOuts", new { id = item.id }, null) </td>
+                <td>@Html.ActionLink(XCategory.sType[item.type], "Details", "InOuts", new { id = item.id }, null) </td>
+                <td>@Html.Raw(cate != null ? cate.name : null)</td>
+                <td>@item.time.ToString("dd/MM/yyyy")</td>
+                <td>@((item.type==(int)XCategory.eType.Chi ? "-" : null) + item.amount.ToString("N0"))</td>
+                <td>@item.note</td>
+            </tr>
+        }
+        @{ thuchi = tongthu - tongchi; }
+        <tr style="background-color: aliceblue;">
+            <td colspan="3" style="text-align: right">TỔNG THU: @tongthu.ToString("N0")</td>
+            <td colspan="2" style="text-align:center">TỔNG CHI: @tongchi.ToString("N0")</td>
+            <td colspan="2" style="text-align: left">THU-CHI: @thuchi.ToString("N0")</td>
+        </tr>
+    </tbody>
+</table>
+
+<div>
+    @Html.ActionLink("Về danh sách", "Index")
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            $(".datetime").datepicker({
+                "autoclose": true,
+                "todayHighlight": true,
+                "dateFormat": "dd/mm/yyyy",
+                "format": "dd/mm/yyyy",
+            }).datepicker("setDate", new Date());
+
+        });
+        $(function () {
+            $.validator.methods.date = function (value, element) {
+                return this.optional(element) || moment(value, "DD/MM/YYYY", true).isValid();
+            }
+        });
+    </script>
+}

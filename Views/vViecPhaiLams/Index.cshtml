@@ -1,0 +1,130 @@
+﻿@model PagedList.IPagedList<NiceHandles.Models.vViecPhaiLam>
+@using PagedList.Mvc;
+@using NiceHandles.Models
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var db = new NiceHandles.Models.NHModel();
+}
+
+<h2>Index</h2>
+
+@using (Html.BeginForm("Index", "vViecPhaiLams", FormMethod.Get))
+{
+    <div class="row">
+        <div class="col-sm-2">
+            <div class="form-group">
+                @Html.TextBox("Search_Data", ViewBag.FilterValue as string, new { @class = "form-control", placeholder = "Từ khóa" })
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                @Html.DropDownList("hoso_id", new SelectList(new progress_file[0]), "Hồ sơ", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                @Html.DropDownList("account_id", new SelectList(db.Accounts.Where(x => x.sta == (int)XAccount.eStatus.Processing).Select(x => new ListDropDown() { id = x.id, name = x.fullname }), "id", "name"), "--- Phụ trách ---", new { @class = "form-control", title = "Phụ trách" })
+            </div>
+        </div>
+        <div class="col-sm-1">
+            <div class="form-group">
+                <button type="submit" class="btn btn-danger cancel" style="height: 32px; width: 100px;">Tìm kiếm</button>
+            </div>
+        </div>
+    </div>
+}
+
+<table class="table">
+    <tr>
+        <th>
+            Hồ sơ
+        </th>
+        <th>
+            Dịch vụ
+        </th>
+        <th>
+            Công việc
+        </th>
+        <th>
+            Từ ngày
+        </th>
+        <th>
+            Đến ngày
+        </th>
+        <th>Cập nhật</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr id="@item.id">
+            <td>
+                @item.hoso_name
+            </td>
+            <td>
+                @item.service_name
+            </td>
+            <td>
+                @item.name
+            </td>
+            <td>
+                @item.time.ToString("dd/MM")
+            </td>
+            <td>
+                @item.time_progress.ToString("dd/MM")
+            </td>
+            <td>
+                <a class="fa fa-file-pdf text-primary" onclick="ShowHoSoSession(@item.hoso_id, @(item.progress_type));" style="font-size: xx-large; cursor: pointer; "></a>
+            </td>
+        </tr>
+    }
+</table>
+@if (Model.PageCount > 1)
+{
+    <div class="row" style="margin-top: 10px;">
+        <div class="col-sm-1">
+            Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+        </div>
+        <div class="col-sm-10">
+            @Html.PagedListPager(Model, Page_No => Url.Action("Index", new { Page_No, Filter_Value = ViewBag.FilterValue, account_id = ViewBag.ACC, hoso_id = ViewBag.HS }))
+        </div>
+    </div>
+}
+@Html.Partial("../Shared/Modals/_ModalNH")
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            SetSelect2("#hoso_id", "/Hosoes/GetHosoService", "VD: Nguyễn Văn A");
+            var hoso_id = getUrlParameter('hoso_id');
+            if (hoso_id) {
+                $.ajax({
+                    url: '/hosoes/CreateModel',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: { hoso_id: hoso_id },
+                    success: function (data) {
+                        var newOption = new Option(data.name, data.id, true, true);
+                        $('#hoso_id').append(newOption).trigger('change');
+                    }
+                });
+            }
+        });
+        var getUrlParameter = function getUrlParameter(sParam) {
+            var sPageURL = window.location.search.substring(1),
+                sURLVariables = sPageURL.split('&'),
+                sParameterName,
+                i;
+
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
+
+                if (sParameterName[0] === sParam) {
+                    return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+                }
+            }
+            return false;
+        };
+    </script>
+}

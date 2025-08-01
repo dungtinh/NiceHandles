@@ -1,0 +1,205 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - CMS - D.T.M</title>
+    @Styles.Render("~/Content/css")
+    @RenderSection("Style", required: false)
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("D.T.M", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Của tôi
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <p style="padding: 10px 5px 5px 10px;"><i class="fa fa-star"> Công việc chính</i></p>
+                                @Html.ActionLink("Việc của tôi", "Issue", "Jobs", null, new { @class = "dropdown-item" })
+                                <div class="dropdown-divider"></div>
+                                @Html.ActionLink("Thông báo", "Notice", "Home", null, new { @class = "dropdown-item" })
+                                <div class="dropdown-divider"></div>
+                                @Html.ActionLink("Hồ sơ của tôi", "Index", "Hosoes", null, new { @class = "dropdown-item", @style = "border: 1px solid #d9534f;" })
+                                <div class="dropdown-divider"></div>
+                                @Html.ActionLink("Hồ sơ soạn thảo", "SoanThao", "Hosoes", null, new { @class = "dropdown-item", @style = "border: 1px solid #d9534f;" })
+                                @if (User.IsInRole("DONTHU"))
+                                {
+                                    <div class="dropdown-divider text-primary"></div>
+                                    @Html.ActionLink("Hồ sơ đơn thư", "DSDonThu", "di1cua", null, new { @class = "dropdown-item" })
+                                }
+                                <div class="dropdown-divider"></div>
+                                @Html.ActionLink("Giao việc nhanh", "Index", "Jobs", null, new { @class = "dropdown-item" })
+                                <p style="padding: 10px 5px 5px 10px;"><i class="fa fa-file"> Tài liệu</i></p>
+                                @Html.ActionLink("Tải tài liệu", "Template", "TaiLieux", null, new { @class = "dropdown-item" })
+                                <div class="dropdown-divider"></div>
+                                @Html.ActionLink("Đào tạo", "DaoTao", "TaiLieux", null, new { @class = "dropdown-item" })
+                                <div class="dropdown-divider"></div>
+                                <p style="padding: 10px 5px 5px 10px;"><i class="fa fa-ballot-check"> Báo cáo - quản lý</i></p>
+                                @Html.ActionLink("Chấm công", "MonthlyAttendance", "Attendance", null, new { @class = "dropdown-item" })
+                                <div class="dropdown-divider"></div>
+                                @Html.ActionLink("KPI", "Index", "KPIs", null, new { @class = "dropdown-item" })
+                                <div class="dropdown-divider"></div>
+                                @Html.ActionLink("Đối tác", "Indexx", "Partners", null, new { @class = "dropdown-item" })
+                                <div class="dropdown-divider"></div>
+                                @Html.ActionLink("Thông tin cá nhân", "Infomation", "Accounts", null, new { @class = "dropdown-item" })
+                                <div class="dropdown-divider"></div>
+                                @Html.ActionLink("Quỹ tiêu", "Index", "thuchis", null, new { @class = "dropdown-item" })
+                            </div>
+                        </li>
+                        if (User.IsInRole("SuperAdmin") || User.IsInRole("Manager") || User.IsInRole("Accounting"))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Hồ sơ
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    @Html.ActionLink("Quản lý hồ sơ", "index", "hosoes", new { group = (int)NiceHandles.Models.XHoSo.eView.Manager }, new { @class = "dropdown-item" })
+                                    <div class="dropdown-divider"></div>
+                                    @Html.ActionLink("Theo dõi tiến độ", "TheoDoiTienDo", "Hosoes", null, new { @class = "dropdown-item" })
+                                    <div class="dropdown-divider"></div>
+                                    @Html.ActionLink("Cuộc họp", "Index", "CuocHops", null, new { @class = "dropdown-item" })
+                                </div>
+                            </li>
+                        }
+                        if (User.IsInRole("SuperAdmin") || User.IsInRole("Manager") || User.IsInRole("Accounting"))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Kế toán
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    @Html.ActionLink("Quản lý hợp đồng", "Index", "Contracts", null, new { @class = "dropdown-item" })
+                                    <div class="dropdown-divider"></div>
+                                    @Html.ActionLink("Quản lý thu chi", "Index", "InOuts", null, new { @class = "dropdown-item" })
+                                    <div class="dropdown-divider"></div>
+                                    @Html.ActionLink("DS thu chi chờ duyệt", "ChoDuyet", "InOutChoDuyets", null, new { @class = "dropdown-item" })
+                                    <div class="dropdown-divider"></div>
+                                    @Html.ActionLink("DS thu chi chờ xem xét", "ChoXemXet", "InOutChoDuyets", null, new { @class = "dropdown-item" })
+                                    <div class="dropdown-divider"></div>
+                                    @Html.ActionLink("DS theo dõi đôn đốc", "theodoichi", "InOutChoDuyets", null, new { @class = "dropdown-item" })
+                                    <div class="dropdown-divider"></div>
+                                    @Html.ActionLink("Công nợ", "CongNo", "InOuts", null, new { @class = "dropdown-item" })
+                                    @*<div class="dropdown-divider"></div>
+                                        @Html.ActionLink("Quỹ", "Index", "Stockers", null, new { @class = "dropdown-item" })*@
+                                    <div class="dropdown-divider"></div>
+                                    @Html.ActionLink("Báo cáo tổng hợp", "BieuDoThuChi", "InOuts", null, new { @class = "dropdown-item" })
+                                    <div class="dropdown-divider"></div>
+                                    @Html.ActionLink("Dự chi", "Index", "DuChis", null, new { @class = "dropdown-item" })
+                                </div>
+                            </li>
+                        }
+                        if (User.IsInRole("SuperAdmin") || User.IsInRole("Manager") || User.IsInRole("Accounting"))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Lương
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    @Html.ActionLink("Bảng chấm công", "Index", "BangChamCongs", null, new { @class = "dropdown-item" })
+                                    <div class="dropdown-divider"></div>
+                                    @Html.ActionLink("Biểu đồ chấm công", "rptChamCong", "BangChamCongs", null, new { @class = "dropdown-item" })
+                                    <div class="dropdown-divider"></div>
+                                    @Html.ActionLink("Phụ cấp", "Index", "PhuCaps", null, new { @class = "dropdown-item" })
+                                    <div class="dropdown-divider"></div>
+                                    @Html.ActionLink("Trừ lương", "Index", "TruLuongs", null, new { @class = "dropdown-item" })
+                                    <div class="dropdown-divider"></div>
+                                    @Html.ActionLink("Hồ sơ hoa hồng", "MyFile", "Contracts", null, new { @class = "dropdown-item" })
+                                    <div class="dropdown-divider"></div>
+                                    @Html.ActionLink("Thưởng thực hiện hồ sơ", "MyReward", "Contracts", null, new { @class = "dropdown-item" })
+                                </div>
+                            </li>
+                        }
+                        if (User.IsInRole("SuperAdmin") || User.IsInRole("Manager") || User.IsInRole("Accounting"))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Quản trị
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    @Html.ActionLink("Tải tài liệu", "Index", "TaiLieux", null, new { @class = "dropdown-item" })
+                                    <div class="dropdown-divider"></div>
+                                    @Html.ActionLink("Quy chế", "QuyChe", "TaiLieux", null, new { @class = "dropdown-item" })
+                                    <div class="dropdown-divider"></div>
+                                    @Html.ActionLink("Thông báo", "Index", "Notices", null, new { @class = "dropdown-item" })
+                                    <div class="dropdown-divider"></div>
+                                    @Html.ActionLink("Đào tạo", "DaoTao", "TaiLieux", null, new { @class = "dropdown-item" })
+                                    <div class="dropdown-divider"></div>
+                                    @Html.ActionLink("Đối tác", "Index", "Partners", null, new { @class = "dropdown-item" })
+                                    <div class="dropdown-divider"></div>
+                                    @Html.ActionLink("Quản trị vận hành", "Index", "QuanTriVanHanhs", null, new { @class = "dropdown-item" })
+                                    <div class="dropdown-divider"></div>
+                                    @Html.ActionLink("Cấu hình", "Index", "Settings", null, new { @class = "dropdown-item" })
+                                    @if (User.IsInRole("SuperAdmin") || User.IsInRole("Manager"))
+                                    {
+                                        <div class="dropdown-divider"></div>
+                                        @Html.ActionLink("File upload", "Index", "progress_file", null, new { @class = "dropdown-item" })
+                                    }
+                                    <div class="dropdown-divider"></div>
+                                    @Html.ActionLink("System logging", "Index", "Syslogs", null, new { @class = "dropdown-item" })
+                                </div>
+                            </li>
+                        }
+                        if (User.IsInRole("Dove"))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Tổ đo
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <div class="dropdown-divider text-primary"></div>
+                                    @Html.ActionLink("Phòng đo vẽ", "Index", "Doves", null, new { @class = "dropdown-item", @style = "border: 1px solid #337ab7;" })
+                                    <div class="dropdown-divider"></div>
+                                    @Html.ActionLink("Thu chi", "Index", "Dove_ThuChi", null, new { @class = "dropdown-item" })
+                                </div>
+                            </li>
+                        }
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Khác
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                @Html.ActionLink("Cán bộ địa phương", "Index", "CanBoDiaPhuongs", null, new { @class = "dropdown-item" })
+                                <div class="dropdown-divider"></div>
+                                @Html.ActionLink("Quản lý Phướn", "Index", "TreoPhuons", null, new { @class = "dropdown-item" })
+                                <div class="dropdown-divider"></div>
+                                @Html.ActionLink("Địa chỉ", "Index", "DvhcC1", null, new { @class = "dropdown-item" })
+                                <div class="dropdown-divider"></div>
+                                @Html.ActionLink("Quỹ đo vẽ", "Index", "QuyDoves", null, new { @class = "dropdown-item" })
+                                <div class="dropdown-divider"></div>
+                                @Html.ActionLink("Tiện ích", "Plugin", "Home", null, new { @class = "dropdown-item" })
+                            </div>
+                        </li>
+                    }
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - D.T.M</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

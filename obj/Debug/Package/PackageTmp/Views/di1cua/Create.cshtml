@@ -1,0 +1,172 @@
+﻿@model NiceHandles.Models.di1cua
+@using NiceHandles.Models
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm())
+{
+    <div class="form-horizontal">
+        <h4>Nộp 1 cửa</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @*@Html.LabelFor(model => model.contract_id, htmlAttributes: new { @class = "control-label col-md-2" })*@
+            @Html.Label("Hợp đồng", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.contract_id, ViewBag.lstCT as SelectList, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.contract_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Ngày nộp", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ngaynop, new { htmlAttributes = new { @class = "form-control datetime" } })
+                @Html.ValidationMessageFor(model => model.ngaynop, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Ngày trả KQ", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ngaytra, new { htmlAttributes = new { @class = "form-control datetime" } })
+                @Html.ValidationMessageFor(model => model.ngaytra, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Cán bộ thụ lý", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.canbo1cua, ViewBag.CanBo as SelectList, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.canbo1cua, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @*<div class="form-group" style="display: none;">
+                @Html.Label("Cán bộ phụ trách", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.canbophutrach, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.canbophutrach, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+        <div class="form-group">
+            @Html.Label("Mã phiếu hẹn", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.maphieuhen, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.maphieuhen, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Trạng thái", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.trangthai, new SelectList(Xdi1cua.sStatus, "Key", "Value"), new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.trangthai, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Ghi chú", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.ghichu, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ghichu, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Về danh sách", "Index")
+</div>
+
+@section Style {
+    <link href="~/Content/select2/select2.min.css" rel="stylesheet" />
+    <style>
+        .select2-result-repository-meta div {
+            display: inline-block;
+        }
+
+        .select2-result-repository-title {
+            width: 65%;
+        }
+
+        .select2-result-repository-description {
+            width: 30%;
+        }
+    </style>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/select2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(".datetime").datepicker({
+                "autoclose": true,
+                "todayHighlight": true,
+                "dateFormat": "dd/mm/yyyy",
+                "format": "dd/mm/yyyy",
+            }).datepicker("setDate", new Date());
+            $("#contract_id").select2({
+                ajax: {
+                    url: "/Jobs/GetContract",
+                    dataType: 'json',
+                    type: "Get",
+                    delay: 500,
+                    data: function (params) {
+                        return params;
+                    },
+                    processResults: function (data, params) {
+                        params.page = params.page || 1;
+                        return {
+                            results: data.items,
+                            pagination: {
+                                more: (params.page * 25) < data.total_count
+                            }
+                        };
+                    },
+                    cache: true
+                },
+                placeholder: 'VD: Nguyễn Văn A',
+                templateResult: formatRepo,
+                templateSelection: formatRepoSelection
+            });
+        });
+        $(function () {
+            $.validator.methods.date = function (value, element) {
+                return this.optional(element) || moment(value, "DD/MM/YYYY", true).isValid();
+            }
+        });
+        function formatRepo(repo) {
+            if (repo.loading) {
+                return repo.text;
+            }
+
+            var $container = $(
+                "<div class='select2-result-repository clearfix'>" +
+                "   <div class='select2-result-repository-meta'>" +
+                "       <div class='select2-result-repository-title'></div>" +
+                "       <div class='select2-result-repository-description'></div>" +
+                "   </div>" +
+                "</div>"
+            );
+
+            $container.find(".select2-result-repository-title").text(repo.name);
+            $container.find(".select2-result-repository-description").text(repo.text);
+
+            return $container;
+        }
+
+        function formatRepoSelection(repo) {
+            return repo.name || repo.text;
+        }
+    </script>
+}
+

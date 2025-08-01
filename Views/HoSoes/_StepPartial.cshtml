@@ -1,0 +1,52 @@
+﻿@model NiceHandles.Models.HoSo
+@using NiceHandles.Models
+
+@{
+    var db = new NHModel();
+    var step = db.Steps.Find(Model.step_id);
+    switch (step.code)
+    {
+        case "HOSOMOI":
+        case "NHAPTHONGTIN":
+        case "KIEMTRA":
+            break;
+        case "DOVEUYQUYEN":
+            break;
+        case "NOP1CUA":
+            @Html.Hidden("1cid", ((di1cua)ViewBag.NOP1CUA).id)
+            @Html.Hidden("1ccontract_id", ((di1cua)ViewBag.NOP1CUA).contract_id)
+
+            break;
+        case "THANHCONG":
+        default: break;
+    }
+}
+
+<script>
+    function Save1Cua() {
+        var obj = new Object();
+        obj.id = $("[name=1cid]").val();
+        obj.contract_id = $("[name=1ccontract_id]").val();
+        obj.ngaynop = $("[name=1cngaynop]").val();
+        obj.ngaytra = $("[name=1cngaytra]").val();
+        obj.canbo1cua = $("[name=1ccanbo1cua]").val();
+        obj.noinhan_id = $("[name=1cnoinhan]").val();        
+        /*obj.canbophutrach = $("[name=1ccanbophutrach]").val();*/
+        obj.maphieuhen = $("[name=1cmaphieuhen]").val();
+        obj.trangthai = $("[name=1ctrangthai]").val();
+        obj.ghichu = $("[name=1cghichu]").val();
+        $.ajax({
+            url: '/di1cua/Save',
+            type: "POST",
+            dataType: "JSON",
+            data: { di1cua: obj, ngaynop: obj.ngaynop, ngaytra: obj.ngaytra },
+            success: function () {
+                toastr.options = {
+                    "preventDuplicates": true,
+                    "preventOpenDuplicates": true
+                };
+                toastr.success("Đã lưu đi 1 cửa", "THÀNH CÔNG", { timeOut: 5000 });
+            }
+        });
+    }
+</script>

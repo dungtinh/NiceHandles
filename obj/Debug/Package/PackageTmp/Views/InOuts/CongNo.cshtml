@@ -1,0 +1,121 @@
+﻿@model IEnumerable<NiceHandles.Models.InOut>
+@using NiceHandles.Models
+
+@{
+    ViewBag.Title = "CongNo";
+    NiceHandles.Models.NHModel db = ViewBag.db;
+}
+<h2>CÔNG NỢ</h2>
+<fieldset id="CreateCongNo" style="border: 1px solid #ccc; border-radius: 10px;padding-top: 20px; margin-bottom: 20px; background-color: aliceblue;">
+    @Html.Partial("CreateCongNo", new InOut())
+</fieldset>
+@using (Html.BeginForm("CongNo", "InOuts", FormMethod.Get))
+{
+    <div class="row">
+        <div class="col-sm-2">
+            <div class="form-group">
+                @Html.TextBox("Search_Data", ViewBag.FilterValue as string, new { @class = "form-control", placeholder = "Tìm kiếm" })
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                @Html.DropDownList("account_id", ViewBag.Accounts as SelectList, "Tài khoản", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                @Html.DropDownList("type", XCategory.sType.Select(x => new SelectListItem { Value = x.Key.ToString(), Text = x.Value }), "Loại", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-sm-1">
+            <div class="form-group">
+                @Html.TextBox("fromdate", ViewBag.FROMDATE as string, new { @class = "form-control datetime", placeholder = "Từ ngày", autocomplete = "off" })
+            </div>
+        </div>
+        <div class="col-sm-1">
+            <div class="form-group">
+                @Html.TextBox("todate", ViewBag.TODATE as string, new { @class = "form-control datetime", placeholder = "Đến ngày", autocomplete = "off" })
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary fa fa-search" style="height: 32px; width: 100px; margin-right: 10px;">Tìm kiếm</button>
+                <input type="hidden" id="txtIsIn" name="txtIsIn" />
+                <button type="submit" class="btn btn-danger fa fa-print" style="height: 32px; width: 100px;" onclick="OnClickIn()"> Bản in</button>
+            </div>
+        </div>
+    </div>
+}
+<table class="table table-hover">
+    <thead>
+        <tr style="background-color: aliceblue;">
+            <th style="text-align: right">Đã trả: @Html.Raw(((long)ViewBag.THU).ToString("N0"))</th>
+            <th colspan="2" style="text-align:center">Đã vay: @Html.Raw(((long)ViewBag.CHI).ToString("N0"))</th>
+            <th colspan="3" style="text-align: left">Còn nợ: @Html.Raw(((long)ViewBag.THU - (long)ViewBag.CHI).ToString("N0"))</th>
+        </tr>
+        <tr>
+            <th>
+                Người thực hiện
+            </th>
+            <th>
+                Loại chi tiết
+            </th>
+            <th>
+                Thời gian
+            </th>
+            <th>
+                Số tiền
+            </th>
+            <th>
+                Ghi chú
+            </th>
+            <th>
+                Trạng thái
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            var us = db.Accounts.Find(item.account_id);
+            var cate = db.Categories.Find(item.category_id);
+            <tr class="@(item.type==(int)XCategory.eType.Chi ? "text-danger" : null )">
+                <td>@Html.Raw(us != null ? us.fullname : null) </td>
+                <td>@Html.Raw(cate != null ? cate.name : null)</td>
+                <td>@item.time.ToString("dd/MM/yyyy")</td>
+                <td>@((item.type==(int)XCategory.eType.Chi ? "-" : null) + item.amount.ToString("N0"))</td>
+                <td>@item.note</td>
+                <td>@XInOut.sStatus[item.status] </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<iframe id="my_iframe" style="display:none;"></iframe>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            var isPrint = @ViewBag.Print;
+            if (isPrint == 1) {
+                Download("@ViewBag.URL");
+            }
+            $(".datetime").datepicker({
+                "autoclose": true,
+                "todayHighlight": true,
+                "dateFormat": "dd/mm/yyyy",
+                "format": "dd/mm/yyyy",
+            });
+            $("#CreateCongNo :submit").click(function () {
+                $("#amount").val($("#msk_amount").autoNumeric('get') || 0);
+            });
+        });
+        function Download(url) {
+            document.getElementById('my_iframe').src = url;
+        };
+        function OnClickIn() {
+            $("#txtIsIn").val("1");
+        }
+    </script>
+}
+
+

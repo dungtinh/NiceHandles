@@ -1,0 +1,129 @@
+﻿@model NiceHandles.Models.InOut
+@using NiceHandles.Models
+@{
+    ViewBag.Title = "Chỉnh sửa";
+    var db = new NHModel();
+    var accounts = db.Accounts.Where(x => x.sta == (int)XAccount.eStatus.Processing);
+    var category = db.Categories.Find(Model.category_id);
+    var categories = db.Categories.Where(x => x.type == Model.type && x.parent_id == category.parent_id);
+}
+
+<h2>Chỉnh sửa</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Thu chi</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.id)
+        @Html.HiddenFor(model => model.code)
+        @Html.HiddenFor(model => model.created_by, new { @Value = "0" })
+        @Html.HiddenFor(model => model.contract_id)
+        @Html.HiddenFor(model => model.gostock)
+        @Html.HiddenFor(model => model.time)
+        @Html.HiddenFor(model => model.status)
+        @Html.HiddenFor(model => model.inoutchoduyet_id)
+        @Html.HiddenFor(model => model.state)
+        @Html.HiddenFor(model => model.unlock)
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Tài khoản", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.account_id, new SelectList(accounts, "id", "fullname"), "Người thực hiện", new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.account_id, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Loại", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.type, new SelectList(XCategory.sType, "Key", "Value"), "Chọn thu hoặc chi", new { @class = "form-control", @onchange = "FillCategory()" })
+            @Html.ValidationMessageFor(model => model.type, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Loại chi tiết", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.category_id, new SelectList(categories, "id", "name"), "Loại chi tiết", new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.category_id, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Số tiền", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @*@Html.EditorFor(model => model.amount, new { htmlAttributes = new { @class = "form-control", type = "number" } })*@
+            @Html.HiddenFor(model => model.amount)
+            @Html.TextBox("msk_amount", Model.amount, new { @class = "form-control numberic" })
+            @Html.ValidationMessageFor(model => model.amount, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Ghi chú", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextAreaFor(model => model.note, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.note, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Lưu lại" class="btn btn-default" />
+        </div>
+    </div>
+}
+
+<div>
+    @if (Model.contract_id.HasValue)
+    {
+        @Html.ActionLink("Về danh sách", "Details", "Contracts", new { id = Model.contract_id }, null)
+    }
+    else
+    {
+        @Html.ActionLink("Về danh sách", "Index")
+    }
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            $(".datetime").datepicker({
+                "autoclose": true,
+                "todayHighlight": true,
+                "dateFormat": "dd/mm/yyyy",
+                "format": "dd/mm/yyyy",
+            }).datepicker();
+            $("#amount").val($("#msk_amount").autoNumeric('get') || 0);
+        });
+        function FillCategory() {
+            var cate = $('#obj_type').val();
+            var parent = $('#obj_contract_id').val();
+            $.ajax({
+                url: '/Categories/FillCategory',
+                type: "GET",
+                dataType: "JSON",
+                data: { cate: cate, p: parent },
+                success: function (categories) {
+                    $("#obj_category_id").html(""); // clear before appending new list
+                    $.each(categories, function (i, cate) {
+                        $("#obj_category_id").append(
+                            $('<option></option>').val(cate.id).html(cate.name));
+                    });
+                }
+            });
+        }
+        $(function () {
+            $.validator.methods.date = function (value, element) {
+                return this.optional(element) || moment(value, "DD/MM/YYYY", true).isValid();
+            }
+        });
+    </script>
+}

@@ -1,0 +1,154 @@
+﻿@model NiceHandles.ViewModels.MonthlyAttendanceViewModel
+@{
+    ViewBag.Title = "Chấm công tháng " + Model.CurrentMonth.ToString("MM/yyyy");
+    var today = DateTime.Now.Date;
+    var now = DateTime.Now.ToString("HH:mm");
+    var todayAttendance = Model.Attendances.FirstOrDefault(a => a.Date == today);
+}
+<ul style="text-align: right; list-style: none; float: right; margin-top: 15px;">
+    <li> @Html.ActionLink("Bảng chấm công", "index", "BangChamCongs") </li>
+    <li> @Html.ActionLink("Trừ lương", "index", "TruLuongs") </li>
+</ul>
+<h2>Chấm công: @Model.EmployeeName</h2>
+
+<hr />
+
+<h4>Chấm công ngày hôm nay: @today.ToString("dd/MM/yyyy")</h4>
+
+<table class="table table-bordered" style="width: 100%;">
+    <tr><th>Ca</th><th>Giờ vào</th><th>Giờ ra</th></tr>
+
+    <!-- Buổi sáng -->
+    <tr>
+        <td>Sáng</td>
+        <td>
+            <form method="post" action="/Attendance/SubmitCheck">
+                <input type="hidden" name="employeeId" value="@Model.EmployeeId" />
+                <input type="hidden" name="date" value="@today.ToString("yyyy-MM-dd")" />
+                <input type="hidden" name="type" value="MorningIn" />
+                @if (todayAttendance != null && todayAttendance.MorningCheckInManual.HasValue)
+                {
+                    <input type="time" name="time" value="@(todayAttendance.MorningCheckInManual.Value.ToString("HH:mm"))" />
+                    <button type="submit" disabled class="btn-dark btn">OK</button>
+                }
+                else
+                {
+                    <input type="time" name="time" value="@( now)" />
+                    <button type="submit" class="btn-primary btn">OK</button>
+                }
+            </form>
+        </td>
+        <td>
+            <form method="post" action="/Attendance/SubmitCheck">
+                <input type="hidden" name="employeeId" value="@Model.EmployeeId" />
+                <input type="hidden" name="date" value="@today.ToString("yyyy-MM-dd")" />
+                <input type="hidden" name="type" value="MorningOut" />
+                @if (todayAttendance != null && todayAttendance.MorningCheckOutManual.HasValue)
+                {
+                    <input type="time" name="time" value="@( todayAttendance.MorningCheckOutManual.Value.ToString("HH:mm"))" />
+                    <button type="submit" disabled class="btn-dark btn">OK</button>
+                }
+                else
+                {
+                    <input type="time" name="time" value="@(now)" />
+                    <button type="submit" class="btn-primary btn">OK</button>
+                }
+
+            </form>
+        </td>
+    </tr>
+
+    <!-- Buổi chiều -->
+    <tr>
+        <td>Chiều</td>
+        <td>
+            <form method="post" action="/Attendance/SubmitCheck">
+                <input type="hidden" name="employeeId" value="@Model.EmployeeId" />
+                <input type="hidden" name="date" value="@today.ToString("yyyy-MM-dd")" />
+                <input type="hidden" name="type" value="AfternoonIn" />
+
+                @if (todayAttendance != null && todayAttendance.AfternoonCheckInManual.HasValue)
+                {
+                    <input type="time" name="time" value="@( todayAttendance.AfternoonCheckInManual.Value.ToString("HH:mm"))" />
+                    <button type="submit" disabled class="btn-dark btn">OK</button>
+                }
+                else
+                {
+                    <input type="time" name="time" value="@(now)" />
+                    <button type="submit" class="btn-primary btn">OK</button>
+                }
+            </form>
+        </td>
+        <td>
+            <form method="post" action="/Attendance/SubmitCheck">
+                <input type="hidden" name="employeeId" value="@Model.EmployeeId" />
+                <input type="hidden" name="date" value="@today.ToString("yyyy-MM-dd")" />
+                <input type="hidden" name="type" value="AfternoonOut" />
+                @if (todayAttendance != null && todayAttendance.AfternoonCheckOutManual.HasValue)
+                {
+                    <input type="time" name="time" value="@( todayAttendance.AfternoonCheckOutManual.Value.ToString("HH:mm"))" />
+                    <button type="submit" disabled class="btn-dark btn">OK</button>
+                }
+                else
+                {
+                    <input type="time" name="time" value="@(now)" />
+                    <button type="submit" class="btn-primary btn">OK</button>
+                }
+            </form>
+        </td>
+    </tr>
+</table>
+
+
+<!-- 🔵 Ghi chú nếu đi muộn -->
+@if (todayAttendance != null)
+{
+    <form method="post" action="/Attendance/SaveNote" style="margin-top: 10px;">
+        <input type="hidden" name="employeeId" value="@Model.EmployeeId" />
+        <input type="hidden" name="date" value="@today.ToString("yyyy-MM-dd")" />
+        <label>Ghi chú:</label>
+        <input name="note" value="@todayAttendance.LateReason" style="width: 70%;" />
+        <button class="btn btn-danger">Lưu ghi chú</button>
+    </form>
+}
+
+<hr />
+<!-- Bộ lọc tháng -->
+<form method="get">
+    <input type="hidden" name="employeeId" value="@Model.EmployeeId" />
+    <label>Chọn tháng:</label>
+    <input type="month" name="month" value="@Model.CurrentMonth.ToString("yyyy-MM")" onchange="this.form.submit()" />
+</form>
+<!-- 🔽 Danh sách chấm công -->
+<h4>Danh sách chấm công tháng @Model.CurrentMonth.ToString("MM/yyyy")</h4>
+<table class="table table-bordered">
+    <tr>
+        <th>Ngày</th>
+        <th>Sáng vào</th>
+        <th>Sáng ra</th>
+        <th>Chiều vào</th>
+        <th>Chiều ra</th>
+        <th>Ghi chú</th>
+    </tr>
+    @foreach (var a in Model.Attendances.OrderBy(x => x.Date))
+    {
+        <tr>
+            <td>@a.Date.ToString("dd/MM/yyyy")</td>
+            <td>@(a.MorningCheckInManual?.ToString("HH:mm") ?? "-")</td>
+            <td>@(a.MorningCheckOutManual?.ToString("HH:mm") ?? "-")</td>
+            <td>@(a.AfternoonCheckInManual?.ToString("HH:mm") ?? "-")</td>
+            <td>@(a.AfternoonCheckOutManual?.ToString("HH:mm") ?? "-")</td>
+            <td>@a.LateReason</td>
+        </tr>
+    }
+</table>
+
+<hr />
+
+<!-- 🔽 Thống kê -->
+<p><strong>Tổng công:</strong> @Model.Attendances.Count(x => x.MorningCheckInManual != null || x.AfternoonCheckInManual != null) / @Model.TotalWorkDays ngày</p>
+<p><strong>Phút đi muộn:</strong> @Model.TotalLateMinutes phút</p>
+<p><strong>Ngày đi muộn:</strong> @Model.TotalLateDays ngày</p>
+<p><strong>Lương/ngày:</strong> @Model.DailySalary.ToString("N0") VND</p>
+<p><strong>Tiền bị trừ:</strong> -@Model.DeductedSalary.ToString("N0") VND</p>
+<p><strong>Lương dự kiến:</strong> <span style="color:green">@Model.FinalSalary.ToString("N0") VND</span></p>

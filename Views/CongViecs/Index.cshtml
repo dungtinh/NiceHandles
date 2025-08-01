@@ -1,0 +1,61 @@
+﻿@model IEnumerable<NiceHandles.Models.CongViec>
+@using NiceHandles.Models
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutSetting.cshtml";
+    var db = new NHModel();
+}
+
+<h2>Danh sách công việc</h2>
+
+<p>
+    @Html.ActionLink("Thêm mới", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Bước
+        </th>
+        <th>
+            Dịch vụ
+        </th>
+        <th>
+            Tên
+        </th>
+        <th>
+            Thứ tự
+        </th>
+        <th>
+            Bắt buộc
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        var services = db.fk_congviec_service.Where(x => x.congviec_id == item.id).Select(x => x.service_id);
+        var svName = db.Services.Where(x => services.Contains(x.id)).Select(x => x.name);
+        <tr>
+            <td>
+                @XCongViec.sCategory[item.category_id]
+            </td>
+            <td>
+                @Html.Raw(string.Join(", ", svName))
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.sort)
+            </td>
+            <td>
+                @XModels.sYesNo[item.required]
+            </td>
+            <td>
+                @Html.ActionLink("Sửa", "Edit", new { id = item.id }) |
+                @Html.ActionLink("Xóa", "Delete", new { id = item.id })
+            </td>
+        </tr>
+    }
+
+</table>

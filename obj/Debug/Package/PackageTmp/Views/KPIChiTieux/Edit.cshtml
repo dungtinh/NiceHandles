@@ -1,0 +1,100 @@
+﻿@model NiceHandles.Models.KPIChiTieu
+@using NiceHandles.Models
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var db = new NHModel();
+}
+
+<h2>KPI</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Chỉ tiêu KPI</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.Label("Tài khoản", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("user_id", new SelectList(db.Accounts.Where(x => x.sta == (int)XAccount.eStatus.Processing), "id", "fullname"), new { @class = "form-control" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.Label("Loại chỉ tiêu", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <ul style="margin: 0; padding: 0;">
+                    @foreach (var item in XKPI.sType.Select(x => new { Key = x.Key, Value = x.Value }))
+                    {
+                        <li style="list-style: none; float: left; width: 45%; height: 36px;">
+                            <input style="height: 28px; width: 50px;" type="number" name="kpi" />
+                            <span style="vertical-align: middle;">@item.Value</span>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" value="Lưu lại" class="btn btn-default" onclick="Submit();" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Về danh sách", "Index")
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            $("#user_id").change(function () {
+                var user_id = $(this).val();
+                $.ajax({
+                    url: '/KPIChiTieux/ChangeUser',
+                    type: "POST",
+                    dataType: "JSON",
+                    data: { user_id: user_id },
+                    success: function (lst) {
+                        $.each(lst, function (i) {
+                            $("[name='kpi']").eq(i).val(lst[i]);
+                        });
+                    }
+                });
+            });
+        });
+        function Submit() {
+            var chitieus = [];
+            var user_id = $("#user_id").val();
+            var stop = false;
+            $("[name='kpi']").each(function () {
+                var val = $(this).val() ?? 0;
+                if (val >= 0)
+                    chitieus.push(val);
+                else {
+                    stop = true;
+                }
+            });
+            if (stop) {
+                alert("Không được nhập chỉ tiêu nhỏ hơn 0.");
+                return;
+            }
+            $.ajax({
+                url: '/KPIChiTieux/Submit',
+                type: "POST",
+                dataType: "JSON",
+                data: { user_id: user_id, chitieus: chitieus },
+                success: function (url) {
+                    location.pathname = url;
+                }
+            });
+        }
+    </script>
+}

@@ -1,0 +1,111 @@
+﻿@model IEnumerable<NiceHandles.Models.ThongTinCaNhan>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.infomation_id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.hoten)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ngaysinh)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.loaigiayto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.sogiayto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.gioitinh)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.quoctich)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.hktt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ngaycap_gt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.noicap_gt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.masothue)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.marker)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.note)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.type)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.infomation_id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.hoten)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ngaysinh)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.loaigiayto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.sogiayto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.gioitinh)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.quoctich)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.hktt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ngaycap_gt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.noicap_gt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.masothue)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.marker)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.note)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.type)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id })
+        </td>
+    </tr>
+}
+
+</table>

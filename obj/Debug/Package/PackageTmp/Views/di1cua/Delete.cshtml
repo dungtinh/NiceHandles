@@ -1,0 +1,80 @@
+﻿@model NiceHandles.Models.di1cua
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>di1cua</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.contract_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.contract_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ngaynop)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ngaynop)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ngaytra)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ngaytra)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.canbo1cua)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.canbo1cua)
+        </dd>
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.canbophutrach)
+        </dt>*@
+
+        @*<dd>
+            @Html.DisplayFor(model => model.canbophutrach)
+        </dd>*@
+
+        <dt>
+            @Html.DisplayNameFor(model => model.maphieuhen)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.maphieuhen)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.trangthai)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.trangthai)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

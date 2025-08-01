@@ -1,0 +1,1390 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="packages\PdfiumViewer.Native.x86_64.v8-xfa.2018.4.8.256\build\PdfiumViewer.Native.x86_64.v8-xfa.props" Condition="Exists('packages\PdfiumViewer.Native.x86_64.v8-xfa.2018.4.8.256\build\PdfiumViewer.Native.x86_64.v8-xfa.props')" />
+  <Import Project="packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
+  <Import Project="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4EC4FA50-4A28-48D2-BC3F-271CABFAD024}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NiceHandles</RootNamespace>
+    <AssemblyName>NiceHandles</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort>44398</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AForge, Version=2.2.5.0, Culture=neutral, PublicKeyToken=c1db6ff4eaa06aeb, processorArchitecture=MSIL">
+      <HintPath>packages\AForge.2.2.5\lib\AForge.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Imaging, Version=2.2.5.0, Culture=neutral, PublicKeyToken=ba8ddea9676ca48b, processorArchitecture=MSIL">
+      <HintPath>packages\AForge.Imaging.2.2.5\lib\AForge.Imaging.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Math, Version=2.2.5.0, Culture=neutral, PublicKeyToken=abba2e25397ee8c9, processorArchitecture=MSIL">
+      <HintPath>packages\AForge.Math.2.2.5\lib\AForge.Math.dll</HintPath>
+    </Reference>
+    <Reference Include="Aspose.Words, Version=24.10.0.0, Culture=neutral, PublicKeyToken=716fcc553a201e56, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\NiceHandlesV2.1\NiceHandles\bin\Aspose.Words.dll</HintPath>
+    </Reference>
+    <Reference Include="Aspose.Words.Pdf2Word, Version=24.10.0.0, Culture=neutral, PublicKeyToken=716fcc553a201e56, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\NiceHandlesV2.1\NiceHandles\bin\Aspose.Words.Pdf2Word.dll</HintPath>
+    </Reference>
+    <Reference Include="BouncyCastle.Cryptography, Version=2.0.0.0, Culture=neutral, PublicKeyToken=072edcf4a5328938, processorArchitecture=MSIL">
+      <HintPath>packages\BouncyCastle.Cryptography.2.4.0\lib\net461\BouncyCastle.Cryptography.dll</HintPath>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml, Version=3.3.0.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
+      <HintPath>packages\DocumentFormat.OpenXml.3.3.0\lib\net46\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml.Framework, Version=3.3.0.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
+      <HintPath>packages\DocumentFormat.OpenXml.Framework.3.3.0\lib\net46\DocumentFormat.OpenXml.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="FlexCel">
+      <HintPath>bin\ref\FlexCel.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlAgilityPack, Version=1.11.70.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>packages\HtmlAgilityPack.1.11.70\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.4, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>packages\iTextSharp.5.5.13.4\lib\net461\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Markdig, Version=0.41.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Markdig.0.41.3\lib\net462\Markdig.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.4.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.AspNet.SignalR.Core.2.4.3\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=2.4.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.AspNet.SignalR.SystemWeb.2.4.3\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Bcl.AsyncInterfaces.8.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=8.0.0.2, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Extensions.DependencyInjection.Abstractions.8.0.2\lib\net462\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=8.0.0.2, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Extensions.Logging.Abstractions.8.0.2\lib\net462\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="PdfiumViewer, Version=2.13.0.0, Culture=neutral, PublicKeyToken=91e4789cfb0609e0, processorArchitecture=MSIL">
+      <HintPath>packages\PdfiumViewer.2.13.0.0\lib\net20\PdfiumViewer.dll</HintPath>
+    </Reference>
+    <Reference Include="PdfSharp, Version=1.50.5147.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <HintPath>packages\PDFsharp.1.50.5147\lib\net20\PdfSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="PdfSharp.Charting, Version=1.50.5147.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <HintPath>packages\PDFsharp.1.50.5147\lib\net20\PdfSharp.Charting.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.4.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Buffers.4.6.0\lib\net462\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=8.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Diagnostics.DiagnosticSource.8.0.1\lib\net462\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Common, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Drawing.Common.6.0.0\lib\net461\System.Drawing.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Memory.4.6.0\lib\net462\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.5.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Numerics.Vectors.4.6.0\lib\net462\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Runtime.CompilerServices.Unsafe.6.1.0\lib\net462\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>packages\Microsoft.AspNet.Mvc.5.2.7\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="Xceed.Document.NET, Version=5.0.25228.6154, Culture=neutral, PublicKeyToken=ba83ff368b7563c6, processorArchitecture=MSIL">
+      <HintPath>packages\Xceed.Document.NET.5.0.25228.6154\lib\net40\Xceed.Document.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Drawing.NET, Version=1.0.25228.6154, Culture=neutral, PublicKeyToken=ba83ff368b7563c6, processorArchitecture=MSIL">
+      <HintPath>packages\Xceed.Drawing.NET.1.0.25228.6154\lib\net40\Xceed.Drawing.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Pdf, Version=5.0.25228.6154, Culture=neutral, PublicKeyToken=ba83ff368b7563c6, processorArchitecture=MSIL">
+      <HintPath>packages\Xceed.Pdf.5.0.25228.6154\lib\net40\Xceed.Pdf.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Words.NET, Version=5.0.25228.6154, Culture=neutral, PublicKeyToken=ba83ff368b7563c6, processorArchitecture=MSIL">
+      <HintPath>packages\Xceed.Words.NET.5.0.25228.6154\lib\net40\Xceed.Words.NET.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>packages\Microsoft.AspNet.Identity.Core.2.2.3\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin">
+      <HintPath>packages\Microsoft.AspNet.Identity.Owin.2.2.3\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
+      <HintPath>packages\Microsoft.AspNet.Identity.EntityFramework.2.2.3\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin">
+      <HintPath>packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin">
+      <HintPath>packages\Microsoft.Owin.4.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb">
+      <HintPath>packages\Microsoft.Owin.Host.SystemWeb.4.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security">
+      <HintPath>packages\Microsoft.Owin.Security.4.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies">
+      <HintPath>packages\Microsoft.Owin.Security.Facebook.4.0.1\lib\net45\Microsoft.Owin.Security.Facebook.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies">
+      <HintPath>packages\Microsoft.Owin.Security.Cookies.4.0.1\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Google">
+      <HintPath>packages\Microsoft.Owin.Security.Google.4.0.1\lib\net45\Microsoft.Owin.Security.Google.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Twitter">
+      <HintPath>packages\Microsoft.Owin.Security.Twitter.4.0.1\lib\net45\Microsoft.Owin.Security.Twitter.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.MicrosoftAccount">
+      <HintPath>packages\Microsoft.Owin.Security.MicrosoftAccount.4.0.1\lib\net45\Microsoft.Owin.Security.MicrosoftAccount.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth">
+      <HintPath>packages\Microsoft.Owin.Security.OAuth.4.0.1\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
+      <HintPath>packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="Hubs\ChatHub.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\IdentityConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\Common.cs" />
+    <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Controllers\ChatController.cs" />
+    <Compile Include="Controllers\HolidayController.cs" />
+    <Compile Include="Controllers\AttendanceController.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AccountsController.cs" />
+    <Compile Include="Controllers\AddressesController.cs" />
+    <Compile Include="Controllers\AspNetRolesController.cs" />
+    <Compile Include="Controllers\BangChamCongsController.cs" />
+    <Compile Include="Controllers\CanBoDiaPhuongsController.cs" />
+    <Compile Include="Controllers\CanBoesController.cs" />
+    <Compile Include="Controllers\CategoriesController.cs" />
+    <Compile Include="Controllers\CCCDController.cs" />
+    <Compile Include="Controllers\chotsoesController.cs" />
+    <Compile Include="Controllers\CongViecsController.cs" />
+    <Compile Include="Controllers\ContractsController.cs" />
+    <Compile Include="Controllers\CuocHopsController.cs" />
+    <Compile Include="Controllers\CustomersController.cs" />
+    <Compile Include="Controllers\di1cuaController.cs" />
+    <Compile Include="Controllers\DiariesController.cs" />
+    <Compile Include="Controllers\didiachinhsController.cs" />
+    <Compile Include="Controllers\DocumentsController.cs" />
+    <Compile Include="Controllers\DovesController.cs" />
+    <Compile Include="Controllers\Dove_ThuChiController.cs" />
+    <Compile Include="Controllers\DuChisController.cs" />
+    <Compile Include="Controllers\DvhcC1Controller.cs" />
+    <Compile Include="Controllers\FieldsController.cs" />
+    <Compile Include="Controllers\filesController.cs" />
+    <Compile Include="Controllers\fk_service_documentController.cs" />
+    <Compile Include="Controllers\GiaoNhanGiayToesController.cs" />
+    <Compile Include="Controllers\GroupFieldsController.cs" />
+    <Compile Include="Controllers\GroupMembersController.cs" />
+    <Compile Include="Controllers\GroupMember_AccountController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HoSoesController.cs" />
+    <Compile Include="Controllers\InfomationsController.cs" />
+    <Compile Include="Controllers\InfomationsControllerTachThua.cs" />
+    <Compile Include="Controllers\InfomationsControllerLanDau.cs" />
+    <Compile Include="Controllers\InfomationsControllerSangTen.cs" />
+    <Compile Include="Controllers\InfomationsControllerTrichDo.cs" />
+    <Compile Include="Controllers\InfomationsControllerThue.cs" />
+    <Compile Include="Controllers\InfomationsControllerCongChung.cs" />
+    <Compile Include="Controllers\InfomationsController24.cs" />
+    <Compile Include="Controllers\InfomationsController13.cs" />
+    <Compile Include="Controllers\InOutChoDuyetsController.cs" />
+    <Compile Include="Controllers\InOutsController.cs" />
+    <Compile Include="Controllers\JobsController.cs" />
+    <Compile Include="Controllers\KPIChiTieuxController.cs" />
+    <Compile Include="Controllers\KPIsController.cs" />
+    <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\DoveController.cs" />
+    <Compile Include="Controllers\NhiemVusController.cs" />
+    <Compile Include="Controllers\NoticesController.cs" />
+    <Compile Include="Controllers\PartnersController.cs" />
+    <Compile Include="Controllers\PayPlansController.cs" />
+    <Compile Include="Controllers\PhuCapsController.cs" />
+    <Compile Include="Controllers\PriceByAreasController.cs" />
+    <Compile Include="Controllers\ProgressesController.cs" />
+    <Compile Include="Controllers\progress_fileController.cs" />
+    <Compile Include="Controllers\QuanTriVanHanhsController.cs" />
+    <Compile Include="Controllers\QuyDovesController.cs" />
+    <Compile Include="Controllers\ServicesController.cs" />
+    <Compile Include="Controllers\SettingsController.cs" />
+    <Compile Include="Controllers\ShareController.cs" />
+    <Compile Include="Controllers\SoHoKhausController.cs" />
+    <Compile Include="Controllers\StepAccountsController.cs" />
+    <Compile Include="Controllers\StepsController.cs" />
+    <Compile Include="Controllers\StockersController.cs" />
+    <Compile Include="Controllers\syslogsController.cs" />
+    <Compile Include="Controllers\TachHopsController.cs" />
+    <Compile Include="Controllers\TachThuasController.cs" />
+    <Compile Include="Controllers\TaiLieuxController.cs" />
+    <Compile Include="Controllers\tasksController.cs" />
+    <Compile Include="Controllers\ThongTinCaNhansController.cs" />
+    <Compile Include="Controllers\ThuaDatsController.cs" />
+    <Compile Include="Controllers\thuchisController.cs" />
+    <Compile Include="Controllers\TreoPhuonsController.cs" />
+    <Compile Include="Controllers\TruLuongsController.cs" />
+    <Compile Include="Controllers\ValsController.cs" />
+    <Compile Include="Controllers\vViecPhaiLamsController.cs" />
+    <Compile Include="Controllers\wf_contractController.cs" />
+    <Compile Include="Controllers\wf_inoutController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Attendance.cs" />
+    <Compile Include="Models\Account.cs" />
+    <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Address.cs" />
+    <Compile Include="Models\AddressEntities.cs" />
+    <Compile Include="Models\ApiResponse.cs" />
+    <Compile Include="Models\AspNetRole.cs" />
+    <Compile Include="Models\AspNetRoles.cs" />
+    <Compile Include="Models\AspNetUser.cs" />
+    <Compile Include="Models\AspNetUserClaim.cs" />
+    <Compile Include="Models\AspNetUserClaims.cs" />
+    <Compile Include="Models\AspNetUserLogin.cs" />
+    <Compile Include="Models\AspNetUserLogins.cs" />
+    <Compile Include="Models\AspNetUsers.cs" />
+    <Compile Include="Models\BangChamCong.cs" />
+    <Compile Include="Models\CanBo.cs" />
+    <Compile Include="Models\CanBoDiaPhuong.cs" />
+    <Compile Include="Models\CardData.cs" />
+    <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\ChamCong.cs" />
+    <Compile Include="Models\ChatFile.cs" />
+    <Compile Include="Models\ChatMessagePartial.cs" />
+    <Compile Include="Models\ChatMessage.cs" />
+    <Compile Include="Models\ChatSessionPartial.cs" />
+    <Compile Include="Models\ChatSession.cs" />
+    <Compile Include="Models\chotso.cs" />
+    <Compile Include="Models\CongViec.cs" />
+    <Compile Include="Models\Contract.cs" />
+    <Compile Include="Models\CoQuanGiaiQuyet.cs" />
+    <Compile Include="Models\CuocHop.cs" />
+    <Compile Include="Models\Customer.cs" />
+    <Compile Include="Models\C__MigrationHistory.cs" />
+    <Compile Include="Models\di1cua.cs" />
+    <Compile Include="Models\Diary.cs" />
+    <Compile Include="Models\didiachinh.cs" />
+    <Compile Include="Models\Document.cs" />
+    <Compile Include="Models\donthu.cs" />
+    <Compile Include="Models\Dove.cs" />
+    <Compile Include="Models\dovelichsu.cs" />
+    <Compile Include="Models\Dove_ThuChi.cs" />
+    <Compile Include="Models\dove_wf.cs" />
+    <Compile Include="Models\DSBanLamViec.cs" />
+    <Compile Include="Models\DSChoDuyet.cs" />
+    <Compile Include="Models\DSHoSo.cs" />
+    <Compile Include="Models\DSMotCua.cs" />
+    <Compile Include="Models\DuChi.cs" />
+    <Compile Include="Models\DuChiNhatKy.cs" />
+    <Compile Include="Models\DuChiNhatKyWF.cs" />
+    <Compile Include="Models\DvhcC1.cs" />
+    <Compile Include="Models\Field.cs" />
+    <Compile Include="Models\File.cs" />
+    <Compile Include="Models\fk_CanBo_Address.cs" />
+    <Compile Include="Models\fk_chotso_thuchi.cs" />
+    <Compile Include="Models\fk_congviec_contract.cs" />
+    <Compile Include="Models\fk_congviec_hoso.cs" />
+    <Compile Include="Models\fk_congviec_service.cs" />
+    <Compile Include="Models\fk_contract_service.cs" />
+    <Compile Include="Models\fk_service_document.cs" />
+    <Compile Include="Models\GiaoNhanGiayTo.cs" />
+    <Compile Include="Models\GroupField.cs" />
+    <Compile Include="Models\GroupMember.cs" />
+    <Compile Include="Models\GroupMember_Account.cs" />
+    <Compile Include="Models\Holiday.cs" />
+    <Compile Include="Models\HoSo.cs" />
+    <Compile Include="Models\Hoso_Step.cs" />
+    <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Infomation.cs" />
+    <Compile Include="Models\InOut.cs" />
+    <Compile Include="Models\InOutChoDuyet.cs" />
+    <Compile Include="Models\Job.cs" />
+    <Compile Include="Models\KPI.cs" />
+    <Compile Include="Models\KPIChiTieu.cs" />
+    <Compile Include="Models\KPILink.cs" />
+    <Compile Include="Models\LanDau.cs" />
+    <Compile Include="Models\landau_quytrinh.cs" />
+    <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Money.cs" />
+    <Compile Include="Models\NguoiHop.cs" />
+    <Compile Include="Models\nhatkydonthu.cs" />
+    <Compile Include="Models\NhiemVu.cs" />
+    <Compile Include="Models\NHModel.cs" />
+    <Compile Include="Models\Notice.cs" />
+    <Compile Include="Models\OneDoorFile.cs" />
+    <Compile Include="Models\Page4.cs" />
+    <Compile Include="Models\Partner.cs" />
+    <Compile Include="Models\PartnerAccount.cs" />
+    <Compile Include="Models\PayPlan.cs" />
+    <Compile Include="Models\PhuCap.cs" />
+    <Compile Include="Models\PriceByArea.cs" />
+    <Compile Include="Models\Progress.cs" />
+    <Compile Include="Models\Progress_Document.cs" />
+    <Compile Include="Models\progress_file.cs" />
+    <Compile Include="Models\progress_file_option.cs" />
+    <Compile Include="Models\QuanTriVanHanh.cs" />
+    <Compile Include="Models\QuyDove.cs" />
+    <Compile Include="Models\Reporter.cs" />
+    <Compile Include="Models\Reward.cs" />
+    <Compile Include="Models\Service.cs" />
+    <Compile Include="Models\service_step_day.cs" />
+    <Compile Include="Models\Setting.cs" />
+    <Compile Include="Models\Social.cs" />
+    <Compile Include="Models\SoHoKhau.cs" />
+    <Compile Include="Models\Step.cs" />
+    <Compile Include="Models\StepAccount.cs" />
+    <Compile Include="Models\Stocker.cs" />
+    <Compile Include="Models\syslog.cs" />
+    <Compile Include="Models\TachHop.cs" />
+    <Compile Include="Models\TachThua.cs" />
+    <Compile Include="Models\TaiLieu.cs" />
+    <Compile Include="Models\task.cs" />
+    <Compile Include="Models\ThongTinCaNhan.cs" />
+    <Compile Include="Models\ThuaDat.cs" />
+    <Compile Include="Models\thuchi.cs" />
+    <Compile Include="Models\TreoPhuon.cs" />
+    <Compile Include="Models\TruLuong.cs" />
+    <Compile Include="Models\UploadedFile.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\Val.cs" />
+    <Compile Include="Models\vCalculatorMoney.cs" />
+    <Compile Include="Models\vCanBoDiaPhuongC1.cs" />
+    <Compile Include="Models\vCanBoDiaPhuongC2.cs" />
+    <Compile Include="Models\vChartInOut.cs" />
+    <Compile Include="Models\vContract.cs" />
+    <Compile Include="Models\vContractHardFile.cs" />
+    <Compile Include="Models\vContractSelect.cs" />
+    <Compile Include="Models\vDi1Cua.cs" />
+    <Compile Include="Models\vDuChi.cs" />
+    <Compile Include="Models\vDvhcC1.cs" />
+    <Compile Include="Models\vHomeWFInOut.cs" />
+    <Compile Include="Models\vHoSo.cs" />
+    <Compile Include="Models\ViecPhaiLam.cs" />
+    <Compile Include="Models\ViewModels\MonthlyAttendanceViewModel.cs" />
+    <Compile Include="Models\ViewModels\AttendanceInputModel.cs" />
+    <Compile Include="Models\vInOut.cs" />
+    <Compile Include="Models\vMyFile.cs" />
+    <Compile Include="Models\vMyReward.cs" />
+    <Compile Include="Models\vPayPlan.cs" />
+    <Compile Include="Models\vPending.cs" />
+    <Compile Include="Models\vPhongDoVe.cs" />
+    <Compile Include="Models\vSettingGroupMember.cs" />
+    <Compile Include="Models\vSoanThao.cs" />
+    <Compile Include="Models\vStorage.cs" />
+    <Compile Include="Models\vTheoDoiChi.cs" />
+    <Compile Include="Models\vTheoDoiTienDo.cs" />
+    <Compile Include="Models\vTienDo.cs" />
+    <Compile Include="Models\vViecPhaiLam.cs" />
+    <Compile Include="Models\wf_contract.cs" />
+    <Compile Include="Models\wf_hoso.cs" />
+    <Compile Include="Models\wf_hoso_note.cs" />
+    <Compile Include="Models\wf_hoso_step.cs" />
+    <Compile Include="Models\wf_inout.cs" />
+    <Compile Include="Models\wf_quydove.cs" />
+    <Compile Include="Models\XAccount.cs" />
+    <Compile Include="Models\XBangChamCong.cs" />
+    <Compile Include="Models\XCuocHop.cs" />
+    <Compile Include="Models\XCategory.cs" />
+    <Compile Include="Models\XContract.cs" />
+    <Compile Include="Models\XDuChiNhatKy.cs" />
+    <Compile Include="Models\XDove.cs" />
+    <Compile Include="Models\XViecPhaiLam.cs" />
+    <Compile Include="Models\XProgressFile.cs" />
+    <Compile Include="Models\XProgress.cs" />
+    <Compile Include="Models\Xdi1cua.cs" />
+    <Compile Include="Models\Xdidiachinh.cs" />
+    <Compile Include="Models\XDocument.cs" />
+    <Compile Include="Models\XFile.cs" />
+    <Compile Include="Models\XHoSo.cs" />
+    <Compile Include="Models\XInfomation.cs" />
+    <Compile Include="Models\XInOut.cs" />
+    <Compile Include="Models\XInOutChoDuyet.cs" />
+    <Compile Include="Models\XJob.cs" />
+    <Compile Include="Models\XModels.cs" />
+    <Compile Include="Models\XPayPlan.cs" />
+    <Compile Include="Models\XPriceByArea.cs" />
+    <Compile Include="Models\XStep.cs" />
+    <Compile Include="Models\XTachHop.cs" />
+    <Compile Include="Models\XTachThua.cs" />
+    <Compile Include="Models\XThongTinCaNhan.cs" />
+    <Compile Include="Models\XThuaDat.cs" />
+    <Compile Include="Models\Xwf_contract.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Startup.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bootstrap-datetimepicker.min.js" />
+    <Content Include="Content\bootstrap-datetimepicker.min.css" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\bootstrap-table-sticky-header.css" />
+    <Content Include="Content\datepicker3.css" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\jquery-confirm.min.css" />
+    <Content Include="Content\PagedList.css" />
+    <Content Include="Content\Jobs.css" />
+    <Content Include="Content\select2\select2.min.css" />
+    <Content Include="Content\summernote\summernote-bs3.css" />
+    <Content Include="Content\summernote\summernote.css" />
+    <Content Include="Content\toastr\toastr.min.css" />
+    <Content Include="dodactracdia.jpg" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Site.css" />
+    <Content Include="index.html" />
+    <Content Include="NQH.jpg" />
+    <Content Include="Scripts\autocomplete.js" />
+    <Content Include="Scripts\autoNumeric-1.9.45.js" />
+    <Content Include="Scripts\bootstrap-datepicker.js" />
+    <Content Include="Scripts\bootstrap-datetimepicker.js" />
+    <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
+    <Content Include="Scripts\bootstrap-table-sticky-header.min.js" />
+    <Content Include="Scripts\bootstrap.bundle.js" />
+    <Content Include="Scripts\bootstrap.bundle.min.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\bootstrap.bundle.js.map" />
+    <Content Include="Scripts\bootstrap.bundle.min.js.map" />
+    <Content Include="Scripts\bootstrap.js.map" />
+    <Content Include="Scripts\bootstrap.min.js.map" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap\wells.less" />
+    <Content Include="Content\bootstrap\variables.less" />
+    <Content Include="Content\bootstrap\utilities.less" />
+    <Content Include="Content\bootstrap\type.less" />
+    <Content Include="Content\bootstrap\tooltip.less" />
+    <Content Include="Content\bootstrap\thumbnails.less" />
+    <Content Include="Content\bootstrap\theme.less" />
+    <Content Include="Content\bootstrap\tables.less" />
+    <Content Include="Content\bootstrap\scaffolding.less" />
+    <Content Include="Content\bootstrap\responsive-utilities.less" />
+    <Content Include="Content\bootstrap\responsive-embed.less" />
+    <Content Include="Content\bootstrap\progress-bars.less" />
+    <Content Include="Content\bootstrap\print.less" />
+    <Content Include="Content\bootstrap\popovers.less" />
+    <Content Include="Content\bootstrap\panels.less" />
+    <Content Include="Content\bootstrap\pagination.less" />
+    <Content Include="Content\bootstrap\pager.less" />
+    <Content Include="Content\bootstrap\normalize.less" />
+    <Content Include="Content\bootstrap\navs.less" />
+    <Content Include="Content\bootstrap\navbar.less" />
+    <Content Include="Content\bootstrap\modals.less" />
+    <Content Include="Content\bootstrap\mixins\vendor-prefixes.less" />
+    <Content Include="Content\bootstrap\mixins\text-overflow.less" />
+    <Content Include="Content\bootstrap\mixins\text-emphasis.less" />
+    <Content Include="Content\bootstrap\mixins\table-row.less" />
+    <Content Include="Content\bootstrap\mixins\tab-focus.less" />
+    <Content Include="Content\bootstrap\mixins\size.less" />
+    <Content Include="Content\bootstrap\mixins\responsive-visibility.less" />
+    <Content Include="Content\bootstrap\mixins\resize.less" />
+    <Content Include="Content\bootstrap\mixins\reset-text.less" />
+    <Content Include="Content\bootstrap\mixins\reset-filter.less" />
+    <Content Include="Content\bootstrap\mixins\progress-bar.less" />
+    <Content Include="Content\bootstrap\mixins\panels.less" />
+    <Content Include="Content\bootstrap\mixins\pagination.less" />
+    <Content Include="Content\bootstrap\mixins\opacity.less" />
+    <Content Include="Content\bootstrap\mixins\nav-vertical-align.less" />
+    <Content Include="Content\bootstrap\mixins\nav-divider.less" />
+    <Content Include="Content\bootstrap\mixins\list-group.less" />
+    <Content Include="Content\bootstrap\mixins\labels.less" />
+    <Content Include="Content\bootstrap\mixins\image.less" />
+    <Content Include="Content\bootstrap\mixins\hide-text.less" />
+    <Content Include="Content\bootstrap\mixins\grid.less" />
+    <Content Include="Content\bootstrap\mixins\grid-framework.less" />
+    <Content Include="Content\bootstrap\mixins\gradients.less" />
+    <Content Include="Content\bootstrap\mixins\forms.less" />
+    <Content Include="Content\bootstrap\mixins\clearfix.less" />
+    <Content Include="Content\bootstrap\mixins\center-block.less" />
+    <Content Include="Content\bootstrap\mixins\buttons.less" />
+    <Content Include="Content\bootstrap\mixins\border-radius.less" />
+    <Content Include="Content\bootstrap\mixins\background-variant.less" />
+    <Content Include="Content\bootstrap\mixins\alerts.less" />
+    <Content Include="Content\bootstrap\mixins.less" />
+    <Content Include="Content\bootstrap\media.less" />
+    <Content Include="Content\bootstrap\list-group.less" />
+    <Content Include="Content\bootstrap\labels.less" />
+    <Content Include="Content\bootstrap\jumbotron.less" />
+    <Content Include="Content\bootstrap\input-groups.less" />
+    <Content Include="Content\bootstrap\grid.less" />
+    <Content Include="Content\bootstrap\glyphicons.less" />
+    <Content Include="Content\bootstrap\forms.less" />
+    <Content Include="Content\bootstrap\dropdowns.less" />
+    <Content Include="Content\bootstrap\component-animations.less" />
+    <Content Include="Content\bootstrap\code.less" />
+    <Content Include="Content\bootstrap\close.less" />
+    <Content Include="Content\bootstrap\carousel.less" />
+    <Content Include="Content\bootstrap\buttons.less" />
+    <Content Include="Content\bootstrap\button-groups.less" />
+    <Content Include="Content\bootstrap\breadcrumbs.less" />
+    <Content Include="Content\bootstrap\bootstrap.less" />
+    <Content Include="Content\bootstrap\badges.less" />
+    <Content Include="Content\bootstrap\alerts.less" />
+    <Content Include="Content\_bootstrap-datetimepicker.less" />
+    <Content Include="Content\bootstrap-datetimepicker-build.less" />
+    <Content Include="App_Data\templates\HDDD.doc" />
+    <Content Include="App_Data\templates\HDCLTL.doc" />
+    <Content Include="App_Data\templates\SangTenGUQ.docx" />
+    <Content Include="App_Data\templates\GMPHDD.doc" />
+    <Content Include="App_Data\templates\SoThuChi.xls" />
+    <Content Include="App_Data\templates\CheckInfomation.docx" />
+    <Content Include="App_Data\templates\CheckSheet.xls" />
+    <Content Include="App_Data\templates\TKLPTB.doc" />
+    <Content Include="App_Data\templates\TKMS03TNCN.doc" />
+    <Content Include="App_Data\templates\CongNo.xls" />
+    <Content Include="App_Data\templates\QRC.xls" />
+    <Content Include="Content\summernote\font\summernote.eot" />
+    <Content Include="Content\summernote\font\summernote.ttf" />
+    <Content Include="Content\summernote\font\summernote.woff" />
+    <Content Include="App_Data\templates\Jobs.xls" />
+    <Content Include="App_Data\templates\DonTrinhBaoMatBia.docx" />
+    <Content Include="App_Data\templates\CKHDT.docx" />
+    <Content Include="App_Data\templates\TBNYMGCN.docx" />
+    <Content Include="App_Data\templates\FLC.docx" />
+    <Content Include="App_Data\templates\PYCĐĐ.docx" />
+    <Content Include="App_Data\templates\XACNHANSAIHOTEN.docx" />
+    <Content Include="App_Data\templates\CHOTSO.xls" />
+    <Content Include="App_Data\templates\BBTangNgo.docx" />
+    <Content Include="App_Data\templates\VBTT-DUNGTENCHUNG.doc" />
+    <Content Include="App_Data\templates\TKLPTBTACHTHUA.doc" />
+    <Content Include="App_Data\templates\TKTTNCNTACHTHUA.doc" />
+    <Content Include="App_Data\templates\TKTPNNTACHTHUA1.doc" />
+    <Content Include="App_Data\templates\TKDKTALL.doc" />
+    <Content Include="App_Data\templates\VBTTCNDD.doc" />
+    <Content Include="App_Data\templates\DDNXNNK.doc" />
+    <Content Include="App_Data\templates\BangLuong.xls" />
+    <Content Include="App_Data\templates\LanDau_TPNN.doc" />
+    <Content Include="App_Data\templates\XNGCT.doc" />
+    <Content Include="App_Data\templates\DPATC.doc" />
+    <Content Include="App_Data\templates\OneDoors.xls" />
+    <Content Include="App_Data\templates\BangLuongX.xls" />
+    <Content Include="App_Data\templates\CamKetHutDienTich.docx" />
+    <Content Include="App_Data\templates\XacNhanNamMat.docx" />
+    <Content Include="App_Data\templates\VanBanCamKetTaiSanChung.docx" />
+    <Content Include="App_Data\templates\DonDeNghi.doc" />
+    <Content Include="App_Data\templates\OneDoors.xlsx" />
+    <Content Include="App_Data\templates\CHECKLISTGiayToNhanThan.docx" />
+    <Content Include="App_Data\templates\DonXinNopTien.doc" />
+    <Content Include="App_Data\templates\DonDeNghiCapDoi.doc" />
+    <Content Include="App_Data\templates\SangTen_LPTB.doc" />
+    <Content Include="App_Data\templates\SangTen_TNCN.doc" />
+    <Content Include="App_Data\templates\BanInThuChi.xls" />
+    <Content Include="App_Data\templates\BanInStocker.xls" />
+    <Content Include="App_Data\templates\BanInChotSo.xls" />
+    <Content Include="App_Data\templates\SangTen_TongHop.doc" />
+    <Content Include="App_Data\templates\TKDKT.doc" />
+    <Content Include="App_Data\templates\SangTen_TPNN.doc" />
+    <Content Include="App_Data\templates\CAPDOIDDL.doc" />
+    <Content Include="App_Data\templates\TACHTHUA.doc" />
+    <Content Include="App_Data\templates\TKPNNTACHTHUA.doc" />
+    <Content Include="App_Data\templates\LANDAU.doc" />
+    <Content Include="App_Data\templates\TKLPTB_TT.doc" />
+    <Content Include="App_Data\templates\TKTSDDPNN_TT.doc" />
+    <Content Include="App_Data\templates\HDUQ.docx" />
+    <Content Include="App_Data\templates\InCongViec.xls" />
+    <Content Include="App_Data\templates\QuanTriVanHanh.docx" />
+    <Content Include="App_Data\templates\BanInQuyDove.xls" />
+    <Content Include="App_Data\templates\DailyReport.xls" />
+    <Content Include="App_Data\templates\BBKTNY_MatBia.doc" />
+    <Content Include="App_Data\templates\BanInGoStock.xls" />
+    <Content Include="App_Data\templates\Processing.xls" />
+    <Content Include="App_Data\templates\TBKetThucNiemYetLD.docx" />
+    <Content Include="App_Data\templates\BangDSCongViec.xls" />
+    <Content Include="App_Data\templates\GiayUyQuyen141023.docx" />
+    <Content Include="App_Data\templates\PhieuThongTinQuyHoach.docx" />
+    <Content Include="App_Data\templates\BBNY_MatBia.docx" />
+    <Content Include="App_Data\templates\InOutChoDuyet.xls" />
+    <Content Include="App_Data\templates\BangChamCong.xlsx" />
+    <Content Include="App_Data\templates\BBCuocHop.doc" />
+    <Content Include="App_Data\templates\LanDau_TNCN.doc" />
+    <Content Include="App_Data\templates\DSTheoDoiChi.xls" />
+    <Content Include="App_Data\templates\GUQLanDau.doc" />
+    <Content Include="App_Data\templates\LanDau_4aDK.docx" />
+    <Content Include="App_Data\templates\LanDau_4DK.docx" />
+    <Content Include="App_Data\templates\BBHopGiaDinh.doc" />
+    <Content Include="App_Data\templates\SangTen_11DK.docx" />
+    <Content Include="App_Data\templates\2024MS01.docx" />
+    <Content Include="App_Data\templates\DSDonThu.xlsx" />
+    <Content Include="App_Data\templates\2024MS11DKThongTinbak.docx" />
+    <Content Include="App_Data\templates\BBHopGiaDinhMS01.doc" />
+    <Content Include="App_Data\templates\DonRutHS.docx" />
+    <Content Include="App_Data\templates\QRC.docx" />
+    <Content Include="App_Data\templates\SoDoHuyetThong.docx" />
+    <Content Include="App_Data\templates\DDNKiemTraLanDau.doc" />
+    <Content Include="App_Data\templates\DPATCPhongTNMT.doc" />
+    <Content Include="App_Data\templates\VBTTCKUQ.docx" />
+    <Content Include="App_Data\templates\LanDau_GUQ.docx" />
+    <Content Include="App_Data\templates\LanDau_AnhEmKhongTrangChap.docx" />
+    <Content Include="App_Data\templates\Blank.doc" />
+    <Content Include="App_Data\templates\2024MS06DK.doc" />
+    <Content Include="App_Data\templates\2024MS07DK.doc" />
+    <Content Include="App_Data\templates\2024MS08DK.doc" />
+    <Content Include="App_Data\templates\MS02DK2024.doc" />
+    <Content Include="App_Data\templates\PL12TT252014.doc" />
+    <Content Include="App_Data\templates\VBXacDinhThanhVien.docx" />
+    <Content Include="App_Data\templates\DailyPland.docx" />
+    <Content Include="App_Data\templates\QuyTrinhDoVe.docx" />
+    <Content Include="App_Data\templates\DSChoDuyet.xls" />
+    <Content Include="App_Data\templates\2024MS02CDonXinChuyenMDSDD.docx" />
+    <Content Include="App_Data\templates\DonCamKetChuyenVuon.doc" />
+    <Content Include="App_Data\templates\DNPATCLapPhieuXL.doc" />
+    <Content Include="App_Data\templates\DS1CuaPrintByFilter.xls" />
+    <Content Include="App_Data\templates\LanDau_HutDienTich.doc" />
+    <Content Include="App_Data\templates\LanDau_DDN_NopTienVuotHanMuc.doc" />
+    <Content Include="App_Data\templates\SangTen_DKT.doc" />
+    <Content Include="App_Data\templates\LanDau_DKT.doc" />
+    <Content Include="App_Data\templates\LanDau_LPTB.doc" />
+    <Content Include="App_Data\templates\SangTen_DonXinMienThue.docx" />
+    <Content Include="App_Data\templates\BBCKKyGiapRanh.doc" />
+    <Content Include="App_Data\templates\VBCKHanMucDatO.docx" />
+    <Content Include="App_Data\templates\LanDau_CKLuaChonThuaDat.docx" />
+    <Content Include="App_Data\templates\DPATCChamMuon.docx" />
+    <Content Include="App_Data\templates\DPATCChamPTNMT.docx" />
+    <Content Include="App_Data\templates\DPATCChamCN.docx" />
+    <Content Include="App_Data\templates\DonDeNghiCungCapThongTinDatDai.docx" />
+    <Content Include="App_Data\templates\DSHoSo.xls" />
+    <Content Include="App_Data\templates\DonPhanAnhChamMuonVAI.docx" />
+    <Content Include="App_Data\templates\DonPhanAnhChamMuonUBNDPhuong.docx" />
+    <Content Include="App_Data\templates\DonDeNghiDungTenChungVoChong.docx" />
+    <Content Include="App_Data\templates\2024MS11DKThongTin.docx" />
+    <Content Include="App_Data\templates\BaoCaoXaTachThua.doc" />
+    <Content Include="App_Data\templates\HDUQ_VPL.docx" />
+    <Content Include="App_Data\templates\TachThua_CamKetSuDungChung.doc" />
+    <Content Include="App_Data\templates\DonToCaoChamMuon.docx" />
+    <Content Include="App_Data\templates\DPATCDeNghiTNMT.docx" />
+    <Content Include="App_Data\templates\DPATCChamL3.docx" />
+    <Content Include="App_Data\templates\DPATCChamUBND.docx" />
+    <Content Include="App_Data\templates\LanDau_6VBTuThoaThuan.docx" />
+    <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\jquery-confirm.min.js" />
+    <Content Include="Scripts\jquery.signalR-2.4.3.js" />
+    <Content Include="Scripts\jquery.signalR-2.4.3.min.js" />
+    <Content Include="Scripts\nicehandle.js" />
+    <Content Include="Scripts\myscripts.js" />
+    <Content Include="Scripts\Jobs.js" />
+    <Content Include="Scripts\jquery-3.4.1.js" />
+    <Content Include="Scripts\jquery-3.4.1.min.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\moment-with-locales.js" />
+    <Content Include="Scripts\moment-with-locales.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\select2.min.js" />
+    <Content Include="Scripts\summernote.min.js" />
+    <Content Include="Scripts\toastr.min.js" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Accounts\ChoSo.cshtml" />
+    <Content Include="Views\Accounts\Create.cshtml" />
+    <Content Include="Views\Accounts\Delete.cshtml" />
+    <Content Include="Views\Accounts\Details.cshtml" />
+    <Content Include="Views\Accounts\Edit.cshtml" />
+    <Content Include="Views\Accounts\Index.cshtml" />
+    <Content Include="Views\Accounts\Infomation.cshtml" />
+    <Content Include="Views\Account\ClearRoles.cshtml" />
+    <Content Include="Views\Account\ConfirmEmail.cshtml" />
+    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
+    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\RegisterRole.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\SendCode.cshtml" />
+    <Content Include="Views\Account\VerifyCode.cshtml" />
+    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
+    <Content Include="Views\Addresses\Create.cshtml" />
+    <Content Include="Views\Addresses\Delete.cshtml" />
+    <Content Include="Views\Addresses\Details.cshtml" />
+    <Content Include="Views\Addresses\Edit.cshtml" />
+    <Content Include="Views\Addresses\Index.cshtml" />
+    <Content Include="Views\AspNetRoles\Create.cshtml" />
+    <Content Include="Views\AspNetRoles\Delete.cshtml" />
+    <Content Include="Views\AspNetRoles\Details.cshtml" />
+    <Content Include="Views\AspNetRoles\Edit.cshtml" />
+    <Content Include="Views\AspNetRoles\Index.cshtml" />
+    <Content Include="Views\BangChamCongs\Create.cshtml" />
+    <Content Include="Views\BangChamCongs\Delete.cshtml" />
+    <Content Include="Views\BangChamCongs\Details.cshtml" />
+    <Content Include="Views\BangChamCongs\Edit.cshtml" />
+    <Content Include="Views\BangChamCongs\Index.cshtml" />
+    <Content Include="Views\BangChamCongs\rptChamCong.cshtml" />
+    <Content Include="Views\Cad\Index.cshtml" />
+    <Content Include="Views\CanBoDiaPhuongs\Create.cshtml" />
+    <Content Include="Views\CanBoDiaPhuongs\Delete.cshtml" />
+    <Content Include="Views\CanBoDiaPhuongs\Details.cshtml" />
+    <Content Include="Views\CanBoDiaPhuongs\Edit.cshtml" />
+    <Content Include="Views\CanBoDiaPhuongs\Index.cshtml" />
+    <Content Include="Views\CanBoes\Create.cshtml" />
+    <Content Include="Views\CanBoes\Delete.cshtml" />
+    <Content Include="Views\CanBoes\Details.cshtml" />
+    <Content Include="Views\CanBoes\Edit.cshtml" />
+    <Content Include="Views\CanBoes\Index.cshtml" />
+    <Content Include="Views\Categories\Create.cshtml" />
+    <Content Include="Views\Categories\Delete.cshtml" />
+    <Content Include="Views\Categories\Details.cshtml" />
+    <Content Include="Views\Categories\Edit.cshtml" />
+    <Content Include="Views\Categories\Index.cshtml" />
+    <Content Include="Views\chotsoes\Create.cshtml" />
+    <Content Include="Views\chotsoes\Delete.cshtml" />
+    <Content Include="Views\chotsoes\Details.cshtml" />
+    <Content Include="Views\chotsoes\Edit.cshtml" />
+    <Content Include="Views\chotsoes\Index.cshtml" />
+    <Content Include="Views\CongViecs\Create.cshtml" />
+    <Content Include="Views\CongViecs\Delete.cshtml" />
+    <Content Include="Views\CongViecs\Details.cshtml" />
+    <Content Include="Views\CongViecs\Edit.cshtml" />
+    <Content Include="Views\CongViecs\Index.cshtml" />
+    <Content Include="Views\Contracts\BangKeChi.cshtml" />
+    <Content Include="Views\Contracts\BanLamViec.cshtml" />
+    <Content Include="Views\Contracts\BanLamViec_BAK.cshtml" />
+    <Content Include="Views\Contracts\BaoCaoTienDo.cshtml" />
+    <Content Include="Views\Contracts\Create.cshtml" />
+    <Content Include="Views\Contracts\Delete.cshtml" />
+    <Content Include="Views\Contracts\Details.cshtml" />
+    <Content Include="Views\Contracts\DetailsX.cshtml" />
+    <Content Include="Views\Contracts\DoVe.cshtml" />
+    <Content Include="Views\Contracts\Edit.cshtml" />
+    <Content Include="Views\Contracts\HoanThien.cshtml" />
+    <Content Include="Views\Contracts\HoanThienX.cshtml" />
+    <Content Include="Views\Contracts\HSCuaToi.cshtml" />
+    <Content Include="Views\Contracts\Index.cshtml" />
+    <Content Include="Views\Contracts\IndexBACK.cshtml" />
+    <Content Include="Views\Contracts\IndexX.cshtml" />
+    <Content Include="Views\Contracts\Infomation.cshtml" />
+    <Content Include="Views\Contracts\KhoLuu.cshtml" />
+    <Content Include="Views\Contracts\KhoLuuP4.cshtml" />
+    <Content Include="Views\Contracts\MyFile.cshtml" />
+    <Content Include="Views\Contracts\MyReward.cshtml" />
+    <Content Include="Views\Contracts\Page4.cshtml" />
+    <Content Include="Views\Contracts\Page4X.cshtml" />
+    <Content Include="Views\Contracts\PhongChuanBi.cshtml" />
+    <Content Include="Views\Contracts\PhuTrach.cshtml" />
+    <Content Include="Views\Contracts\ProgressConfig.cshtml" />
+    <Content Include="Views\Contracts\SoanThao.cshtml" />
+    <Content Include="Views\Contracts\ThamDinh.cshtml" />
+    <Content Include="Views\Contracts\ThamDinhX.cshtml" />
+    <Content Include="Views\Contracts\TheoDoiTienDo.cshtml" />
+    <Content Include="Views\Contracts\TheoDoiTienDoX.cshtml" />
+    <Content Include="Views\Contracts\TiepNhan.cshtml" />
+    <Content Include="Views\Contracts\ViewHardFile.cshtml" />
+    <Content Include="Views\Contracts\_ModalCreateDuyetChi.cshtml" />
+    <Content Include="Views\Contracts\_ModalHardFileUpdate.cshtml" />
+    <Content Include="Views\Contracts\_Search.cshtml" />
+    <Content Include="Views\Contracts\_Sigma.cshtml" />
+    <Content Include="Views\CuocHops\Create.cshtml" />
+    <Content Include="Views\CuocHops\Delete.cshtml" />
+    <Content Include="Views\CuocHops\Details.cshtml" />
+    <Content Include="Views\CuocHops\Edit.cshtml" />
+    <Content Include="Views\CuocHops\Index.cshtml" />
+    <Content Include="Views\Customers\Create.cshtml" />
+    <Content Include="Views\Customers\Delete.cshtml" />
+    <Content Include="Views\Customers\Details.cshtml" />
+    <Content Include="Views\Customers\Edit.cshtml" />
+    <Content Include="Views\Customers\Index.cshtml" />
+    <Content Include="Views\di1cua\Create.cshtml" />
+    <Content Include="Views\di1cua\CreateF.cshtml" />
+    <Content Include="Views\di1cua\Delete.cshtml" />
+    <Content Include="Views\di1cua\Details.cshtml" />
+    <Content Include="Views\di1cua\Edit.cshtml" />
+    <Content Include="Views\di1cua\Index.cshtml" />
+    <Content Include="Views\di1cua\IndexX.cshtml" />
+    <Content Include="Views\di1cua\Page4.cshtml" />
+    <Content Include="Views\Diaries\Create.cshtml" />
+    <Content Include="Views\Diaries\Delete.cshtml" />
+    <Content Include="Views\Diaries\Details.cshtml" />
+    <Content Include="Views\Diaries\Edit.cshtml" />
+    <Content Include="Views\Diaries\Index.cshtml" />
+    <Content Include="Views\didiachinhs\Create.cshtml" />
+    <Content Include="Views\didiachinhs\Delete.cshtml" />
+    <Content Include="Views\didiachinhs\Details.cshtml" />
+    <Content Include="Views\didiachinhs\Edit.cshtml" />
+    <Content Include="Views\didiachinhs\Index.cshtml" />
+    <Content Include="Views\Documents\Create.cshtml" />
+    <Content Include="Views\Documents\Delete.cshtml" />
+    <Content Include="Views\Documents\Details.cshtml" />
+    <Content Include="Views\Documents\Edit.cshtml" />
+    <Content Include="Views\Documents\Index.cshtml" />
+    <Content Include="Views\Dove\Dove.cshtml" />
+    <Content Include="Views\Dove\Index.cshtml" />
+    <Content Include="Views\DvhcC1\Create.cshtml" />
+    <Content Include="Views\DvhcC1\Delete.cshtml" />
+    <Content Include="Views\DvhcC1\Details.cshtml" />
+    <Content Include="Views\DvhcC1\Edit.cshtml" />
+    <Content Include="Views\DvhcC1\Index.cshtml" />
+    <Content Include="Views\Fields\Create.cshtml" />
+    <Content Include="Views\Fields\Delete.cshtml" />
+    <Content Include="Views\Fields\Details.cshtml" />
+    <Content Include="Views\Fields\Edit.cshtml" />
+    <Content Include="Views\Fields\Index.cshtml" />
+    <Content Include="Views\files\Create.cshtml" />
+    <Content Include="Views\files\Delete.cshtml" />
+    <Content Include="Views\files\Details.cshtml" />
+    <Content Include="Views\files\Edit.cshtml" />
+    <Content Include="Views\files\Index.cshtml" />
+    <Content Include="Views\fk_service_document\Create.cshtml" />
+    <Content Include="Views\fk_service_document\Delete.cshtml" />
+    <Content Include="Views\fk_service_document\Details.cshtml" />
+    <Content Include="Views\fk_service_document\Edit.cshtml" />
+    <Content Include="Views\fk_service_document\Index.cshtml" />
+    <Content Include="Views\GiaoNhanGiayToes\Create.cshtml" />
+    <Content Include="Views\GiaoNhanGiayToes\Delete.cshtml" />
+    <Content Include="Views\GiaoNhanGiayToes\Details.cshtml" />
+    <Content Include="Views\GiaoNhanGiayToes\Edit.cshtml" />
+    <Content Include="Views\GiaoNhanGiayToes\Index.cshtml" />
+    <Content Include="Views\GroupFields\Create.cshtml" />
+    <Content Include="Views\GroupFields\Delete.cshtml" />
+    <Content Include="Views\GroupFields\Details.cshtml" />
+    <Content Include="Views\GroupFields\Edit.cshtml" />
+    <Content Include="Views\GroupFields\Index.cshtml" />
+    <Content Include="Views\GroupMembers\Create.cshtml" />
+    <Content Include="Views\GroupMembers\Delete.cshtml" />
+    <Content Include="Views\GroupMembers\Details.cshtml" />
+    <Content Include="Views\GroupMembers\Edit.cshtml" />
+    <Content Include="Views\GroupMembers\Index.cshtml" />
+    <Content Include="Views\GroupMember_Account\Create.cshtml" />
+    <Content Include="Views\GroupMember_Account\Delete.cshtml" />
+    <Content Include="Views\GroupMember_Account\Details.cshtml" />
+    <Content Include="Views\GroupMember_Account\Edit.cshtml" />
+    <Content Include="Views\GroupMember_Account\Index.cshtml" />
+    <Content Include="Views\Home\Cad.cshtml" />
+    <Content Include="Views\Home\Default.cshtml" />
+    <Content Include="Views\Home\GiaPha.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\Mission.cshtml" />
+    <Content Include="Views\Home\Notice.cshtml" />
+    <Content Include="Views\HoSoes\Create.cshtml" />
+    <Content Include="Views\HoSoes\Delete.cshtml" />
+    <Content Include="Views\HoSoes\Details.cshtml" />
+    <Content Include="Views\HoSoes\DetailsX.cshtml" />
+    <Content Include="Views\HoSoes\Edit.cshtml" />
+    <Content Include="Views\HoSoes\Index.cshtml" />
+    <Content Include="Views\HoSoes\IndexX.cshtml" />
+    <Content Include="Views\HoSoes\KhoLuu.cshtml" />
+    <Content Include="Views\HoSoes\TheoDoiTienDo.cshtml" />
+    <Content Include="Views\HoSoes\_ModalProgressSetting.cshtml" />
+    <Content Include="Views\HoSoes\_Sigma.cshtml" />
+    <Content Include="Views\HoSoes\_StepPartial.cshtml" />
+    <Content Include="Views\Infomations\Create.cshtml" />
+    <Content Include="Views\Infomations\Delete.cshtml" />
+    <Content Include="Views\Infomations\Details.cshtml" />
+    <Content Include="Views\Infomations\Download.cshtml" />
+    <Content Include="Views\Infomations\Edit.cshtml" />
+    <Content Include="Views\Infomations\Index.cshtml" />
+    <Content Include="Views\Infomations\_PartialHopThua.cshtml" />
+    <Content Include="Views\Infomations\_PartialHopThua_bak.cshtml" />
+    <Content Include="Views\Infomations\_PartialLanDau.cshtml" />
+    <Content Include="Views\Infomations\_PartialTachThua.cshtml" />
+    <Content Include="Views\Infomations\_PartialTachThua_v1.cshtml" />
+    <Content Include="Views\InOutChoDuyets\Action.cshtml" />
+    <Content Include="Views\InOutChoDuyets\ChoDuyet.cshtml" />
+    <Content Include="Views\InOutChoDuyets\ChoXemXet.cshtml" />
+    <Content Include="Views\InOutChoDuyets\Create.cshtml" />
+    <Content Include="Views\InOutChoDuyets\Delete.cshtml" />
+    <Content Include="Views\InOutChoDuyets\Details.cshtml" />
+    <Content Include="Views\InOutChoDuyets\Edit.cshtml" />
+    <Content Include="Views\InOutChoDuyets\Index.cshtml" />
+    <Content Include="Views\InOuts\BieuDoThuChi.cshtml" />
+    <Content Include="Views\InOuts\CongNo.cshtml" />
+    <Content Include="Views\InOuts\Create.cshtml" />
+    <Content Include="Views\InOuts\CreateCongNo.cshtml" />
+    <Content Include="Views\InOuts\CreateContract.cshtml" />
+    <Content Include="Views\InOuts\CreateX.cshtml" />
+    <Content Include="Views\InOuts\Delete.cshtml" />
+    <Content Include="Views\InOuts\Details.cshtml" />
+    <Content Include="Views\InOuts\Edit.cshtml" />
+    <Content Include="Views\InOuts\GoAsyn.cshtml" />
+    <Content Include="Views\InOuts\GoStock.cshtml" />
+    <Content Include="Views\InOuts\Index.cshtml" />
+    <Content Include="Views\InOuts\IndexX.cshtml" />
+    <Content Include="Views\InOuts\InOutDetail.cshtml" />
+    <Content Include="Views\Jobs\Create.cshtml" />
+    <Content Include="Views\Jobs\Delete.cshtml" />
+    <Content Include="Views\Jobs\Details.cshtml" />
+    <Content Include="Views\Jobs\Edit.cshtml" />
+    <Content Include="Views\Jobs\Index.cshtml" />
+    <Content Include="Views\Jobs\Issue.cshtml" />
+    <Content Include="Views\KPIChiTieux\Create.cshtml" />
+    <Content Include="Views\KPIChiTieux\Delete.cshtml" />
+    <Content Include="Views\KPIChiTieux\Details.cshtml" />
+    <Content Include="Views\KPIChiTieux\Edit.cshtml" />
+    <Content Include="Views\KPIChiTieux\Index.cshtml" />
+    <Content Include="Views\KPIs\BaoCaoNgay.cshtml" />
+    <Content Include="Views\KPIs\Create.cshtml" />
+    <Content Include="Views\KPIs\CreateX.cshtml" />
+    <Content Include="Views\KPIs\Delete.cshtml" />
+    <Content Include="Views\KPIs\Details.cshtml" />
+    <Content Include="Views\KPIs\Edit.cshtml" />
+    <Content Include="Views\KPIs\Index.cshtml" />
+    <Content Include="Views\KPIs\rptKPI.cshtml" />
+    <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
+    <Content Include="Views\Manage\ChangePassword.cshtml" />
+    <Content Include="Views\Manage\Index.cshtml" />
+    <Content Include="Views\Manage\ManageLogins.cshtml" />
+    <Content Include="Views\Manage\SetPassword.cshtml" />
+    <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
+    <Content Include="Views\NhiemVus\Create.cshtml" />
+    <Content Include="Views\NhiemVus\Delete.cshtml" />
+    <Content Include="Views\NhiemVus\Details.cshtml" />
+    <Content Include="Views\NhiemVus\Edit.cshtml" />
+    <Content Include="Views\NhiemVus\Index.cshtml" />
+    <Content Include="Views\NhiemVus\IndexX.cshtml" />
+    <Content Include="Views\NhiemVus\_StepPartial.cshtml" />
+    <Content Include="Views\NhiemVus\_UploadPartial.cshtml" />
+    <Content Include="Views\NhiemVus\_UploadPartial_X.cshtml" />
+    <Content Include="Views\Notices\Create.cshtml" />
+    <Content Include="Views\Notices\Delete.cshtml" />
+    <Content Include="Views\Notices\Details.cshtml" />
+    <Content Include="Views\Notices\Edit.cshtml" />
+    <Content Include="Views\Notices\Index.cshtml" />
+    <Content Include="Views\Partners\Create.cshtml" />
+    <Content Include="Views\Partners\Delete.cshtml" />
+    <Content Include="Views\Partners\Details.cshtml" />
+    <Content Include="Views\Partners\Edit.cshtml" />
+    <Content Include="Views\Partners\Index.cshtml" />
+    <Content Include="Views\Partners\Indexx.cshtml" />
+    <Content Include="Views\PayPlans\Create.cshtml" />
+    <Content Include="Views\PayPlans\CreateX.cshtml" />
+    <Content Include="Views\PayPlans\Delete.cshtml" />
+    <Content Include="Views\PayPlans\Details.cshtml" />
+    <Content Include="Views\PayPlans\Edit.cshtml" />
+    <Content Include="Views\PayPlans\Index.cshtml" />
+    <Content Include="Views\PhuCaps\Create.cshtml" />
+    <Content Include="Views\PhuCaps\Delete.cshtml" />
+    <Content Include="Views\PhuCaps\Details.cshtml" />
+    <Content Include="Views\PhuCaps\Edit.cshtml" />
+    <Content Include="Views\PhuCaps\Index.cshtml" />
+    <Content Include="Views\PriceByAreas\Create.cshtml" />
+    <Content Include="Views\PriceByAreas\Delete.cshtml" />
+    <Content Include="Views\PriceByAreas\Details.cshtml" />
+    <Content Include="Views\PriceByAreas\Edit.cshtml" />
+    <Content Include="Views\PriceByAreas\Index.cshtml" />
+    <Content Include="Views\Progresses\BanVe.cshtml" />
+    <Content Include="Views\Progresses\CheckListCongViec.cshtml" />
+    <Content Include="Views\Progresses\CongChung.cshtml" />
+    <Content Include="Views\Progresses\Create.cshtml" />
+    <Content Include="Views\Progresses\Delete.cshtml" />
+    <Content Include="Views\Progresses\Details.cshtml" />
+    <Content Include="Views\Progresses\Di1Cua.cshtml" />
+    <Content Include="Views\Progresses\DieuTra.cshtml" />
+    <Content Include="Views\Progresses\DonThu.cshtml" />
+    <Content Include="Views\Progresses\Edit.cshtml" />
+    <Content Include="Views\Progresses\GhiChuQuaTrinh.cshtml" />
+    <Content Include="Views\Progresses\GiaPha.cshtml" />
+    <Content Include="Views\Progresses\HDBuoc.cshtml" />
+    <Content Include="Views\Progresses\HDDichVu.cshtml" />
+    <Content Include="Views\Progresses\HoTich.cshtml" />
+    <Content Include="Views\Progresses\Index.cshtml" />
+    <Content Include="Views\Progresses\LichNhac1Cua.cshtml" />
+    <Content Include="Views\Progresses\NhiemVu.cshtml" />
+    <Content Include="Views\Progresses\PhieuHen.cshtml" />
+    <Content Include="Views\Progresses\ProgressDownload.cshtml" />
+    <Content Include="Views\Progresses\Setting.cshtml" />
+    <Content Include="Views\Progresses\TienDo.cshtml" />
+    <Content Include="Views\Progresses\Town.cshtml" />
+    <Content Include="Views\Progresses\VBSau1cua.cshtml" />
+    <Content Include="Views\QuanTriVanHanhs\Create.cshtml" />
+    <Content Include="Views\QuanTriVanHanhs\Delete.cshtml" />
+    <Content Include="Views\QuanTriVanHanhs\Details.cshtml" />
+    <Content Include="Views\QuanTriVanHanhs\Edit.cshtml" />
+    <Content Include="Views\QuanTriVanHanhs\Index.cshtml" />
+    <Content Include="Views\QuyDoves\Create.cshtml" />
+    <Content Include="Views\QuyDoves\Delete.cshtml" />
+    <Content Include="Views\QuyDoves\Details.cshtml" />
+    <Content Include="Views\QuyDoves\Edit.cshtml" />
+    <Content Include="Views\QuyDoves\Index.cshtml" />
+    <Content Include="Views\Services\Create.cshtml" />
+    <Content Include="Views\Services\Delete.cshtml" />
+    <Content Include="Views\Services\Details.cshtml" />
+    <Content Include="Views\Services\Edit.cshtml" />
+    <Content Include="Views\Services\Index.cshtml" />
+    <Content Include="Views\Settings\Create.cshtml" />
+    <Content Include="Views\Settings\Delete.cshtml" />
+    <Content Include="Views\Settings\Details.cshtml" />
+    <Content Include="Views\Settings\Edit.cshtml" />
+    <Content Include="Views\Settings\Index.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\Lockout.cshtml" />
+    <Content Include="Views\Shared\Modals\_InOutDetail.cshtml" />
+    <Content Include="Views\Shared\Modals\_ModalNH.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Shared\_LayoutEmpty.cshtml" />
+    <Content Include="Views\Shared\_LayoutSetting.cshtml" />
+    <Content Include="Views\Shared\_LayoutTest.cshtml" />
+    <Content Include="Views\Shared\_LayoutX.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Shared\_StepPartial.cshtml" />
+    <Content Include="Views\SoHoKhaus\Create.cshtml" />
+    <Content Include="Views\SoHoKhaus\Delete.cshtml" />
+    <Content Include="Views\SoHoKhaus\Details.cshtml" />
+    <Content Include="Views\SoHoKhaus\Edit.cshtml" />
+    <Content Include="Views\SoHoKhaus\Index.cshtml" />
+    <Content Include="Views\StepAccounts\Create.cshtml" />
+    <Content Include="Views\StepAccounts\Delete.cshtml" />
+    <Content Include="Views\StepAccounts\Details.cshtml" />
+    <Content Include="Views\StepAccounts\Edit.cshtml" />
+    <Content Include="Views\StepAccounts\Index.cshtml" />
+    <Content Include="Views\Steps\Create.cshtml" />
+    <Content Include="Views\Steps\Delete.cshtml" />
+    <Content Include="Views\Steps\Details.cshtml" />
+    <Content Include="Views\Steps\Edit.cshtml" />
+    <Content Include="Views\Steps\Index.cshtml" />
+    <Content Include="Views\Stockers\Asyn.cshtml" />
+    <Content Include="Views\Stockers\Create.cshtml" />
+    <Content Include="Views\Stockers\Delete.cshtml" />
+    <Content Include="Views\Stockers\Details.cshtml" />
+    <Content Include="Views\Stockers\Edit.cshtml" />
+    <Content Include="Views\Stockers\Index.cshtml" />
+    <Content Include="Views\Stockers\IndexX.cshtml" />
+    <Content Include="Views\syslogs\Create.cshtml" />
+    <Content Include="Views\syslogs\Delete.cshtml" />
+    <Content Include="Views\syslogs\Details.cshtml" />
+    <Content Include="Views\syslogs\Edit.cshtml" />
+    <Content Include="Views\syslogs\Index.cshtml" />
+    <Content Include="Views\TachHops\Create.cshtml" />
+    <Content Include="Views\TachHops\Delete.cshtml" />
+    <Content Include="Views\TachHops\Details.cshtml" />
+    <Content Include="Views\TachHops\Edit.cshtml" />
+    <Content Include="Views\TachHops\Index.cshtml" />
+    <Content Include="Views\TachThuas\Create.cshtml" />
+    <Content Include="Views\TachThuas\Delete.cshtml" />
+    <Content Include="Views\TachThuas\Details.cshtml" />
+    <Content Include="Views\TachThuas\Edit.cshtml" />
+    <Content Include="Views\TachThuas\Index.cshtml" />
+    <Content Include="Views\TaiLieux\Create.cshtml" />
+    <Content Include="Views\TaiLieux\DaoTao.cshtml" />
+    <Content Include="Views\TaiLieux\Delete.cshtml" />
+    <Content Include="Views\TaiLieux\Details.cshtml" />
+    <Content Include="Views\TaiLieux\Edit.cshtml" />
+    <Content Include="Views\TaiLieux\Index.cshtml" />
+    <Content Include="Views\TaiLieux\QuyChe.cshtml" />
+    <Content Include="Views\TaiLieux\Template.cshtml" />
+    <Content Include="Views\tasks\Create.cshtml" />
+    <Content Include="Views\tasks\Delete.cshtml" />
+    <Content Include="Views\tasks\Details.cshtml" />
+    <Content Include="Views\tasks\Edit.cshtml" />
+    <Content Include="Views\tasks\Index.cshtml" />
+    <Content Include="Views\ThongTinCaNhans\Create.cshtml" />
+    <Content Include="Views\ThongTinCaNhans\Delete.cshtml" />
+    <Content Include="Views\ThongTinCaNhans\Details.cshtml" />
+    <Content Include="Views\ThongTinCaNhans\Edit.cshtml" />
+    <Content Include="Views\ThongTinCaNhans\Index.cshtml" />
+    <Content Include="Views\ThuaDats\Create.cshtml" />
+    <Content Include="Views\ThuaDats\Delete.cshtml" />
+    <Content Include="Views\ThuaDats\Details.cshtml" />
+    <Content Include="Views\ThuaDats\Edit.cshtml" />
+    <Content Include="Views\ThuaDats\Index.cshtml" />
+    <Content Include="Views\thuchis\Create.cshtml" />
+    <Content Include="Views\thuchis\Delete.cshtml" />
+    <Content Include="Views\thuchis\Details.cshtml" />
+    <Content Include="Views\thuchis\Edit.cshtml" />
+    <Content Include="Views\thuchis\Index.cshtml" />
+    <Content Include="Views\TreoPhuons\Create.cshtml" />
+    <Content Include="Views\TreoPhuons\Delete.cshtml" />
+    <Content Include="Views\TreoPhuons\Details.cshtml" />
+    <Content Include="Views\TreoPhuons\Edit.cshtml" />
+    <Content Include="Views\TreoPhuons\Index.cshtml" />
+    <Content Include="Views\TruLuongs\Create.cshtml" />
+    <Content Include="Views\TruLuongs\Delete.cshtml" />
+    <Content Include="Views\TruLuongs\Details.cshtml" />
+    <Content Include="Views\TruLuongs\Edit.cshtml" />
+    <Content Include="Views\TruLuongs\Index.cshtml" />
+    <Content Include="Views\Vals\Create.cshtml" />
+    <Content Include="Views\Vals\Delete.cshtml" />
+    <Content Include="Views\Vals\Details.cshtml" />
+    <Content Include="Views\Vals\Edit.cshtml" />
+    <Content Include="Views\Vals\Index.cshtml" />
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\wf_contract\Create.cshtml" />
+    <Content Include="Views\wf_contract\Delete.cshtml" />
+    <Content Include="Views\wf_contract\Details.cshtml" />
+    <Content Include="Views\wf_contract\Edit.cshtml" />
+    <Content Include="Views\wf_contract\Index.cshtml" />
+    <Content Include="Views\wf_inout\Create.cshtml" />
+    <Content Include="Views\wf_inout\Delete.cshtml" />
+    <Content Include="Views\wf_inout\Details.cshtml" />
+    <Content Include="Views\wf_inout\Edit.cshtml" />
+    <Content Include="Views\wf_inout\Index.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Doves\Index.cshtml" />
+    <Content Include="Views\Doves\Details.cshtml" />
+    <Content Include="Views\Progresses\DonThuX.cshtml" />
+    <Content Include="Views\Progresses\AddVBHoiAm.cshtml" />
+    <Content Include="Views\di1cua\DSDonThu.cshtml" />
+    <Content Include="Views\Doves\Create.cshtml" />
+    <Content Include="Views\Doves\Delete.cshtml" />
+    <Content Include="Views\Doves\Edit.cshtml" />
+    <Content Include="Views\Doves\NhatKyDoVe.cshtml" />
+    <Content Include="Views\DuChis\Create.cshtml" />
+    <Content Include="Views\DuChis\Delete.cshtml" />
+    <Content Include="Views\DuChis\Details.cshtml" />
+    <Content Include="Views\DuChis\Edit.cshtml" />
+    <Content Include="Views\DuChis\Index.cshtml" />
+    <Content Include="Views\Contracts\TrinhDuyetChi.cshtml" />
+    <Content Include="Views\Contracts\_PartialTrinhDuChi.cshtml" />
+    <Content Include="Views\Contracts\_PartialDuChi.cshtml" />
+    <Content Include="Views\HoSoes\SoanThao.cshtml" />
+    <Content Include="Views\di1cua\SoanThao.cshtml" />
+    <Content Include="Views\InOutChoDuyets\TheoDoiChi.cshtml" />
+    <Content Include="Views\InOutChoDuyets\DuyetTheoHoSo.cshtml" />
+    <Content Include="Views\Home\Plugin.cshtml" />
+    <Content Include="Views\progress_file\Create.cshtml" />
+    <Content Include="Views\progress_file\Delete.cshtml" />
+    <Content Include="Views\progress_file\Details.cshtml" />
+    <Content Include="Views\progress_file\Edit.cshtml" />
+    <Content Include="Views\progress_file\Index.cshtml" />
+    <Content Include="Views\InOutChoDuyets\TheoDoiChiBak.cshtml" />
+    <Content Include="Views\InOutChoDuyets\DSLichSuChi.cshtml" />
+    <Content Include="Views\vViecPhaiLams\Create.cshtml" />
+    <Content Include="Views\vViecPhaiLams\Delete.cshtml" />
+    <Content Include="Views\vViecPhaiLams\Details.cshtml" />
+    <Content Include="Views\vViecPhaiLams\Edit.cshtml" />
+    <Content Include="Views\vViecPhaiLams\Index.cshtml" />
+    <Content Include="Views\Progresses\ViecPhaiLam.cshtml" />
+    <Content Include="Views\Progresses\PartNhatKyNhacNho.cshtml" />
+    <Content Include="Views\Jobs\BanLamViec.cshtml" />
+    <Content Include="Views\Home\SoDoHuyetThong.cshtml" />
+    <Content Include="Views\Dove_ThuChi\Create.cshtml" />
+    <Content Include="Views\Dove_ThuChi\Delete.cshtml" />
+    <Content Include="Views\Dove_ThuChi\Details.cshtml" />
+    <Content Include="Views\Dove_ThuChi\Edit.cshtml" />
+    <Content Include="Views\Dove_ThuChi\Index.cshtml" />
+    <Content Include="Views\Dove_ThuChi\CreateContract.cshtml" />
+    <Content Include="Views\Dove_ThuChi\CreateX.cshtml" />
+    <Content Include="Views\Home\ReadCCCD.cshtml" />
+    <Content Include="Views\Settings\Default.cshtml" />
+    <Content Include="Views\BangChamCongs\CreateX.cshtml" />
+    <Content Include="Views\Attendance\MonthlyAttendance.cshtml" />
+    <Content Include="Views\Holiday\Index.cshtml" />
+    <Content Include="Views\Chat\Index.cshtml" />
+    <Content Include="Views\Chat\Chat.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\uploads\" />
+    <Folder Include="bin\" />
+    <Folder Include="GiaPha\publich\" />
+    <Folder Include="packages\" />
+    <Folder Include="public\chamcong\" />
+    <Folder Include="public\cuochop\" />
+    <Folder Include="public\Documents\HongThai\" />
+    <Folder Include="public\FILEHOPDONG\" />
+    <Folder Include="public\Phuon\" />
+    <Folder Include="public\tailieu\" />
+    <Folder Include="public\temp\thuchi\" />
+    <Folder Include="Views\CCCD\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <None Include="packages.config" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.4.1.min.map" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>58409</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>https://localhost:44398/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
+    <Error Condition="!Exists('packages\MSBuild.NugetContentRestore.0.1.6\build\net40\MSBuild.NugetContentRestore.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\MSBuild.NugetContentRestore.0.1.6\build\net40\MSBuild.NugetContentRestore.targets'))" />
+    <Error Condition="!Exists('packages\Tesseract.5.2.0\build\Tesseract.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Tesseract.5.2.0\build\Tesseract.targets'))" />
+    <Error Condition="!Exists('packages\PdfiumViewer.Native.x86_64.v8-xfa.2018.4.8.256\build\PdfiumViewer.Native.x86_64.v8-xfa.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\PdfiumViewer.Native.x86_64.v8-xfa.2018.4.8.256\build\PdfiumViewer.Native.x86_64.v8-xfa.props'))" />
+  </Target>
+  <Import Project="packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
+  <Import Project="packages\MSBuild.NugetContentRestore.0.1.6\build\net40\MSBuild.NugetContentRestore.targets" Condition="Exists('packages\MSBuild.NugetContentRestore.0.1.6\build\net40\MSBuild.NugetContentRestore.targets')" />
+  <Target Name="BeforeBuild">
+    <NugetContentRestoreTask SolutionDir="$(SolutionDir)" ProjectDir="$(ProjectDir)" />
+  </Target>
+  <Import Project="packages\Tesseract.5.2.0\build\Tesseract.targets" Condition="Exists('packages\Tesseract.5.2.0\build\Tesseract.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

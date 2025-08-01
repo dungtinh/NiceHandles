@@ -1,0 +1,99 @@
+﻿@using NiceHandles.Models
+@{
+    ViewBag.Title = "Nhập thông tin";
+}
+
+<h2>Nhập thông tin</h2>
+@{
+    var db = (NHModel)ViewBag.db;
+    var document = (Document)ViewBag.document;
+    var contract = (Contract)ViewBag.contract;
+}
+<div class="form-horizontal" id="control">
+    <h4>
+        @Html.Raw(document.name)
+        @if (!string.IsNullOrEmpty(document.template))
+        {
+            @Html.ActionLink("Tải về", "Download", new { cid = contract.id, did = document.id }, null)
+        }
+    </h4>
+    <hr />
+    @foreach (var gr in db.GroupFields.Where(x => x.document_id == document.id).OrderBy(x => x.no))
+    {
+        <h3 class="text-primary"> @gr.name </h3>
+        <hr />
+        foreach (var fi in db.Fields.Where(x => x.group_id == gr.id).OrderBy(x => x.no))
+        {
+            var v = db.Vals.Where(x => x.field_id == fi.id && x.contract_id == contract.id).SingleOrDefault();
+            var temp = from
+                           xf in db.Fields
+                       join xv in db.Vals on xf.id equals xv.field_id
+                       where xv.contract_id == contract.id && xf.name.Equals(fi.name)
+                       select xv.value;
+            if (v == null || string.IsNullOrEmpty(v.value))
+            {
+                v = new Val();
+                v.value = temp.Count() > 0 ? temp.First() : null;
+            }
+            <div class="form-group">
+                @Html.Label(fi.title + " {" + fi.name + "}", htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-8">
+                    @Html.TextBox(fi.id.ToString(), "", new { @class = "form-control", @Value = v != null ? v.value : null, data = Json.Encode(temp) })
+                </div>
+            </div>
+        }
+    }
+    <div class="alert" role="alert" style="display: none;">
+        <h4 class="alert-heading">Thành công!</h4>
+        <hr />
+        <p>Đã thực hiện lưu thông tin.</p>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="button" value="Lưu lại" class="btn btn-default" onclick="Submit()" data-dismiss="alert" />
+        </div>
+    </div>
+</div>
+<div>
+    @Html.ActionLink("Về danh sách", "Details", "Contracts", new { id = contract.id }, null)
+</div>
+@section Scripts {
+    <script src="~/Scripts/autocomplete.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#control input:text").each(function () {
+                var arr = [];
+                arr = JSON.parse($(this).attr("data"));
+                autocomplete(this, arr);
+            });
+        });
+        function Submit() {
+            var lst = [];
+            $("#control input:text").each(function () {
+                var obj = new Object();
+                obj.field_id = $(this).attr("name");
+                obj.value = $(this).val();
+                obj.contract_id = @contract.id;
+                lst.push(obj);
+            });
+            $.ajax({
+                url: '/Vals/Save',
+                type: "POST",
+                dataType: "JSON",
+                data: { vls: lst },
+                success: function (mess) {
+                    if (mess) {
+                        $(".alert").addClass("alert-success");
+                    }
+                    else {
+                        $(".alert p").text("Thực hiện không thành công");
+                        $(".alert h4").text("Thất bại!");
+                        $(".alert").addClass("alert-danger");
+                    }
+                    $(".alert").show("fade");
+                    setTimeout(function () { $(".alert").hide("fade"); }, 3000);
+                }
+            });
+        }
+    </script>
+}

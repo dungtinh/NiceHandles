@@ -1,0 +1,88 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var db = new NiceHandles.Models.NHModel();
+    var sGroupMembers = db.vSettingGroupMembers.ToList();
+}
+
+<h2>Cấu hình</h2>
+<style>
+    .fs {
+        border: 1px solid #d9534f;
+        border-radius: 10px;
+        padding: 0 10px;
+        margin-bottom: 10px;
+    }
+
+        .fs legend {
+            background-color: #d9534f;
+            padding-inline-start: 10px;
+            color: #fff;
+            text-transform: uppercase;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 13pt;
+            padding: 3px;
+            margin-bottom: 0;
+        }
+
+    iframe {
+        border: none;
+    }
+</style>
+<fieldset class="fs">
+    <legend>Danh mục thu chi</legend>
+    <iframe src="/categories/" height="500" width="100%">
+    </iframe>
+</fieldset>
+<fieldset class="fs">
+    <legend>Nhóm phụ trách hồ sơ</legend>
+    <iframe src="/GroupMembers/" height="250" width="100%">
+    </iframe>
+</fieldset>
+<fieldset class="fs">
+    <legend>Thành viên phụ trách hồ sơ</legend>
+    <iframe src="/GroupMember_Account/" height="350" width="100%">
+    </iframe>
+</fieldset>
+<fieldset class="fs">
+    <legend>Danh sách dịch vụ</legend>
+    <iframe src="/services/" height="400" width="100%">
+    </iframe>
+</fieldset>
+<fieldset class="fs">
+    <legend>Danh sách các văn bản download</legend>
+    <iframe src="/documents/" height="400" width="100%">
+    </iframe>
+</fieldset>
+<fieldset class="fs">
+    <legend>Danh sách đối tác</legend>
+    <iframe src="/partners/" height="400" width="100%">
+    </iframe>
+</fieldset>
+<fieldset class="fs">
+    <legend>Cán bộ thụ lý VPĐK chi nhánh huyện An Dương</legend>
+    <iframe src="/canboes/" height="400" width="100%">
+    </iframe>
+</fieldset>
+<fieldset class="fs">
+    <legend>Xã, phường, thị trấn trong huyện An Dương</legend>
+    <iframe src="/addresses/" height="400" width="100%">
+    </iframe>
+</fieldset>
+<fieldset class="fs">
+    <legend>Các việc phải làm trong dịch dịch vụ</legend>
+    <iframe src="/congviecs/" height="400" width="100%">
+    </iframe>
+</fieldset>
+<fieldset class="fs">
+    <legend>Bước thực hiện</legend>
+    <iframe src="/steps/" height="400" width="100%">
+    </iframe>
+</fieldset>
+<fieldset class="fs">
+    <legend>Cấu hình</legend>
+    <iframe src="/settings/default/" height="400" width="100%">
+    </iframe>
+</fieldset>

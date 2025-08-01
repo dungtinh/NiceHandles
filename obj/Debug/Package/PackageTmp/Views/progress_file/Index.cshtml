@@ -1,0 +1,104 @@
+﻿@model PagedList.IPagedList<NiceHandles.Models.progress_file>
+@using PagedList.Mvc;
+@using NiceHandles.Models
+@using Microsoft.AspNet.Identity;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "File";
+    var db = new NHModel();
+    var username = User.Identity.GetUserName();
+    var us = db.Accounts.Where(x => x.UserName.Equals(username)).Single();
+}
+
+<h2>Danh sách file upload</h2>
+@using (Html.BeginForm("Index", "progress_file", FormMethod.Get))
+{
+    <div class="row">
+        <div class="col-sm-2">
+            <div class="form-group">
+                @Html.TextBox("Search_Data", ViewBag.FilterValue as string, new { @class = "form-control", placeholder = "Tìm kiếm" })
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                @Html.DropDownList("hoso_id", new SelectList(new progress_file[0]), "Hồ sơ", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-sm-1">
+            <div class="form-group">
+                @Html.DropDownList("progress_id", new SelectList(db.Progresses, "id", "title"), "Thư mục", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-sm-1">
+            <div class="form-group">
+                @Html.DropDownList("type", new SelectList(XProgressFile.sType, "Key", "Value"), "Phân loại", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary" style="height: 32px; width: 100px;"><i class="fa fa-search"></i> Tìm kiếm</button>
+            </div>
+        </div>
+    </div>
+}
+<table class="table">
+    <tr>
+        <th>
+            Hồ sơ
+        </th>
+        <th>
+            Thư mục
+        </th>
+        <th>
+            Tên
+        </th>
+        <th>
+            Loại
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        var hoso = db.HoSoes.Find(item.hoso_id);
+        var progress = db.Progresses.Find(item.progress_id);
+        <tr>
+            <td>
+                @hoso.name
+            </td>
+            <td>
+                @progress.title
+            </td>
+            <td>
+                @item.name
+            </td>
+            <td>
+                @XProgressFile.sType[item.type]
+            </td>
+            <td>
+                <a href="@(item.url)" target="_blank"><i class="fa fa-eye"> Xem</i></a> |
+                @Html.ActionLink(" Delete", "Delete", new { id = item.id })
+            </td>
+        </tr>
+    }
+
+</table>
+@if (Model.PageCount > 1)
+{
+    <div class="row" style="margin-top: 10px;">
+        <div class="col-sm-1">
+            Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+        </div>
+        <div class="col-sm-10">
+            @Html.PagedListPager(Model, Page_No => Url.Action("Index", new { Page_No, Filter_Value = ViewBag.FilterValue, account_id = ViewBag.account_id, category_id = ViewBag.category_id, type = ViewBag.type, fromdate = ViewBag.FROMDATE, todate = ViewBag.TODATE }))
+        </div>
+    </div>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            SetSelect2("#hoso_id", "/Hosoes/GetHosoService", "VD: Nguyễn Văn A");
+        });
+    </script>
+}

@@ -1,0 +1,145 @@
+﻿@model PagedList.IPagedList<NiceHandles.Models.Job>
+@using PagedList.Mvc;
+@using NiceHandles.Models;
+@using Microsoft.AspNet.Identity;
+@{
+    ViewBag.Title = "Issues";
+    var db = (NiceHandles.Models.NHModel)ViewBag.db;
+    var accounts = db.Accounts.Where(x => x.sta == (int)XAccount.eStatus.Processing);
+    var username = User.Identity.GetUserName();
+    var acc = db.Accounts.Where(x => x.UserName.Equals(username)).Single();
+    var temp = XJob.sStatus.ToDictionary(entry => entry.Key,
+                                               entry => entry.Value);
+    var xStatus = temp.ToList();
+    xStatus.Insert(0, new KeyValuePair<int, string>(-1, "Tất cả"));
+}
+
+<h2>VIỆC CỦA TÔI</h2>
+<style type="text/css">
+    th {
+        text-align: center;
+    }
+</style>
+<p>
+    @Html.ActionLink("Thêm mới", "Create", null, new { @class = "btn btn-primary" }) |
+    <button class="btn btn-info" onclick="Print(@acc.id);">In</button>
+    <button class="btn btn-warning pull-right right" onclick="DailyReport();">Báo cáo</button>
+</p>
+@using (Html.BeginForm("Issue", "Jobs", FormMethod.Get, new { @novalidate = "" }))
+{
+    <div class="row">
+        <div class="col-sm-2">
+            <div class="form-group">
+                @Html.TextBox("Search_Data", ViewBag.FilterValue as string, new { @class = "form-control", placeholder = "Tìm kiếm" })
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                @Html.DropDownList("sta", new SelectList(xStatus, "Key", "Value", (int)XJob.eStatus.Processing), new { @class = "form-control", title = "Trạng thái" })
+            </div>
+        </div>
+        @if (User.IsInRole("SuperAdmin") || User.IsInRole("Manager") || User.IsInRole("Accounting"))
+        {
+            <div class="col-sm-2">
+                <div class="form-group">
+                    @Html.DropDownList("user", new SelectList(accounts, "id", "fullname", acc.id), new { @class = "form-control", title = "Người dùng" })
+                </div>
+            </div>
+        }
+        <div class="col-lg-2">
+            <div class="form-group">
+                <button type="submit" class="btn btn-danger" style="height: 32px; width: 100px;">Tìm kiếm</button>
+            </div>
+        </div>
+    </div>
+}
+<table class="table table-hover">
+    <tr>
+        <th>
+            Nhiệm vụ
+        </th>
+        <th>
+            Người giao
+        </th>
+        <th>
+            Trạng thái
+        </th>
+        <th>
+            Progress
+        </th>
+        <th>
+            Ngày bắt đầu
+        </th>
+        <th>
+            Hạn hoàn thành
+        </th>
+        <th>
+            Ghi chú
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        var tasks = db.tasks.Where(x => x.job_id == item.id).ToArray();
+        var nguoigiao = db.Accounts.Find(item.created_by);
+        <tr>
+            <td>
+                @Html.ActionLink(item.name, "Edit", new { id = item.id })
+                <ul>
+                    @foreach (var pt in tasks)
+                    {
+                        <li style="list-style: none;"><input type="checkbox" @Html.Raw(pt.status == (int)XModels.eStatus.Complete ? "checked" : "") disabled="disabled" /> @pt.name</li>
+                    }
+                </ul>
+            </td>
+            <td>
+                @Html.Raw(nguoigiao != null ? nguoigiao.fullname : "")
+            </td>
+            <td align="center" class="@XJob.sStatusColor[item.status]">
+                @XJob.sStatus[item.status]
+            </td>
+            <td align="center">
+                @Html.Raw(tasks.Count(x => x.status == (int)XModels.eStatus.Complete).ToString() + "/" + tasks.Count())
+            </td>
+            <td align="center">
+                @Html.Raw(item.start_date.HasValue ? item.start_date.Value.ToString("dd/MM/yy") : "---")
+            </td>
+            <td align="center">
+                @Html.Raw(item.exp_date.HasValue ? item.exp_date.Value.ToString("dd/MM/yy") : "---")
+            </td>
+            <td>
+                @item.note
+            </td>
+        </tr>
+    }
+</table>
+@if (Model.PageCount > 1)
+{
+    <div class="row" style="margin-top: 10px;">
+        <div class="col-sm-1">
+            Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+        </div>
+        <div class="col-sm-10">
+            @Html.PagedListPager(Model, Page_No => Url.Action("Issue", new { Page_No, Filter_Value = ViewBag.FilterValue, sta = ViewBag.STA, user = ViewBag.USER }))
+        </div>
+    </div>
+}
+
+<iframe id="my_iframe" style="display:none;"></iframe>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/Jobs.js"></script>
+    <script type="text/javascript">
+        function DailyReport() {
+            $.ajax({
+                url: '/Jobs/DailyReport',
+                type: "POST",
+                dataType: "JSON",
+                data: {},
+                success: function (data) {
+                    document.getElementById('my_iframe').src = data;
+                }
+            });
+        }
+    </script>
+}
