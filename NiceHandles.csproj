@@ -58,7 +58,7 @@
     </Reference>
     <Reference Include="Aspose.Words, Version=24.10.0.0, Culture=neutral, PublicKeyToken=716fcc553a201e56, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\NiceHandlesV2.1\NiceHandles\bin\Aspose.Words.dll</HintPath>
+      <HintPath>..\..\BIN\Aspose.Words.dll</HintPath>
     </Reference>
     <Reference Include="Aspose.Words.Pdf2Word, Version=24.10.0.0, Culture=neutral, PublicKeyToken=716fcc553a201e56, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -360,158 +360,436 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Attendance.cs" />
-    <Compile Include="Models\Account.cs" />
+    <Compile Include="Models\Account.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\Address.cs" />
+    <Compile Include="Models\Address.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\AddressEntities.cs" />
     <Compile Include="Models\ApiResponse.cs" />
-    <Compile Include="Models\AspNetRole.cs" />
-    <Compile Include="Models\AspNetRoles.cs" />
-    <Compile Include="Models\AspNetUser.cs" />
-    <Compile Include="Models\AspNetUserClaim.cs" />
-    <Compile Include="Models\AspNetUserClaims.cs" />
-    <Compile Include="Models\AspNetUserLogin.cs" />
-    <Compile Include="Models\AspNetUserLogins.cs" />
-    <Compile Include="Models\AspNetUsers.cs" />
-    <Compile Include="Models\BangChamCong.cs" />
-    <Compile Include="Models\CanBo.cs" />
-    <Compile Include="Models\CanBoDiaPhuong.cs" />
+    <Compile Include="Models\AspNetRole.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUser.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUserClaim.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUserLogin.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Attendance.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BangChamCong.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CanBo.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CanBoDiaPhuong.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\CardData.cs" />
-    <Compile Include="Models\Category.cs" />
-    <Compile Include="Models\ChamCong.cs" />
-    <Compile Include="Models\ChatFile.cs" />
+    <Compile Include="Models\Category.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ChamCong.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ChatFile.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ChatMessagePartial.cs" />
-    <Compile Include="Models\ChatMessage.cs" />
+    <Compile Include="Models\ChatMessage.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ChatSessionPartial.cs" />
-    <Compile Include="Models\ChatSession.cs" />
-    <Compile Include="Models\chotso.cs" />
-    <Compile Include="Models\CongViec.cs" />
-    <Compile Include="Models\Contract.cs" />
-    <Compile Include="Models\CoQuanGiaiQuyet.cs" />
-    <Compile Include="Models\CuocHop.cs" />
-    <Compile Include="Models\Customer.cs" />
-    <Compile Include="Models\C__MigrationHistory.cs" />
-    <Compile Include="Models\di1cua.cs" />
-    <Compile Include="Models\Diary.cs" />
-    <Compile Include="Models\didiachinh.cs" />
-    <Compile Include="Models\Document.cs" />
-    <Compile Include="Models\donthu.cs" />
-    <Compile Include="Models\Dove.cs" />
-    <Compile Include="Models\dovelichsu.cs" />
-    <Compile Include="Models\Dove_ThuChi.cs" />
-    <Compile Include="Models\dove_wf.cs" />
-    <Compile Include="Models\DSBanLamViec.cs" />
-    <Compile Include="Models\DSChoDuyet.cs" />
-    <Compile Include="Models\DSHoSo.cs" />
-    <Compile Include="Models\DSMotCua.cs" />
-    <Compile Include="Models\DuChi.cs" />
-    <Compile Include="Models\DuChiNhatKy.cs" />
-    <Compile Include="Models\DuChiNhatKyWF.cs" />
-    <Compile Include="Models\DvhcC1.cs" />
-    <Compile Include="Models\Field.cs" />
-    <Compile Include="Models\File.cs" />
-    <Compile Include="Models\fk_CanBo_Address.cs" />
-    <Compile Include="Models\fk_chotso_thuchi.cs" />
-    <Compile Include="Models\fk_congviec_contract.cs" />
-    <Compile Include="Models\fk_congviec_hoso.cs" />
-    <Compile Include="Models\fk_congviec_service.cs" />
-    <Compile Include="Models\fk_contract_service.cs" />
-    <Compile Include="Models\fk_service_document.cs" />
-    <Compile Include="Models\GiaoNhanGiayTo.cs" />
-    <Compile Include="Models\GroupField.cs" />
-    <Compile Include="Models\GroupMember.cs" />
-    <Compile Include="Models\GroupMember_Account.cs" />
-    <Compile Include="Models\Holiday.cs" />
-    <Compile Include="Models\HoSo.cs" />
-    <Compile Include="Models\Hoso_Step.cs" />
+    <Compile Include="Models\ChatSession.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\chotso.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CongViec.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Contract.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CoQuanGiaiQuyet.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CuocHop.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Customer.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C__MigrationHistory.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\di1cua.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Diary.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\didiachinh.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Document.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\donthu.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Dove.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\dovelichsu.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Dove_ThuChi.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\dove_wf.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DSBanLamViec.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DSChoDuyet.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DSHoSo.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DSMotCua.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DuChi.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DuChiNhatKy.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DuChiNhatKyWF.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DvhcC1.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Field.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\File.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fk_CanBo_Address.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fk_chotso_thuchi.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fk_congviec_hoso.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fk_congviec_service.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fk_contract_service.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fk_service_document.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GiaoNhanGiayTo.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GroupField.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GroupMember.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GroupMember_Account.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Holiday.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HoSo.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Hoso_Step.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\Infomation.cs" />
-    <Compile Include="Models\InOut.cs" />
-    <Compile Include="Models\InOutChoDuyet.cs" />
-    <Compile Include="Models\Job.cs" />
-    <Compile Include="Models\KPI.cs" />
-    <Compile Include="Models\KPIChiTieu.cs" />
-    <Compile Include="Models\KPILink.cs" />
-    <Compile Include="Models\LanDau.cs" />
-    <Compile Include="Models\landau_quytrinh.cs" />
+    <Compile Include="Models\Infomation.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\InOut.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\InOutChoDuyet.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Job.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KPI.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KPIChiTieu.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KPILink.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LanDau.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\landau_quytrinh.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\Money.cs" />
-    <Compile Include="Models\NguoiHop.cs" />
-    <Compile Include="Models\nhatkydonthu.cs" />
-    <Compile Include="Models\NhiemVu.cs" />
-    <Compile Include="Models\NHModel.cs" />
-    <Compile Include="Models\Notice.cs" />
-    <Compile Include="Models\OneDoorFile.cs" />
-    <Compile Include="Models\Page4.cs" />
-    <Compile Include="Models\Partner.cs" />
-    <Compile Include="Models\PartnerAccount.cs" />
-    <Compile Include="Models\PayPlan.cs" />
-    <Compile Include="Models\PhuCap.cs" />
-    <Compile Include="Models\PriceByArea.cs" />
-    <Compile Include="Models\Progress.cs" />
-    <Compile Include="Models\Progress_Document.cs" />
-    <Compile Include="Models\progress_file.cs" />
-    <Compile Include="Models\progress_file_option.cs" />
-    <Compile Include="Models\QuanTriVanHanh.cs" />
-    <Compile Include="Models\QuyDove.cs" />
-    <Compile Include="Models\Reporter.cs" />
-    <Compile Include="Models\Reward.cs" />
-    <Compile Include="Models\Service.cs" />
-    <Compile Include="Models\service_step_day.cs" />
-    <Compile Include="Models\Setting.cs" />
-    <Compile Include="Models\Social.cs" />
-    <Compile Include="Models\SoHoKhau.cs" />
-    <Compile Include="Models\Step.cs" />
-    <Compile Include="Models\StepAccount.cs" />
-    <Compile Include="Models\Stocker.cs" />
-    <Compile Include="Models\syslog.cs" />
-    <Compile Include="Models\TachHop.cs" />
-    <Compile Include="Models\TachThua.cs" />
-    <Compile Include="Models\TaiLieu.cs" />
-    <Compile Include="Models\task.cs" />
-    <Compile Include="Models\ThongTinCaNhan.cs" />
-    <Compile Include="Models\ThuaDat.cs" />
-    <Compile Include="Models\thuchi.cs" />
-    <Compile Include="Models\TreoPhuon.cs" />
-    <Compile Include="Models\TruLuong.cs" />
-    <Compile Include="Models\UploadedFile.cs" />
-    <Compile Include="Models\User.cs" />
-    <Compile Include="Models\Val.cs" />
-    <Compile Include="Models\vCalculatorMoney.cs" />
-    <Compile Include="Models\vCanBoDiaPhuongC1.cs" />
-    <Compile Include="Models\vCanBoDiaPhuongC2.cs" />
-    <Compile Include="Models\vChartInOut.cs" />
-    <Compile Include="Models\vContract.cs" />
-    <Compile Include="Models\vContractHardFile.cs" />
-    <Compile Include="Models\vContractSelect.cs" />
-    <Compile Include="Models\vDi1Cua.cs" />
-    <Compile Include="Models\vDuChi.cs" />
-    <Compile Include="Models\vDvhcC1.cs" />
-    <Compile Include="Models\vHomeWFInOut.cs" />
-    <Compile Include="Models\vHoSo.cs" />
-    <Compile Include="Models\ViecPhaiLam.cs" />
+    <Compile Include="Models\Money.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NguoiHop.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\nhatkydonthu.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NhiemVu.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NHModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NHModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NHModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NHModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NHModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Notice.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OneDoorFile.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Page4.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Partner.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PartnerAccount.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PayPlan.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PhuCap.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PriceByArea.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Progress.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Progress_Document.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\progress_file.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\progress_file_option.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\QuanTriVanHanh.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\QuyDove.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Reporter.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Reward.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Service.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\service_step_day.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Setting.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Social.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SoHoKhau.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Step.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StepAccount.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Stocker.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\syslog.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TachHop.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TachThua.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TaiLieu.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\task.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Test_Result.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ThongTinCaNhan.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ThuaDat.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\thuchi.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TreoPhuon.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TruLuong.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\User.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Val.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vCalculatorMoney.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vCanBoDiaPhuongC1.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vCanBoDiaPhuongC2.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vChartInOut.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vContract.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vContractHardFile.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vContractSelect.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vDi1Cua.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vDuChi.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vDvhcC1.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vHomeWFInOut.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vHoSo.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ViecPhaiLam.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ViewModels\MonthlyAttendanceViewModel.cs" />
     <Compile Include="Models\ViewModels\AttendanceInputModel.cs" />
-    <Compile Include="Models\vInOut.cs" />
-    <Compile Include="Models\vMyFile.cs" />
-    <Compile Include="Models\vMyReward.cs" />
-    <Compile Include="Models\vPayPlan.cs" />
-    <Compile Include="Models\vPending.cs" />
-    <Compile Include="Models\vPhongDoVe.cs" />
-    <Compile Include="Models\vSettingGroupMember.cs" />
-    <Compile Include="Models\vSoanThao.cs" />
-    <Compile Include="Models\vStorage.cs" />
-    <Compile Include="Models\vTheoDoiChi.cs" />
-    <Compile Include="Models\vTheoDoiTienDo.cs" />
-    <Compile Include="Models\vTienDo.cs" />
-    <Compile Include="Models\vViecPhaiLam.cs" />
-    <Compile Include="Models\wf_contract.cs" />
-    <Compile Include="Models\wf_hoso.cs" />
-    <Compile Include="Models\wf_hoso_note.cs" />
-    <Compile Include="Models\wf_hoso_step.cs" />
-    <Compile Include="Models\wf_inout.cs" />
-    <Compile Include="Models\wf_quydove.cs" />
+    <Compile Include="Models\vInOut.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vMyFile.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vMyReward.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vPayPlan.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vPending.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vPhongDoVe.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vSettingGroupMember.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vSoanThao.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vStorage.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vTheoDoiChi.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vTheoDoiTienDo.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vTienDo.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vViecPhaiLam.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\wf_contract.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\wf_hoso.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\wf_hoso_step.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\wf_inout.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\wf_quydove.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\XAccount.cs" />
     <Compile Include="Models\XBangChamCong.cs" />
     <Compile Include="Models\XCuocHop.cs" />
@@ -566,6 +844,16 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="index.html" />
+    <Content Include="Models\NHModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>NHModel.edmx</DependentUpon>
+      <LastGenOutput>NHModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\NHModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>NHModel.edmx</DependentUpon>
+      <LastGenOutput>NHModel.cs</LastGenOutput>
+    </Content>
     <Content Include="NQH.jpg" />
     <Content Include="Scripts\autocomplete.js" />
     <Content Include="Scripts\autoNumeric-1.9.45.js" />
@@ -791,6 +1079,13 @@
     <Content Include="App_Data\templates\DPATCChamL3.docx" />
     <Content Include="App_Data\templates\DPATCChamUBND.docx" />
     <Content Include="App_Data\templates\LanDau_6VBTuThoaThuan.docx" />
+    <EntityDeploy Include="Models\NHModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>NHModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\NHModel.edmx.diagram">
+      <DependentUpon>NHModel.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-confirm.min.js" />
     <Content Include="Scripts\jquery.signalR-2.4.3.js" />
@@ -1335,6 +1630,9 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -20,7 +20,7 @@ namespace NiceHandles.Controllers
         [Authorize(Roles = "SuperAdmin")]
         public ActionResult Index()
         {
-            return View(db.Categories.ToList());
+            return View(db.Categories.Where(x => x.status == (int)XModels.eStatus.Processing).ToList());
         }
 
         // GET: Categories/Details/5
@@ -138,17 +138,19 @@ namespace NiceHandles.Controllers
             }
             else
                 p = (int)XCategory.eParent.VanPhong;
-            var lst = db.Categories.Where(c => c.type == cate && c.parent_id == p.Value).OrderBy(x => x.name);
+            var lst = db.Categories.Where(c => c.type == cate && c.parent_id == p.Value && c.status == (int)XModels.eStatus.Processing).OrderBy(x => x.name);
             return Json(lst, JsonRequestBehavior.AllowGet);
         }
         [Authorize(Roles = "SuperAdmin,Accounting,Stocker")]
         public ActionResult FillCategoryContract(int type, int parent_id)
         {
             var lst = db.Categories.Where(c => c.type == type && c.parent_id == parent_id
-                        && c.kind != (int)XCategory.eKind.Partner
-                        && c.kind != (int)XCategory.eKind.Rose
-                        && c.kind != (int)XCategory.eKind.Dove
-                        && c.kind != (int)XCategory.eKind.Remunerate).OrderBy(x => x.name);
+                        && c.status == (int)XModels.eStatus.Processing
+                        //&& c.kind != (int)XCategory.eKind.Partner
+                        //&& c.kind != (int)XCategory.eKind.Rose
+                        //&& c.kind != (int)XCategory.eKind.Dove
+                        //&& c.kind != (int)XCategory.eKind.Remunerate
+                        ).OrderBy(x => x.name);
             return Json(lst, JsonRequestBehavior.AllowGet);
         }
     }

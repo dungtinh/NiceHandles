@@ -86,7 +86,7 @@ namespace NiceHandles.Controllers
 
             // Biểu đồ
             //doughnut[] chart = new doughnut[XCategory.sNhom.Count()];
-            var lstCategories = db.Categories.ToArray();
+            var lstCategories = db.Categories.Where(x=>x.status == (int)XModels.eStatus.Processing).ToArray();
             var chart = "[";
             foreach (var item in XCategory.sNhom.Where(x => x.Key != (int)XCategory.eNhom.Thu))
             {
@@ -673,7 +673,7 @@ namespace NiceHandles.Controllers
             XInOut model = new XInOut();
             model.account = db.Accounts.Select(x => new SelectListItem { Value = x.id.ToString(), Text = x.fullname }).ToArray();
             model.types = XCategory.sType.Select(x => new SelectListItem { Value = x.Key.ToString(), Text = x.Value }).ToArray();
-            model.categories = db.Categories.Where(x => x.type == inOut.type).Select(x => new SelectListItem { Value = x.id.ToString(), Text = x.name }).ToArray();
+            model.categories = db.Categories.Where(x => x.type == inOut.type && x.status == (int)XModels.eStatus.Processing).Select(x => new SelectListItem { Value = x.id.ToString(), Text = x.name }).ToArray();
             model.amount = inOut.amount;
             model.obj = inOut;
             return View(model);
@@ -926,7 +926,7 @@ namespace NiceHandles.Controllers
             if (!string.IsNullOrEmpty(type))
             {
                 it = int.Parse(type);
-                ViewBag.Categories = db.Categories.Where(x => x.type == it.Value).Select(x => new SelectListItem { Value = x.id.ToString(), Text = x.name }).ToArray();
+                ViewBag.Categories = db.Categories.Where(x => x.type == it.Value && x.status == (int)XModels.eStatus.Processing).Select(x => new SelectListItem { Value = x.id.ToString(), Text = x.name }).ToArray();
             }
             if (!string.IsNullOrEmpty(account_id))
             {

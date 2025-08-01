@@ -5,7 +5,7 @@
     var db = new NHModel();
     var accounts = db.Accounts.Where(x => x.sta == (int)XAccount.eStatus.Processing);
     var category = db.Categories.Find(Model.category_id);
-    var categories = db.Categories.Where(x => x.type == Model.type && x.parent_id == category.parent_id);
+    var categories = db.Categories.Where(x => x.type == Model.type && x.parent_id == category.parent_id && x.status == (int)XModels.eStatus.Processing);
 }
 
 <h2>Chỉnh sửa</h2>

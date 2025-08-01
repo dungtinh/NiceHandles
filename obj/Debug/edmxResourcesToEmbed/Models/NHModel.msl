@@ -1,0 +1,2329 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="NiceHandleModelStoreContainer" CdmEntityContainer="NHModel">
+    <EntitySetMapping Name="C__MigrationHistory">
+      <EntityTypeMapping TypeName="NiceHandleModel.C__MigrationHistory">
+        <MappingFragment StoreEntitySet="__MigrationHistory">
+          <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
+          <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
+          <ScalarProperty Name="Model" ColumnName="Model" />
+          <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Accounts">
+      <EntityTypeMapping TypeName="NiceHandleModel.Account">
+        <MappingFragment StoreEntitySet="Account">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="disname" ColumnName="disname" />
+          <ScalarProperty Name="fullname" ColumnName="fullname" />
+          <ScalarProperty Name="chotso" ColumnName="chotso" />
+          <ScalarProperty Name="sticknote" ColumnName="sticknote" />
+          <ScalarProperty Name="luong" ColumnName="luong" />
+          <ScalarProperty Name="phucap" ColumnName="phucap" />
+          <ScalarProperty Name="bankno" ColumnName="bankno" />
+          <ScalarProperty Name="bank_name" ColumnName="bank_name" />
+          <ScalarProperty Name="isNV" ColumnName="isNV" />
+          <ScalarProperty Name="hasNote" ColumnName="hasNote" />
+          <ScalarProperty Name="phoneno" ColumnName="phoneno" />
+          <ScalarProperty Name="birthday" ColumnName="birthday" />
+          <ScalarProperty Name="gender" ColumnName="gender" />
+          <ScalarProperty Name="hktt" ColumnName="hktt" />
+          <ScalarProperty Name="sogiayto" ColumnName="sogiayto" />
+          <ScalarProperty Name="ngaycap_gt" ColumnName="ngaycap_gt" />
+          <ScalarProperty Name="noicap_gt" ColumnName="noicap_gt" />
+          <ScalarProperty Name="is_uq" ColumnName="is_uq" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="manager" ColumnName="manager" />
+          <ScalarProperty Name="sta" ColumnName="sta" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Addresses">
+      <EntityTypeMapping TypeName="NiceHandleModel.Address">
+        <MappingFragment StoreEntitySet="Address">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="code" ColumnName="code" />
+          <ScalarProperty Name="parent_id" ColumnName="parent_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AspNetRoles">
+      <EntityTypeMapping TypeName="NiceHandleModel.AspNetRole">
+        <MappingFragment StoreEntitySet="AspNetRoles">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AspNetUserClaims">
+      <EntityTypeMapping TypeName="NiceHandleModel.AspNetUserClaim">
+        <MappingFragment StoreEntitySet="AspNetUserClaims">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+          <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AspNetUserLogins">
+      <EntityTypeMapping TypeName="NiceHandleModel.AspNetUserLogin">
+        <MappingFragment StoreEntitySet="AspNetUserLogins">
+          <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+          <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AspNetUsers">
+      <EntityTypeMapping TypeName="NiceHandleModel.AspNetUser">
+        <MappingFragment StoreEntitySet="AspNetUsers">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+          <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+          <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+          <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+          <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+          <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+          <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Attendances">
+      <EntityTypeMapping TypeName="NiceHandleModel.Attendance">
+        <MappingFragment StoreEntitySet="Attendance">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="MorningCheckInActual" ColumnName="MorningCheckInActual" />
+          <ScalarProperty Name="MorningCheckOutActual" ColumnName="MorningCheckOutActual" />
+          <ScalarProperty Name="AfternoonCheckInActual" ColumnName="AfternoonCheckInActual" />
+          <ScalarProperty Name="AfternoonCheckOutActual" ColumnName="AfternoonCheckOutActual" />
+          <ScalarProperty Name="MorningCheckInManual" ColumnName="MorningCheckInManual" />
+          <ScalarProperty Name="MorningCheckOutManual" ColumnName="MorningCheckOutManual" />
+          <ScalarProperty Name="AfternoonCheckInManual" ColumnName="AfternoonCheckInManual" />
+          <ScalarProperty Name="AfternoonCheckOutManual" ColumnName="AfternoonCheckOutManual" />
+          <ScalarProperty Name="LateReason" ColumnName="LateReason" />
+          <ScalarProperty Name="TotalHours" ColumnName="TotalHours" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BangChamCongs">
+      <EntityTypeMapping TypeName="NiceHandleModel.BangChamCong">
+        <MappingFragment StoreEntitySet="BangChamCong">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="thoigian" ColumnName="thoigian" />
+          <ScalarProperty Name="ngay" ColumnName="ngay" />
+          <ScalarProperty Name="cong" ColumnName="cong" />
+          <ScalarProperty Name="note" ColumnName="note" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CanBoes">
+      <EntityTypeMapping TypeName="NiceHandleModel.CanBo">
+        <MappingFragment StoreEntitySet="CanBo">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="address_id" ColumnName="address_id" />
+          <ScalarProperty Name="motcua" ColumnName="motcua" />
+          <ScalarProperty Name="trangthai" ColumnName="trangthai" />
+          <ScalarProperty Name="thutu" ColumnName="thutu" />
+          <ScalarProperty Name="phone" ColumnName="phone" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CanBoDiaPhuongs">
+      <EntityTypeMapping TypeName="NiceHandleModel.CanBoDiaPhuong">
+        <MappingFragment StoreEntitySet="CanBoDiaPhuong">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="chucvu" ColumnName="chucvu" />
+          <ScalarProperty Name="gmap" ColumnName="gmap" />
+          <ScalarProperty Name="phoneno" ColumnName="phoneno" />
+          <ScalarProperty Name="thuoccap" ColumnName="thuoccap" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="fk_id" ColumnName="fk_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Categories">
+      <EntityTypeMapping TypeName="NiceHandleModel.Category">
+        <MappingFragment StoreEntitySet="Category">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="parent_id" ColumnName="parent_id" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="wf" ColumnName="wf" />
+          <ScalarProperty Name="kind" ColumnName="kind" />
+          <ScalarProperty Name="pair" ColumnName="pair" />
+          <ScalarProperty Name="nhom" ColumnName="nhom" />
+          <ScalarProperty Name="duyet" ColumnName="duyet" />
+          <ScalarProperty Name="theodoi" ColumnName="theodoi" />
+          <ScalarProperty Name="tamung" ColumnName="tamung" />
+          <ScalarProperty Name="status" ColumnName="status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Contracts">
+      <EntityTypeMapping TypeName="NiceHandleModel.Contract">
+        <MappingFragment StoreEntitySet="Contract">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="code" ColumnName="code" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="address_id" ColumnName="address_id" />
+          <ScalarProperty Name="service_id" ColumnName="service_id" />
+          <ScalarProperty Name="amount" ColumnName="amount" />
+          <ScalarProperty Name="consuming" ColumnName="consuming" />
+          <ScalarProperty Name="time" ColumnName="time" />
+          <ScalarProperty Name="time_exp" ColumnName="time_exp" />
+          <ScalarProperty Name="deadline" ColumnName="deadline" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="Priority" ColumnName="Priority" />
+          <ScalarProperty Name="partner" ColumnName="partner" />
+          <ScalarProperty Name="sodienthoai" ColumnName="sodienthoai" />
+          <ScalarProperty Name="sodienthoai_mota" ColumnName="sodienthoai_mota" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="rose" ColumnName="rose" />
+          <ScalarProperty Name="outrose" ColumnName="outrose" />
+          <ScalarProperty Name="dove" ColumnName="dove" />
+          <ScalarProperty Name="remunerate" ColumnName="remunerate" />
+          <ScalarProperty Name="soanthao" ColumnName="soanthao" />
+          <ScalarProperty Name="HardFileLink" ColumnName="HardFileLink" />
+          <ScalarProperty Name="loai" ColumnName="loai" />
+          <ScalarProperty Name="nguoiky_id" ColumnName="nguoiky_id" />
+          <ScalarProperty Name="nguoitheodoi_id" ColumnName="nguoitheodoi_id" />
+          <ScalarProperty Name="googlemap" ColumnName="googlemap" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CongViecs">
+      <EntityTypeMapping TypeName="NiceHandleModel.CongViec">
+        <MappingFragment StoreEntitySet="CongViec">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="category_id" ColumnName="category_id" />
+          <ScalarProperty Name="service_id" ColumnName="service_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="sort" ColumnName="sort" />
+          <ScalarProperty Name="required" ColumnName="required" />
+          <ScalarProperty Name="step_id" ColumnName="step_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CoQuanGiaiQuyets">
+      <EntityTypeMapping TypeName="NiceHandleModel.CoQuanGiaiQuyet">
+        <MappingFragment StoreEntitySet="CoQuanGiaiQuyet">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="code" ColumnName="code" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CuocHops">
+      <EntityTypeMapping TypeName="NiceHandleModel.CuocHop">
+        <MappingFragment StoreEntitySet="CuocHop">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="vande" ColumnName="vande" />
+          <ScalarProperty Name="ketqua" ColumnName="ketqua" />
+          <ScalarProperty Name="ghichu" ColumnName="ghichu" />
+          <ScalarProperty Name="taoboi" ColumnName="taoboi" />
+          <ScalarProperty Name="time_duyet" ColumnName="time_duyet" />
+          <ScalarProperty Name="time" ColumnName="time" />
+          <ScalarProperty Name="hoso_id" ColumnName="hoso_id" />
+          <ScalarProperty Name="noidung" ColumnName="noidung" />
+          <ScalarProperty Name="bienban" ColumnName="bienban" />
+          <ScalarProperty Name="tailieuthamkhao" ColumnName="tailieuthamkhao" />
+          <ScalarProperty Name="mucdo" ColumnName="mucdo" />
+          <ScalarProperty Name="status" ColumnName="status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Customers">
+      <EntityTypeMapping TypeName="NiceHandleModel.Customer">
+        <MappingFragment StoreEntitySet="Customer">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="address" ColumnName="address" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ChamCongs">
+      <EntityTypeMapping TypeName="NiceHandleModel.ChamCong">
+        <MappingFragment StoreEntitySet="ChamCong">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+          <ScalarProperty Name="time" ColumnName="time" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ChatFiles">
+      <EntityTypeMapping TypeName="NiceHandleModel.ChatFile">
+        <MappingFragment StoreEntitySet="ChatFiles">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ChatSessionId" ColumnName="ChatSessionId" />
+          <ScalarProperty Name="FileName" ColumnName="FileName" />
+          <ScalarProperty Name="FileId" ColumnName="FileId" />
+          <ScalarProperty Name="UploadedAt" ColumnName="UploadedAt" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ChatMessages">
+      <EntityTypeMapping TypeName="NiceHandleModel.ChatMessage">
+        <MappingFragment StoreEntitySet="ChatMessages">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ChatSessionId" ColumnName="ChatSessionId" />
+          <ScalarProperty Name="Role" ColumnName="Role" />
+          <ScalarProperty Name="Content" ColumnName="Content" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ChatSessions">
+      <EntityTypeMapping TypeName="NiceHandleModel.ChatSession">
+        <MappingFragment StoreEntitySet="ChatSessions">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+          <ScalarProperty Name="AssistantThreadId" ColumnName="AssistantThreadId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="chotsoes">
+      <EntityTypeMapping TypeName="NiceHandleModel.chotso">
+        <MappingFragment StoreEntitySet="chotso">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="ngaythang" ColumnName="ngaythang" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="ghichu" ColumnName="ghichu" />
+          <ScalarProperty Name="tienthu" ColumnName="tienthu" />
+          <ScalarProperty Name="tienchi" ColumnName="tienchi" />
+          <ScalarProperty Name="tiencon" ColumnName="tiencon" />
+          <ScalarProperty Name="tienchenhlech" ColumnName="tienchenhlech" />
+          <ScalarProperty Name="nogiang" ColumnName="nogiang" />
+          <ScalarProperty Name="noduy" ColumnName="noduy" />
+          <ScalarProperty Name="notin" ColumnName="notin" />
+          <ScalarProperty Name="nokhac" ColumnName="nokhac" />
+          <ScalarProperty Name="sta" ColumnName="sta" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="di1cua">
+      <EntityTypeMapping TypeName="NiceHandleModel.di1cua">
+        <MappingFragment StoreEntitySet="di1cua">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="contract_id" ColumnName="contract_id" />
+          <ScalarProperty Name="hoso_id" ColumnName="hoso_id" />
+          <ScalarProperty Name="ngaynop" ColumnName="ngaynop" />
+          <ScalarProperty Name="ngaytra" ColumnName="ngaytra" />
+          <ScalarProperty Name="canbo1cua" ColumnName="canbo1cua" />
+          <ScalarProperty Name="canbophutrach" ColumnName="canbophutrach" />
+          <ScalarProperty Name="noinhan_id" ColumnName="noinhan_id" />
+          <ScalarProperty Name="maphieuhen" ColumnName="maphieuhen" />
+          <ScalarProperty Name="ghichu" ColumnName="ghichu" />
+          <ScalarProperty Name="trangthai" ColumnName="trangthai" />
+          <ScalarProperty Name="type" ColumnName="type" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Diaries">
+      <EntityTypeMapping TypeName="NiceHandleModel.Diary">
+        <MappingFragment StoreEntitySet="Diary">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="ngaythang" ColumnName="ngaythang" />
+          <ScalarProperty Name="noidung" ColumnName="noidung" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="didiachinhs">
+      <EntityTypeMapping TypeName="NiceHandleModel.didiachinh">
+        <MappingFragment StoreEntitySet="didiachinh">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="contract_id" ColumnName="contract_id" />
+          <ScalarProperty Name="ngaynop" ColumnName="ngaynop" />
+          <ScalarProperty Name="noinop" ColumnName="noinop" />
+          <ScalarProperty Name="is_xa" ColumnName="is_xa" />
+          <ScalarProperty Name="trangthai" ColumnName="trangthai" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Documents">
+      <EntityTypeMapping TypeName="NiceHandleModel.Document">
+        <MappingFragment StoreEntitySet="Document">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="code" ColumnName="code" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="template" ColumnName="template" />
+          <ScalarProperty Name="type" ColumnName="type" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="donthus">
+      <EntityTypeMapping TypeName="NiceHandleModel.donthu">
+        <MappingFragment StoreEntitySet="donthu">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="hoso_id" ColumnName="hoso_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="time" ColumnName="time" />
+          <ScalarProperty Name="alarm" ColumnName="alarm" />
+          <ScalarProperty Name="url" ColumnName="url" />
+          <ScalarProperty Name="donthu_id" ColumnName="donthu_id" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="cachgui" ColumnName="cachgui" />
+          <ScalarProperty Name="lydo" ColumnName="lydo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Doves">
+      <EntityTypeMapping TypeName="NiceHandleModel.Dove">
+        <MappingFragment StoreEntitySet="Dove">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="hoso_id" ColumnName="hoso_id" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="time" ColumnName="time" />
+          <ScalarProperty Name="scan_bia" ColumnName="scan_bia" />
+          <ScalarProperty Name="time_start" ColumnName="time_start" />
+          <ScalarProperty Name="time_tradiem" ColumnName="time_tradiem" />
+          <ScalarProperty Name="time_vexong" ColumnName="time_vexong" />
+          <ScalarProperty Name="time_dongdau" ColumnName="time_dongdau" />
+          <ScalarProperty Name="time_thamdinh" ColumnName="time_thamdinh" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Dove_ThuChi">
+      <EntityTypeMapping TypeName="NiceHandleModel.Dove_ThuChi">
+        <MappingFragment StoreEntitySet="Dove_ThuChi">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="contract_id" ColumnName="contract_id" />
+          <ScalarProperty Name="category_id" ColumnName="category_id" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="created_by" ColumnName="created_by" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="time" ColumnName="time" />
+          <ScalarProperty Name="amount" ColumnName="amount" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="dove_wf">
+      <EntityTypeMapping TypeName="NiceHandleModel.dove_wf">
+        <MappingFragment StoreEntitySet="dove_wf">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="dove_id" ColumnName="dove_id" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="time" ColumnName="time" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="account_id_fk" ColumnName="account_id_fk" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="dovelichsus">
+      <EntityTypeMapping TypeName="NiceHandleModel.dovelichsu">
+        <MappingFragment StoreEntitySet="dovelichsu">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="hoso_id" ColumnName="hoso_id" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="url" ColumnName="url" />
+          <ScalarProperty Name="time" ColumnName="time" />
+          <ScalarProperty Name="time_exp" ColumnName="time_exp" />
+          <ScalarProperty Name="dove_account" ColumnName="dove_account" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DSChoDuyets">
+      <EntityTypeMapping TypeName="NiceHandleModel.DSChoDuyet">
+        <MappingFragment StoreEntitySet="DSChoDuyet">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="time" ColumnName="time" />
+          <ScalarProperty Name="status" ColumnName="status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DuChis">
+      <EntityTypeMapping TypeName="NiceHandleModel.DuChi">
+        <MappingFragment StoreEntitySet="DuChi">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="category_id" ColumnName="category_id" />
+          <ScalarProperty Name="amount" ColumnName="amount" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DuChiNhatKies">
+      <EntityTypeMapping TypeName="NiceHandleModel.DuChiNhatKy">
+        <MappingFragment StoreEntitySet="DuChiNhatKy">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="inout_id" ColumnName="inout_id" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="time" ColumnName="time" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DuChiNhatKyWFs">
+      <EntityTypeMapping TypeName="NiceHandleModel.DuChiNhatKyWF">
+        <MappingFragment StoreEntitySet="DuChiNhatKyWF">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="duchinhatky_id" ColumnName="duchinhatky_id" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="time" ColumnName="time" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DvhcC1">
+      <EntityTypeMapping TypeName="NiceHandleModel.DvhcC1">
+        <MappingFragment StoreEntitySet="DvhcC1">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="address_id" ColumnName="address_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="code" ColumnName="code" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Fields">
+      <EntityTypeMapping TypeName="NiceHandleModel.Field">
+        <MappingFragment StoreEntitySet="Field">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="group_id" ColumnName="group_id" />
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="no" ColumnName="no" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Files">
+      <EntityTypeMapping TypeName="NiceHandleModel.File">
+        <MappingFragment StoreEntitySet="File">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="url" ColumnName="url" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="contract_id" ColumnName="contract_id" />
+          <ScalarProperty Name="hoso_id" ColumnName="hoso_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="fk_CanBo_Address">
+      <EntityTypeMapping TypeName="NiceHandleModel.fk_CanBo_Address">
+        <MappingFragment StoreEntitySet="fk_CanBo_Address">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="canbo_id" ColumnName="canbo_id" />
+          <ScalarProperty Name="address_id" ColumnName="address_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="fk_contract_service">
+      <EntityTypeMapping TypeName="NiceHandleModel.fk_contract_service">
+        <MappingFragment StoreEntitySet="fk_contract_service">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="contract_id" ColumnName="contract_id" />
+          <ScalarProperty Name="service_id" ColumnName="service_id" />
+          <ScalarProperty Name="note" ColumnName="note" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="fk_congviec_hoso">
+      <EntityTypeMapping TypeName="NiceHandleModel.fk_congviec_hoso">
+        <MappingFragment StoreEntitySet="fk_congviec_hoso">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="congviec_id" ColumnName="congviec_id" />
+          <ScalarProperty Name="hoso_id" ColumnName="hoso_id" />
+          <ScalarProperty Name="status" ColumnName="status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="fk_congviec_service">
+      <EntityTypeMapping TypeName="NiceHandleModel.fk_congviec_service">
+        <MappingFragment StoreEntitySet="fk_congviec_service">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="congviec_id" ColumnName="congviec_id" />
+          <ScalarProperty Name="service_id" ColumnName="service_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="fk_chotso_thuchi">
+      <EntityTypeMapping TypeName="NiceHandleModel.fk_chotso_thuchi">
+        <MappingFragment StoreEntitySet="fk_chotso_thuchi">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="thuchi_id" ColumnName="thuchi_id" />
+          <ScalarProperty Name="chotso_id" ColumnName="chotso_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="fk_service_document">
+      <EntityTypeMapping TypeName="NiceHandleModel.fk_service_document">
+        <MappingFragment StoreEntitySet="fk_service_document">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="service_id" ColumnName="service_id" />
+          <ScalarProperty Name="document_id" ColumnName="document_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GroupFields">
+      <EntityTypeMapping TypeName="NiceHandleModel.GroupField">
+        <MappingFragment StoreEntitySet="GroupField">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="no" ColumnName="no" />
+          <ScalarProperty Name="document_id" ColumnName="document_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GroupMembers">
+      <EntityTypeMapping TypeName="NiceHandleModel.GroupMember">
+        <MappingFragment StoreEntitySet="GroupMember">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GroupMember_Account">
+      <EntityTypeMapping TypeName="NiceHandleModel.GroupMember_Account">
+        <MappingFragment StoreEntitySet="GroupMember_Account">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="groupmember_id" ColumnName="groupmember_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GiaoNhanGiayToes">
+      <EntityTypeMapping TypeName="NiceHandleModel.GiaoNhanGiayTo">
+        <MappingFragment StoreEntitySet="GiaoNhanGiayTo">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="contract_id" ColumnName="contract_id" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="giayto" ColumnName="giayto" />
+          <ScalarProperty Name="noinhan" ColumnName="noinhan" />
+          <ScalarProperty Name="nguoinhan" ColumnName="nguoinhan" />
+          <ScalarProperty Name="ngaygiao" ColumnName="ngaygiao" />
+          <ScalarProperty Name="ngayhan" ColumnName="ngayhan" />
+          <ScalarProperty Name="trangthai" ColumnName="trangthai" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Holidays">
+      <EntityTypeMapping TypeName="NiceHandleModel.Holiday">
+        <MappingFragment StoreEntitySet="Holiday">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HoSoes">
+      <EntityTypeMapping TypeName="NiceHandleModel.HoSo">
+        <MappingFragment StoreEntitySet="HoSo">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="contract_id" ColumnName="contract_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="time_created" ColumnName="time_created" />
+          <ScalarProperty Name="time_complete" ColumnName="time_complete" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="account_id_soanthao" ColumnName="account_id_soanthao" />
+          <ScalarProperty Name="service_id" ColumnName="service_id" />
+          <ScalarProperty Name="link_filecad" ColumnName="link_filecad" />
+          <ScalarProperty Name="link_gmap" ColumnName="link_gmap" />
+          <ScalarProperty Name="link_filecad_qr" ColumnName="link_filecad_qr" />
+          <ScalarProperty Name="link_gmap_qr" ColumnName="link_gmap_qr" />
+          <ScalarProperty Name="link_flycam" ColumnName="link_flycam" />
+          <ScalarProperty Name="step_id" ColumnName="step_id" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="priority" ColumnName="priority" />
+          <ScalarProperty Name="trang4" ColumnName="trang4" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="ngoaigiao" ColumnName="ngoaigiao" />
+          <ScalarProperty Name="light" ColumnName="light" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Infomations">
+      <EntityTypeMapping TypeName="NiceHandleModel.Infomation">
+        <MappingFragment StoreEntitySet="Infomation">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="hoso_id" ColumnName="hoso_id" />
+          <ScalarProperty Name="contract_id" ColumnName="contract_id" />
+          <ScalarProperty Name="a_loaigiayto" ColumnName="a_loaigiayto" />
+          <ScalarProperty Name="a_sogiayto" ColumnName="a_sogiayto" />
+          <ScalarProperty Name="a_hoten" ColumnName="a_hoten" />
+          <ScalarProperty Name="a_ngaysinh" ColumnName="a_ngaysinh" />
+          <ScalarProperty Name="a_gioitinh" ColumnName="a_gioitinh" />
+          <ScalarProperty Name="a_quoctich" ColumnName="a_quoctich" />
+          <ScalarProperty Name="a_nguyenquan" ColumnName="a_nguyenquan" />
+          <ScalarProperty Name="a_hktt" ColumnName="a_hktt" />
+          <ScalarProperty Name="a_thon" ColumnName="a_thon" />
+          <ScalarProperty Name="a_xa" ColumnName="a_xa" />
+          <ScalarProperty Name="a_huyen" ColumnName="a_huyen" />
+          <ScalarProperty Name="a_tinh" ColumnName="a_tinh" />
+          <ScalarProperty Name="a_ngaycap_gt" ColumnName="a_ngaycap_gt" />
+          <ScalarProperty Name="a_noicap_gt" ColumnName="a_noicap_gt" />
+          <ScalarProperty Name="a_masothue" ColumnName="a_masothue" />
+          <ScalarProperty Name="a_quanhe" ColumnName="a_quanhe" />
+          <ScalarProperty Name="a_loaigiayto1" ColumnName="a_loaigiayto1" />
+          <ScalarProperty Name="a_sogiayto1" ColumnName="a_sogiayto1" />
+          <ScalarProperty Name="a_hoten1" ColumnName="a_hoten1" />
+          <ScalarProperty Name="a_ngaysinh1" ColumnName="a_ngaysinh1" />
+          <ScalarProperty Name="a_gioitinh1" ColumnName="a_gioitinh1" />
+          <ScalarProperty Name="a_quoctich1" ColumnName="a_quoctich1" />
+          <ScalarProperty Name="a_nguyenquan1" ColumnName="a_nguyenquan1" />
+          <ScalarProperty Name="a_hktt1" ColumnName="a_hktt1" />
+          <ScalarProperty Name="a_ngaycap_gt1" ColumnName="a_ngaycap_gt1" />
+          <ScalarProperty Name="a_noicap_gt1" ColumnName="a_noicap_gt1" />
+          <ScalarProperty Name="b_csh" ColumnName="b_csh" />
+          <ScalarProperty Name="b_hoten" ColumnName="b_hoten" />
+          <ScalarProperty Name="b_ngaysinh" ColumnName="b_ngaysinh" />
+          <ScalarProperty Name="b_loaigiayto" ColumnName="b_loaigiayto" />
+          <ScalarProperty Name="b_sogiayto" ColumnName="b_sogiayto" />
+          <ScalarProperty Name="b_diachithuongtru" ColumnName="b_diachithuongtru" />
+          <ScalarProperty Name="b_sogiaychungnhan" ColumnName="b_sogiaychungnhan" />
+          <ScalarProperty Name="b_sothua" ColumnName="b_sothua" />
+          <ScalarProperty Name="b_tobando" ColumnName="b_tobando" />
+          <ScalarProperty Name="b_thon" ColumnName="b_thon" />
+          <ScalarProperty Name="b_xa" ColumnName="b_xa" />
+          <ScalarProperty Name="b_huyen" ColumnName="b_huyen" />
+          <ScalarProperty Name="b_tinh" ColumnName="b_tinh" />
+          <ScalarProperty Name="b_diachithuadat" ColumnName="b_diachithuadat" />
+          <ScalarProperty Name="b_dientich" ColumnName="b_dientich" />
+          <ScalarProperty Name="b_dientichtrenbia" ColumnName="b_dientichtrenbia" />
+          <ScalarProperty Name="b_hinhthucsudung" ColumnName="b_hinhthucsudung" />
+          <ScalarProperty Name="b_mucdichsudung" ColumnName="b_mucdichsudung" />
+          <ScalarProperty Name="b_nguongoc" ColumnName="b_nguongoc" />
+          <ScalarProperty Name="b_nguongoc_landau" ColumnName="b_nguongoc_landau" />
+          <ScalarProperty Name="b_nguongoc_landau_chot" ColumnName="b_nguongoc_landau_chot" />
+          <ScalarProperty Name="b_thoidiemsudung" ColumnName="b_thoidiemsudung" />
+          <ScalarProperty Name="b_ghichu" ColumnName="b_ghichu" />
+          <ScalarProperty Name="b_ngaycap" ColumnName="b_ngaycap" />
+          <ScalarProperty Name="b_noicap" ColumnName="b_noicap" />
+          <ScalarProperty Name="b_sovaoso" ColumnName="b_sovaoso" />
+          <ScalarProperty Name="b_loaidat1" ColumnName="b_loaidat1" />
+          <ScalarProperty Name="b_dientich1" ColumnName="b_dientich1" />
+          <ScalarProperty Name="b_loaidat2" ColumnName="b_loaidat2" />
+          <ScalarProperty Name="b_dientich2" ColumnName="b_dientich2" />
+          <ScalarProperty Name="b_loainguongoc" ColumnName="b_loainguongoc" />
+          <ScalarProperty Name="b_chuyenquyen" ColumnName="b_chuyenquyen" />
+          <ScalarProperty Name="b_lichsu" ColumnName="b_lichsu" />
+          <ScalarProperty Name="c_xaphuong" ColumnName="c_xaphuong" />
+          <ScalarProperty Name="c_xa" ColumnName="c_xa" />
+          <ScalarProperty Name="c_baocao_veviec" ColumnName="c_baocao_veviec" />
+          <ScalarProperty Name="c_dondenghi_noidung" ColumnName="c_dondenghi_noidung" />
+          <ScalarProperty Name="d_sogiayto" ColumnName="d_sogiayto" />
+          <ScalarProperty Name="d_hoten" ColumnName="d_hoten" />
+          <ScalarProperty Name="d_ngaysinh" ColumnName="d_ngaysinh" />
+          <ScalarProperty Name="d_gioitinh" ColumnName="d_gioitinh" />
+          <ScalarProperty Name="d_quoctich" ColumnName="d_quoctich" />
+          <ScalarProperty Name="d_nguyenquan" ColumnName="d_nguyenquan" />
+          <ScalarProperty Name="d_hktt" ColumnName="d_hktt" />
+          <ScalarProperty Name="d_loaigiayto" ColumnName="d_loaigiayto" />
+          <ScalarProperty Name="d_ngaycap_gt" ColumnName="d_ngaycap_gt" />
+          <ScalarProperty Name="d_noicap_gt" ColumnName="d_noicap_gt" />
+          <ScalarProperty Name="d_masothue" ColumnName="d_masothue" />
+          <ScalarProperty Name="d_quanhe" ColumnName="d_quanhe" />
+          <ScalarProperty Name="d_sogiayto1" ColumnName="d_sogiayto1" />
+          <ScalarProperty Name="d_loaigiayto1" ColumnName="d_loaigiayto1" />
+          <ScalarProperty Name="d_hoten1" ColumnName="d_hoten1" />
+          <ScalarProperty Name="d_ngaysinh1" ColumnName="d_ngaysinh1" />
+          <ScalarProperty Name="d_gioitinh1" ColumnName="d_gioitinh1" />
+          <ScalarProperty Name="d_hktt1" ColumnName="d_hktt1" />
+          <ScalarProperty Name="d_ngaycap_gt1" ColumnName="d_ngaycap_gt1" />
+          <ScalarProperty Name="d_noicap_gt1" ColumnName="d_noicap_gt1" />
+          <ScalarProperty Name="d_loaibiendong" ColumnName="d_loaibiendong" />
+          <ScalarProperty Name="d_noidungbiendong" ColumnName="d_noidungbiendong" />
+          <ScalarProperty Name="d_lydobiendong" ColumnName="d_lydobiendong" />
+          <ScalarProperty Name="d_loaihopdong" ColumnName="d_loaihopdong" />
+          <ScalarProperty Name="d_sohopdong" ColumnName="d_sohopdong" />
+          <ScalarProperty Name="d_noicongchung" ColumnName="d_noicongchung" />
+          <ScalarProperty Name="d_ngaycongchung" ColumnName="d_ngaycongchung" />
+          <ScalarProperty Name="d_tienhopdong" ColumnName="d_tienhopdong" />
+          <ScalarProperty Name="d_lydomiengiamthue" ColumnName="d_lydomiengiamthue" />
+          <ScalarProperty Name="d_vitrithuadat" ColumnName="d_vitrithuadat" />
+          <ScalarProperty Name="d_thon" ColumnName="d_thon" />
+          <ScalarProperty Name="d_xa" ColumnName="d_xa" />
+          <ScalarProperty Name="d_huyen" ColumnName="d_huyen" />
+          <ScalarProperty Name="d_tinh" ColumnName="d_tinh" />
+          <ScalarProperty Name="e_sogiayto" ColumnName="e_sogiayto" />
+          <ScalarProperty Name="e_hoten" ColumnName="e_hoten" />
+          <ScalarProperty Name="e_ngaysinh" ColumnName="e_ngaysinh" />
+          <ScalarProperty Name="e_gioitinh" ColumnName="e_gioitinh" />
+          <ScalarProperty Name="e_quoctich" ColumnName="e_quoctich" />
+          <ScalarProperty Name="e_nguyenquan" ColumnName="e_nguyenquan" />
+          <ScalarProperty Name="e_hktt" ColumnName="e_hktt" />
+          <ScalarProperty Name="e_ngaycap_gt" ColumnName="e_ngaycap_gt" />
+          <ScalarProperty Name="e_noicap_gt" ColumnName="e_noicap_gt" />
+          <ScalarProperty Name="e_masothue" ColumnName="e_masothue" />
+          <ScalarProperty Name="e_giayuyquyenso" ColumnName="e_giayuyquyenso" />
+          <ScalarProperty Name="e_ngayuyquyen" ColumnName="e_ngayuyquyen" />
+          <ScalarProperty Name="e_doituong" ColumnName="e_doituong" />
+          <ScalarProperty Name="e_account" ColumnName="e_account" />
+          <ScalarProperty Name="f_lydo10" ColumnName="f_lydo10" />
+          <ScalarProperty Name="f_sothua" ColumnName="f_sothua" />
+          <ScalarProperty Name="f_tobando" ColumnName="f_tobando" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InOuts">
+      <EntityTypeMapping TypeName="NiceHandleModel.InOut">
+        <MappingFragment StoreEntitySet="InOut">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="code" ColumnName="code" />
+          <ScalarProperty Name="category_id" ColumnName="category_id" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="time" ColumnName="time" />
+          <ScalarProperty Name="created_by" ColumnName="created_by" />
+          <ScalarProperty Name="contract_id" ColumnName="contract_id" />
+          <ScalarProperty Name="gostock" ColumnName="gostock" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="state" ColumnName="state" />
+          <ScalarProperty Name="currency" ColumnName="currency" />
+          <ScalarProperty Name="amount" ColumnName="amount" />
+          <ScalarProperty Name="inoutchoduyet_id" ColumnName="inoutchoduyet_id" />
+          <ScalarProperty Name="unlock" ColumnName="unlock" />
+          <ScalarProperty Name="xclass" ColumnName="xclass" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InOutChoDuyets">
+      <EntityTypeMapping TypeName="NiceHandleModel.InOutChoDuyet">
+        <MappingFragment StoreEntitySet="InOutChoDuyet">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="code" ColumnName="code" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="time" ColumnName="time" />
+          <ScalarProperty Name="status" ColumnName="status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Jobs">
+      <EntityTypeMapping TypeName="NiceHandleModel.Job">
+        <MappingFragment StoreEntitySet="Job">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="start_date" ColumnName="start_date" />
+          <ScalarProperty Name="exp_date" ColumnName="exp_date" />
+          <ScalarProperty Name="created_by" ColumnName="created_by" />
+          <ScalarProperty Name="process_by" ColumnName="process_by" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="hoso_id" ColumnName="hoso_id" />
+          <ScalarProperty Name="progress_type" ColumnName="progress_type" />
+          <ScalarProperty Name="label" ColumnName="label" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="KPIs">
+      <EntityTypeMapping TypeName="NiceHandleModel.KPI">
+        <MappingFragment StoreEntitySet="KPI">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="ngaythang" ColumnName="ngaythang" />
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+          <ScalarProperty Name="ghichu" ColumnName="ghichu" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="KPIChiTieux">
+      <EntityTypeMapping TypeName="NiceHandleModel.KPIChiTieu">
+        <MappingFragment StoreEntitySet="KPIChiTieu">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="chitieu" ColumnName="chitieu" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="KPILinks">
+      <EntityTypeMapping TypeName="NiceHandleModel.KPILink">
+        <MappingFragment StoreEntitySet="KPILink">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="link" ColumnName="link" />
+          <ScalarProperty Name="KPI_id" ColumnName="KPI_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LanDaus">
+      <EntityTypeMapping TypeName="NiceHandleModel.LanDau">
+        <MappingFragment StoreEntitySet="LanDau">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="cogiayto" ColumnName="cogiayto" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="landau_quytrinh">
+      <EntityTypeMapping TypeName="NiceHandleModel.landau_quytrinh">
+        <MappingFragment StoreEntitySet="landau_quytrinh">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="di1cua_id" ColumnName="di1cua_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Moneys">
+      <EntityTypeMapping TypeName="NiceHandleModel.Money">
+        <MappingFragment StoreEntitySet="Money">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="amount" ColumnName="amount" />
+          <ScalarProperty Name="code" ColumnName="code" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Notices">
+      <EntityTypeMapping TypeName="NiceHandleModel.Notice">
+        <MappingFragment StoreEntitySet="Notice">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="date" ColumnName="date" />
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="contents" ColumnName="contents" />
+          <ScalarProperty Name="update_date" ColumnName="update_date" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="NguoiHops">
+      <EntityTypeMapping TypeName="NiceHandleModel.NguoiHop">
+        <MappingFragment StoreEntitySet="NguoiHop">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="cuochop_id" ColumnName="cuochop_id" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="nhatkydonthus">
+      <EntityTypeMapping TypeName="NiceHandleModel.nhatkydonthu">
+        <MappingFragment StoreEntitySet="nhatkydonthu">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="donthu_id" ColumnName="donthu_id" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="time" ColumnName="time" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="time_exp" ColumnName="time_exp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="NhiemVus">
+      <EntityTypeMapping TypeName="NiceHandleModel.NhiemVu">
+        <MappingFragment StoreEntitySet="NhiemVu">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="contract_id" ColumnName="contract_id" />
+          <ScalarProperty Name="step_id" ColumnName="step_id" />
+          <ScalarProperty Name="ghichu" ColumnName="ghichu" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OneDoorFiles">
+      <EntityTypeMapping TypeName="NiceHandleModel.OneDoorFile">
+        <MappingFragment StoreEntitySet="OneDoorFile">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="url" ColumnName="url" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="contract_id" ColumnName="contract_id" />
+          <ScalarProperty Name="hoso_id" ColumnName="hoso_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Page4">
+      <EntityTypeMapping TypeName="NiceHandleModel.Page4">
+        <MappingFragment StoreEntitySet="Page4">
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Partners">
+      <EntityTypeMapping TypeName="NiceHandleModel.Partner">
+        <MappingFragment StoreEntitySet="Partner">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="code" ColumnName="code" />
+          <ScalarProperty Name="disname" ColumnName="disname" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="sodienthoai" ColumnName="sodienthoai" />
+          <ScalarProperty Name="sothutu" ColumnName="sothutu" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="id_no" ColumnName="id_no" />
+          <ScalarProperty Name="id_type" ColumnName="id_type" />
+          <ScalarProperty Name="birthday" ColumnName="birthday" />
+          <ScalarProperty Name="gender" ColumnName="gender" />
+          <ScalarProperty Name="address" ColumnName="address" />
+          <ScalarProperty Name="bankno" ColumnName="bankno" />
+          <ScalarProperty Name="bankname" ColumnName="bankname" />
+          <ScalarProperty Name="bankbrand" ColumnName="bankbrand" />
+          <ScalarProperty Name="pro_date" ColumnName="pro_date" />
+          <ScalarProperty Name="pro_by" ColumnName="pro_by" />
+          <ScalarProperty Name="cbdp_id" ColumnName="cbdp_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PayPlans">
+      <EntityTypeMapping TypeName="NiceHandleModel.PayPlan">
+        <MappingFragment StoreEntitySet="PayPlan">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="dschoduyet_id" ColumnName="dschoduyet_id" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="category_id" ColumnName="category_id" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="currency" ColumnName="currency" />
+          <ScalarProperty Name="amount" ColumnName="amount" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="time" ColumnName="time" />
+          <ScalarProperty Name="contract_id" ColumnName="contract_id" />
+          <ScalarProperty Name="status" ColumnName="status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PriceByAreas">
+      <EntityTypeMapping TypeName="NiceHandleModel.PriceByArea">
+        <MappingFragment StoreEntitySet="PriceByArea">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="area" ColumnName="area" />
+          <ScalarProperty Name="text" ColumnName="text" />
+          <ScalarProperty Name="price" ColumnName="price" />
+          <ScalarProperty Name="note" ColumnName="note" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Progresses">
+      <EntityTypeMapping TypeName="NiceHandleModel.Progress">
+        <MappingFragment StoreEntitySet="Progress">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="phantram" ColumnName="phantram" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="sort" ColumnName="sort" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Progress_Document">
+      <EntityTypeMapping TypeName="NiceHandleModel.Progress_Document">
+        <MappingFragment StoreEntitySet="Progress_Document">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="progress_type" ColumnName="progress_type" />
+          <ScalarProperty Name="document_id" ColumnName="document_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="progress_file">
+      <EntityTypeMapping TypeName="NiceHandleModel.progress_file">
+        <MappingFragment StoreEntitySet="progress_file">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="hoso_id" ColumnName="hoso_id" />
+          <ScalarProperty Name="progress_id" ColumnName="progress_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="url" ColumnName="url" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="category" ColumnName="category" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="progress_file_option">
+      <EntityTypeMapping TypeName="NiceHandleModel.progress_file_option">
+        <MappingFragment StoreEntitySet="progress_file_option">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="progress_id" ColumnName="progress_id" />
+          <ScalarProperty Name="hoso_id" ColumnName="hoso_id" />
+          <ScalarProperty Name="status" ColumnName="status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PhuCaps">
+      <EntityTypeMapping TypeName="NiceHandleModel.PhuCap">
+        <MappingFragment StoreEntitySet="PhuCap">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="ten" ColumnName="ten" />
+          <ScalarProperty Name="sotien" ColumnName="sotien" />
+          <ScalarProperty Name="loai" ColumnName="loai" />
+          <ScalarProperty Name="ngaythang" ColumnName="ngaythang" />
+          <ScalarProperty Name="trangthai" ColumnName="trangthai" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="QuanTriVanHanhs">
+      <EntityTypeMapping TypeName="NiceHandleModel.QuanTriVanHanh">
+        <MappingFragment StoreEntitySet="QuanTriVanHanh">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="plans" ColumnName="plans" />
+          <ScalarProperty Name="workflows" ColumnName="workflows" />
+          <ScalarProperty Name="reports" ColumnName="reports" />
+          <ScalarProperty Name="no" ColumnName="no" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="QuyDoves">
+      <EntityTypeMapping TypeName="NiceHandleModel.QuyDove">
+        <MappingFragment StoreEntitySet="QuyDove">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="amount" ColumnName="amount" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="time" ColumnName="time" />
+          <ScalarProperty Name="sta" ColumnName="sta" />
+          <ScalarProperty Name="state" ColumnName="state" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Reporters">
+      <EntityTypeMapping TypeName="NiceHandleModel.Reporter">
+        <MappingFragment StoreEntitySet="Reporter">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="time" ColumnName="time" />
+          <ScalarProperty Name="thoigian" ColumnName="thoigian" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="result" ColumnName="result" />
+          <ScalarProperty Name="note" ColumnName="note" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Rewards">
+      <EntityTypeMapping TypeName="NiceHandleModel.Reward">
+        <MappingFragment StoreEntitySet="Reward">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="contract_id" ColumnName="contract_id" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="amount" ColumnName="amount" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="sta" ColumnName="sta" />
+          <ScalarProperty Name="created_date" ColumnName="created_date" />
+          <ScalarProperty Name="decision_date" ColumnName="decision_date" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Services">
+      <EntityTypeMapping TypeName="NiceHandleModel.Service">
+        <MappingFragment StoreEntitySet="Service">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="code" ColumnName="code" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="amount" ColumnName="amount" />
+          <ScalarProperty Name="stt" ColumnName="stt" />
+          <ScalarProperty Name="trainning" ColumnName="trainning" />
+          <ScalarProperty Name="thoihan" ColumnName="thoihan" />
+          <ScalarProperty Name="nhacnho" ColumnName="nhacnho" />
+          <ScalarProperty Name="phananh" ColumnName="phananh" />
+          <ScalarProperty Name="tocao" ColumnName="tocao" />
+          <ScalarProperty Name="reward" ColumnName="reward" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="service_step_day">
+      <EntityTypeMapping TypeName="NiceHandleModel.service_step_day">
+        <MappingFragment StoreEntitySet="service_step_day">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="service_id" ColumnName="service_id" />
+          <ScalarProperty Name="step_id" ColumnName="step_id" />
+          <ScalarProperty Name="red" ColumnName="red" />
+          <ScalarProperty Name="yellow" ColumnName="yellow" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Settings">
+      <EntityTypeMapping TypeName="NiceHandleModel.Setting">
+        <MappingFragment StoreEntitySet="Setting">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="code" ColumnName="code" />
+          <ScalarProperty Name="data" ColumnName="data" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Socials">
+      <EntityTypeMapping TypeName="NiceHandleModel.Social">
+        <MappingFragment StoreEntitySet="Social">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="kpi_id" ColumnName="kpi_id" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="id_no" ColumnName="id_no" />
+          <ScalarProperty Name="nghenghiep" ColumnName="nghenghiep" />
+          <ScalarProperty Name="note" ColumnName="note" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SoHoKhaus">
+      <EntityTypeMapping TypeName="NiceHandleModel.SoHoKhau">
+        <MappingFragment StoreEntitySet="SoHoKhau">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="infomation_id" ColumnName="infomation_id" />
+          <ScalarProperty Name="so" ColumnName="so" />
+          <ScalarProperty Name="tenchuho" ColumnName="tenchuho" />
+          <ScalarProperty Name="diachi" ColumnName="diachi" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Steps">
+      <EntityTypeMapping TypeName="NiceHandleModel.Step">
+        <MappingFragment StoreEntitySet="Step">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="category_id" ColumnName="category_id" />
+          <ScalarProperty Name="code" ColumnName="code" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="next" ColumnName="next" />
+          <ScalarProperty Name="prev" ColumnName="prev" />
+          <ScalarProperty Name="color" ColumnName="color" />
+          <ScalarProperty Name="sort" ColumnName="sort" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StepAccounts">
+      <EntityTypeMapping TypeName="NiceHandleModel.StepAccount">
+        <MappingFragment StoreEntitySet="StepAccount">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="step_id" ColumnName="step_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Stockers">
+      <EntityTypeMapping TypeName="NiceHandleModel.Stocker">
+        <MappingFragment StoreEntitySet="Stocker">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="amount" ColumnName="amount" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="currency" ColumnName="currency" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="time" ColumnName="time" />
+          <ScalarProperty Name="sta" ColumnName="sta" />
+          <ScalarProperty Name="state" ColumnName="state" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="syslogs">
+      <EntityTypeMapping TypeName="NiceHandleModel.syslog">
+        <MappingFragment StoreEntitySet="syslog">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="message" ColumnName="message" />
+          <ScalarProperty Name="created_time" ColumnName="created_time" />
+          <ScalarProperty Name="caption" ColumnName="caption" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TachHops">
+      <EntityTypeMapping TypeName="NiceHandleModel.TachHop">
+        <MappingFragment StoreEntitySet="TachHop">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="infomation_id" ColumnName="infomation_id" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="a_loaigiayto" ColumnName="a_loaigiayto" />
+          <ScalarProperty Name="a_sogiayto" ColumnName="a_sogiayto" />
+          <ScalarProperty Name="a_hoten" ColumnName="a_hoten" />
+          <ScalarProperty Name="a_ngaysinh" ColumnName="a_ngaysinh" />
+          <ScalarProperty Name="a_gioitinh" ColumnName="a_gioitinh" />
+          <ScalarProperty Name="a_quoctich" ColumnName="a_quoctich" />
+          <ScalarProperty Name="a_nguyenquan" ColumnName="a_nguyenquan" />
+          <ScalarProperty Name="a_hktt" ColumnName="a_hktt" />
+          <ScalarProperty Name="a_thon" ColumnName="a_thon" />
+          <ScalarProperty Name="a_xa" ColumnName="a_xa" />
+          <ScalarProperty Name="a_huyen" ColumnName="a_huyen" />
+          <ScalarProperty Name="a_tinh" ColumnName="a_tinh" />
+          <ScalarProperty Name="a_ngaycap_gt" ColumnName="a_ngaycap_gt" />
+          <ScalarProperty Name="a_noicap_gt" ColumnName="a_noicap_gt" />
+          <ScalarProperty Name="a_masothue" ColumnName="a_masothue" />
+          <ScalarProperty Name="a_loaigiayto1" ColumnName="a_loaigiayto1" />
+          <ScalarProperty Name="a_sogiayto1" ColumnName="a_sogiayto1" />
+          <ScalarProperty Name="a_hoten1" ColumnName="a_hoten1" />
+          <ScalarProperty Name="a_ngaysinh1" ColumnName="a_ngaysinh1" />
+          <ScalarProperty Name="a_gioitinh1" ColumnName="a_gioitinh1" />
+          <ScalarProperty Name="a_quoctich1" ColumnName="a_quoctich1" />
+          <ScalarProperty Name="a_nguyenquan1" ColumnName="a_nguyenquan1" />
+          <ScalarProperty Name="a_hktt1" ColumnName="a_hktt1" />
+          <ScalarProperty Name="a_ngaycap_gt1" ColumnName="a_ngaycap_gt1" />
+          <ScalarProperty Name="a_noicap_gt1" ColumnName="a_noicap_gt1" />
+          <ScalarProperty Name="b_csh" ColumnName="b_csh" />
+          <ScalarProperty Name="b_hoten" ColumnName="b_hoten" />
+          <ScalarProperty Name="b_ngaysinh" ColumnName="b_ngaysinh" />
+          <ScalarProperty Name="b_loaigiayto" ColumnName="b_loaigiayto" />
+          <ScalarProperty Name="b_sogiayto" ColumnName="b_sogiayto" />
+          <ScalarProperty Name="b_diachithuongtru" ColumnName="b_diachithuongtru" />
+          <ScalarProperty Name="b_sogiaychungnhan" ColumnName="b_sogiaychungnhan" />
+          <ScalarProperty Name="b_sothua" ColumnName="b_sothua" />
+          <ScalarProperty Name="b_tobando" ColumnName="b_tobando" />
+          <ScalarProperty Name="b_thon" ColumnName="b_thon" />
+          <ScalarProperty Name="b_xa" ColumnName="b_xa" />
+          <ScalarProperty Name="b_huyen" ColumnName="b_huyen" />
+          <ScalarProperty Name="b_tinh" ColumnName="b_tinh" />
+          <ScalarProperty Name="b_diachithuadat" ColumnName="b_diachithuadat" />
+          <ScalarProperty Name="b_dientich" ColumnName="b_dientich" />
+          <ScalarProperty Name="b_hinhthucsudung" ColumnName="b_hinhthucsudung" />
+          <ScalarProperty Name="b_mucdichsudung" ColumnName="b_mucdichsudung" />
+          <ScalarProperty Name="b_nguongoc" ColumnName="b_nguongoc" />
+          <ScalarProperty Name="b_ghichu" ColumnName="b_ghichu" />
+          <ScalarProperty Name="b_ngaycap" ColumnName="b_ngaycap" />
+          <ScalarProperty Name="b_noicap" ColumnName="b_noicap" />
+          <ScalarProperty Name="b_sovaoso" ColumnName="b_sovaoso" />
+          <ScalarProperty Name="b_loaidat1" ColumnName="b_loaidat1" />
+          <ScalarProperty Name="b_dientich1" ColumnName="b_dientich1" />
+          <ScalarProperty Name="b_loaidat2" ColumnName="b_loaidat2" />
+          <ScalarProperty Name="b_dientich2" ColumnName="b_dientich2" />
+          <ScalarProperty Name="b_loainguongoc" ColumnName="b_loainguongoc" />
+          <ScalarProperty Name="b_chuyenquyen" ColumnName="b_chuyenquyen" />
+          <ScalarProperty Name="c_xaphuong" ColumnName="c_xaphuong" />
+          <ScalarProperty Name="c_xa" ColumnName="c_xa" />
+          <ScalarProperty Name="c_baocao_veviec" ColumnName="c_baocao_veviec" />
+          <ScalarProperty Name="c_dondenghi_noidung" ColumnName="c_dondenghi_noidung" />
+          <ScalarProperty Name="d_sogiayto" ColumnName="d_sogiayto" />
+          <ScalarProperty Name="d_hoten" ColumnName="d_hoten" />
+          <ScalarProperty Name="d_ngaysinh" ColumnName="d_ngaysinh" />
+          <ScalarProperty Name="d_gioitinh" ColumnName="d_gioitinh" />
+          <ScalarProperty Name="d_quoctich" ColumnName="d_quoctich" />
+          <ScalarProperty Name="d_nguyenquan" ColumnName="d_nguyenquan" />
+          <ScalarProperty Name="d_hktt" ColumnName="d_hktt" />
+          <ScalarProperty Name="d_loaigiayto" ColumnName="d_loaigiayto" />
+          <ScalarProperty Name="d_ngaycap_gt" ColumnName="d_ngaycap_gt" />
+          <ScalarProperty Name="d_noicap_gt" ColumnName="d_noicap_gt" />
+          <ScalarProperty Name="d_masothue" ColumnName="d_masothue" />
+          <ScalarProperty Name="d_sogiayto1" ColumnName="d_sogiayto1" />
+          <ScalarProperty Name="d_loaigiayto1" ColumnName="d_loaigiayto1" />
+          <ScalarProperty Name="d_hoten1" ColumnName="d_hoten1" />
+          <ScalarProperty Name="d_ngaysinh1" ColumnName="d_ngaysinh1" />
+          <ScalarProperty Name="d_gioitinh1" ColumnName="d_gioitinh1" />
+          <ScalarProperty Name="d_hktt1" ColumnName="d_hktt1" />
+          <ScalarProperty Name="d_ngaycap_gt1" ColumnName="d_ngaycap_gt1" />
+          <ScalarProperty Name="d_noicap_gt1" ColumnName="d_noicap_gt1" />
+          <ScalarProperty Name="d_loaibiendong" ColumnName="d_loaibiendong" />
+          <ScalarProperty Name="d_noidungbiendong" ColumnName="d_noidungbiendong" />
+          <ScalarProperty Name="d_lydobiendong" ColumnName="d_lydobiendong" />
+          <ScalarProperty Name="d_sohopdong" ColumnName="d_sohopdong" />
+          <ScalarProperty Name="d_noicongchung" ColumnName="d_noicongchung" />
+          <ScalarProperty Name="d_ngaycongchung" ColumnName="d_ngaycongchung" />
+          <ScalarProperty Name="d_tienhopdong" ColumnName="d_tienhopdong" />
+          <ScalarProperty Name="d_vitrithuadat" ColumnName="d_vitrithuadat" />
+          <ScalarProperty Name="d_thon" ColumnName="d_thon" />
+          <ScalarProperty Name="d_xa" ColumnName="d_xa" />
+          <ScalarProperty Name="d_huyen" ColumnName="d_huyen" />
+          <ScalarProperty Name="d_tinh" ColumnName="d_tinh" />
+          <ScalarProperty Name="e_sogiayto" ColumnName="e_sogiayto" />
+          <ScalarProperty Name="e_hoten" ColumnName="e_hoten" />
+          <ScalarProperty Name="e_ngaysinh" ColumnName="e_ngaysinh" />
+          <ScalarProperty Name="e_gioitinh" ColumnName="e_gioitinh" />
+          <ScalarProperty Name="e_quoctich" ColumnName="e_quoctich" />
+          <ScalarProperty Name="e_nguyenquan" ColumnName="e_nguyenquan" />
+          <ScalarProperty Name="e_hktt" ColumnName="e_hktt" />
+          <ScalarProperty Name="e_ngaycap_gt" ColumnName="e_ngaycap_gt" />
+          <ScalarProperty Name="e_noicap_gt" ColumnName="e_noicap_gt" />
+          <ScalarProperty Name="e_masothue" ColumnName="e_masothue" />
+          <ScalarProperty Name="e_giayuyquyenso" ColumnName="e_giayuyquyenso" />
+          <ScalarProperty Name="e_ngayuyquyen" ColumnName="e_ngayuyquyen" />
+          <ScalarProperty Name="e_doituong" ColumnName="e_doituong" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TachThuas">
+      <EntityTypeMapping TypeName="NiceHandleModel.TachThua">
+        <MappingFragment StoreEntitySet="TachThua">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="infomation_id" ColumnName="infomation_id" />
+          <ScalarProperty Name="a_loaigiayto" ColumnName="a_loaigiayto" />
+          <ScalarProperty Name="a_sogiayto" ColumnName="a_sogiayto" />
+          <ScalarProperty Name="a_hoten" ColumnName="a_hoten" />
+          <ScalarProperty Name="a_ngaysinh" ColumnName="a_ngaysinh" />
+          <ScalarProperty Name="a_gioitinh" ColumnName="a_gioitinh" />
+          <ScalarProperty Name="a_quoctich" ColumnName="a_quoctich" />
+          <ScalarProperty Name="a_nguyenquan" ColumnName="a_nguyenquan" />
+          <ScalarProperty Name="a_hktt" ColumnName="a_hktt" />
+          <ScalarProperty Name="a_thon" ColumnName="a_thon" />
+          <ScalarProperty Name="a_xa" ColumnName="a_xa" />
+          <ScalarProperty Name="a_huyen" ColumnName="a_huyen" />
+          <ScalarProperty Name="a_tinh" ColumnName="a_tinh" />
+          <ScalarProperty Name="a_ngaycap_gt" ColumnName="a_ngaycap_gt" />
+          <ScalarProperty Name="a_noicap_gt" ColumnName="a_noicap_gt" />
+          <ScalarProperty Name="a_masothue" ColumnName="a_masothue" />
+          <ScalarProperty Name="a_loaigiayto1" ColumnName="a_loaigiayto1" />
+          <ScalarProperty Name="a_sogiayto1" ColumnName="a_sogiayto1" />
+          <ScalarProperty Name="a_hoten1" ColumnName="a_hoten1" />
+          <ScalarProperty Name="a_ngaysinh1" ColumnName="a_ngaysinh1" />
+          <ScalarProperty Name="a_gioitinh1" ColumnName="a_gioitinh1" />
+          <ScalarProperty Name="a_quoctich1" ColumnName="a_quoctich1" />
+          <ScalarProperty Name="a_nguyenquan1" ColumnName="a_nguyenquan1" />
+          <ScalarProperty Name="a_hktt1" ColumnName="a_hktt1" />
+          <ScalarProperty Name="a_ngaycap_gt1" ColumnName="a_ngaycap_gt1" />
+          <ScalarProperty Name="a_noicap_gt1" ColumnName="a_noicap_gt1" />
+          <ScalarProperty Name="b_csh" ColumnName="b_csh" />
+          <ScalarProperty Name="b_hoten" ColumnName="b_hoten" />
+          <ScalarProperty Name="b_ngaysinh" ColumnName="b_ngaysinh" />
+          <ScalarProperty Name="b_loaigiayto" ColumnName="b_loaigiayto" />
+          <ScalarProperty Name="b_sogiayto" ColumnName="b_sogiayto" />
+          <ScalarProperty Name="b_diachithuongtru" ColumnName="b_diachithuongtru" />
+          <ScalarProperty Name="b_sogiaychungnhan" ColumnName="b_sogiaychungnhan" />
+          <ScalarProperty Name="b_sothua" ColumnName="b_sothua" />
+          <ScalarProperty Name="b_tobando" ColumnName="b_tobando" />
+          <ScalarProperty Name="b_thon" ColumnName="b_thon" />
+          <ScalarProperty Name="b_xa" ColumnName="b_xa" />
+          <ScalarProperty Name="b_huyen" ColumnName="b_huyen" />
+          <ScalarProperty Name="b_tinh" ColumnName="b_tinh" />
+          <ScalarProperty Name="b_diachithuadat" ColumnName="b_diachithuadat" />
+          <ScalarProperty Name="b_dientich" ColumnName="b_dientich" />
+          <ScalarProperty Name="b_dientich_chung" ColumnName="b_dientich_chung" />
+          <ScalarProperty Name="b_dientich_rieng" ColumnName="b_dientich_rieng" />
+          <ScalarProperty Name="b_hinhthucsudung" ColumnName="b_hinhthucsudung" />
+          <ScalarProperty Name="b_mucdichsudung" ColumnName="b_mucdichsudung" />
+          <ScalarProperty Name="b_nguongoc" ColumnName="b_nguongoc" />
+          <ScalarProperty Name="b_ghichu" ColumnName="b_ghichu" />
+          <ScalarProperty Name="b_ngaycap" ColumnName="b_ngaycap" />
+          <ScalarProperty Name="b_noicap" ColumnName="b_noicap" />
+          <ScalarProperty Name="b_sovaoso" ColumnName="b_sovaoso" />
+          <ScalarProperty Name="b_loaidat1" ColumnName="b_loaidat1" />
+          <ScalarProperty Name="b_dientich1" ColumnName="b_dientich1" />
+          <ScalarProperty Name="b_loaidat2" ColumnName="b_loaidat2" />
+          <ScalarProperty Name="b_dientich2" ColumnName="b_dientich2" />
+          <ScalarProperty Name="b_loainguongoc" ColumnName="b_loainguongoc" />
+          <ScalarProperty Name="b_chuyenquyen" ColumnName="b_chuyenquyen" />
+          <ScalarProperty Name="c_xaphuong" ColumnName="c_xaphuong" />
+          <ScalarProperty Name="c_xa" ColumnName="c_xa" />
+          <ScalarProperty Name="c_baocao_veviec" ColumnName="c_baocao_veviec" />
+          <ScalarProperty Name="c_dondenghi_noidung" ColumnName="c_dondenghi_noidung" />
+          <ScalarProperty Name="d_sogiayto" ColumnName="d_sogiayto" />
+          <ScalarProperty Name="d_hoten" ColumnName="d_hoten" />
+          <ScalarProperty Name="d_ngaysinh" ColumnName="d_ngaysinh" />
+          <ScalarProperty Name="d_gioitinh" ColumnName="d_gioitinh" />
+          <ScalarProperty Name="d_quoctich" ColumnName="d_quoctich" />
+          <ScalarProperty Name="d_nguyenquan" ColumnName="d_nguyenquan" />
+          <ScalarProperty Name="d_hktt" ColumnName="d_hktt" />
+          <ScalarProperty Name="d_loaigiayto" ColumnName="d_loaigiayto" />
+          <ScalarProperty Name="d_ngaycap_gt" ColumnName="d_ngaycap_gt" />
+          <ScalarProperty Name="d_noicap_gt" ColumnName="d_noicap_gt" />
+          <ScalarProperty Name="d_masothue" ColumnName="d_masothue" />
+          <ScalarProperty Name="d_sogiayto1" ColumnName="d_sogiayto1" />
+          <ScalarProperty Name="d_loaigiayto1" ColumnName="d_loaigiayto1" />
+          <ScalarProperty Name="d_hoten1" ColumnName="d_hoten1" />
+          <ScalarProperty Name="d_ngaysinh1" ColumnName="d_ngaysinh1" />
+          <ScalarProperty Name="d_gioitinh1" ColumnName="d_gioitinh1" />
+          <ScalarProperty Name="d_hktt1" ColumnName="d_hktt1" />
+          <ScalarProperty Name="d_ngaycap_gt1" ColumnName="d_ngaycap_gt1" />
+          <ScalarProperty Name="d_noicap_gt1" ColumnName="d_noicap_gt1" />
+          <ScalarProperty Name="d_loaibiendong" ColumnName="d_loaibiendong" />
+          <ScalarProperty Name="d_noidungbiendong" ColumnName="d_noidungbiendong" />
+          <ScalarProperty Name="d_lydobiendong" ColumnName="d_lydobiendong" />
+          <ScalarProperty Name="d_sohopdong" ColumnName="d_sohopdong" />
+          <ScalarProperty Name="d_noicongchung" ColumnName="d_noicongchung" />
+          <ScalarProperty Name="d_ngaycongchung" ColumnName="d_ngaycongchung" />
+          <ScalarProperty Name="d_tienhopdong" ColumnName="d_tienhopdong" />
+          <ScalarProperty Name="d_vitrithuadat" ColumnName="d_vitrithuadat" />
+          <ScalarProperty Name="d_thon" ColumnName="d_thon" />
+          <ScalarProperty Name="d_xa" ColumnName="d_xa" />
+          <ScalarProperty Name="d_huyen" ColumnName="d_huyen" />
+          <ScalarProperty Name="d_tinh" ColumnName="d_tinh" />
+          <ScalarProperty Name="e_sogiayto" ColumnName="e_sogiayto" />
+          <ScalarProperty Name="e_hoten" ColumnName="e_hoten" />
+          <ScalarProperty Name="e_ngaysinh" ColumnName="e_ngaysinh" />
+          <ScalarProperty Name="e_gioitinh" ColumnName="e_gioitinh" />
+          <ScalarProperty Name="e_quoctich" ColumnName="e_quoctich" />
+          <ScalarProperty Name="e_nguyenquan" ColumnName="e_nguyenquan" />
+          <ScalarProperty Name="e_hktt" ColumnName="e_hktt" />
+          <ScalarProperty Name="e_ngaycap_gt" ColumnName="e_ngaycap_gt" />
+          <ScalarProperty Name="e_noicap_gt" ColumnName="e_noicap_gt" />
+          <ScalarProperty Name="e_masothue" ColumnName="e_masothue" />
+          <ScalarProperty Name="e_giayuyquyenso" ColumnName="e_giayuyquyenso" />
+          <ScalarProperty Name="e_ngayuyquyen" ColumnName="e_ngayuyquyen" />
+          <ScalarProperty Name="e_doituong" ColumnName="e_doituong" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TaiLieux">
+      <EntityTypeMapping TypeName="NiceHandleModel.TaiLieu">
+        <MappingFragment StoreEntitySet="TaiLieu">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="link" ColumnName="link" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="type" ColumnName="type" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tasks">
+      <EntityTypeMapping TypeName="NiceHandleModel.task">
+        <MappingFragment StoreEntitySet="task">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="job_id" ColumnName="job_id" />
+          <ScalarProperty Name="account_id_created" ColumnName="account_id_created" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="time" ColumnName="time" />
+          <ScalarProperty Name="time_exp" ColumnName="time_exp" />
+          <ScalarProperty Name="progress_type" ColumnName="progress_type" />
+          <ScalarProperty Name="label" ColumnName="label" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="status" ColumnName="status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ThongTinCaNhans">
+      <EntityTypeMapping TypeName="NiceHandleModel.ThongTinCaNhan">
+        <MappingFragment StoreEntitySet="ThongTinCaNhan">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="sohokhau_id" ColumnName="sohokhau_id" />
+          <ScalarProperty Name="infomation_id" ColumnName="infomation_id" />
+          <ScalarProperty Name="fk_id" ColumnName="fk_id" />
+          <ScalarProperty Name="hoten" ColumnName="hoten" />
+          <ScalarProperty Name="ngaysinh" ColumnName="ngaysinh" />
+          <ScalarProperty Name="ngaychet" ColumnName="ngaychet" />
+          <ScalarProperty Name="giaytochet" ColumnName="giaytochet" />
+          <ScalarProperty Name="loaigiayto" ColumnName="loaigiayto" />
+          <ScalarProperty Name="sogiayto" ColumnName="sogiayto" />
+          <ScalarProperty Name="gioitinh" ColumnName="gioitinh" />
+          <ScalarProperty Name="quoctich" ColumnName="quoctich" />
+          <ScalarProperty Name="hktt" ColumnName="hktt" />
+          <ScalarProperty Name="ngaycap_gt" ColumnName="ngaycap_gt" />
+          <ScalarProperty Name="noicap_gt" ColumnName="noicap_gt" />
+          <ScalarProperty Name="masothue" ColumnName="masothue" />
+          <ScalarProperty Name="quanhe" ColumnName="quanhe" />
+          <ScalarProperty Name="hangthuake" ColumnName="hangthuake" />
+          <ScalarProperty Name="ghichuquanhe" ColumnName="ghichuquanhe" />
+          <ScalarProperty Name="marker" ColumnName="marker" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="hoten1" ColumnName="hoten1" />
+          <ScalarProperty Name="ngaysinh1" ColumnName="ngaysinh1" />
+          <ScalarProperty Name="ngaychet1" ColumnName="ngaychet1" />
+          <ScalarProperty Name="giaytochet1" ColumnName="giaytochet1" />
+          <ScalarProperty Name="loaigiayto1" ColumnName="loaigiayto1" />
+          <ScalarProperty Name="sogiayto1" ColumnName="sogiayto1" />
+          <ScalarProperty Name="gioitinh1" ColumnName="gioitinh1" />
+          <ScalarProperty Name="quoctich1" ColumnName="quoctich1" />
+          <ScalarProperty Name="hktt1" ColumnName="hktt1" />
+          <ScalarProperty Name="ngaycap_gt1" ColumnName="ngaycap_gt1" />
+          <ScalarProperty Name="noicap_gt1" ColumnName="noicap_gt1" />
+          <ScalarProperty Name="masothue1" ColumnName="masothue1" />
+          <ScalarProperty Name="quanhe1" ColumnName="quanhe1" />
+          <ScalarProperty Name="ghichuquanhe1" ColumnName="ghichuquanhe1" />
+          <ScalarProperty Name="songtrendat" ColumnName="songtrendat" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ThuaDats">
+      <EntityTypeMapping TypeName="NiceHandleModel.ThuaDat">
+        <MappingFragment StoreEntitySet="ThuaDat">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="infomation_id" ColumnName="infomation_id" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="sogiaychungnhan" ColumnName="sogiaychungnhan" />
+          <ScalarProperty Name="sothua" ColumnName="sothua" />
+          <ScalarProperty Name="tobando" ColumnName="tobando" />
+          <ScalarProperty Name="diachithuadat" ColumnName="diachithuadat" />
+          <ScalarProperty Name="dientich" ColumnName="dientich" />
+          <ScalarProperty Name="hinhthucsudung" ColumnName="hinhthucsudung" />
+          <ScalarProperty Name="mucdichsudung" ColumnName="mucdichsudung" />
+          <ScalarProperty Name="nguongoc" ColumnName="nguongoc" />
+          <ScalarProperty Name="ghichu" ColumnName="ghichu" />
+          <ScalarProperty Name="ngaycap" ColumnName="ngaycap" />
+          <ScalarProperty Name="noicap" ColumnName="noicap" />
+          <ScalarProperty Name="sovaoso" ColumnName="sovaoso" />
+          <ScalarProperty Name="loaidat1" ColumnName="loaidat1" />
+          <ScalarProperty Name="dientich1" ColumnName="dientich1" />
+          <ScalarProperty Name="loaidat2" ColumnName="loaidat2" />
+          <ScalarProperty Name="dientich2" ColumnName="dientich2" />
+          <ScalarProperty Name="csh1" ColumnName="csh1" />
+          <ScalarProperty Name="csh2" ColumnName="csh2" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="thuchis">
+      <EntityTypeMapping TypeName="NiceHandleModel.thuchi">
+        <MappingFragment StoreEntitySet="thuchi">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="thoigian" ColumnName="thoigian" />
+          <ScalarProperty Name="sotien" ColumnName="sotien" />
+          <ScalarProperty Name="lydo" ColumnName="lydo" />
+          <ScalarProperty Name="loai" ColumnName="loai" />
+          <ScalarProperty Name="trangthai" ColumnName="trangthai" />
+          <ScalarProperty Name="ngaychotso" ColumnName="ngaychotso" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TreoPhuons">
+      <EntityTypeMapping TypeName="NiceHandleModel.TreoPhuon">
+        <MappingFragment StoreEntitySet="TreoPhuon">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="Images" ColumnName="Images" />
+          <ScalarProperty Name="DvhcC1_id" ColumnName="DvhcC1_id" />
+          <ScalarProperty Name="GoogleMap" ColumnName="GoogleMap" />
+          <ScalarProperty Name="NgayTreo" ColumnName="NgayTreo" />
+          <ScalarProperty Name="NgayKiemTra" ColumnName="NgayKiemTra" />
+          <ScalarProperty Name="note" ColumnName="note" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TruLuongs">
+      <EntityTypeMapping TypeName="NiceHandleModel.TruLuong">
+        <MappingFragment StoreEntitySet="TruLuong">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="thoigian" ColumnName="thoigian" />
+          <ScalarProperty Name="sotien" ColumnName="sotien" />
+          <ScalarProperty Name="note" ColumnName="note" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="NiceHandleModel.User">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Vals">
+      <EntityTypeMapping TypeName="NiceHandleModel.Val">
+        <MappingFragment StoreEntitySet="Val">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="contract_id" ColumnName="contract_id" />
+          <ScalarProperty Name="field_id" ColumnName="field_id" />
+          <ScalarProperty Name="value" ColumnName="value" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ViecPhaiLams">
+      <EntityTypeMapping TypeName="NiceHandleModel.ViecPhaiLam">
+        <MappingFragment StoreEntitySet="ViecPhaiLam">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="hoso_id" ColumnName="hoso_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="progress_type" ColumnName="progress_type" />
+          <ScalarProperty Name="time" ColumnName="time" />
+          <ScalarProperty Name="time_progress" ColumnName="time_progress" />
+          <ScalarProperty Name="result" ColumnName="result" />
+          <ScalarProperty Name="bell_type" ColumnName="bell_type" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="account_id_created" ColumnName="account_id_created" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="wf_contract">
+      <EntityTypeMapping TypeName="NiceHandleModel.wf_contract">
+        <MappingFragment StoreEntitySet="wf_contract">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="contract_id" ColumnName="contract_id" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="time" ColumnName="time" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="step_id" ColumnName="step_id" />
+          <ScalarProperty Name="time_over" ColumnName="time_over" />
+          <ScalarProperty Name="from_id" ColumnName="from_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="wf_hoso">
+      <EntityTypeMapping TypeName="NiceHandleModel.wf_hoso">
+        <MappingFragment StoreEntitySet="wf_hoso">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="hoso_id" ColumnName="hoso_id" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="time" ColumnName="time" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="step_id" ColumnName="step_id" />
+          <ScalarProperty Name="next_step" ColumnName="next_step" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="wf_hoso_step">
+      <EntityTypeMapping TypeName="NiceHandleModel.wf_hoso_step">
+        <MappingFragment StoreEntitySet="wf_hoso_step">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="hoso_id" ColumnName="hoso_id" />
+          <ScalarProperty Name="time" ColumnName="time" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="step_id" ColumnName="step_id" />
+          <ScalarProperty Name="next_step" ColumnName="next_step" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="wf_inout">
+      <EntityTypeMapping TypeName="NiceHandleModel.wf_inout">
+        <MappingFragment StoreEntitySet="wf_inout">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="kid" ColumnName="kid" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="time" ColumnName="time" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="intout_id" ColumnName="intout_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="wf_quydove">
+      <EntityTypeMapping TypeName="NiceHandleModel.wf_quydove">
+        <MappingFragment StoreEntitySet="wf_quydove">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="kid" ColumnName="kid" />
+          <ScalarProperty Name="time" ColumnName="time" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="note" ColumnName="note" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Hoso_Step">
+      <EntityTypeMapping TypeName="NiceHandleModel.Hoso_Step">
+        <MappingFragment StoreEntitySet="Hoso_Step">
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DSBanLamViecs">
+      <EntityTypeMapping TypeName="NiceHandleModel.DSBanLamViec">
+        <MappingFragment StoreEntitySet="DSBanLamViec">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="time" ColumnName="time" />
+          <ScalarProperty Name="exp" ColumnName="exp" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="workflow" ColumnName="workflow" />
+          <ScalarProperty Name="Priority" ColumnName="Priority" />
+          <ScalarProperty Name="sodienthoai" ColumnName="sodienthoai" />
+          <ScalarProperty Name="address_name" ColumnName="address_name" />
+          <ScalarProperty Name="service_name" ColumnName="service_name" />
+          <ScalarProperty Name="step_name" ColumnName="step_name" />
+          <ScalarProperty Name="account_name" ColumnName="account_name" />
+          <ScalarProperty Name="partner_name" ColumnName="partner_name" />
+          <ScalarProperty Name="customer_name" ColumnName="customer_name" />
+          <ScalarProperty Name="customer_id" ColumnName="customer_id" />
+          <ScalarProperty Name="address_id" ColumnName="address_id" />
+          <ScalarProperty Name="step" ColumnName="step" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="partner" ColumnName="partner" />
+          <ScalarProperty Name="step_code" ColumnName="step_code" />
+          <ScalarProperty Name="step_color" ColumnName="step_color" />
+          <ScalarProperty Name="partner_code" ColumnName="partner_code" />
+          <ScalarProperty Name="link_giapha" ColumnName="link_giapha" />
+          <ScalarProperty Name="hasfile" ColumnName="hasfile" />
+          <ScalarProperty Name="message" ColumnName="message" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="service_id" ColumnName="service_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DSHoSoes">
+      <EntityTypeMapping TypeName="NiceHandleModel.DSHoSo">
+        <MappingFragment StoreEntitySet="DSHoSo">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="amount" ColumnName="amount" />
+          <ScalarProperty Name="consuming" ColumnName="consuming" />
+          <ScalarProperty Name="time" ColumnName="time" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="address_id" ColumnName="address_id" />
+          <ScalarProperty Name="customer_id" ColumnName="customer_id" />
+          <ScalarProperty Name="address_name" ColumnName="address_name" />
+          <ScalarProperty Name="customer_name" ColumnName="customer_name" />
+          <ScalarProperty Name="service_id" ColumnName="service_id" />
+          <ScalarProperty Name="service_name" ColumnName="service_name" />
+          <ScalarProperty Name="partner" ColumnName="partner" />
+          <ScalarProperty Name="partner_name" ColumnName="partner_name" />
+          <ScalarProperty Name="rose" ColumnName="rose" />
+          <ScalarProperty Name="outrose" ColumnName="outrose" />
+          <ScalarProperty Name="dove" ColumnName="dove" />
+          <ScalarProperty Name="HardFileLink" ColumnName="HardFileLink" />
+          <ScalarProperty Name="loai" ColumnName="loai" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="fullname" ColumnName="fullname" />
+          <ScalarProperty Name="step" ColumnName="step" />
+          <ScalarProperty Name="step_name" ColumnName="step_name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DSMotCuas">
+      <EntityTypeMapping TypeName="NiceHandleModel.DSMotCua">
+        <MappingFragment StoreEntitySet="DSMotCua">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="canbo_name" ColumnName="canbo_name" />
+          <ScalarProperty Name="customer_name" ColumnName="customer_name" />
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="contract_id" ColumnName="contract_id" />
+          <ScalarProperty Name="ngaynop" ColumnName="ngaynop" />
+          <ScalarProperty Name="ngaytra" ColumnName="ngaytra" />
+          <ScalarProperty Name="canbo1cua" ColumnName="canbo1cua" />
+          <ScalarProperty Name="canbophutrach" ColumnName="canbophutrach" />
+          <ScalarProperty Name="maphieuhen" ColumnName="maphieuhen" />
+          <ScalarProperty Name="ghichu" ColumnName="ghichu" />
+          <ScalarProperty Name="trangthai" ColumnName="trangthai" />
+          <ScalarProperty Name="c_xa" ColumnName="c_xa" />
+          <ScalarProperty Name="e_giayuyquyenso" ColumnName="e_giayuyquyenso" />
+          <ScalarProperty Name="e_hoten" ColumnName="e_hoten" />
+          <ScalarProperty Name="service_name" ColumnName="service_name" />
+          <ScalarProperty Name="contract_status" ColumnName="contract_status" />
+          <ScalarProperty Name="step" ColumnName="step" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="service_id" ColumnName="service_id" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="address_id" ColumnName="address_id" />
+          <ScalarProperty Name="partner" ColumnName="partner" />
+          <ScalarProperty Name="time" ColumnName="time" />
+          <ScalarProperty Name="exp" ColumnName="exp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PartnerAccounts">
+      <EntityTypeMapping TypeName="NiceHandleModel.PartnerAccount">
+        <MappingFragment StoreEntitySet="PartnerAccount">
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="fullname" ColumnName="fullname" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="sodienthoai" ColumnName="sodienthoai" />
+          <ScalarProperty Name="id_no" ColumnName="id_no" />
+          <ScalarProperty Name="id_type" ColumnName="id_type" />
+          <ScalarProperty Name="birthday" ColumnName="birthday" />
+          <ScalarProperty Name="gender" ColumnName="gender" />
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="sothutu" ColumnName="sothutu" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vCalculatorMoneys">
+      <EntityTypeMapping TypeName="NiceHandleModel.vCalculatorMoney">
+        <MappingFragment StoreEntitySet="vCalculatorMoney">
+          <ScalarProperty Name="amount" ColumnName="amount" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="contract_id" ColumnName="contract_id" />
+          <ScalarProperty Name="category_id" ColumnName="category_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vCanBoDiaPhuongC1">
+      <EntityTypeMapping TypeName="NiceHandleModel.vCanBoDiaPhuongC1">
+        <MappingFragment StoreEntitySet="vCanBoDiaPhuongC1">
+          <ScalarProperty Name="address_id" ColumnName="address_id" />
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="chucvu" ColumnName="chucvu" />
+          <ScalarProperty Name="gmap" ColumnName="gmap" />
+          <ScalarProperty Name="phoneno" ColumnName="phoneno" />
+          <ScalarProperty Name="thuoccap" ColumnName="thuoccap" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="fk_id" ColumnName="fk_id" />
+          <ScalarProperty Name="DvhcName" ColumnName="DvhcName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vCanBoDiaPhuongC2">
+      <EntityTypeMapping TypeName="NiceHandleModel.vCanBoDiaPhuongC2">
+        <MappingFragment StoreEntitySet="vCanBoDiaPhuongC2">
+          <ScalarProperty Name="AddressName" ColumnName="AddressName" />
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="chucvu" ColumnName="chucvu" />
+          <ScalarProperty Name="gmap" ColumnName="gmap" />
+          <ScalarProperty Name="phoneno" ColumnName="phoneno" />
+          <ScalarProperty Name="thuoccap" ColumnName="thuoccap" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="fk_id" ColumnName="fk_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vContracts">
+      <EntityTypeMapping TypeName="NiceHandleModel.vContract">
+        <MappingFragment StoreEntitySet="vContract">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="amount" ColumnName="amount" />
+          <ScalarProperty Name="consuming" ColumnName="consuming" />
+          <ScalarProperty Name="time" ColumnName="time" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="address_id" ColumnName="address_id" />
+          <ScalarProperty Name="address_name" ColumnName="address_name" />
+          <ScalarProperty Name="service_id" ColumnName="service_id" />
+          <ScalarProperty Name="service_name" ColumnName="service_name" />
+          <ScalarProperty Name="partner" ColumnName="partner" />
+          <ScalarProperty Name="partner_name" ColumnName="partner_name" />
+          <ScalarProperty Name="rose" ColumnName="rose" />
+          <ScalarProperty Name="outrose" ColumnName="outrose" />
+          <ScalarProperty Name="dove" ColumnName="dove" />
+          <ScalarProperty Name="HardFileLink" ColumnName="HardFileLink" />
+          <ScalarProperty Name="loai" ColumnName="loai" />
+          <ScalarProperty Name="fullname" ColumnName="fullname" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="code" ColumnName="code" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vContractHardFiles">
+      <EntityTypeMapping TypeName="NiceHandleModel.vContractHardFile">
+        <MappingFragment StoreEntitySet="vContractHardFile">
+          <ScalarProperty Name="HardFileLink" ColumnName="HardFileLink" />
+          <ScalarProperty Name="address_name" ColumnName="address_name" />
+          <ScalarProperty Name="customer_name" ColumnName="customer_name" />
+          <ScalarProperty Name="service_name" ColumnName="service_name" />
+          <ScalarProperty Name="partner_name" ColumnName="partner_name" />
+          <ScalarProperty Name="time" ColumnName="time" />
+          <ScalarProperty Name="address_id" ColumnName="address_id" />
+          <ScalarProperty Name="customer_id" ColumnName="customer_id" />
+          <ScalarProperty Name="service_id" ColumnName="service_id" />
+          <ScalarProperty Name="partner" ColumnName="partner" />
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="status" ColumnName="status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vContractSelects">
+      <EntityTypeMapping TypeName="NiceHandleModel.vContractSelect">
+        <MappingFragment StoreEntitySet="vContractSelect">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="customer_id" ColumnName="customer_id" />
+          <ScalarProperty Name="address_id" ColumnName="address_id" />
+          <ScalarProperty Name="service_id" ColumnName="service_id" />
+          <ScalarProperty Name="service_name" ColumnName="service_name" />
+          <ScalarProperty Name="address_name" ColumnName="address_name" />
+          <ScalarProperty Name="customer_name" ColumnName="customer_name" />
+          <ScalarProperty Name="status" ColumnName="status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vChartInOuts">
+      <EntityTypeMapping TypeName="NiceHandleModel.vChartInOut">
+        <MappingFragment StoreEntitySet="vChartInOut">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="category_id" ColumnName="category_id" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="time" ColumnName="time" />
+          <ScalarProperty Name="amount" ColumnName="amount" />
+          <ScalarProperty Name="status" ColumnName="status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vDi1Cua">
+      <EntityTypeMapping TypeName="NiceHandleModel.vDi1Cua">
+        <MappingFragment StoreEntitySet="vDi1Cua">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="hoso_id" ColumnName="hoso_id" />
+          <ScalarProperty Name="ngaynop" ColumnName="ngaynop" />
+          <ScalarProperty Name="ngaytra" ColumnName="ngaytra" />
+          <ScalarProperty Name="canbo1cua" ColumnName="canbo1cua" />
+          <ScalarProperty Name="maphieuhen" ColumnName="maphieuhen" />
+          <ScalarProperty Name="trangthai" ColumnName="trangthai" />
+          <ScalarProperty Name="contract_id" ColumnName="contract_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="time_created" ColumnName="time_created" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="service_id" ColumnName="service_id" />
+          <ScalarProperty Name="priority" ColumnName="priority" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="address_id" ColumnName="address_id" />
+          <ScalarProperty Name="partner" ColumnName="partner" />
+          <ScalarProperty Name="time_exp" ColumnName="time_exp" />
+          <ScalarProperty Name="time" ColumnName="time" />
+          <ScalarProperty Name="ghichu" ColumnName="ghichu" />
+          <ScalarProperty Name="account_id_soanthao" ColumnName="account_id_soanthao" />
+          <ScalarProperty Name="step_id" ColumnName="step_id" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="noinhan_id" ColumnName="noinhan_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vDuChis">
+      <EntityTypeMapping TypeName="NiceHandleModel.vDuChi">
+        <MappingFragment StoreEntitySet="vDuChi">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="amount" ColumnName="amount" />
+          <ScalarProperty Name="category_id" ColumnName="category_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vDvhcC1">
+      <EntityTypeMapping TypeName="NiceHandleModel.vDvhcC1">
+        <MappingFragment StoreEntitySet="vDvhcC1">
+          <ScalarProperty Name="AddressName" ColumnName="AddressName" />
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="address_id" ColumnName="address_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="code" ColumnName="code" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vHomeWFInOuts">
+      <EntityTypeMapping TypeName="NiceHandleModel.vHomeWFInOut">
+        <MappingFragment StoreEntitySet="vHomeWFInOut">
+          <ScalarProperty Name="time" ColumnName="time" />
+          <ScalarProperty Name="wfNote" ColumnName="wfNote" />
+          <ScalarProperty Name="fullname" ColumnName="fullname" />
+          <ScalarProperty Name="IONote" ColumnName="IONote" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="amount" ColumnName="amount" />
+          <ScalarProperty Name="type" ColumnName="type" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vHoSoes">
+      <EntityTypeMapping TypeName="NiceHandleModel.vHoSo">
+        <MappingFragment StoreEntitySet="vHoSo">
+          <ScalarProperty Name="time" ColumnName="time" />
+          <ScalarProperty Name="address_id" ColumnName="address_id" />
+          <ScalarProperty Name="address_name" ColumnName="address_name" />
+          <ScalarProperty Name="service_name" ColumnName="service_name" />
+          <ScalarProperty Name="partner" ColumnName="partner" />
+          <ScalarProperty Name="partner_name" ColumnName="partner_name" />
+          <ScalarProperty Name="account_name" ColumnName="account_name" />
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="contract_id" ColumnName="contract_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="account_id_soanthao" ColumnName="account_id_soanthao" />
+          <ScalarProperty Name="priority" ColumnName="priority" />
+          <ScalarProperty Name="trang4" ColumnName="trang4" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="sodienthoai" ColumnName="sodienthoai" />
+          <ScalarProperty Name="service_id" ColumnName="service_id" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="step_id" ColumnName="step_id" />
+          <ScalarProperty Name="time_exp" ColumnName="time_exp" />
+          <ScalarProperty Name="sodienthoai_mota" ColumnName="sodienthoai_mota" />
+          <ScalarProperty Name="deadline" ColumnName="deadline" />
+          <ScalarProperty Name="ngoaigiao" ColumnName="ngoaigiao" />
+          <ScalarProperty Name="time_complete" ColumnName="time_complete" />
+          <ScalarProperty Name="time_created" ColumnName="time_created" />
+          <ScalarProperty Name="light" ColumnName="light" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vInOuts">
+      <EntityTypeMapping TypeName="NiceHandleModel.vInOut">
+        <MappingFragment StoreEntitySet="vInOut">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="time" ColumnName="time" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="state" ColumnName="state" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="category_id" ColumnName="category_id" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="gostock" ColumnName="gostock" />
+          <ScalarProperty Name="contract_id" ColumnName="contract_id" />
+          <ScalarProperty Name="currency" ColumnName="currency" />
+          <ScalarProperty Name="amount" ColumnName="amount" />
+          <ScalarProperty Name="inoutchoduyet_id" ColumnName="inoutchoduyet_id" />
+          <ScalarProperty Name="disname" ColumnName="disname" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vMyFiles">
+      <EntityTypeMapping TypeName="NiceHandleModel.vMyFile">
+        <MappingFragment StoreEntitySet="vMyFile">
+          <ScalarProperty Name="time" ColumnName="time" />
+          <ScalarProperty Name="partner" ColumnName="partner" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="partner_name" ColumnName="partner_name" />
+          <ScalarProperty Name="address_id" ColumnName="address_id" />
+          <ScalarProperty Name="address_name" ColumnName="address_name" />
+          <ScalarProperty Name="customer_name" ColumnName="customer_name" />
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="amount" ColumnName="amount" />
+          <ScalarProperty Name="rose" ColumnName="rose" />
+          <ScalarProperty Name="consuming" ColumnName="consuming" />
+          <ScalarProperty Name="service_id" ColumnName="service_id" />
+          <ScalarProperty Name="service_name" ColumnName="service_name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vMyRewards">
+      <EntityTypeMapping TypeName="NiceHandleModel.vMyReward">
+        <MappingFragment StoreEntitySet="vMyReward">
+          <ScalarProperty Name="step_id" ColumnName="step_id" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="ngaynop" ColumnName="ngaynop" />
+          <ScalarProperty Name="address_id" ColumnName="address_id" />
+          <ScalarProperty Name="partner" ColumnName="partner" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="address_name" ColumnName="address_name" />
+          <ScalarProperty Name="maphieuhen" ColumnName="maphieuhen" />
+          <ScalarProperty Name="partner_name" ColumnName="partner_name" />
+          <ScalarProperty Name="fullname" ColumnName="fullname" />
+          <ScalarProperty Name="amount" ColumnName="amount" />
+          <ScalarProperty Name="contract_id" ColumnName="contract_id" />
+          <ScalarProperty Name="customer_name" ColumnName="customer_name" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="hoso_id" ColumnName="hoso_id" />
+          <ScalarProperty Name="service_id" ColumnName="service_id" />
+          <ScalarProperty Name="service_name" ColumnName="service_name" />
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="time" ColumnName="time" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="dove" ColumnName="dove" />
+          <ScalarProperty Name="remunerate" ColumnName="remunerate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vPayPlans">
+      <EntityTypeMapping TypeName="NiceHandleModel.vPayPlan">
+        <MappingFragment StoreEntitySet="vPayPlan">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="time" ColumnName="time" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="fullname" ColumnName="fullname" />
+          <ScalarProperty Name="category_id" ColumnName="category_id" />
+          <ScalarProperty Name="category_name" ColumnName="category_name" />
+          <ScalarProperty Name="contract_id" ColumnName="contract_id" />
+          <ScalarProperty Name="customer_name" ColumnName="customer_name" />
+          <ScalarProperty Name="amount" ColumnName="amount" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vPendings">
+      <EntityTypeMapping TypeName="NiceHandleModel.vPending">
+        <MappingFragment StoreEntitySet="vPending">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="soanthao" ColumnName="soanthao" />
+          <ScalarProperty Name="time" ColumnName="time" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="service_id" ColumnName="service_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vPhongDoVes">
+      <EntityTypeMapping TypeName="NiceHandleModel.vPhongDoVe">
+        <MappingFragment StoreEntitySet="vPhongDoVe">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="service_id" ColumnName="service_id" />
+          <ScalarProperty Name="link_filecad" ColumnName="link_filecad" />
+          <ScalarProperty Name="link_gmap" ColumnName="link_gmap" />
+          <ScalarProperty Name="link_filecad_qr" ColumnName="link_filecad_qr" />
+          <ScalarProperty Name="link_gmap_qr" ColumnName="link_gmap_qr" />
+          <ScalarProperty Name="link_flycam" ColumnName="link_flycam" />
+          <ScalarProperty Name="a_hoten" ColumnName="a_hoten" />
+          <ScalarProperty Name="a_gioitinh" ColumnName="a_gioitinh" />
+          <ScalarProperty Name="a_hktt" ColumnName="a_hktt" />
+          <ScalarProperty Name="a_hoten1" ColumnName="a_hoten1" />
+          <ScalarProperty Name="a_gioitinh1" ColumnName="a_gioitinh1" />
+          <ScalarProperty Name="a_hktt1" ColumnName="a_hktt1" />
+          <ScalarProperty Name="b_sogiaychungnhan" ColumnName="b_sogiaychungnhan" />
+          <ScalarProperty Name="b_sothua" ColumnName="b_sothua" />
+          <ScalarProperty Name="b_tobando" ColumnName="b_tobando" />
+          <ScalarProperty Name="b_diachithuadat" ColumnName="b_diachithuadat" />
+          <ScalarProperty Name="b_dientichtrenbia" ColumnName="b_dientichtrenbia" />
+          <ScalarProperty Name="b_hinhthucsudung" ColumnName="b_hinhthucsudung" />
+          <ScalarProperty Name="b_mucdichsudung" ColumnName="b_mucdichsudung" />
+          <ScalarProperty Name="b_ngaycap" ColumnName="b_ngaycap" />
+          <ScalarProperty Name="b_noicap" ColumnName="b_noicap" />
+          <ScalarProperty Name="b_sovaoso" ColumnName="b_sovaoso" />
+          <ScalarProperty Name="b_loaidat1" ColumnName="b_loaidat1" />
+          <ScalarProperty Name="b_dientich1" ColumnName="b_dientich1" />
+          <ScalarProperty Name="b_loaidat2" ColumnName="b_loaidat2" />
+          <ScalarProperty Name="b_dientich2" ColumnName="b_dientich2" />
+          <ScalarProperty Name="contract_id" ColumnName="contract_id" />
+          <ScalarProperty Name="address_id" ColumnName="address_id" />
+          <ScalarProperty Name="sodienthoai" ColumnName="sodienthoai" />
+          <ScalarProperty Name="sodienthoai_mota" ColumnName="sodienthoai_mota" />
+          <ScalarProperty Name="partner" ColumnName="partner" />
+          <ScalarProperty Name="b_dientich" ColumnName="b_dientich" />
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="hoso_id" ColumnName="hoso_id" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="time" ColumnName="time" />
+          <ScalarProperty Name="scan_bia" ColumnName="scan_bia" />
+          <ScalarProperty Name="time_start" ColumnName="time_start" />
+          <ScalarProperty Name="time_tradiem" ColumnName="time_tradiem" />
+          <ScalarProperty Name="time_vexong" ColumnName="time_vexong" />
+          <ScalarProperty Name="time_dongdau" ColumnName="time_dongdau" />
+          <ScalarProperty Name="time_thamdinh" ColumnName="time_thamdinh" />
+          <ScalarProperty Name="dove_account" ColumnName="dove_account" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vSettingGroupMembers">
+      <EntityTypeMapping TypeName="NiceHandleModel.vSettingGroupMember">
+        <MappingFragment StoreEntitySet="vSettingGroupMember">
+          <ScalarProperty Name="fullname" ColumnName="fullname" />
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vSoanThaos">
+      <EntityTypeMapping TypeName="NiceHandleModel.vSoanThao">
+        <MappingFragment StoreEntitySet="vSoanThao">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="time" ColumnName="time" />
+          <ScalarProperty Name="exp" ColumnName="exp" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="workflow" ColumnName="workflow" />
+          <ScalarProperty Name="Priority" ColumnName="Priority" />
+          <ScalarProperty Name="sodienthoai" ColumnName="sodienthoai" />
+          <ScalarProperty Name="address_name" ColumnName="address_name" />
+          <ScalarProperty Name="service_name" ColumnName="service_name" />
+          <ScalarProperty Name="step_name" ColumnName="step_name" />
+          <ScalarProperty Name="account_name" ColumnName="account_name" />
+          <ScalarProperty Name="partner_name" ColumnName="partner_name" />
+          <ScalarProperty Name="customer_name" ColumnName="customer_name" />
+          <ScalarProperty Name="customer_id" ColumnName="customer_id" />
+          <ScalarProperty Name="address_id" ColumnName="address_id" />
+          <ScalarProperty Name="step" ColumnName="step" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="partner" ColumnName="partner" />
+          <ScalarProperty Name="step_code" ColumnName="step_code" />
+          <ScalarProperty Name="step_color" ColumnName="step_color" />
+          <ScalarProperty Name="partner_code" ColumnName="partner_code" />
+          <ScalarProperty Name="link_giapha" ColumnName="link_giapha" />
+          <ScalarProperty Name="message" ColumnName="message" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="service_id" ColumnName="service_id" />
+          <ScalarProperty Name="soanthao" ColumnName="soanthao" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vStorages">
+      <EntityTypeMapping TypeName="NiceHandleModel.vStorage">
+        <MappingFragment StoreEntitySet="vStorage">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="time" ColumnName="time" />
+          <ScalarProperty Name="exp" ColumnName="exp" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="workflow" ColumnName="workflow" />
+          <ScalarProperty Name="Priority" ColumnName="Priority" />
+          <ScalarProperty Name="sodienthoai" ColumnName="sodienthoai" />
+          <ScalarProperty Name="address_name" ColumnName="address_name" />
+          <ScalarProperty Name="service_name" ColumnName="service_name" />
+          <ScalarProperty Name="account_name" ColumnName="account_name" />
+          <ScalarProperty Name="partner_name" ColumnName="partner_name" />
+          <ScalarProperty Name="customer_name" ColumnName="customer_name" />
+          <ScalarProperty Name="customer_id" ColumnName="customer_id" />
+          <ScalarProperty Name="address_id" ColumnName="address_id" />
+          <ScalarProperty Name="step" ColumnName="step" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="partner" ColumnName="partner" />
+          <ScalarProperty Name="partner_code" ColumnName="partner_code" />
+          <ScalarProperty Name="link_giapha" ColumnName="link_giapha" />
+          <ScalarProperty Name="message" ColumnName="message" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="service_id" ColumnName="service_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vTienDoes">
+      <EntityTypeMapping TypeName="NiceHandleModel.vTienDo">
+        <MappingFragment StoreEntitySet="vTienDo">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="time" ColumnName="time" />
+          <ScalarProperty Name="exp" ColumnName="exp" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="workflow" ColumnName="workflow" />
+          <ScalarProperty Name="Priority" ColumnName="Priority" />
+          <ScalarProperty Name="sodienthoai" ColumnName="sodienthoai" />
+          <ScalarProperty Name="address_name" ColumnName="address_name" />
+          <ScalarProperty Name="service_name" ColumnName="service_name" />
+          <ScalarProperty Name="step_name" ColumnName="step_name" />
+          <ScalarProperty Name="account_name" ColumnName="account_name" />
+          <ScalarProperty Name="partner_name" ColumnName="partner_name" />
+          <ScalarProperty Name="customer_name" ColumnName="customer_name" />
+          <ScalarProperty Name="customer_id" ColumnName="customer_id" />
+          <ScalarProperty Name="address_id" ColumnName="address_id" />
+          <ScalarProperty Name="step" ColumnName="step" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="partner" ColumnName="partner" />
+          <ScalarProperty Name="step_code" ColumnName="step_code" />
+          <ScalarProperty Name="step_color" ColumnName="step_color" />
+          <ScalarProperty Name="partner_code" ColumnName="partner_code" />
+          <ScalarProperty Name="link_giapha" ColumnName="link_giapha" />
+          <ScalarProperty Name="message" ColumnName="message" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="service_id" ColumnName="service_id" />
+          <ScalarProperty Name="soanthao" ColumnName="soanthao" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vTheoDoiChis">
+      <EntityTypeMapping TypeName="NiceHandleModel.vTheoDoiChi">
+        <MappingFragment StoreEntitySet="vTheoDoiChi">
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="inout_id" ColumnName="inout_id" />
+          <ScalarProperty Name="amount" ColumnName="amount" />
+          <ScalarProperty Name="contract_name" ColumnName="contract_name" />
+          <ScalarProperty Name="category_name" ColumnName="category_name" />
+          <ScalarProperty Name="service_name" ColumnName="service_name" />
+          <ScalarProperty Name="address_name" ColumnName="address_name" />
+          <ScalarProperty Name="category_id" ColumnName="category_id" />
+          <ScalarProperty Name="time" ColumnName="time" />
+          <ScalarProperty Name="contract_id" ColumnName="contract_id" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="fullname" ColumnName="fullname" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vTheoDoiTienDoes">
+      <EntityTypeMapping TypeName="NiceHandleModel.vTheoDoiTienDo">
+        <MappingFragment StoreEntitySet="vTheoDoiTienDo">
+          <ScalarProperty Name="time" ColumnName="time" />
+          <ScalarProperty Name="partner" ColumnName="partner" />
+          <ScalarProperty Name="address_id" ColumnName="address_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="contract_id" ColumnName="contract_id" />
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="time_exp" ColumnName="time_exp" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="disname" ColumnName="disname" />
+          <ScalarProperty Name="service_id" ColumnName="service_id" />
+          <ScalarProperty Name="step_id" ColumnName="step_id" />
+          <ScalarProperty Name="status" ColumnName="status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vViecPhaiLams">
+      <EntityTypeMapping TypeName="NiceHandleModel.vViecPhaiLam">
+        <MappingFragment StoreEntitySet="vViecPhaiLam">
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="time" ColumnName="time" />
+          <ScalarProperty Name="time_progress" ColumnName="time_progress" />
+          <ScalarProperty Name="result" ColumnName="result" />
+          <ScalarProperty Name="hoso_id" ColumnName="hoso_id" />
+          <ScalarProperty Name="hoso_name" ColumnName="hoso_name" />
+          <ScalarProperty Name="service_id" ColumnName="service_id" />
+          <ScalarProperty Name="service_name" ColumnName="service_name" />
+          <ScalarProperty Name="progress_type" ColumnName="progress_type" />
+          <ScalarProperty Name="fullname" ColumnName="fullname" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="AspNetUserRoles" TypeName="NiceHandleModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+      <EndProperty Name="AspNetRoles">
+        <ScalarProperty Name="Id" ColumnName="RoleId" />
+      </EndProperty>
+      <EndProperty Name="AspNetUsers">
+        <ScalarProperty Name="Id" ColumnName="UserId" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <FunctionImportMapping FunctionImportName="Test" FunctionName="NiceHandleModel.Store.Test">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="NiceHandleModel.Test_Result">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="code" ColumnName="code" />
+          <ScalarProperty Name="parent_id" ColumnName="parent_id" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+  </EntityContainerMapping>
+</Mapping>

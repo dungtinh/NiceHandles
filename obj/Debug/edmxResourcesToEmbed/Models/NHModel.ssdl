@@ -1,0 +1,3327 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="NiceHandleModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="__MigrationHistory">
+    <Key>
+      <PropertyRef Name="MigrationId" />
+      <PropertyRef Name="ContextKey" />
+    </Key>
+    <Property Name="MigrationId" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="ContextKey" Type="nvarchar" MaxLength="300" Nullable="false" />
+    <Property Name="Model" Type="varbinary(max)" Nullable="false" />
+    <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Account">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserName" Type="varchar" MaxLength="150" Nullable="false" />
+    <Property Name="disname" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="fullname" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="chotso" Type="datetime" />
+    <Property Name="sticknote" Type="nvarchar(max)" />
+    <Property Name="luong" Type="int" Nullable="false" />
+    <Property Name="phucap" Type="int" Nullable="false" />
+    <Property Name="bankno" Type="varchar" MaxLength="50" />
+    <Property Name="bank_name" Type="nvarchar" MaxLength="50" />
+    <Property Name="isNV" Type="int" Nullable="false" />
+    <Property Name="hasNote" Type="int" Nullable="false" />
+    <Property Name="phoneno" Type="varchar" MaxLength="50" />
+    <Property Name="birthday" Type="datetime" />
+    <Property Name="gender" Type="nvarchar" MaxLength="50" />
+    <Property Name="hktt" Type="nvarchar" MaxLength="250" />
+    <Property Name="sogiayto" Type="varchar" MaxLength="50" />
+    <Property Name="ngaycap_gt" Type="datetime" />
+    <Property Name="noicap_gt" Type="nvarchar" MaxLength="150" />
+    <Property Name="is_uq" Type="int" Nullable="false" />
+    <Property Name="email" Type="nvarchar" MaxLength="150" />
+    <Property Name="manager" Type="int" />
+    <Property Name="sta" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Address">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="code" Type="varchar" MaxLength="50" />
+    <Property Name="parent_id" Type="int" />
+  </EntityType>
+  <EntityType Name="AspNetRoles">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AspNetUserClaims">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="ClaimType" Type="nvarchar(max)" />
+    <Property Name="ClaimValue" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="AspNetUserLogins">
+    <Key>
+      <PropertyRef Name="LoginProvider" />
+      <PropertyRef Name="ProviderKey" />
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="LoginProvider" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="ProviderKey" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AspNetUserRoles">
+    <Key>
+      <PropertyRef Name="UserId" />
+      <PropertyRef Name="RoleId" />
+    </Key>
+    <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="RoleId" Type="nvarchar" MaxLength="128" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AspNetUsers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="256" />
+    <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+    <Property Name="PasswordHash" Type="nvarchar(max)" />
+    <Property Name="SecurityStamp" Type="nvarchar(max)" />
+    <Property Name="PhoneNumber" Type="nvarchar(max)" />
+    <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+    <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+    <Property Name="LockoutEndDateUtc" Type="datetime" />
+    <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+    <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Attendance">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EmployeeId" Type="int" Nullable="false" />
+    <Property Name="Date" Type="date" Nullable="false" />
+    <Property Name="MorningCheckInActual" Type="datetime" />
+    <Property Name="MorningCheckOutActual" Type="datetime" />
+    <Property Name="AfternoonCheckInActual" Type="datetime" />
+    <Property Name="AfternoonCheckOutActual" Type="datetime" />
+    <Property Name="MorningCheckInManual" Type="datetime" />
+    <Property Name="MorningCheckOutManual" Type="datetime" />
+    <Property Name="AfternoonCheckInManual" Type="datetime" />
+    <Property Name="AfternoonCheckOutManual" Type="datetime" />
+    <Property Name="LateReason" Type="nvarchar" MaxLength="500" />
+    <Property Name="TotalHours" Type="float" Nullable="false" />
+  </EntityType>
+  <EntityType Name="BangChamCong">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+    <Property Name="thoigian" Type="datetime" Nullable="false" />
+    <Property Name="ngay" Type="int" Nullable="false" />
+    <Property Name="cong" Type="int" Nullable="false" />
+    <Property Name="note" Type="nvarchar" MaxLength="250" />
+  </EntityType>
+  <EntityType Name="CanBo">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="address_id" Type="int" Nullable="false" />
+    <Property Name="motcua" Type="int" />
+    <Property Name="trangthai" Type="int" Nullable="false" />
+    <Property Name="thutu" Type="int" />
+    <Property Name="phone" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="CanBoDiaPhuong">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="chucvu" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="gmap" Type="nvarchar" MaxLength="150" />
+    <Property Name="phoneno" Type="nvarchar" MaxLength="50" />
+    <Property Name="thuoccap" Type="int" Nullable="false" />
+    <Property Name="note" Type="nvarchar" MaxLength="250" />
+    <Property Name="fk_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="parent_id" Type="int" Nullable="false" />
+    <Property Name="type" Type="int" Nullable="false" />
+    <Property Name="wf" Type="int" Nullable="false" />
+    <Property Name="kind" Type="int" Nullable="false" />
+    <Property Name="pair" Type="int" Nullable="false" />
+    <Property Name="nhom" Type="int" />
+    <Property Name="duyet" Type="int" Nullable="false" />
+    <Property Name="theodoi" Type="int" Nullable="false" />
+    <Property Name="tamung" Type="int" Nullable="false" />
+    <Property Name="status" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Contract">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="code" Type="nvarchar" MaxLength="50" />
+    <Property Name="name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="address_id" Type="int" Nullable="false" />
+    <Property Name="service_id" Type="int" Nullable="false" />
+    <Property Name="amount" Type="bigint" Nullable="false" />
+    <Property Name="consuming" Type="bigint" Nullable="false" />
+    <Property Name="time" Type="datetime" Nullable="false" />
+    <Property Name="time_exp" Type="int" Nullable="false" />
+    <Property Name="deadline" Type="int" Nullable="false" />
+    <Property Name="status" Type="int" Nullable="false" />
+    <Property Name="note" Type="nvarchar(max)" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+    <Property Name="Priority" Type="int" Nullable="false" />
+    <Property Name="partner" Type="int" Nullable="false" />
+    <Property Name="sodienthoai" Type="nvarchar" MaxLength="50" />
+    <Property Name="sodienthoai_mota" Type="nvarchar" MaxLength="50" />
+    <Property Name="type" Type="int" Nullable="false" />
+    <Property Name="rose" Type="int" Nullable="false" />
+    <Property Name="outrose" Type="int" Nullable="false" />
+    <Property Name="dove" Type="int" Nullable="false" />
+    <Property Name="remunerate" Type="int" Nullable="false" />
+    <Property Name="soanthao" Type="int" Nullable="false" />
+    <Property Name="HardFileLink" Type="nvarchar" MaxLength="250" />
+    <Property Name="loai" Type="int" Nullable="false" />
+    <Property Name="nguoiky_id" Type="int" Nullable="false" />
+    <Property Name="nguoitheodoi_id" Type="int" Nullable="false" />
+    <Property Name="googlemap" Type="nvarchar" MaxLength="150" />
+  </EntityType>
+  <EntityType Name="CongViec">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="category_id" Type="int" Nullable="false" />
+    <Property Name="service_id" Type="int" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="sort" Type="int" Nullable="false" />
+    <Property Name="required" Type="int" Nullable="false" />
+    <Property Name="step_id" Type="int" />
+  </EntityType>
+  <EntityType Name="CoQuanGiaiQuyet">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="code" Type="nvarchar" MaxLength="50" />
+    <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CuocHop">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="type" Type="int" Nullable="false" />
+    <Property Name="vande" Type="nvarchar" MaxLength="500" />
+    <Property Name="ketqua" Type="nvarchar" MaxLength="500" />
+    <Property Name="ghichu" Type="nvarchar" MaxLength="1000" />
+    <Property Name="taoboi" Type="int" Nullable="false" />
+    <Property Name="time_duyet" Type="datetime" />
+    <Property Name="time" Type="datetime" Nullable="false" />
+    <Property Name="hoso_id" Type="int" Nullable="false" />
+    <Property Name="noidung" Type="nvarchar" MaxLength="1000" />
+    <Property Name="bienban" Type="nvarchar" MaxLength="250" />
+    <Property Name="tailieuthamkhao" Type="nvarchar" MaxLength="250" />
+    <Property Name="mucdo" Type="int" Nullable="false" />
+    <Property Name="status" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Customer">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="address" Type="nvarchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="ChamCong">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="user_id" Type="int" Nullable="false" />
+    <Property Name="time" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ChatFiles">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ChatSessionId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="FileName" Type="nvarchar" MaxLength="255" />
+    <Property Name="FileId" Type="nvarchar" MaxLength="100" />
+    <Property Name="UploadedAt" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ChatMessages">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ChatSessionId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Role" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="Content" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ChatSessions">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+    <Property Name="AssistantThreadId" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="chotso">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ngaythang" Type="datetime" Nullable="false" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+    <Property Name="ghichu" Type="nvarchar" MaxLength="500" />
+    <Property Name="tienthu" Type="bigint" Nullable="false" />
+    <Property Name="tienchi" Type="bigint" Nullable="false" />
+    <Property Name="tiencon" Type="bigint" Nullable="false" />
+    <Property Name="tienchenhlech" Type="bigint" Nullable="false" />
+    <Property Name="nogiang" Type="bigint" Nullable="false" />
+    <Property Name="noduy" Type="bigint" Nullable="false" />
+    <Property Name="notin" Type="bigint" Nullable="false" />
+    <Property Name="nokhac" Type="bigint" Nullable="false" />
+    <Property Name="sta" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="di1cua">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="contract_id" Type="int" Nullable="false" />
+    <Property Name="hoso_id" Type="int" Nullable="false" />
+    <Property Name="ngaynop" Type="datetime" Nullable="false" />
+    <Property Name="ngaytra" Type="datetime" Nullable="false" />
+    <Property Name="canbo1cua" Type="int" Nullable="false" />
+    <Property Name="canbophutrach" Type="nvarchar" MaxLength="150" />
+    <Property Name="noinhan_id" Type="int" />
+    <Property Name="maphieuhen" Type="nvarchar" MaxLength="150" />
+    <Property Name="ghichu" Type="nvarchar" MaxLength="500" />
+    <Property Name="trangthai" Type="int" Nullable="false" />
+    <Property Name="type" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Diary">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ngaythang" Type="datetime" Nullable="false" />
+    <Property Name="noidung" Type="nvarchar" MaxLength="500" Nullable="false" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="didiachinh">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="contract_id" Type="int" Nullable="false" />
+    <Property Name="ngaynop" Type="datetime" Nullable="false" />
+    <Property Name="noinop" Type="int" Nullable="false" />
+    <Property Name="is_xa" Type="int" Nullable="false" />
+    <Property Name="trangthai" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Document">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="code" Type="varchar" MaxLength="50" />
+    <Property Name="name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="template" Type="nvarchar" MaxLength="250" />
+    <Property Name="type" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="donthu">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="hoso_id" Type="int" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="type" Type="int" Nullable="false" />
+    <Property Name="time" Type="datetime" Nullable="false" />
+    <Property Name="alarm" Type="datetime" Nullable="false" />
+    <Property Name="url" Type="nvarchar" MaxLength="250" />
+    <Property Name="donthu_id" Type="int" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+    <Property Name="cachgui" Type="int" Nullable="false" />
+    <Property Name="lydo" Type="nvarchar" MaxLength="250" />
+  </EntityType>
+  <EntityType Name="Dove">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="hoso_id" Type="int" Nullable="false" />
+    <Property Name="status" Type="int" Nullable="false" />
+    <Property Name="time" Type="datetime" Nullable="false" />
+    <Property Name="scan_bia" Type="nvarchar" MaxLength="250" />
+    <Property Name="time_start" Type="datetime" />
+    <Property Name="time_tradiem" Type="datetime" />
+    <Property Name="time_vexong" Type="datetime" />
+    <Property Name="time_dongdau" Type="datetime" />
+    <Property Name="time_thamdinh" Type="datetime" />
+    <Property Name="note" Type="nvarchar" MaxLength="500" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Dove_ThuChi">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="contract_id" Type="int" />
+    <Property Name="category_id" Type="int" Nullable="false" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+    <Property Name="created_by" Type="int" Nullable="false" />
+    <Property Name="type" Type="int" Nullable="false" />
+    <Property Name="note" Type="nvarchar" MaxLength="500" />
+    <Property Name="time" Type="datetime" Nullable="false" />
+    <Property Name="amount" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="dove_wf">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="dove_id" Type="int" Nullable="false" />
+    <Property Name="status" Type="int" Nullable="false" />
+    <Property Name="note" Type="nvarchar" MaxLength="500" />
+    <Property Name="time" Type="datetime" Nullable="false" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+    <Property Name="account_id_fk" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="dovelichsu">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="hoso_id" Type="int" Nullable="false" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="500" Nullable="false" />
+    <Property Name="url" Type="nvarchar" MaxLength="250" />
+    <Property Name="time" Type="datetime" Nullable="false" />
+    <Property Name="time_exp" Type="datetime" />
+    <Property Name="dove_account" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DSChoDuyet">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="note" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="time" Type="datetime" Nullable="false" />
+    <Property Name="status" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DuChi">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="category_id" Type="int" Nullable="false" />
+    <Property Name="amount" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DuChiNhatKy">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="inout_id" Type="bigint" Nullable="false" />
+    <Property Name="status" Type="int" Nullable="false" />
+    <Property Name="note" Type="nvarchar" MaxLength="350" />
+    <Property Name="time" Type="datetime" Nullable="false" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DuChiNhatKyWF">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="duchinhatky_id" Type="int" Nullable="false" />
+    <Property Name="status" Type="int" Nullable="false" />
+    <Property Name="note" Type="nvarchar" MaxLength="350" />
+    <Property Name="time" Type="datetime" Nullable="false" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DvhcC1">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="address_id" Type="int" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="code" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Field">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="group_id" Type="int" Nullable="false" />
+    <Property Name="title" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="250" Nullable="false" />
+    <Property Name="no" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="File">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="150" />
+    <Property Name="url" Type="nvarchar" MaxLength="150" />
+    <Property Name="type" Type="int" />
+    <Property Name="contract_id" Type="int" Nullable="false" />
+    <Property Name="hoso_id" Type="int" />
+  </EntityType>
+  <EntityType Name="fk_CanBo_Address">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="canbo_id" Type="int" Nullable="false" />
+    <Property Name="address_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="fk_contract_service">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="contract_id" Type="int" Nullable="false" />
+    <Property Name="service_id" Type="int" Nullable="false" />
+    <Property Name="note" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="fk_congviec_hoso">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="congviec_id" Type="int" Nullable="false" />
+    <Property Name="hoso_id" Type="int" Nullable="false" />
+    <Property Name="status" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="fk_congviec_service">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="congviec_id" Type="int" Nullable="false" />
+    <Property Name="service_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="fk_chotso_thuchi">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="thuchi_id" Type="bigint" Nullable="false" />
+    <Property Name="chotso_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="fk_service_document">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="service_id" Type="int" Nullable="false" />
+    <Property Name="document_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="GroupField">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="no" Type="int" Nullable="false" />
+    <Property Name="document_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="GroupMember">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="GroupMember_Account">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+    <Property Name="groupmember_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="GiaoNhanGiayTo">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="contract_id" Type="int" Nullable="false" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+    <Property Name="giayto" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="noinhan" Type="nvarchar" MaxLength="50" />
+    <Property Name="nguoinhan" Type="nvarchar" MaxLength="50" />
+    <Property Name="ngaygiao" Type="datetime" Nullable="false" />
+    <Property Name="ngayhan" Type="datetime" />
+    <Property Name="trangthai" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Holiday">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Date" Type="date" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
+  </EntityType>
+  <EntityType Name="HoSo">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="contract_id" Type="int" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="time_created" Type="datetime" Nullable="false" />
+    <Property Name="time_complete" Type="datetime" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+    <Property Name="account_id_soanthao" Type="int" Nullable="false" />
+    <Property Name="service_id" Type="int" Nullable="false" />
+    <Property Name="link_filecad" Type="nvarchar" MaxLength="150" />
+    <Property Name="link_gmap" Type="nvarchar" MaxLength="150" />
+    <Property Name="link_filecad_qr" Type="nvarchar" MaxLength="150" />
+    <Property Name="link_gmap_qr" Type="nvarchar" MaxLength="150" />
+    <Property Name="link_flycam" Type="nvarchar" MaxLength="150" />
+    <Property Name="step_id" Type="int" Nullable="false" />
+    <Property Name="note" Type="nvarchar(max)" />
+    <Property Name="priority" Type="int" Nullable="false" />
+    <Property Name="trang4" Type="int" Nullable="false" />
+    <Property Name="status" Type="int" Nullable="false" />
+    <Property Name="ngoaigiao" Type="int" />
+    <Property Name="light" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'NiceHandle.dbo.Hoso_Step' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="Hoso_Step">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Infomation">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="hoso_id" Type="int" Nullable="false" />
+    <Property Name="contract_id" Type="int" Nullable="false" />
+    <Property Name="a_loaigiayto" Type="nvarchar" MaxLength="50" />
+    <Property Name="a_sogiayto" Type="varchar" MaxLength="50" />
+    <Property Name="a_hoten" Type="nvarchar" MaxLength="150" />
+    <Property Name="a_ngaysinh" Type="datetime" />
+    <Property Name="a_gioitinh" Type="nvarchar" MaxLength="50" />
+    <Property Name="a_quoctich" Type="nvarchar" MaxLength="50" />
+    <Property Name="a_nguyenquan" Type="nvarchar" MaxLength="250" />
+    <Property Name="a_hktt" Type="nvarchar" MaxLength="250" />
+    <Property Name="a_thon" Type="nvarchar" MaxLength="50" />
+    <Property Name="a_xa" Type="nvarchar" MaxLength="50" />
+    <Property Name="a_huyen" Type="nvarchar" MaxLength="50" />
+    <Property Name="a_tinh" Type="nvarchar" MaxLength="50" />
+    <Property Name="a_ngaycap_gt" Type="datetime" />
+    <Property Name="a_noicap_gt" Type="nvarchar" MaxLength="150" />
+    <Property Name="a_masothue" Type="varchar" MaxLength="50" />
+    <Property Name="a_quanhe" Type="bit" />
+    <Property Name="a_loaigiayto1" Type="nvarchar" MaxLength="50" />
+    <Property Name="a_sogiayto1" Type="varchar" MaxLength="50" />
+    <Property Name="a_hoten1" Type="nvarchar" MaxLength="150" />
+    <Property Name="a_ngaysinh1" Type="datetime" />
+    <Property Name="a_gioitinh1" Type="nvarchar" MaxLength="50" />
+    <Property Name="a_quoctich1" Type="nvarchar" MaxLength="50" />
+    <Property Name="a_nguyenquan1" Type="nvarchar" MaxLength="250" />
+    <Property Name="a_hktt1" Type="nvarchar" MaxLength="250" />
+    <Property Name="a_ngaycap_gt1" Type="datetime" />
+    <Property Name="a_noicap_gt1" Type="nvarchar" MaxLength="150" />
+    <Property Name="b_csh" Type="int" />
+    <Property Name="b_hoten" Type="nvarchar" MaxLength="150" />
+    <Property Name="b_ngaysinh" Type="datetime" />
+    <Property Name="b_loaigiayto" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_sogiayto" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_diachithuongtru" Type="nvarchar" MaxLength="250" />
+    <Property Name="b_sogiaychungnhan" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_sothua" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_tobando" Type="varchar" MaxLength="50" />
+    <Property Name="b_thon" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_xa" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_huyen" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_tinh" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_diachithuadat" Type="nvarchar" MaxLength="250" />
+    <Property Name="b_dientich" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_dientichtrenbia" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_hinhthucsudung" Type="nvarchar" MaxLength="150" />
+    <Property Name="b_mucdichsudung" Type="nvarchar" MaxLength="150" />
+    <Property Name="b_nguongoc" Type="nvarchar" MaxLength="150" />
+    <Property Name="b_nguongoc_landau" Type="nvarchar" MaxLength="500" />
+    <Property Name="b_nguongoc_landau_chot" Type="bit" />
+    <Property Name="b_thoidiemsudung" Type="nvarchar" MaxLength="150" />
+    <Property Name="b_ghichu" Type="nvarchar" MaxLength="250" />
+    <Property Name="b_ngaycap" Type="datetime" />
+    <Property Name="b_noicap" Type="nvarchar" MaxLength="150" />
+    <Property Name="b_sovaoso" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_loaidat1" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_dientich1" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_loaidat2" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_dientich2" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_loainguongoc" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_chuyenquyen" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_lichsu" Type="nvarchar" MaxLength="1000" />
+    <Property Name="c_xaphuong" Type="nvarchar" MaxLength="50" />
+    <Property Name="c_xa" Type="nvarchar" MaxLength="50" />
+    <Property Name="c_baocao_veviec" Type="nvarchar" MaxLength="500" />
+    <Property Name="c_dondenghi_noidung" Type="nvarchar" MaxLength="500" />
+    <Property Name="d_sogiayto" Type="varchar" MaxLength="50" />
+    <Property Name="d_hoten" Type="nvarchar" MaxLength="150" />
+    <Property Name="d_ngaysinh" Type="datetime" />
+    <Property Name="d_gioitinh" Type="nvarchar" MaxLength="50" />
+    <Property Name="d_quoctich" Type="nvarchar" MaxLength="50" />
+    <Property Name="d_nguyenquan" Type="nvarchar" MaxLength="250" />
+    <Property Name="d_hktt" Type="nvarchar" MaxLength="250" />
+    <Property Name="d_loaigiayto" Type="nvarchar" MaxLength="50" />
+    <Property Name="d_ngaycap_gt" Type="datetime" />
+    <Property Name="d_noicap_gt" Type="nvarchar" MaxLength="150" />
+    <Property Name="d_masothue" Type="nvarchar" MaxLength="50" />
+    <Property Name="d_quanhe" Type="bit" />
+    <Property Name="d_sogiayto1" Type="nvarchar" MaxLength="50" />
+    <Property Name="d_loaigiayto1" Type="nvarchar" MaxLength="50" />
+    <Property Name="d_hoten1" Type="nvarchar" MaxLength="50" />
+    <Property Name="d_ngaysinh1" Type="datetime" />
+    <Property Name="d_gioitinh1" Type="nvarchar" MaxLength="50" />
+    <Property Name="d_hktt1" Type="nvarchar" MaxLength="250" />
+    <Property Name="d_ngaycap_gt1" Type="datetime" />
+    <Property Name="d_noicap_gt1" Type="nvarchar" MaxLength="150" />
+    <Property Name="d_loaibiendong" Type="nvarchar" MaxLength="50" />
+    <Property Name="d_noidungbiendong" Type="nvarchar" MaxLength="150" />
+    <Property Name="d_lydobiendong" Type="nvarchar" MaxLength="150" />
+    <Property Name="d_loaihopdong" Type="nvarchar" MaxLength="150" />
+    <Property Name="d_sohopdong" Type="nvarchar" MaxLength="50" />
+    <Property Name="d_noicongchung" Type="nvarchar" MaxLength="150" />
+    <Property Name="d_ngaycongchung" Type="datetime" />
+    <Property Name="d_tienhopdong" Type="bigint" />
+    <Property Name="d_lydomiengiamthue" Type="nvarchar" MaxLength="250" />
+    <Property Name="d_vitrithuadat" Type="nvarchar" MaxLength="50" />
+    <Property Name="d_thon" Type="nvarchar" MaxLength="50" />
+    <Property Name="d_xa" Type="nvarchar" MaxLength="50" />
+    <Property Name="d_huyen" Type="nvarchar" MaxLength="50" />
+    <Property Name="d_tinh" Type="nvarchar" MaxLength="50" />
+    <Property Name="e_sogiayto" Type="varchar" MaxLength="50" />
+    <Property Name="e_hoten" Type="nvarchar" MaxLength="150" />
+    <Property Name="e_ngaysinh" Type="datetime" />
+    <Property Name="e_gioitinh" Type="nvarchar" MaxLength="50" />
+    <Property Name="e_quoctich" Type="nvarchar" MaxLength="50" />
+    <Property Name="e_nguyenquan" Type="nvarchar" MaxLength="250" />
+    <Property Name="e_hktt" Type="nvarchar" MaxLength="250" />
+    <Property Name="e_ngaycap_gt" Type="datetime" />
+    <Property Name="e_noicap_gt" Type="nvarchar" MaxLength="150" />
+    <Property Name="e_masothue" Type="varchar" MaxLength="50" />
+    <Property Name="e_giayuyquyenso" Type="nvarchar" MaxLength="50" />
+    <Property Name="e_ngayuyquyen" Type="datetime" />
+    <Property Name="e_doituong" Type="int" />
+    <Property Name="e_account" Type="int" />
+    <Property Name="f_lydo10" Type="nvarchar" MaxLength="250" />
+    <Property Name="f_sothua" Type="nvarchar" MaxLength="50" />
+    <Property Name="f_tobando" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="InOut">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="code" Type="char" MaxLength="36" Nullable="false" />
+    <Property Name="category_id" Type="int" Nullable="false" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+    <Property Name="type" Type="int" Nullable="false" />
+    <Property Name="note" Type="nvarchar" MaxLength="500" />
+    <Property Name="time" Type="datetime" Nullable="false" />
+    <Property Name="created_by" Type="int" Nullable="false" />
+    <Property Name="contract_id" Type="int" />
+    <Property Name="gostock" Type="int" Nullable="false" />
+    <Property Name="status" Type="int" Nullable="false" />
+    <Property Name="state" Type="int" />
+    <Property Name="currency" Type="int" Nullable="false" />
+    <Property Name="amount" Type="bigint" Nullable="false" />
+    <Property Name="inoutchoduyet_id" Type="int" />
+    <Property Name="unlock" Type="int" Nullable="false" />
+    <Property Name="xclass" Type="int" />
+  </EntityType>
+  <EntityType Name="InOutChoDuyet">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="code" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="note" Type="nvarchar" MaxLength="250" />
+    <Property Name="time" Type="datetime" Nullable="false" />
+    <Property Name="status" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Job">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="start_date" Type="datetime" Nullable="false" />
+    <Property Name="exp_date" Type="datetime" Nullable="false" />
+    <Property Name="created_by" Type="int" Nullable="false" />
+    <Property Name="process_by" Type="int" Nullable="false" />
+    <Property Name="note" Type="nvarchar" MaxLength="500" />
+    <Property Name="status" Type="int" Nullable="false" />
+    <Property Name="hoso_id" Type="int" />
+    <Property Name="progress_type" Type="int" />
+    <Property Name="label" Type="int" />
+  </EntityType>
+  <EntityType Name="KPI">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ngaythang" Type="datetime" Nullable="false" />
+    <Property Name="user_id" Type="int" Nullable="false" />
+    <Property Name="ghichu" Type="nvarchar" MaxLength="2000" />
+  </EntityType>
+  <EntityType Name="KPIChiTieu">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="user_id" Type="int" Nullable="false" />
+    <Property Name="type" Type="int" Nullable="false" />
+    <Property Name="chitieu" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="KPILink">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="type" Type="int" Nullable="false" />
+    <Property Name="link" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="KPI_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="LanDau">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="cogiayto" Type="int" />
+  </EntityType>
+  <EntityType Name="landau_quytrinh">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="di1cua_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Money">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="amount" Type="bigint" Nullable="false" />
+    <Property Name="code" Type="varchar" MaxLength="36" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Notice">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="date" Type="datetime" Nullable="false" />
+    <Property Name="title" Type="nvarchar" MaxLength="250" />
+    <Property Name="contents" Type="nvarchar(max)" />
+    <Property Name="update_date" Type="datetime" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="NguoiHop">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="cuochop_id" Type="int" Nullable="false" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="nhatkydonthu">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="donthu_id" Type="int" Nullable="false" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+    <Property Name="time" Type="datetime" Nullable="false" />
+    <Property Name="note" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="time_exp" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="NhiemVu">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="contract_id" Type="int" Nullable="false" />
+    <Property Name="step_id" Type="int" Nullable="false" />
+    <Property Name="ghichu" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="OneDoorFile">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="150" />
+    <Property Name="url" Type="nvarchar" MaxLength="150" />
+    <Property Name="type" Type="int" />
+    <Property Name="contract_id" Type="int" Nullable="false" />
+    <Property Name="hoso_id" Type="int" />
+  </EntityType>
+  <EntityType Name="Page4">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Partner">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="code" Type="nvarchar" MaxLength="50" />
+    <Property Name="disname" Type="nvarchar" MaxLength="50" />
+    <Property Name="name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="sodienthoai" Type="nvarchar" MaxLength="50" />
+    <Property Name="sothutu" Type="int" Nullable="false" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+    <Property Name="id_no" Type="varchar" MaxLength="50" />
+    <Property Name="id_type" Type="varchar" MaxLength="50" />
+    <Property Name="birthday" Type="datetime" />
+    <Property Name="gender" Type="nvarchar" MaxLength="50" />
+    <Property Name="address" Type="nvarchar" MaxLength="150" />
+    <Property Name="bankno" Type="nvarchar" MaxLength="50" />
+    <Property Name="bankname" Type="nvarchar" MaxLength="150" />
+    <Property Name="bankbrand" Type="nvarchar" MaxLength="150" />
+    <Property Name="pro_date" Type="datetime" />
+    <Property Name="pro_by" Type="nvarchar" MaxLength="150" />
+    <Property Name="cbdp_id" Type="int" />
+  </EntityType>
+  <EntityType Name="PayPlan">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="dschoduyet_id" Type="int" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+    <Property Name="category_id" Type="int" Nullable="false" />
+    <Property Name="type" Type="int" Nullable="false" />
+    <Property Name="currency" Type="int" Nullable="false" />
+    <Property Name="amount" Type="bigint" Nullable="false" />
+    <Property Name="note" Type="nvarchar" MaxLength="500" />
+    <Property Name="time" Type="datetime" Nullable="false" />
+    <Property Name="contract_id" Type="int" />
+    <Property Name="status" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PriceByArea">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="type" Type="int" Nullable="false" />
+    <Property Name="area" Type="int" Nullable="false" />
+    <Property Name="text" Type="nvarchar" MaxLength="50" />
+    <Property Name="price" Type="int" Nullable="false" />
+    <Property Name="note" Type="nvarchar" MaxLength="150" />
+  </EntityType>
+  <EntityType Name="Progress">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="title" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="phantram" Type="int" />
+    <Property Name="description" Type="nvarchar" MaxLength="150" />
+    <Property Name="note" Type="nvarchar" MaxLength="250" />
+    <Property Name="status" Type="int" Nullable="false" />
+    <Property Name="type" Type="int" Nullable="false" />
+    <Property Name="sort" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Progress_Document">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="progress_type" Type="int" Nullable="false" />
+    <Property Name="document_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="progress_file">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="hoso_id" Type="int" Nullable="false" />
+    <Property Name="progress_id" Type="int" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="url" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="type" Type="int" Nullable="false" />
+    <Property Name="category" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="progress_file_option">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="progress_id" Type="int" Nullable="false" />
+    <Property Name="hoso_id" Type="int" Nullable="false" />
+    <Property Name="status" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PhuCap">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+    <Property Name="ten" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="sotien" Type="int" Nullable="false" />
+    <Property Name="loai" Type="int" Nullable="false" />
+    <Property Name="ngaythang" Type="datetime" Nullable="false" />
+    <Property Name="trangthai" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="QuanTriVanHanh">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="plans" Type="nvarchar(max)" />
+    <Property Name="workflows" Type="nvarchar(max)" />
+    <Property Name="reports" Type="nvarchar(max)" />
+    <Property Name="no" Type="int" />
+  </EntityType>
+  <EntityType Name="QuyDove">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="amount" Type="bigint" Nullable="false" />
+    <Property Name="note" Type="nvarchar" MaxLength="250" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+    <Property Name="type" Type="int" Nullable="false" />
+    <Property Name="time" Type="datetime" Nullable="false" />
+    <Property Name="sta" Type="int" Nullable="false" />
+    <Property Name="state" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Reporter">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+    <Property Name="time" Type="datetime" Nullable="false" />
+    <Property Name="thoigian" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="description" Type="nvarchar" MaxLength="500" Nullable="false" />
+    <Property Name="result" Type="nvarchar" MaxLength="150" />
+    <Property Name="note" Type="nvarchar" MaxLength="250" />
+  </EntityType>
+  <EntityType Name="Reward">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="contract_id" Type="int" Nullable="false" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+    <Property Name="amount" Type="bigint" />
+    <Property Name="note" Type="nvarchar" MaxLength="250" />
+    <Property Name="sta" Type="int" />
+    <Property Name="created_date" Type="datetime" />
+    <Property Name="decision_date" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Service">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="code" Type="varchar" MaxLength="50" />
+    <Property Name="name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="amount" Type="bigint" />
+    <Property Name="stt" Type="int" />
+    <Property Name="trainning" Type="nvarchar(max)" />
+    <Property Name="thoihan" Type="int" Nullable="false" />
+    <Property Name="nhacnho" Type="int" Nullable="false" />
+    <Property Name="phananh" Type="int" Nullable="false" />
+    <Property Name="tocao" Type="int" Nullable="false" />
+    <Property Name="reward" Type="int" />
+  </EntityType>
+  <EntityType Name="service_step_day">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="service_id" Type="int" Nullable="false" />
+    <Property Name="step_id" Type="int" Nullable="false" />
+    <Property Name="red" Type="int" Nullable="false" />
+    <Property Name="yellow" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Setting">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="code" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="data" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="Social">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="kpi_id" Type="int" Nullable="false" />
+    <Property Name="type" Type="int" />
+    <Property Name="name" Type="nvarchar" MaxLength="150" />
+    <Property Name="id_no" Type="nvarchar" MaxLength="150" />
+    <Property Name="nghenghiep" Type="int" />
+    <Property Name="note" Type="nvarchar" MaxLength="350" />
+  </EntityType>
+  <EntityType Name="SoHoKhau">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="infomation_id" Type="bigint" Nullable="false" />
+    <Property Name="so" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="tenchuho" Type="nvarchar" MaxLength="50" />
+    <Property Name="diachi" Type="nvarchar" MaxLength="250" />
+  </EntityType>
+  <EntityType Name="Step">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="category_id" Type="int" Nullable="false" />
+    <Property Name="code" Type="varchar" MaxLength="20" />
+    <Property Name="name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="description" Type="nvarchar(max)" />
+    <Property Name="next" Type="int" />
+    <Property Name="prev" Type="int" />
+    <Property Name="color" Type="nvarchar" MaxLength="50" />
+    <Property Name="sort" Type="int" />
+  </EntityType>
+  <EntityType Name="StepAccount">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+    <Property Name="step_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Stocker">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="amount" Type="bigint" Nullable="false" />
+    <Property Name="note" Type="nvarchar" MaxLength="250" />
+    <Property Name="currency" Type="int" Nullable="false" />
+    <Property Name="type" Type="int" Nullable="false" />
+    <Property Name="time" Type="datetime" Nullable="false" />
+    <Property Name="sta" Type="int" Nullable="false" />
+    <Property Name="state" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="syslog">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+    <Property Name="message" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="created_time" Type="datetime" Nullable="false" />
+    <Property Name="caption" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TachHop">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="infomation_id" Type="int" Nullable="false" />
+    <Property Name="type" Type="int" Nullable="false" />
+    <Property Name="a_loaigiayto" Type="nvarchar" MaxLength="50" />
+    <Property Name="a_sogiayto" Type="varchar" MaxLength="50" />
+    <Property Name="a_hoten" Type="nvarchar" MaxLength="150" />
+    <Property Name="a_ngaysinh" Type="datetime" />
+    <Property Name="a_gioitinh" Type="nvarchar" MaxLength="50" />
+    <Property Name="a_quoctich" Type="nvarchar" MaxLength="50" />
+    <Property Name="a_nguyenquan" Type="nvarchar" MaxLength="250" />
+    <Property Name="a_hktt" Type="nvarchar" MaxLength="250" />
+    <Property Name="a_thon" Type="nvarchar" MaxLength="50" />
+    <Property Name="a_xa" Type="nvarchar" MaxLength="50" />
+    <Property Name="a_huyen" Type="nvarchar" MaxLength="50" />
+    <Property Name="a_tinh" Type="nvarchar" MaxLength="50" />
+    <Property Name="a_ngaycap_gt" Type="datetime" />
+    <Property Name="a_noicap_gt" Type="nvarchar" MaxLength="150" />
+    <Property Name="a_masothue" Type="varchar" MaxLength="50" />
+    <Property Name="a_loaigiayto1" Type="nvarchar" MaxLength="50" />
+    <Property Name="a_sogiayto1" Type="varchar" MaxLength="50" />
+    <Property Name="a_hoten1" Type="nvarchar" MaxLength="150" />
+    <Property Name="a_ngaysinh1" Type="datetime" />
+    <Property Name="a_gioitinh1" Type="nvarchar" MaxLength="50" />
+    <Property Name="a_quoctich1" Type="nvarchar" MaxLength="50" />
+    <Property Name="a_nguyenquan1" Type="nvarchar" MaxLength="250" />
+    <Property Name="a_hktt1" Type="nvarchar" MaxLength="250" />
+    <Property Name="a_ngaycap_gt1" Type="datetime" />
+    <Property Name="a_noicap_gt1" Type="nvarchar" MaxLength="150" />
+    <Property Name="b_csh" Type="int" />
+    <Property Name="b_hoten" Type="nvarchar" MaxLength="150" />
+    <Property Name="b_ngaysinh" Type="datetime" />
+    <Property Name="b_loaigiayto" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_sogiayto" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_diachithuongtru" Type="nvarchar" MaxLength="250" />
+    <Property Name="b_sogiaychungnhan" Type="varchar" MaxLength="50" />
+    <Property Name="b_sothua" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_tobando" Type="varchar" MaxLength="50" />
+    <Property Name="b_thon" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_xa" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_huyen" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_tinh" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_diachithuadat" Type="nvarchar" MaxLength="250" />
+    <Property Name="b_dientich" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_hinhthucsudung" Type="nvarchar" MaxLength="150" />
+    <Property Name="b_mucdichsudung" Type="nvarchar" MaxLength="150" />
+    <Property Name="b_nguongoc" Type="nvarchar" MaxLength="150" />
+    <Property Name="b_ghichu" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_ngaycap" Type="datetime" />
+    <Property Name="b_noicap" Type="nvarchar" MaxLength="150" />
+    <Property Name="b_sovaoso" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_loaidat1" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_dientich1" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_loaidat2" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_dientich2" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_loainguongoc" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_chuyenquyen" Type="nvarchar" MaxLength="50" />
+    <Property Name="c_xaphuong" Type="nvarchar" MaxLength="50" />
+    <Property Name="c_xa" Type="nvarchar" MaxLength="50" />
+    <Property Name="c_baocao_veviec" Type="nvarchar" MaxLength="500" />
+    <Property Name="c_dondenghi_noidung" Type="nvarchar" MaxLength="500" />
+    <Property Name="d_sogiayto" Type="varchar" MaxLength="50" />
+    <Property Name="d_hoten" Type="nvarchar" MaxLength="150" />
+    <Property Name="d_ngaysinh" Type="datetime" />
+    <Property Name="d_gioitinh" Type="nvarchar" MaxLength="50" />
+    <Property Name="d_quoctich" Type="nvarchar" MaxLength="50" />
+    <Property Name="d_nguyenquan" Type="nvarchar" MaxLength="250" />
+    <Property Name="d_hktt" Type="nvarchar" MaxLength="250" />
+    <Property Name="d_loaigiayto" Type="nvarchar" MaxLength="50" />
+    <Property Name="d_ngaycap_gt" Type="datetime" />
+    <Property Name="d_noicap_gt" Type="nvarchar" MaxLength="150" />
+    <Property Name="d_masothue" Type="nvarchar" MaxLength="50" />
+    <Property Name="d_sogiayto1" Type="nvarchar" MaxLength="50" />
+    <Property Name="d_loaigiayto1" Type="nvarchar" MaxLength="50" />
+    <Property Name="d_hoten1" Type="nvarchar" MaxLength="50" />
+    <Property Name="d_ngaysinh1" Type="datetime" />
+    <Property Name="d_gioitinh1" Type="nvarchar" MaxLength="50" />
+    <Property Name="d_hktt1" Type="nvarchar" MaxLength="250" />
+    <Property Name="d_ngaycap_gt1" Type="datetime" />
+    <Property Name="d_noicap_gt1" Type="nvarchar" MaxLength="150" />
+    <Property Name="d_loaibiendong" Type="nvarchar" MaxLength="50" />
+    <Property Name="d_noidungbiendong" Type="nvarchar" MaxLength="150" />
+    <Property Name="d_lydobiendong" Type="nvarchar" MaxLength="150" />
+    <Property Name="d_sohopdong" Type="nvarchar" MaxLength="50" />
+    <Property Name="d_noicongchung" Type="nvarchar" MaxLength="50" />
+    <Property Name="d_ngaycongchung" Type="datetime" />
+    <Property Name="d_tienhopdong" Type="int" />
+    <Property Name="d_vitrithuadat" Type="nvarchar" MaxLength="50" />
+    <Property Name="d_thon" Type="nvarchar" MaxLength="50" />
+    <Property Name="d_xa" Type="nvarchar" MaxLength="50" />
+    <Property Name="d_huyen" Type="nvarchar" MaxLength="50" />
+    <Property Name="d_tinh" Type="nvarchar" MaxLength="50" />
+    <Property Name="e_sogiayto" Type="varchar" MaxLength="50" />
+    <Property Name="e_hoten" Type="nvarchar" MaxLength="150" />
+    <Property Name="e_ngaysinh" Type="datetime" />
+    <Property Name="e_gioitinh" Type="nvarchar" MaxLength="50" />
+    <Property Name="e_quoctich" Type="nvarchar" MaxLength="50" />
+    <Property Name="e_nguyenquan" Type="nvarchar" MaxLength="250" />
+    <Property Name="e_hktt" Type="nvarchar" MaxLength="250" />
+    <Property Name="e_ngaycap_gt" Type="datetime" />
+    <Property Name="e_noicap_gt" Type="nvarchar" MaxLength="150" />
+    <Property Name="e_masothue" Type="varchar" MaxLength="50" />
+    <Property Name="e_giayuyquyenso" Type="nvarchar" MaxLength="50" />
+    <Property Name="e_ngayuyquyen" Type="datetime" />
+    <Property Name="e_doituong" Type="int" />
+  </EntityType>
+  <EntityType Name="TachThua">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="infomation_id" Type="int" Nullable="false" />
+    <Property Name="a_loaigiayto" Type="nvarchar" MaxLength="50" />
+    <Property Name="a_sogiayto" Type="varchar" MaxLength="50" />
+    <Property Name="a_hoten" Type="nvarchar" MaxLength="150" />
+    <Property Name="a_ngaysinh" Type="datetime" />
+    <Property Name="a_gioitinh" Type="nvarchar" MaxLength="50" />
+    <Property Name="a_quoctich" Type="nvarchar" MaxLength="50" />
+    <Property Name="a_nguyenquan" Type="nvarchar" MaxLength="250" />
+    <Property Name="a_hktt" Type="nvarchar" MaxLength="250" />
+    <Property Name="a_thon" Type="nvarchar" MaxLength="50" />
+    <Property Name="a_xa" Type="nvarchar" MaxLength="50" />
+    <Property Name="a_huyen" Type="nvarchar" MaxLength="50" />
+    <Property Name="a_tinh" Type="nvarchar" MaxLength="50" />
+    <Property Name="a_ngaycap_gt" Type="datetime" />
+    <Property Name="a_noicap_gt" Type="nvarchar" MaxLength="150" />
+    <Property Name="a_masothue" Type="varchar" MaxLength="50" />
+    <Property Name="a_loaigiayto1" Type="nvarchar" MaxLength="50" />
+    <Property Name="a_sogiayto1" Type="varchar" MaxLength="50" />
+    <Property Name="a_hoten1" Type="nvarchar" MaxLength="150" />
+    <Property Name="a_ngaysinh1" Type="datetime" />
+    <Property Name="a_gioitinh1" Type="nvarchar" MaxLength="50" />
+    <Property Name="a_quoctich1" Type="nvarchar" MaxLength="50" />
+    <Property Name="a_nguyenquan1" Type="nvarchar" MaxLength="250" />
+    <Property Name="a_hktt1" Type="nvarchar" MaxLength="250" />
+    <Property Name="a_ngaycap_gt1" Type="datetime" />
+    <Property Name="a_noicap_gt1" Type="nvarchar" MaxLength="150" />
+    <Property Name="b_csh" Type="int" />
+    <Property Name="b_hoten" Type="nvarchar" MaxLength="150" />
+    <Property Name="b_ngaysinh" Type="datetime" />
+    <Property Name="b_loaigiayto" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_sogiayto" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_diachithuongtru" Type="nvarchar" MaxLength="250" />
+    <Property Name="b_sogiaychungnhan" Type="varchar" MaxLength="50" />
+    <Property Name="b_sothua" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_tobando" Type="varchar" MaxLength="50" />
+    <Property Name="b_thon" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_xa" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_huyen" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_tinh" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_diachithuadat" Type="nvarchar" MaxLength="250" />
+    <Property Name="b_dientich" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_dientich_chung" Type="nvarchar" MaxLength="250" />
+    <Property Name="b_dientich_rieng" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_hinhthucsudung" Type="nvarchar" MaxLength="150" />
+    <Property Name="b_mucdichsudung" Type="nvarchar" MaxLength="150" />
+    <Property Name="b_nguongoc" Type="nvarchar" MaxLength="150" />
+    <Property Name="b_ghichu" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_ngaycap" Type="datetime" />
+    <Property Name="b_noicap" Type="nvarchar" MaxLength="150" />
+    <Property Name="b_sovaoso" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_loaidat1" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_dientich1" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_loaidat2" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_dientich2" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_loainguongoc" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_chuyenquyen" Type="nvarchar" MaxLength="50" />
+    <Property Name="c_xaphuong" Type="nvarchar" MaxLength="50" />
+    <Property Name="c_xa" Type="nvarchar" MaxLength="50" />
+    <Property Name="c_baocao_veviec" Type="nvarchar" MaxLength="500" />
+    <Property Name="c_dondenghi_noidung" Type="nvarchar" MaxLength="500" />
+    <Property Name="d_sogiayto" Type="varchar" MaxLength="50" />
+    <Property Name="d_hoten" Type="nvarchar" MaxLength="150" />
+    <Property Name="d_ngaysinh" Type="datetime" />
+    <Property Name="d_gioitinh" Type="nvarchar" MaxLength="50" />
+    <Property Name="d_quoctich" Type="nvarchar" MaxLength="50" />
+    <Property Name="d_nguyenquan" Type="nvarchar" MaxLength="250" />
+    <Property Name="d_hktt" Type="nvarchar" MaxLength="250" />
+    <Property Name="d_loaigiayto" Type="nvarchar" MaxLength="50" />
+    <Property Name="d_ngaycap_gt" Type="datetime" />
+    <Property Name="d_noicap_gt" Type="nvarchar" MaxLength="150" />
+    <Property Name="d_masothue" Type="nvarchar" MaxLength="50" />
+    <Property Name="d_sogiayto1" Type="nvarchar" MaxLength="50" />
+    <Property Name="d_loaigiayto1" Type="nvarchar" MaxLength="50" />
+    <Property Name="d_hoten1" Type="nvarchar" MaxLength="50" />
+    <Property Name="d_ngaysinh1" Type="datetime" />
+    <Property Name="d_gioitinh1" Type="nvarchar" MaxLength="50" />
+    <Property Name="d_hktt1" Type="nvarchar" MaxLength="250" />
+    <Property Name="d_ngaycap_gt1" Type="datetime" />
+    <Property Name="d_noicap_gt1" Type="nvarchar" MaxLength="150" />
+    <Property Name="d_loaibiendong" Type="nvarchar" MaxLength="50" />
+    <Property Name="d_noidungbiendong" Type="nvarchar" MaxLength="150" />
+    <Property Name="d_lydobiendong" Type="nvarchar" MaxLength="150" />
+    <Property Name="d_sohopdong" Type="nvarchar" MaxLength="50" />
+    <Property Name="d_noicongchung" Type="nvarchar" MaxLength="50" />
+    <Property Name="d_ngaycongchung" Type="datetime" />
+    <Property Name="d_tienhopdong" Type="int" />
+    <Property Name="d_vitrithuadat" Type="nvarchar" MaxLength="50" />
+    <Property Name="d_thon" Type="nvarchar" MaxLength="50" />
+    <Property Name="d_xa" Type="nvarchar" MaxLength="50" />
+    <Property Name="d_huyen" Type="nvarchar" MaxLength="50" />
+    <Property Name="d_tinh" Type="nvarchar" MaxLength="50" />
+    <Property Name="e_sogiayto" Type="varchar" MaxLength="50" />
+    <Property Name="e_hoten" Type="nvarchar" MaxLength="150" />
+    <Property Name="e_ngaysinh" Type="datetime" />
+    <Property Name="e_gioitinh" Type="nvarchar" MaxLength="50" />
+    <Property Name="e_quoctich" Type="nvarchar" MaxLength="50" />
+    <Property Name="e_nguyenquan" Type="nvarchar" MaxLength="250" />
+    <Property Name="e_hktt" Type="nvarchar" MaxLength="250" />
+    <Property Name="e_ngaycap_gt" Type="datetime" />
+    <Property Name="e_noicap_gt" Type="nvarchar" MaxLength="150" />
+    <Property Name="e_masothue" Type="varchar" MaxLength="50" />
+    <Property Name="e_giayuyquyenso" Type="nvarchar" MaxLength="50" />
+    <Property Name="e_ngayuyquyen" Type="datetime" />
+    <Property Name="e_doituong" Type="int" />
+  </EntityType>
+  <EntityType Name="TaiLieu">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="150" />
+    <Property Name="link" Type="nvarchar" MaxLength="150" />
+    <Property Name="note" Type="nvarchar" MaxLength="250" />
+    <Property Name="type" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="task">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="500" Nullable="false" />
+    <Property Name="job_id" Type="bigint" Nullable="false" />
+    <Property Name="account_id_created" Type="int" Nullable="false" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+    <Property Name="time" Type="datetime" Nullable="false" />
+    <Property Name="time_exp" Type="datetime" Nullable="false" />
+    <Property Name="progress_type" Type="int" />
+    <Property Name="label" Type="int" />
+    <Property Name="note" Type="nvarchar" MaxLength="500" />
+    <Property Name="status" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ThongTinCaNhan">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="sohokhau_id" Type="int" />
+    <Property Name="infomation_id" Type="int" Nullable="false" />
+    <Property Name="fk_id" Type="int" />
+    <Property Name="hoten" Type="nvarchar" MaxLength="50" />
+    <Property Name="ngaysinh" Type="datetime" />
+    <Property Name="ngaychet" Type="datetime" />
+    <Property Name="giaytochet" Type="nvarchar" MaxLength="250" />
+    <Property Name="loaigiayto" Type="nvarchar" MaxLength="50" />
+    <Property Name="sogiayto" Type="varchar" MaxLength="50" />
+    <Property Name="gioitinh" Type="nvarchar" MaxLength="50" />
+    <Property Name="quoctich" Type="nvarchar" MaxLength="50" />
+    <Property Name="hktt" Type="nvarchar" MaxLength="250" />
+    <Property Name="ngaycap_gt" Type="datetime" />
+    <Property Name="noicap_gt" Type="nvarchar" MaxLength="150" />
+    <Property Name="masothue" Type="varchar" MaxLength="50" />
+    <Property Name="quanhe" Type="int" />
+    <Property Name="hangthuake" Type="int" />
+    <Property Name="ghichuquanhe" Type="nvarchar" MaxLength="50" />
+    <Property Name="marker" Type="int" />
+    <Property Name="note" Type="nvarchar" MaxLength="150" />
+    <Property Name="type" Type="int" />
+    <Property Name="hoten1" Type="nvarchar" MaxLength="50" />
+    <Property Name="ngaysinh1" Type="datetime" />
+    <Property Name="ngaychet1" Type="datetime" />
+    <Property Name="giaytochet1" Type="nvarchar" MaxLength="250" />
+    <Property Name="loaigiayto1" Type="nvarchar" MaxLength="50" />
+    <Property Name="sogiayto1" Type="varchar" MaxLength="50" />
+    <Property Name="gioitinh1" Type="nvarchar" MaxLength="50" />
+    <Property Name="quoctich1" Type="nvarchar" MaxLength="50" />
+    <Property Name="hktt1" Type="nvarchar" MaxLength="250" />
+    <Property Name="ngaycap_gt1" Type="datetime" />
+    <Property Name="noicap_gt1" Type="nvarchar" MaxLength="150" />
+    <Property Name="masothue1" Type="varchar" MaxLength="50" />
+    <Property Name="quanhe1" Type="int" />
+    <Property Name="ghichuquanhe1" Type="nvarchar" MaxLength="50" />
+    <Property Name="songtrendat" Type="int" />
+  </EntityType>
+  <EntityType Name="ThuaDat">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="infomation_id" Type="int" Nullable="false" />
+    <Property Name="type" Type="int" Nullable="false" />
+    <Property Name="sogiaychungnhan" Type="varchar" MaxLength="50" />
+    <Property Name="sothua" Type="varchar" MaxLength="50" />
+    <Property Name="tobando" Type="varchar" MaxLength="50" />
+    <Property Name="diachithuadat" Type="nvarchar" MaxLength="250" />
+    <Property Name="dientich" Type="varchar" MaxLength="50" />
+    <Property Name="hinhthucsudung" Type="nvarchar" MaxLength="150" />
+    <Property Name="mucdichsudung" Type="nvarchar" MaxLength="150" />
+    <Property Name="nguongoc" Type="nvarchar" MaxLength="150" />
+    <Property Name="ghichu" Type="nvarchar" MaxLength="150" />
+    <Property Name="ngaycap" Type="datetime" />
+    <Property Name="noicap" Type="nvarchar" MaxLength="150" />
+    <Property Name="sovaoso" Type="nvarchar" MaxLength="50" />
+    <Property Name="loaidat1" Type="nvarchar" MaxLength="50" />
+    <Property Name="dientich1" Type="nvarchar" MaxLength="50" />
+    <Property Name="loaidat2" Type="nvarchar" MaxLength="50" />
+    <Property Name="dientich2" Type="nvarchar" MaxLength="50" />
+    <Property Name="csh1" Type="int" />
+    <Property Name="csh2" Type="int" />
+  </EntityType>
+  <EntityType Name="thuchi">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+    <Property Name="thoigian" Type="datetime" Nullable="false" />
+    <Property Name="sotien" Type="bigint" Nullable="false" />
+    <Property Name="lydo" Type="nvarchar" MaxLength="150" />
+    <Property Name="loai" Type="int" Nullable="false" />
+    <Property Name="trangthai" Type="int" Nullable="false" />
+    <Property Name="ngaychotso" Type="datetime" />
+  </EntityType>
+  <EntityType Name="TreoPhuon">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Images" Type="nvarchar" MaxLength="500" />
+    <Property Name="DvhcC1_id" Type="int" Nullable="false" />
+    <Property Name="GoogleMap" Type="nvarchar" MaxLength="150" />
+    <Property Name="NgayTreo" Type="datetime" Nullable="false" />
+    <Property Name="NgayKiemTra" Type="datetime" />
+    <Property Name="note" Type="nvarchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="TruLuong">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+    <Property Name="thoigian" Type="datetime" Nullable="false" />
+    <Property Name="sotien" Type="int" Nullable="false" />
+    <Property Name="note" Type="nvarchar" MaxLength="150" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar" MaxLength="100" />
+    <Property Name="Email" Type="nvarchar" MaxLength="150" />
+    <Property Name="CreatedAt" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Val">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="contract_id" Type="int" Nullable="false" />
+    <Property Name="field_id" Type="int" Nullable="false" />
+    <Property Name="value" Type="nvarchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="ViecPhaiLam">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="hoso_id" Type="int" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="progress_type" Type="int" Nullable="false" />
+    <Property Name="time" Type="datetime" Nullable="false" />
+    <Property Name="time_progress" Type="datetime" Nullable="false" />
+    <Property Name="result" Type="nvarchar" MaxLength="150" />
+    <Property Name="bell_type" Type="int" Nullable="false" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+    <Property Name="account_id_created" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="wf_contract">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="contract_id" Type="int" Nullable="false" />
+    <Property Name="status" Type="int" Nullable="false" />
+    <Property Name="note" Type="nvarchar" MaxLength="500" />
+    <Property Name="time" Type="datetime" Nullable="false" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+    <Property Name="step_id" Type="int" />
+    <Property Name="time_over" Type="datetime" />
+    <Property Name="from_id" Type="bigint" />
+  </EntityType>
+  <EntityType Name="wf_hoso">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="hoso_id" Type="int" Nullable="false" />
+    <Property Name="note" Type="nvarchar" MaxLength="500" />
+    <Property Name="time" Type="datetime" Nullable="false" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+    <Property Name="step_id" Type="bigint" Nullable="false" />
+    <Property Name="next_step" Type="int" />
+  </EntityType>
+  <EntityType Name="wf_hoso_step">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="hoso_id" Type="bigint" Nullable="false" />
+    <Property Name="time" Type="datetime" Nullable="false" />
+    <Property Name="note" Type="nvarchar" MaxLength="500" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+    <Property Name="step_id" Type="int" Nullable="false" />
+    <Property Name="next_step" Type="int" />
+  </EntityType>
+  <EntityType Name="wf_inout">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="kid" Type="bigint" Nullable="false" />
+    <Property Name="status" Type="int" Nullable="false" />
+    <Property Name="time" Type="datetime" Nullable="false" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+    <Property Name="note" Type="nvarchar" MaxLength="150" />
+    <Property Name="intout_id" Type="bigint" />
+  </EntityType>
+  <EntityType Name="wf_quydove">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="kid" Type="int" Nullable="false" />
+    <Property Name="time" Type="datetime" Nullable="false" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+    <Property Name="note" Type="nvarchar" MaxLength="250" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'NiceHandle.dbo.DSBanLamViec' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="DSBanLamViec">
+    <Key>
+      <PropertyRef Name="id" />
+      <PropertyRef Name="time" />
+      <PropertyRef Name="status" />
+      <PropertyRef Name="Priority" />
+      <PropertyRef Name="address_name" />
+      <PropertyRef Name="service_name" />
+      <PropertyRef Name="step_name" />
+      <PropertyRef Name="partner_name" />
+      <PropertyRef Name="customer_name" />
+      <PropertyRef Name="customer_id" />
+      <PropertyRef Name="address_id" />
+      <PropertyRef Name="step" />
+      <PropertyRef Name="partner" />
+      <PropertyRef Name="type" />
+      <PropertyRef Name="service_id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="time" Type="datetime" Nullable="false" />
+    <Property Name="exp" Type="datetime" />
+    <Property Name="status" Type="int" Nullable="false" />
+    <Property Name="workflow" Type="int" />
+    <Property Name="Priority" Type="int" Nullable="false" />
+    <Property Name="sodienthoai" Type="nvarchar" MaxLength="50" />
+    <Property Name="address_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="service_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="step_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="account_name" Type="nvarchar" MaxLength="150" />
+    <Property Name="partner_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="customer_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="customer_id" Type="int" Nullable="false" />
+    <Property Name="address_id" Type="int" Nullable="false" />
+    <Property Name="step" Type="int" Nullable="false" />
+    <Property Name="account_id" Type="int" />
+    <Property Name="partner" Type="int" Nullable="false" />
+    <Property Name="step_code" Type="varchar" MaxLength="20" />
+    <Property Name="step_color" Type="nvarchar" MaxLength="50" />
+    <Property Name="partner_code" Type="nvarchar" MaxLength="50" />
+    <Property Name="link_giapha" Type="nvarchar" MaxLength="150" />
+    <Property Name="hasfile" Type="bigint" />
+    <Property Name="message" Type="nvarchar(max)" />
+    <Property Name="type" Type="int" Nullable="false" />
+    <Property Name="service_id" Type="int" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'NiceHandle.dbo.DSHoSo' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="DSHoSo">
+    <Key>
+      <PropertyRef Name="id" />
+      <PropertyRef Name="amount" />
+      <PropertyRef Name="consuming" />
+      <PropertyRef Name="time" />
+      <PropertyRef Name="status" />
+      <PropertyRef Name="address_id" />
+      <PropertyRef Name="customer_id" />
+      <PropertyRef Name="address_name" />
+      <PropertyRef Name="customer_name" />
+      <PropertyRef Name="service_id" />
+      <PropertyRef Name="service_name" />
+      <PropertyRef Name="partner" />
+      <PropertyRef Name="partner_name" />
+      <PropertyRef Name="rose" />
+      <PropertyRef Name="outrose" />
+      <PropertyRef Name="dove" />
+      <PropertyRef Name="loai" />
+      <PropertyRef Name="account_id" />
+      <PropertyRef Name="fullname" />
+      <PropertyRef Name="step" />
+      <PropertyRef Name="step_name" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="amount" Type="bigint" Nullable="false" />
+    <Property Name="consuming" Type="bigint" Nullable="false" />
+    <Property Name="time" Type="datetime" Nullable="false" />
+    <Property Name="status" Type="int" Nullable="false" />
+    <Property Name="address_id" Type="int" Nullable="false" />
+    <Property Name="customer_id" Type="int" Nullable="false" />
+    <Property Name="address_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="customer_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="service_id" Type="int" Nullable="false" />
+    <Property Name="service_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="partner" Type="int" Nullable="false" />
+    <Property Name="partner_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="rose" Type="int" Nullable="false" />
+    <Property Name="outrose" Type="int" Nullable="false" />
+    <Property Name="dove" Type="int" Nullable="false" />
+    <Property Name="HardFileLink" Type="nvarchar" MaxLength="250" />
+    <Property Name="loai" Type="int" Nullable="false" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+    <Property Name="fullname" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="step" Type="int" Nullable="false" />
+    <Property Name="step_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'NiceHandle.dbo.DSMotCua' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="DSMotCua">
+    <Key>
+      <PropertyRef Name="name" />
+      <PropertyRef Name="canbo_name" />
+      <PropertyRef Name="customer_name" />
+      <PropertyRef Name="id" />
+      <PropertyRef Name="contract_id" />
+      <PropertyRef Name="ngaynop" />
+      <PropertyRef Name="ngaytra" />
+      <PropertyRef Name="canbo1cua" />
+      <PropertyRef Name="trangthai" />
+      <PropertyRef Name="service_name" />
+      <PropertyRef Name="contract_status" />
+      <PropertyRef Name="step" />
+      <PropertyRef Name="type" />
+      <PropertyRef Name="service_id" />
+      <PropertyRef Name="account_id" />
+      <PropertyRef Name="address_id" />
+      <PropertyRef Name="partner" />
+      <PropertyRef Name="time" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="canbo_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="customer_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="contract_id" Type="int" Nullable="false" />
+    <Property Name="ngaynop" Type="datetime" Nullable="false" />
+    <Property Name="ngaytra" Type="datetime" Nullable="false" />
+    <Property Name="canbo1cua" Type="int" Nullable="false" />
+    <Property Name="canbophutrach" Type="nvarchar" MaxLength="150" />
+    <Property Name="maphieuhen" Type="nvarchar" MaxLength="150" />
+    <Property Name="ghichu" Type="nvarchar" MaxLength="500" />
+    <Property Name="trangthai" Type="int" Nullable="false" />
+    <Property Name="c_xa" Type="nvarchar" MaxLength="50" />
+    <Property Name="e_giayuyquyenso" Type="nvarchar" MaxLength="50" />
+    <Property Name="e_hoten" Type="nvarchar" MaxLength="150" />
+    <Property Name="service_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="contract_status" Type="int" Nullable="false" />
+    <Property Name="step" Type="int" Nullable="false" />
+    <Property Name="type" Type="int" Nullable="false" />
+    <Property Name="service_id" Type="int" Nullable="false" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+    <Property Name="address_id" Type="int" Nullable="false" />
+    <Property Name="partner" Type="int" Nullable="false" />
+    <Property Name="time" Type="datetime" Nullable="false" />
+    <Property Name="exp" Type="datetime" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'NiceHandle.dbo.PartnerAccount' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="PartnerAccount">
+    <Key>
+      <PropertyRef Name="fullname" />
+    </Key>
+    <Property Name="account_id" Type="int" />
+    <Property Name="fullname" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="150" />
+    <Property Name="sodienthoai" Type="nvarchar" MaxLength="50" />
+    <Property Name="id_no" Type="varchar" MaxLength="50" />
+    <Property Name="id_type" Type="varchar" MaxLength="50" />
+    <Property Name="birthday" Type="datetime" />
+    <Property Name="gender" Type="nvarchar" MaxLength="50" />
+    <Property Name="id" Type="int" />
+    <Property Name="sothutu" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'NiceHandle.dbo.vCalculatorMoney' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vCalculatorMoney">
+    <Key>
+      <PropertyRef Name="amount" />
+      <PropertyRef Name="type" />
+      <PropertyRef Name="category_id" />
+    </Key>
+    <Property Name="amount" Type="bigint" Nullable="false" />
+    <Property Name="type" Type="int" Nullable="false" />
+    <Property Name="contract_id" Type="int" />
+    <Property Name="category_id" Type="int" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'NiceHandle.dbo.vCanBoDiaPhuongC1' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vCanBoDiaPhuongC1">
+    <Key>
+      <PropertyRef Name="address_id" />
+      <PropertyRef Name="id" />
+      <PropertyRef Name="name" />
+      <PropertyRef Name="chucvu" />
+      <PropertyRef Name="thuoccap" />
+      <PropertyRef Name="fk_id" />
+      <PropertyRef Name="DvhcName" />
+    </Key>
+    <Property Name="address_id" Type="int" Nullable="false" />
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="chucvu" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="gmap" Type="nvarchar" MaxLength="150" />
+    <Property Name="phoneno" Type="nvarchar" MaxLength="50" />
+    <Property Name="thuoccap" Type="int" Nullable="false" />
+    <Property Name="note" Type="nvarchar" MaxLength="250" />
+    <Property Name="fk_id" Type="int" Nullable="false" />
+    <Property Name="DvhcName" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'NiceHandle.dbo.vCanBoDiaPhuongC2' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vCanBoDiaPhuongC2">
+    <Key>
+      <PropertyRef Name="AddressName" />
+      <PropertyRef Name="id" />
+      <PropertyRef Name="name" />
+      <PropertyRef Name="chucvu" />
+      <PropertyRef Name="thuoccap" />
+      <PropertyRef Name="fk_id" />
+    </Key>
+    <Property Name="AddressName" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="chucvu" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="gmap" Type="nvarchar" MaxLength="150" />
+    <Property Name="phoneno" Type="nvarchar" MaxLength="50" />
+    <Property Name="thuoccap" Type="int" Nullable="false" />
+    <Property Name="note" Type="nvarchar" MaxLength="250" />
+    <Property Name="fk_id" Type="int" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'NiceHandle.dbo.vContract' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vContract">
+    <Key>
+      <PropertyRef Name="id" />
+      <PropertyRef Name="amount" />
+      <PropertyRef Name="consuming" />
+      <PropertyRef Name="time" />
+      <PropertyRef Name="status" />
+      <PropertyRef Name="address_id" />
+      <PropertyRef Name="address_name" />
+      <PropertyRef Name="service_id" />
+      <PropertyRef Name="service_name" />
+      <PropertyRef Name="partner" />
+      <PropertyRef Name="partner_name" />
+      <PropertyRef Name="rose" />
+      <PropertyRef Name="outrose" />
+      <PropertyRef Name="dove" />
+      <PropertyRef Name="loai" />
+      <PropertyRef Name="fullname" />
+      <PropertyRef Name="name" />
+      <PropertyRef Name="account_id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="amount" Type="bigint" Nullable="false" />
+    <Property Name="consuming" Type="bigint" Nullable="false" />
+    <Property Name="time" Type="datetime" Nullable="false" />
+    <Property Name="status" Type="int" Nullable="false" />
+    <Property Name="address_id" Type="int" Nullable="false" />
+    <Property Name="address_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="service_id" Type="int" Nullable="false" />
+    <Property Name="service_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="partner" Type="int" Nullable="false" />
+    <Property Name="partner_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="rose" Type="int" Nullable="false" />
+    <Property Name="outrose" Type="int" Nullable="false" />
+    <Property Name="dove" Type="int" Nullable="false" />
+    <Property Name="HardFileLink" Type="nvarchar" MaxLength="250" />
+    <Property Name="loai" Type="int" Nullable="false" />
+    <Property Name="fullname" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+    <Property Name="code" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'NiceHandle.dbo.vContractHardFile' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vContractHardFile">
+    <Key>
+      <PropertyRef Name="address_name" />
+      <PropertyRef Name="customer_name" />
+      <PropertyRef Name="service_name" />
+      <PropertyRef Name="partner_name" />
+      <PropertyRef Name="time" />
+      <PropertyRef Name="address_id" />
+      <PropertyRef Name="customer_id" />
+      <PropertyRef Name="service_id" />
+      <PropertyRef Name="partner" />
+      <PropertyRef Name="id" />
+      <PropertyRef Name="status" />
+    </Key>
+    <Property Name="HardFileLink" Type="nvarchar" MaxLength="250" />
+    <Property Name="address_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="customer_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="service_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="partner_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="time" Type="datetime" Nullable="false" />
+    <Property Name="address_id" Type="int" Nullable="false" />
+    <Property Name="customer_id" Type="int" Nullable="false" />
+    <Property Name="service_id" Type="int" Nullable="false" />
+    <Property Name="partner" Type="int" Nullable="false" />
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="status" Type="int" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'NiceHandle.dbo.vContractSelect' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vContractSelect">
+    <Key>
+      <PropertyRef Name="id" />
+      <PropertyRef Name="customer_id" />
+      <PropertyRef Name="address_id" />
+      <PropertyRef Name="service_id" />
+      <PropertyRef Name="service_name" />
+      <PropertyRef Name="address_name" />
+      <PropertyRef Name="customer_name" />
+      <PropertyRef Name="status" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="customer_id" Type="int" Nullable="false" />
+    <Property Name="address_id" Type="int" Nullable="false" />
+    <Property Name="service_id" Type="int" Nullable="false" />
+    <Property Name="service_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="address_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="customer_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="status" Type="int" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'NiceHandle.dbo.vChartInOut' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vChartInOut">
+    <Key>
+      <PropertyRef Name="id" />
+      <PropertyRef Name="category_id" />
+      <PropertyRef Name="type" />
+      <PropertyRef Name="time" />
+      <PropertyRef Name="amount" />
+      <PropertyRef Name="status" />
+    </Key>
+    <Property Name="id" Type="bigint" Nullable="false" />
+    <Property Name="category_id" Type="int" Nullable="false" />
+    <Property Name="type" Type="int" Nullable="false" />
+    <Property Name="time" Type="datetime" Nullable="false" />
+    <Property Name="amount" Type="bigint" Nullable="false" />
+    <Property Name="status" Type="int" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'NiceHandle.dbo.vDi1Cua' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vDi1Cua">
+    <Key>
+      <PropertyRef Name="id" />
+      <PropertyRef Name="hoso_id" />
+      <PropertyRef Name="ngaynop" />
+      <PropertyRef Name="ngaytra" />
+      <PropertyRef Name="canbo1cua" />
+      <PropertyRef Name="trangthai" />
+      <PropertyRef Name="contract_id" />
+      <PropertyRef Name="name" />
+      <PropertyRef Name="time_created" />
+      <PropertyRef Name="account_id" />
+      <PropertyRef Name="service_id" />
+      <PropertyRef Name="priority" />
+      <PropertyRef Name="status" />
+      <PropertyRef Name="address_id" />
+      <PropertyRef Name="partner" />
+      <PropertyRef Name="time_exp" />
+      <PropertyRef Name="time" />
+      <PropertyRef Name="account_id_soanthao" />
+      <PropertyRef Name="step_id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="hoso_id" Type="int" Nullable="false" />
+    <Property Name="ngaynop" Type="datetime" Nullable="false" />
+    <Property Name="ngaytra" Type="datetime" Nullable="false" />
+    <Property Name="canbo1cua" Type="int" Nullable="false" />
+    <Property Name="maphieuhen" Type="nvarchar" MaxLength="150" />
+    <Property Name="trangthai" Type="int" Nullable="false" />
+    <Property Name="contract_id" Type="int" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="time_created" Type="datetime" Nullable="false" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+    <Property Name="service_id" Type="int" Nullable="false" />
+    <Property Name="priority" Type="int" Nullable="false" />
+    <Property Name="status" Type="int" Nullable="false" />
+    <Property Name="address_id" Type="int" Nullable="false" />
+    <Property Name="partner" Type="int" Nullable="false" />
+    <Property Name="time_exp" Type="int" Nullable="false" />
+    <Property Name="time" Type="datetime" Nullable="false" />
+    <Property Name="ghichu" Type="nvarchar" MaxLength="500" />
+    <Property Name="account_id_soanthao" Type="int" Nullable="false" />
+    <Property Name="step_id" Type="int" Nullable="false" />
+    <Property Name="note" Type="nvarchar(max)" />
+    <Property Name="noinhan_id" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'NiceHandle.dbo.vDuChi' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vDuChi">
+    <Key>
+      <PropertyRef Name="name" />
+      <PropertyRef Name="id" />
+      <PropertyRef Name="amount" />
+      <PropertyRef Name="category_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="amount" Type="bigint" Nullable="false" />
+    <Property Name="category_id" Type="int" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'NiceHandle.dbo.vDvhcC1' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vDvhcC1">
+    <Key>
+      <PropertyRef Name="AddressName" />
+      <PropertyRef Name="id" />
+      <PropertyRef Name="address_id" />
+      <PropertyRef Name="name" />
+      <PropertyRef Name="code" />
+    </Key>
+    <Property Name="AddressName" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="address_id" Type="int" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="code" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'NiceHandle.dbo.vHomeWFInOut' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vHomeWFInOut">
+    <Key>
+      <PropertyRef Name="time" />
+      <PropertyRef Name="fullname" />
+      <PropertyRef Name="name" />
+      <PropertyRef Name="amount" />
+      <PropertyRef Name="type" />
+    </Key>
+    <Property Name="time" Type="datetime" Nullable="false" />
+    <Property Name="wfNote" Type="nvarchar" MaxLength="150" />
+    <Property Name="fullname" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="IONote" Type="nvarchar" MaxLength="500" />
+    <Property Name="name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="amount" Type="bigint" Nullable="false" />
+    <Property Name="type" Type="int" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'NiceHandle.dbo.vHoSo' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vHoSo">
+    <Key>
+      <PropertyRef Name="time" />
+      <PropertyRef Name="address_id" />
+      <PropertyRef Name="address_name" />
+      <PropertyRef Name="service_name" />
+      <PropertyRef Name="partner" />
+      <PropertyRef Name="partner_name" />
+      <PropertyRef Name="account_name" />
+      <PropertyRef Name="id" />
+      <PropertyRef Name="contract_id" />
+      <PropertyRef Name="name" />
+      <PropertyRef Name="account_id_soanthao" />
+      <PropertyRef Name="priority" />
+      <PropertyRef Name="trang4" />
+      <PropertyRef Name="status" />
+      <PropertyRef Name="service_id" />
+      <PropertyRef Name="account_id" />
+      <PropertyRef Name="step_id" />
+      <PropertyRef Name="time_exp" />
+      <PropertyRef Name="deadline" />
+      <PropertyRef Name="time_created" />
+    </Key>
+    <Property Name="time" Type="datetime" Nullable="false" />
+    <Property Name="address_id" Type="int" Nullable="false" />
+    <Property Name="address_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="service_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="partner" Type="int" Nullable="false" />
+    <Property Name="partner_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="account_name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="contract_id" Type="int" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="account_id_soanthao" Type="int" Nullable="false" />
+    <Property Name="priority" Type="int" Nullable="false" />
+    <Property Name="trang4" Type="int" Nullable="false" />
+    <Property Name="status" Type="int" Nullable="false" />
+    <Property Name="sodienthoai" Type="nvarchar" MaxLength="50" />
+    <Property Name="service_id" Type="int" Nullable="false" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+    <Property Name="step_id" Type="int" Nullable="false" />
+    <Property Name="time_exp" Type="int" Nullable="false" />
+    <Property Name="sodienthoai_mota" Type="nvarchar" MaxLength="50" />
+    <Property Name="deadline" Type="int" Nullable="false" />
+    <Property Name="ngoaigiao" Type="int" />
+    <Property Name="time_complete" Type="datetime" />
+    <Property Name="time_created" Type="datetime" Nullable="false" />
+    <Property Name="light" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'NiceHandle.dbo.vInOut' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vInOut">
+    <Key>
+      <PropertyRef Name="id" />
+      <PropertyRef Name="type" />
+      <PropertyRef Name="time" />
+      <PropertyRef Name="status" />
+      <PropertyRef Name="name" />
+      <PropertyRef Name="category_id" />
+      <PropertyRef Name="account_id" />
+      <PropertyRef Name="gostock" />
+      <PropertyRef Name="currency" />
+      <PropertyRef Name="amount" />
+      <PropertyRef Name="disname" />
+    </Key>
+    <Property Name="id" Type="bigint" Nullable="false" />
+    <Property Name="type" Type="int" Nullable="false" />
+    <Property Name="note" Type="nvarchar" MaxLength="500" />
+    <Property Name="time" Type="datetime" Nullable="false" />
+    <Property Name="status" Type="int" Nullable="false" />
+    <Property Name="state" Type="int" />
+    <Property Name="name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="category_id" Type="int" Nullable="false" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+    <Property Name="gostock" Type="int" Nullable="false" />
+    <Property Name="contract_id" Type="int" />
+    <Property Name="currency" Type="int" Nullable="false" />
+    <Property Name="amount" Type="bigint" Nullable="false" />
+    <Property Name="inoutchoduyet_id" Type="int" />
+    <Property Name="disname" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'NiceHandle.dbo.vMyFile' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vMyFile">
+    <Key>
+      <PropertyRef Name="time" />
+      <PropertyRef Name="partner" />
+      <PropertyRef Name="account_id" />
+      <PropertyRef Name="partner_name" />
+      <PropertyRef Name="address_id" />
+      <PropertyRef Name="address_name" />
+      <PropertyRef Name="customer_name" />
+      <PropertyRef Name="id" />
+      <PropertyRef Name="amount" />
+      <PropertyRef Name="rose" />
+      <PropertyRef Name="consuming" />
+      <PropertyRef Name="service_id" />
+      <PropertyRef Name="service_name" />
+    </Key>
+    <Property Name="time" Type="datetime" Nullable="false" />
+    <Property Name="partner" Type="int" Nullable="false" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+    <Property Name="partner_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="address_id" Type="int" Nullable="false" />
+    <Property Name="address_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="customer_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="amount" Type="bigint" Nullable="false" />
+    <Property Name="rose" Type="int" Nullable="false" />
+    <Property Name="consuming" Type="bigint" Nullable="false" />
+    <Property Name="service_id" Type="int" Nullable="false" />
+    <Property Name="service_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'NiceHandle.dbo.vMyReward' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vMyReward">
+    <Key>
+      <PropertyRef Name="step_id" />
+      <PropertyRef Name="type" />
+      <PropertyRef Name="ngaynop" />
+      <PropertyRef Name="address_id" />
+      <PropertyRef Name="partner" />
+      <PropertyRef Name="account_id" />
+      <PropertyRef Name="address_name" />
+      <PropertyRef Name="partner_name" />
+      <PropertyRef Name="fullname" />
+      <PropertyRef Name="amount" />
+      <PropertyRef Name="contract_id" />
+      <PropertyRef Name="customer_name" />
+      <PropertyRef Name="hoso_id" />
+      <PropertyRef Name="service_id" />
+      <PropertyRef Name="service_name" />
+      <PropertyRef Name="id" />
+      <PropertyRef Name="time" />
+      <PropertyRef Name="status" />
+      <PropertyRef Name="dove" />
+      <PropertyRef Name="remunerate" />
+    </Key>
+    <Property Name="step_id" Type="int" Nullable="false" />
+    <Property Name="type" Type="int" Nullable="false" />
+    <Property Name="ngaynop" Type="datetime" Nullable="false" />
+    <Property Name="address_id" Type="int" Nullable="false" />
+    <Property Name="partner" Type="int" Nullable="false" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+    <Property Name="address_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="maphieuhen" Type="nvarchar" MaxLength="150" />
+    <Property Name="partner_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="fullname" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="amount" Type="bigint" Nullable="false" />
+    <Property Name="contract_id" Type="int" Nullable="false" />
+    <Property Name="customer_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="note" Type="nvarchar(max)" />
+    <Property Name="hoso_id" Type="int" Nullable="false" />
+    <Property Name="service_id" Type="int" Nullable="false" />
+    <Property Name="service_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="time" Type="datetime" Nullable="false" />
+    <Property Name="status" Type="int" Nullable="false" />
+    <Property Name="dove" Type="int" Nullable="false" />
+    <Property Name="remunerate" Type="int" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'NiceHandle.dbo.vPayPlan' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vPayPlan">
+    <Key>
+      <PropertyRef Name="id" />
+      <PropertyRef Name="account_id" />
+      <PropertyRef Name="type" />
+      <PropertyRef Name="time" />
+      <PropertyRef Name="status" />
+      <PropertyRef Name="fullname" />
+      <PropertyRef Name="category_id" />
+      <PropertyRef Name="category_name" />
+      <PropertyRef Name="contract_id" />
+      <PropertyRef Name="customer_name" />
+      <PropertyRef Name="amount" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+    <Property Name="type" Type="int" Nullable="false" />
+    <Property Name="note" Type="nvarchar" MaxLength="500" />
+    <Property Name="time" Type="datetime" Nullable="false" />
+    <Property Name="status" Type="int" Nullable="false" />
+    <Property Name="fullname" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="category_id" Type="int" Nullable="false" />
+    <Property Name="category_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="contract_id" Type="int" Nullable="false" />
+    <Property Name="customer_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="amount" Type="bigint" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'NiceHandle.dbo.vPending' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vPending">
+    <Key>
+      <PropertyRef Name="id" />
+      <PropertyRef Name="account_id" />
+      <PropertyRef Name="soanthao" />
+      <PropertyRef Name="time" />
+      <PropertyRef Name="status" />
+      <PropertyRef Name="service_id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+    <Property Name="soanthao" Type="int" Nullable="false" />
+    <Property Name="time" Type="datetime" Nullable="false" />
+    <Property Name="status" Type="int" Nullable="false" />
+    <Property Name="service_id" Type="int" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'NiceHandle.dbo.vPhongDoVe' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vPhongDoVe">
+    <Key>
+      <PropertyRef Name="name" />
+      <PropertyRef Name="account_id" />
+      <PropertyRef Name="service_id" />
+      <PropertyRef Name="contract_id" />
+      <PropertyRef Name="address_id" />
+      <PropertyRef Name="partner" />
+      <PropertyRef Name="id" />
+      <PropertyRef Name="hoso_id" />
+      <PropertyRef Name="status" />
+      <PropertyRef Name="time" />
+      <PropertyRef Name="dove_account" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+    <Property Name="service_id" Type="int" Nullable="false" />
+    <Property Name="link_filecad" Type="nvarchar" MaxLength="150" />
+    <Property Name="link_gmap" Type="nvarchar" MaxLength="150" />
+    <Property Name="link_filecad_qr" Type="nvarchar" MaxLength="150" />
+    <Property Name="link_gmap_qr" Type="nvarchar" MaxLength="150" />
+    <Property Name="link_flycam" Type="nvarchar" MaxLength="150" />
+    <Property Name="a_hoten" Type="nvarchar" MaxLength="150" />
+    <Property Name="a_gioitinh" Type="nvarchar" MaxLength="50" />
+    <Property Name="a_hktt" Type="nvarchar" MaxLength="250" />
+    <Property Name="a_hoten1" Type="nvarchar" MaxLength="150" />
+    <Property Name="a_gioitinh1" Type="nvarchar" MaxLength="50" />
+    <Property Name="a_hktt1" Type="nvarchar" MaxLength="250" />
+    <Property Name="b_sogiaychungnhan" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_sothua" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_tobando" Type="varchar" MaxLength="50" />
+    <Property Name="b_diachithuadat" Type="nvarchar" MaxLength="250" />
+    <Property Name="b_dientichtrenbia" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_hinhthucsudung" Type="nvarchar" MaxLength="150" />
+    <Property Name="b_mucdichsudung" Type="nvarchar" MaxLength="150" />
+    <Property Name="b_ngaycap" Type="datetime" />
+    <Property Name="b_noicap" Type="nvarchar" MaxLength="150" />
+    <Property Name="b_sovaoso" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_loaidat1" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_dientich1" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_loaidat2" Type="nvarchar" MaxLength="50" />
+    <Property Name="b_dientich2" Type="nvarchar" MaxLength="50" />
+    <Property Name="contract_id" Type="int" Nullable="false" />
+    <Property Name="address_id" Type="int" Nullable="false" />
+    <Property Name="sodienthoai" Type="nvarchar" MaxLength="50" />
+    <Property Name="sodienthoai_mota" Type="nvarchar" MaxLength="50" />
+    <Property Name="partner" Type="int" Nullable="false" />
+    <Property Name="b_dientich" Type="nvarchar" MaxLength="50" />
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="hoso_id" Type="int" Nullable="false" />
+    <Property Name="status" Type="int" Nullable="false" />
+    <Property Name="time" Type="datetime" Nullable="false" />
+    <Property Name="scan_bia" Type="nvarchar" MaxLength="250" />
+    <Property Name="time_start" Type="datetime" />
+    <Property Name="time_tradiem" Type="datetime" />
+    <Property Name="time_vexong" Type="datetime" />
+    <Property Name="time_dongdau" Type="datetime" />
+    <Property Name="time_thamdinh" Type="datetime" />
+    <Property Name="dove_account" Type="int" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'NiceHandle.dbo.vSettingGroupMember' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vSettingGroupMember">
+    <Key>
+      <PropertyRef Name="fullname" />
+      <PropertyRef Name="id" />
+      <PropertyRef Name="name" />
+      <PropertyRef Name="account_id" />
+    </Key>
+    <Property Name="fullname" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'NiceHandle.dbo.vSoanThao' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vSoanThao">
+    <Key>
+      <PropertyRef Name="id" />
+      <PropertyRef Name="time" />
+      <PropertyRef Name="status" />
+      <PropertyRef Name="Priority" />
+      <PropertyRef Name="address_name" />
+      <PropertyRef Name="service_name" />
+      <PropertyRef Name="step_name" />
+      <PropertyRef Name="account_name" />
+      <PropertyRef Name="partner_name" />
+      <PropertyRef Name="customer_name" />
+      <PropertyRef Name="customer_id" />
+      <PropertyRef Name="address_id" />
+      <PropertyRef Name="step" />
+      <PropertyRef Name="partner" />
+      <PropertyRef Name="type" />
+      <PropertyRef Name="service_id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="time" Type="datetime" Nullable="false" />
+    <Property Name="exp" Type="datetime" />
+    <Property Name="status" Type="int" Nullable="false" />
+    <Property Name="workflow" Type="int" />
+    <Property Name="Priority" Type="int" Nullable="false" />
+    <Property Name="sodienthoai" Type="nvarchar" MaxLength="50" />
+    <Property Name="address_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="service_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="step_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="account_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="partner_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="customer_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="customer_id" Type="int" Nullable="false" />
+    <Property Name="address_id" Type="int" Nullable="false" />
+    <Property Name="step" Type="int" Nullable="false" />
+    <Property Name="account_id" Type="int" />
+    <Property Name="partner" Type="int" Nullable="false" />
+    <Property Name="step_code" Type="varchar" MaxLength="20" />
+    <Property Name="step_color" Type="nvarchar" MaxLength="50" />
+    <Property Name="partner_code" Type="nvarchar" MaxLength="50" />
+    <Property Name="link_giapha" Type="nvarchar" MaxLength="150" />
+    <Property Name="message" Type="nvarchar(max)" />
+    <Property Name="type" Type="int" Nullable="false" />
+    <Property Name="service_id" Type="int" Nullable="false" />
+    <Property Name="soanthao" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'NiceHandle.dbo.vStorage' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vStorage">
+    <Key>
+      <PropertyRef Name="id" />
+      <PropertyRef Name="time" />
+      <PropertyRef Name="status" />
+      <PropertyRef Name="Priority" />
+      <PropertyRef Name="address_name" />
+      <PropertyRef Name="service_name" />
+      <PropertyRef Name="account_name" />
+      <PropertyRef Name="partner_name" />
+      <PropertyRef Name="customer_name" />
+      <PropertyRef Name="customer_id" />
+      <PropertyRef Name="address_id" />
+      <PropertyRef Name="step" />
+      <PropertyRef Name="account_id" />
+      <PropertyRef Name="partner" />
+      <PropertyRef Name="type" />
+      <PropertyRef Name="service_id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="time" Type="datetime" Nullable="false" />
+    <Property Name="exp" Type="datetime" />
+    <Property Name="status" Type="int" Nullable="false" />
+    <Property Name="workflow" Type="int" />
+    <Property Name="Priority" Type="int" Nullable="false" />
+    <Property Name="sodienthoai" Type="nvarchar" MaxLength="50" />
+    <Property Name="address_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="service_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="account_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="partner_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="customer_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="customer_id" Type="int" Nullable="false" />
+    <Property Name="address_id" Type="int" Nullable="false" />
+    <Property Name="step" Type="int" Nullable="false" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+    <Property Name="partner" Type="int" Nullable="false" />
+    <Property Name="partner_code" Type="nvarchar" MaxLength="50" />
+    <Property Name="link_giapha" Type="nvarchar" MaxLength="150" />
+    <Property Name="message" Type="nvarchar(max)" />
+    <Property Name="type" Type="int" Nullable="false" />
+    <Property Name="service_id" Type="int" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'NiceHandle.dbo.vTienDo' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vTienDo">
+    <Key>
+      <PropertyRef Name="id" />
+      <PropertyRef Name="time" />
+      <PropertyRef Name="status" />
+      <PropertyRef Name="Priority" />
+      <PropertyRef Name="address_name" />
+      <PropertyRef Name="service_name" />
+      <PropertyRef Name="step_name" />
+      <PropertyRef Name="account_name" />
+      <PropertyRef Name="partner_name" />
+      <PropertyRef Name="customer_name" />
+      <PropertyRef Name="customer_id" />
+      <PropertyRef Name="address_id" />
+      <PropertyRef Name="step" />
+      <PropertyRef Name="account_id" />
+      <PropertyRef Name="partner" />
+      <PropertyRef Name="type" />
+      <PropertyRef Name="service_id" />
+      <PropertyRef Name="soanthao" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="time" Type="datetime" Nullable="false" />
+    <Property Name="exp" Type="datetime" />
+    <Property Name="status" Type="int" Nullable="false" />
+    <Property Name="workflow" Type="int" />
+    <Property Name="Priority" Type="int" Nullable="false" />
+    <Property Name="sodienthoai" Type="nvarchar" MaxLength="50" />
+    <Property Name="address_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="service_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="step_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="account_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="partner_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="customer_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="customer_id" Type="int" Nullable="false" />
+    <Property Name="address_id" Type="int" Nullable="false" />
+    <Property Name="step" Type="int" Nullable="false" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+    <Property Name="partner" Type="int" Nullable="false" />
+    <Property Name="step_code" Type="varchar" MaxLength="20" />
+    <Property Name="step_color" Type="nvarchar" MaxLength="50" />
+    <Property Name="partner_code" Type="nvarchar" MaxLength="50" />
+    <Property Name="link_giapha" Type="nvarchar" MaxLength="150" />
+    <Property Name="message" Type="nvarchar(max)" />
+    <Property Name="type" Type="int" Nullable="false" />
+    <Property Name="service_id" Type="int" Nullable="false" />
+    <Property Name="soanthao" Type="int" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'NiceHandle.dbo.vTheoDoiChi' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vTheoDoiChi">
+    <Key>
+      <PropertyRef Name="status" />
+      <PropertyRef Name="id" />
+      <PropertyRef Name="inout_id" />
+      <PropertyRef Name="amount" />
+      <PropertyRef Name="contract_name" />
+      <PropertyRef Name="category_name" />
+      <PropertyRef Name="service_name" />
+      <PropertyRef Name="address_name" />
+      <PropertyRef Name="category_id" />
+      <PropertyRef Name="time" />
+      <PropertyRef Name="account_id" />
+      <PropertyRef Name="fullname" />
+    </Key>
+    <Property Name="status" Type="int" Nullable="false" />
+    <Property Name="note" Type="nvarchar" MaxLength="350" />
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="inout_id" Type="bigint" Nullable="false" />
+    <Property Name="amount" Type="bigint" Nullable="false" />
+    <Property Name="contract_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="category_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="service_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="address_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="category_id" Type="int" Nullable="false" />
+    <Property Name="time" Type="datetime" Nullable="false" />
+    <Property Name="contract_id" Type="int" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+    <Property Name="fullname" Type="nvarchar" MaxLength="150" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'NiceHandle.dbo.vTheoDoiTienDo' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vTheoDoiTienDo">
+    <Key>
+      <PropertyRef Name="time" />
+      <PropertyRef Name="partner" />
+      <PropertyRef Name="address_id" />
+      <PropertyRef Name="name" />
+      <PropertyRef Name="contract_id" />
+      <PropertyRef Name="id" />
+      <PropertyRef Name="time_exp" />
+      <PropertyRef Name="account_id" />
+      <PropertyRef Name="disname" />
+      <PropertyRef Name="service_id" />
+      <PropertyRef Name="step_id" />
+      <PropertyRef Name="status" />
+    </Key>
+    <Property Name="time" Type="datetime" Nullable="false" />
+    <Property Name="partner" Type="int" Nullable="false" />
+    <Property Name="address_id" Type="int" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="contract_id" Type="int" Nullable="false" />
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="time_exp" Type="int" Nullable="false" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+    <Property Name="disname" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="service_id" Type="int" Nullable="false" />
+    <Property Name="step_id" Type="int" Nullable="false" />
+    <Property Name="status" Type="int" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'NiceHandle.dbo.vViecPhaiLam' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vViecPhaiLam">
+    <Key>
+      <PropertyRef Name="title" />
+      <PropertyRef Name="id" />
+      <PropertyRef Name="name" />
+      <PropertyRef Name="time" />
+      <PropertyRef Name="time_progress" />
+      <PropertyRef Name="hoso_id" />
+      <PropertyRef Name="hoso_name" />
+      <PropertyRef Name="service_id" />
+      <PropertyRef Name="service_name" />
+      <PropertyRef Name="progress_type" />
+      <PropertyRef Name="fullname" />
+      <PropertyRef Name="status" />
+      <PropertyRef Name="account_id" />
+    </Key>
+    <Property Name="title" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="time" Type="datetime" Nullable="false" />
+    <Property Name="time_progress" Type="datetime" Nullable="false" />
+    <Property Name="result" Type="nvarchar" MaxLength="150" />
+    <Property Name="hoso_id" Type="int" Nullable="false" />
+    <Property Name="hoso_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="service_id" Type="int" Nullable="false" />
+    <Property Name="service_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="progress_type" Type="int" Nullable="false" />
+    <Property Name="fullname" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="status" Type="int" Nullable="false" />
+    <Property Name="account_id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__ChatFiles__ChatS__4CE05A84">
+    <End Role="ChatSessions" Type="Self.ChatSessions" Multiplicity="1" />
+    <End Role="ChatFiles" Type="Self.ChatFiles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ChatSessions">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ChatFiles">
+        <PropertyRef Name="ChatSessionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ChatMessa__ChatS__50B0EB68">
+    <End Role="ChatSessions" Type="Self.ChatSessions" Multiplicity="1" />
+    <End Role="ChatMessages" Type="Self.ChatMessages" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ChatSessions">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ChatMessages">
+        <PropertyRef Name="ChatSessionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserClaims">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserLogins">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+    <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetRoles">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserRoles">
+        <PropertyRef Name="RoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserRoles">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="Test" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <EntityContainer Name="NiceHandleModelStoreContainer">
+    <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Account" EntityType="Self.Account" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Attendance" EntityType="Self.Attendance" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="BangChamCong" EntityType="Self.BangChamCong" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CanBo" EntityType="Self.CanBo" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CanBoDiaPhuong" EntityType="Self.CanBoDiaPhuong" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Contract" EntityType="Self.Contract" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CongViec" EntityType="Self.CongViec" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CoQuanGiaiQuyet" EntityType="Self.CoQuanGiaiQuyet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CuocHop" EntityType="Self.CuocHop" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ChamCong" EntityType="Self.ChamCong" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ChatFiles" EntityType="Self.ChatFiles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ChatMessages" EntityType="Self.ChatMessages" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ChatSessions" EntityType="Self.ChatSessions" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="chotso" EntityType="Self.chotso" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="di1cua" EntityType="Self.di1cua" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Diary" EntityType="Self.Diary" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="didiachinh" EntityType="Self.didiachinh" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Document" EntityType="Self.Document" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="donthu" EntityType="Self.donthu" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Dove" EntityType="Self.Dove" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Dove_ThuChi" EntityType="Self.Dove_ThuChi" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="dove_wf" EntityType="Self.dove_wf" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="dovelichsu" EntityType="Self.dovelichsu" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DSChoDuyet" EntityType="Self.DSChoDuyet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DuChi" EntityType="Self.DuChi" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DuChiNhatKy" EntityType="Self.DuChiNhatKy" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DuChiNhatKyWF" EntityType="Self.DuChiNhatKyWF" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DvhcC1" EntityType="Self.DvhcC1" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Field" EntityType="Self.Field" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="File" EntityType="Self.File" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="fk_CanBo_Address" EntityType="Self.fk_CanBo_Address" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="fk_contract_service" EntityType="Self.fk_contract_service" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="fk_congviec_hoso" EntityType="Self.fk_congviec_hoso" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="fk_congviec_service" EntityType="Self.fk_congviec_service" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="fk_chotso_thuchi" EntityType="Self.fk_chotso_thuchi" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="fk_service_document" EntityType="Self.fk_service_document" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="GroupField" EntityType="Self.GroupField" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="GroupMember" EntityType="Self.GroupMember" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="GroupMember_Account" EntityType="Self.GroupMember_Account" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="GiaoNhanGiayTo" EntityType="Self.GiaoNhanGiayTo" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Holiday" EntityType="Self.Holiday" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="HoSo" EntityType="Self.HoSo" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Infomation" EntityType="Self.Infomation" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="InOut" EntityType="Self.InOut" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="InOutChoDuyet" EntityType="Self.InOutChoDuyet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Job" EntityType="Self.Job" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="KPI" EntityType="Self.KPI" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="KPIChiTieu" EntityType="Self.KPIChiTieu" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="KPILink" EntityType="Self.KPILink" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="LanDau" EntityType="Self.LanDau" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="landau_quytrinh" EntityType="Self.landau_quytrinh" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Money" EntityType="Self.Money" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Notice" EntityType="Self.Notice" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="NguoiHop" EntityType="Self.NguoiHop" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="nhatkydonthu" EntityType="Self.nhatkydonthu" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="NhiemVu" EntityType="Self.NhiemVu" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="OneDoorFile" EntityType="Self.OneDoorFile" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Page4" EntityType="Self.Page4" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Partner" EntityType="Self.Partner" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PayPlan" EntityType="Self.PayPlan" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PriceByArea" EntityType="Self.PriceByArea" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Progress" EntityType="Self.Progress" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Progress_Document" EntityType="Self.Progress_Document" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="progress_file" EntityType="Self.progress_file" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="progress_file_option" EntityType="Self.progress_file_option" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PhuCap" EntityType="Self.PhuCap" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="QuanTriVanHanh" EntityType="Self.QuanTriVanHanh" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="QuyDove" EntityType="Self.QuyDove" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Reporter" EntityType="Self.Reporter" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Reward" EntityType="Self.Reward" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Service" EntityType="Self.Service" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="service_step_day" EntityType="Self.service_step_day" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Setting" EntityType="Self.Setting" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Social" EntityType="Self.Social" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SoHoKhau" EntityType="Self.SoHoKhau" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Step" EntityType="Self.Step" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StepAccount" EntityType="Self.StepAccount" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Stocker" EntityType="Self.Stocker" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="syslog" EntityType="Self.syslog" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TachHop" EntityType="Self.TachHop" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TachThua" EntityType="Self.TachThua" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TaiLieu" EntityType="Self.TaiLieu" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="task" EntityType="Self.task" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ThongTinCaNhan" EntityType="Self.ThongTinCaNhan" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ThuaDat" EntityType="Self.ThuaDat" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="thuchi" EntityType="Self.thuchi" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TreoPhuon" EntityType="Self.TreoPhuon" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TruLuong" EntityType="Self.TruLuong" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Val" EntityType="Self.Val" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ViecPhaiLam" EntityType="Self.ViecPhaiLam" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="wf_contract" EntityType="Self.wf_contract" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="wf_hoso" EntityType="Self.wf_hoso" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="wf_hoso_step" EntityType="Self.wf_hoso_step" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="wf_inout" EntityType="Self.wf_inout" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="wf_quydove" EntityType="Self.wf_quydove" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Hoso_Step" EntityType="Self.Hoso_Step" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [Hoso_Step].[id] AS [id]
+    FROM [dbo].[Hoso_Step] AS [Hoso_Step]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="DSBanLamViec" EntityType="Self.DSBanLamViec" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [DSBanLamViec].[id] AS [id], 
+    [DSBanLamViec].[time] AS [time], 
+    [DSBanLamViec].[exp] AS [exp], 
+    [DSBanLamViec].[status] AS [status], 
+    [DSBanLamViec].[workflow] AS [workflow], 
+    [DSBanLamViec].[Priority] AS [Priority], 
+    [DSBanLamViec].[sodienthoai] AS [sodienthoai], 
+    [DSBanLamViec].[address_name] AS [address_name], 
+    [DSBanLamViec].[service_name] AS [service_name], 
+    [DSBanLamViec].[step_name] AS [step_name], 
+    [DSBanLamViec].[account_name] AS [account_name], 
+    [DSBanLamViec].[partner_name] AS [partner_name], 
+    [DSBanLamViec].[customer_name] AS [customer_name], 
+    [DSBanLamViec].[customer_id] AS [customer_id], 
+    [DSBanLamViec].[address_id] AS [address_id], 
+    [DSBanLamViec].[step] AS [step], 
+    [DSBanLamViec].[account_id] AS [account_id], 
+    [DSBanLamViec].[partner] AS [partner], 
+    [DSBanLamViec].[step_code] AS [step_code], 
+    [DSBanLamViec].[step_color] AS [step_color], 
+    [DSBanLamViec].[partner_code] AS [partner_code], 
+    [DSBanLamViec].[link_giapha] AS [link_giapha], 
+    [DSBanLamViec].[hasfile] AS [hasfile], 
+    [DSBanLamViec].[message] AS [message], 
+    [DSBanLamViec].[type] AS [type], 
+    [DSBanLamViec].[service_id] AS [service_id]
+    FROM [dbo].[DSBanLamViec] AS [DSBanLamViec]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="DSHoSo" EntityType="Self.DSHoSo" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [DSHoSo].[id] AS [id], 
+    [DSHoSo].[amount] AS [amount], 
+    [DSHoSo].[consuming] AS [consuming], 
+    [DSHoSo].[time] AS [time], 
+    [DSHoSo].[status] AS [status], 
+    [DSHoSo].[address_id] AS [address_id], 
+    [DSHoSo].[customer_id] AS [customer_id], 
+    [DSHoSo].[address_name] AS [address_name], 
+    [DSHoSo].[customer_name] AS [customer_name], 
+    [DSHoSo].[service_id] AS [service_id], 
+    [DSHoSo].[service_name] AS [service_name], 
+    [DSHoSo].[partner] AS [partner], 
+    [DSHoSo].[partner_name] AS [partner_name], 
+    [DSHoSo].[rose] AS [rose], 
+    [DSHoSo].[outrose] AS [outrose], 
+    [DSHoSo].[dove] AS [dove], 
+    [DSHoSo].[HardFileLink] AS [HardFileLink], 
+    [DSHoSo].[loai] AS [loai], 
+    [DSHoSo].[account_id] AS [account_id], 
+    [DSHoSo].[fullname] AS [fullname], 
+    [DSHoSo].[step] AS [step], 
+    [DSHoSo].[step_name] AS [step_name]
+    FROM [dbo].[DSHoSo] AS [DSHoSo]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="DSMotCua" EntityType="Self.DSMotCua" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [DSMotCua].[name] AS [name], 
+    [DSMotCua].[canbo_name] AS [canbo_name], 
+    [DSMotCua].[customer_name] AS [customer_name], 
+    [DSMotCua].[id] AS [id], 
+    [DSMotCua].[contract_id] AS [contract_id], 
+    [DSMotCua].[ngaynop] AS [ngaynop], 
+    [DSMotCua].[ngaytra] AS [ngaytra], 
+    [DSMotCua].[canbo1cua] AS [canbo1cua], 
+    [DSMotCua].[canbophutrach] AS [canbophutrach], 
+    [DSMotCua].[maphieuhen] AS [maphieuhen], 
+    [DSMotCua].[ghichu] AS [ghichu], 
+    [DSMotCua].[trangthai] AS [trangthai], 
+    [DSMotCua].[c_xa] AS [c_xa], 
+    [DSMotCua].[e_giayuyquyenso] AS [e_giayuyquyenso], 
+    [DSMotCua].[e_hoten] AS [e_hoten], 
+    [DSMotCua].[service_name] AS [service_name], 
+    [DSMotCua].[contract_status] AS [contract_status], 
+    [DSMotCua].[step] AS [step], 
+    [DSMotCua].[type] AS [type], 
+    [DSMotCua].[service_id] AS [service_id], 
+    [DSMotCua].[account_id] AS [account_id], 
+    [DSMotCua].[address_id] AS [address_id], 
+    [DSMotCua].[partner] AS [partner], 
+    [DSMotCua].[time] AS [time], 
+    [DSMotCua].[exp] AS [exp]
+    FROM [dbo].[DSMotCua] AS [DSMotCua]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="PartnerAccount" EntityType="Self.PartnerAccount" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [PartnerAccount].[account_id] AS [account_id], 
+    [PartnerAccount].[fullname] AS [fullname], 
+    [PartnerAccount].[name] AS [name], 
+    [PartnerAccount].[sodienthoai] AS [sodienthoai], 
+    [PartnerAccount].[id_no] AS [id_no], 
+    [PartnerAccount].[id_type] AS [id_type], 
+    [PartnerAccount].[birthday] AS [birthday], 
+    [PartnerAccount].[gender] AS [gender], 
+    [PartnerAccount].[id] AS [id], 
+    [PartnerAccount].[sothutu] AS [sothutu]
+    FROM [dbo].[PartnerAccount] AS [PartnerAccount]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vCalculatorMoney" EntityType="Self.vCalculatorMoney" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vCalculatorMoney].[amount] AS [amount], 
+    [vCalculatorMoney].[type] AS [type], 
+    [vCalculatorMoney].[contract_id] AS [contract_id], 
+    [vCalculatorMoney].[category_id] AS [category_id]
+    FROM [dbo].[vCalculatorMoney] AS [vCalculatorMoney]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vCanBoDiaPhuongC1" EntityType="Self.vCanBoDiaPhuongC1" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vCanBoDiaPhuongC1].[address_id] AS [address_id], 
+    [vCanBoDiaPhuongC1].[id] AS [id], 
+    [vCanBoDiaPhuongC1].[name] AS [name], 
+    [vCanBoDiaPhuongC1].[chucvu] AS [chucvu], 
+    [vCanBoDiaPhuongC1].[gmap] AS [gmap], 
+    [vCanBoDiaPhuongC1].[phoneno] AS [phoneno], 
+    [vCanBoDiaPhuongC1].[thuoccap] AS [thuoccap], 
+    [vCanBoDiaPhuongC1].[note] AS [note], 
+    [vCanBoDiaPhuongC1].[fk_id] AS [fk_id], 
+    [vCanBoDiaPhuongC1].[DvhcName] AS [DvhcName]
+    FROM [dbo].[vCanBoDiaPhuongC1] AS [vCanBoDiaPhuongC1]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vCanBoDiaPhuongC2" EntityType="Self.vCanBoDiaPhuongC2" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vCanBoDiaPhuongC2].[AddressName] AS [AddressName], 
+    [vCanBoDiaPhuongC2].[id] AS [id], 
+    [vCanBoDiaPhuongC2].[name] AS [name], 
+    [vCanBoDiaPhuongC2].[chucvu] AS [chucvu], 
+    [vCanBoDiaPhuongC2].[gmap] AS [gmap], 
+    [vCanBoDiaPhuongC2].[phoneno] AS [phoneno], 
+    [vCanBoDiaPhuongC2].[thuoccap] AS [thuoccap], 
+    [vCanBoDiaPhuongC2].[note] AS [note], 
+    [vCanBoDiaPhuongC2].[fk_id] AS [fk_id]
+    FROM [dbo].[vCanBoDiaPhuongC2] AS [vCanBoDiaPhuongC2]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vContract" EntityType="Self.vContract" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vContract].[id] AS [id], 
+    [vContract].[amount] AS [amount], 
+    [vContract].[consuming] AS [consuming], 
+    [vContract].[time] AS [time], 
+    [vContract].[status] AS [status], 
+    [vContract].[address_id] AS [address_id], 
+    [vContract].[address_name] AS [address_name], 
+    [vContract].[service_id] AS [service_id], 
+    [vContract].[service_name] AS [service_name], 
+    [vContract].[partner] AS [partner], 
+    [vContract].[partner_name] AS [partner_name], 
+    [vContract].[rose] AS [rose], 
+    [vContract].[outrose] AS [outrose], 
+    [vContract].[dove] AS [dove], 
+    [vContract].[HardFileLink] AS [HardFileLink], 
+    [vContract].[loai] AS [loai], 
+    [vContract].[fullname] AS [fullname], 
+    [vContract].[name] AS [name], 
+    [vContract].[account_id] AS [account_id], 
+    [vContract].[code] AS [code]
+    FROM [dbo].[vContract] AS [vContract]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vContractHardFile" EntityType="Self.vContractHardFile" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vContractHardFile].[HardFileLink] AS [HardFileLink], 
+    [vContractHardFile].[address_name] AS [address_name], 
+    [vContractHardFile].[customer_name] AS [customer_name], 
+    [vContractHardFile].[service_name] AS [service_name], 
+    [vContractHardFile].[partner_name] AS [partner_name], 
+    [vContractHardFile].[time] AS [time], 
+    [vContractHardFile].[address_id] AS [address_id], 
+    [vContractHardFile].[customer_id] AS [customer_id], 
+    [vContractHardFile].[service_id] AS [service_id], 
+    [vContractHardFile].[partner] AS [partner], 
+    [vContractHardFile].[id] AS [id], 
+    [vContractHardFile].[status] AS [status]
+    FROM [dbo].[vContractHardFile] AS [vContractHardFile]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vContractSelect" EntityType="Self.vContractSelect" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vContractSelect].[id] AS [id], 
+    [vContractSelect].[customer_id] AS [customer_id], 
+    [vContractSelect].[address_id] AS [address_id], 
+    [vContractSelect].[service_id] AS [service_id], 
+    [vContractSelect].[service_name] AS [service_name], 
+    [vContractSelect].[address_name] AS [address_name], 
+    [vContractSelect].[customer_name] AS [customer_name], 
+    [vContractSelect].[status] AS [status]
+    FROM [dbo].[vContractSelect] AS [vContractSelect]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vChartInOut" EntityType="Self.vChartInOut" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vChartInOut].[id] AS [id], 
+    [vChartInOut].[category_id] AS [category_id], 
+    [vChartInOut].[type] AS [type], 
+    [vChartInOut].[time] AS [time], 
+    [vChartInOut].[amount] AS [amount], 
+    [vChartInOut].[status] AS [status]
+    FROM [dbo].[vChartInOut] AS [vChartInOut]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vDi1Cua" EntityType="Self.vDi1Cua" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vDi1Cua].[id] AS [id], 
+    [vDi1Cua].[hoso_id] AS [hoso_id], 
+    [vDi1Cua].[ngaynop] AS [ngaynop], 
+    [vDi1Cua].[ngaytra] AS [ngaytra], 
+    [vDi1Cua].[canbo1cua] AS [canbo1cua], 
+    [vDi1Cua].[maphieuhen] AS [maphieuhen], 
+    [vDi1Cua].[trangthai] AS [trangthai], 
+    [vDi1Cua].[contract_id] AS [contract_id], 
+    [vDi1Cua].[name] AS [name], 
+    [vDi1Cua].[time_created] AS [time_created], 
+    [vDi1Cua].[account_id] AS [account_id], 
+    [vDi1Cua].[service_id] AS [service_id], 
+    [vDi1Cua].[priority] AS [priority], 
+    [vDi1Cua].[status] AS [status], 
+    [vDi1Cua].[address_id] AS [address_id], 
+    [vDi1Cua].[partner] AS [partner], 
+    [vDi1Cua].[time_exp] AS [time_exp], 
+    [vDi1Cua].[time] AS [time], 
+    [vDi1Cua].[ghichu] AS [ghichu], 
+    [vDi1Cua].[account_id_soanthao] AS [account_id_soanthao], 
+    [vDi1Cua].[step_id] AS [step_id], 
+    [vDi1Cua].[note] AS [note], 
+    [vDi1Cua].[noinhan_id] AS [noinhan_id]
+    FROM [dbo].[vDi1Cua] AS [vDi1Cua]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vDuChi" EntityType="Self.vDuChi" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vDuChi].[name] AS [name], 
+    [vDuChi].[id] AS [id], 
+    [vDuChi].[amount] AS [amount], 
+    [vDuChi].[category_id] AS [category_id]
+    FROM [dbo].[vDuChi] AS [vDuChi]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vDvhcC1" EntityType="Self.vDvhcC1" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vDvhcC1].[AddressName] AS [AddressName], 
+    [vDvhcC1].[id] AS [id], 
+    [vDvhcC1].[address_id] AS [address_id], 
+    [vDvhcC1].[name] AS [name], 
+    [vDvhcC1].[code] AS [code]
+    FROM [dbo].[vDvhcC1] AS [vDvhcC1]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vHomeWFInOut" EntityType="Self.vHomeWFInOut" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vHomeWFInOut].[time] AS [time], 
+    [vHomeWFInOut].[wfNote] AS [wfNote], 
+    [vHomeWFInOut].[fullname] AS [fullname], 
+    [vHomeWFInOut].[IONote] AS [IONote], 
+    [vHomeWFInOut].[name] AS [name], 
+    [vHomeWFInOut].[amount] AS [amount], 
+    [vHomeWFInOut].[type] AS [type]
+    FROM [dbo].[vHomeWFInOut] AS [vHomeWFInOut]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vHoSo" EntityType="Self.vHoSo" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vHoSo].[time] AS [time], 
+    [vHoSo].[address_id] AS [address_id], 
+    [vHoSo].[address_name] AS [address_name], 
+    [vHoSo].[service_name] AS [service_name], 
+    [vHoSo].[partner] AS [partner], 
+    [vHoSo].[partner_name] AS [partner_name], 
+    [vHoSo].[account_name] AS [account_name], 
+    [vHoSo].[id] AS [id], 
+    [vHoSo].[contract_id] AS [contract_id], 
+    [vHoSo].[name] AS [name], 
+    [vHoSo].[account_id_soanthao] AS [account_id_soanthao], 
+    [vHoSo].[priority] AS [priority], 
+    [vHoSo].[trang4] AS [trang4], 
+    [vHoSo].[status] AS [status], 
+    [vHoSo].[sodienthoai] AS [sodienthoai], 
+    [vHoSo].[service_id] AS [service_id], 
+    [vHoSo].[account_id] AS [account_id], 
+    [vHoSo].[step_id] AS [step_id], 
+    [vHoSo].[time_exp] AS [time_exp], 
+    [vHoSo].[sodienthoai_mota] AS [sodienthoai_mota], 
+    [vHoSo].[deadline] AS [deadline], 
+    [vHoSo].[ngoaigiao] AS [ngoaigiao], 
+    [vHoSo].[time_complete] AS [time_complete], 
+    [vHoSo].[time_created] AS [time_created], 
+    [vHoSo].[light] AS [light]
+    FROM [dbo].[vHoSo] AS [vHoSo]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vInOut" EntityType="Self.vInOut" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vInOut].[id] AS [id], 
+    [vInOut].[type] AS [type], 
+    [vInOut].[note] AS [note], 
+    [vInOut].[time] AS [time], 
+    [vInOut].[status] AS [status], 
+    [vInOut].[state] AS [state], 
+    [vInOut].[name] AS [name], 
+    [vInOut].[category_id] AS [category_id], 
+    [vInOut].[account_id] AS [account_id], 
+    [vInOut].[gostock] AS [gostock], 
+    [vInOut].[contract_id] AS [contract_id], 
+    [vInOut].[currency] AS [currency], 
+    [vInOut].[amount] AS [amount], 
+    [vInOut].[inoutchoduyet_id] AS [inoutchoduyet_id], 
+    [vInOut].[disname] AS [disname]
+    FROM [dbo].[vInOut] AS [vInOut]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vMyFile" EntityType="Self.vMyFile" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vMyFile].[time] AS [time], 
+    [vMyFile].[partner] AS [partner], 
+    [vMyFile].[account_id] AS [account_id], 
+    [vMyFile].[partner_name] AS [partner_name], 
+    [vMyFile].[address_id] AS [address_id], 
+    [vMyFile].[address_name] AS [address_name], 
+    [vMyFile].[customer_name] AS [customer_name], 
+    [vMyFile].[id] AS [id], 
+    [vMyFile].[amount] AS [amount], 
+    [vMyFile].[rose] AS [rose], 
+    [vMyFile].[consuming] AS [consuming], 
+    [vMyFile].[service_id] AS [service_id], 
+    [vMyFile].[service_name] AS [service_name]
+    FROM [dbo].[vMyFile] AS [vMyFile]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vMyReward" EntityType="Self.vMyReward" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vMyReward].[step_id] AS [step_id], 
+    [vMyReward].[type] AS [type], 
+    [vMyReward].[ngaynop] AS [ngaynop], 
+    [vMyReward].[address_id] AS [address_id], 
+    [vMyReward].[partner] AS [partner], 
+    [vMyReward].[account_id] AS [account_id], 
+    [vMyReward].[address_name] AS [address_name], 
+    [vMyReward].[maphieuhen] AS [maphieuhen], 
+    [vMyReward].[partner_name] AS [partner_name], 
+    [vMyReward].[fullname] AS [fullname], 
+    [vMyReward].[amount] AS [amount], 
+    [vMyReward].[contract_id] AS [contract_id], 
+    [vMyReward].[customer_name] AS [customer_name], 
+    [vMyReward].[note] AS [note], 
+    [vMyReward].[hoso_id] AS [hoso_id], 
+    [vMyReward].[service_id] AS [service_id], 
+    [vMyReward].[service_name] AS [service_name], 
+    [vMyReward].[id] AS [id], 
+    [vMyReward].[time] AS [time], 
+    [vMyReward].[status] AS [status], 
+    [vMyReward].[dove] AS [dove], 
+    [vMyReward].[remunerate] AS [remunerate]
+    FROM [dbo].[vMyReward] AS [vMyReward]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vPayPlan" EntityType="Self.vPayPlan" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vPayPlan].[id] AS [id], 
+    [vPayPlan].[account_id] AS [account_id], 
+    [vPayPlan].[type] AS [type], 
+    [vPayPlan].[note] AS [note], 
+    [vPayPlan].[time] AS [time], 
+    [vPayPlan].[status] AS [status], 
+    [vPayPlan].[fullname] AS [fullname], 
+    [vPayPlan].[category_id] AS [category_id], 
+    [vPayPlan].[category_name] AS [category_name], 
+    [vPayPlan].[contract_id] AS [contract_id], 
+    [vPayPlan].[customer_name] AS [customer_name], 
+    [vPayPlan].[amount] AS [amount]
+    FROM [dbo].[vPayPlan] AS [vPayPlan]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vPending" EntityType="Self.vPending" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vPending].[id] AS [id], 
+    [vPending].[account_id] AS [account_id], 
+    [vPending].[soanthao] AS [soanthao], 
+    [vPending].[time] AS [time], 
+    [vPending].[status] AS [status], 
+    [vPending].[service_id] AS [service_id]
+    FROM [dbo].[vPending] AS [vPending]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vPhongDoVe" EntityType="Self.vPhongDoVe" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vPhongDoVe].[name] AS [name], 
+    [vPhongDoVe].[account_id] AS [account_id], 
+    [vPhongDoVe].[service_id] AS [service_id], 
+    [vPhongDoVe].[link_filecad] AS [link_filecad], 
+    [vPhongDoVe].[link_gmap] AS [link_gmap], 
+    [vPhongDoVe].[link_filecad_qr] AS [link_filecad_qr], 
+    [vPhongDoVe].[link_gmap_qr] AS [link_gmap_qr], 
+    [vPhongDoVe].[link_flycam] AS [link_flycam], 
+    [vPhongDoVe].[a_hoten] AS [a_hoten], 
+    [vPhongDoVe].[a_gioitinh] AS [a_gioitinh], 
+    [vPhongDoVe].[a_hktt] AS [a_hktt], 
+    [vPhongDoVe].[a_hoten1] AS [a_hoten1], 
+    [vPhongDoVe].[a_gioitinh1] AS [a_gioitinh1], 
+    [vPhongDoVe].[a_hktt1] AS [a_hktt1], 
+    [vPhongDoVe].[b_sogiaychungnhan] AS [b_sogiaychungnhan], 
+    [vPhongDoVe].[b_sothua] AS [b_sothua], 
+    [vPhongDoVe].[b_tobando] AS [b_tobando], 
+    [vPhongDoVe].[b_diachithuadat] AS [b_diachithuadat], 
+    [vPhongDoVe].[b_dientichtrenbia] AS [b_dientichtrenbia], 
+    [vPhongDoVe].[b_hinhthucsudung] AS [b_hinhthucsudung], 
+    [vPhongDoVe].[b_mucdichsudung] AS [b_mucdichsudung], 
+    [vPhongDoVe].[b_ngaycap] AS [b_ngaycap], 
+    [vPhongDoVe].[b_noicap] AS [b_noicap], 
+    [vPhongDoVe].[b_sovaoso] AS [b_sovaoso], 
+    [vPhongDoVe].[b_loaidat1] AS [b_loaidat1], 
+    [vPhongDoVe].[b_dientich1] AS [b_dientich1], 
+    [vPhongDoVe].[b_loaidat2] AS [b_loaidat2], 
+    [vPhongDoVe].[b_dientich2] AS [b_dientich2], 
+    [vPhongDoVe].[contract_id] AS [contract_id], 
+    [vPhongDoVe].[address_id] AS [address_id], 
+    [vPhongDoVe].[sodienthoai] AS [sodienthoai], 
+    [vPhongDoVe].[sodienthoai_mota] AS [sodienthoai_mota], 
+    [vPhongDoVe].[partner] AS [partner], 
+    [vPhongDoVe].[b_dientich] AS [b_dientich], 
+    [vPhongDoVe].[id] AS [id], 
+    [vPhongDoVe].[hoso_id] AS [hoso_id], 
+    [vPhongDoVe].[status] AS [status], 
+    [vPhongDoVe].[time] AS [time], 
+    [vPhongDoVe].[scan_bia] AS [scan_bia], 
+    [vPhongDoVe].[time_start] AS [time_start], 
+    [vPhongDoVe].[time_tradiem] AS [time_tradiem], 
+    [vPhongDoVe].[time_vexong] AS [time_vexong], 
+    [vPhongDoVe].[time_dongdau] AS [time_dongdau], 
+    [vPhongDoVe].[time_thamdinh] AS [time_thamdinh], 
+    [vPhongDoVe].[dove_account] AS [dove_account]
+    FROM [dbo].[vPhongDoVe] AS [vPhongDoVe]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vSettingGroupMember" EntityType="Self.vSettingGroupMember" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vSettingGroupMember].[fullname] AS [fullname], 
+    [vSettingGroupMember].[id] AS [id], 
+    [vSettingGroupMember].[name] AS [name], 
+    [vSettingGroupMember].[account_id] AS [account_id]
+    FROM [dbo].[vSettingGroupMember] AS [vSettingGroupMember]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vSoanThao" EntityType="Self.vSoanThao" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vSoanThao].[id] AS [id], 
+    [vSoanThao].[time] AS [time], 
+    [vSoanThao].[exp] AS [exp], 
+    [vSoanThao].[status] AS [status], 
+    [vSoanThao].[workflow] AS [workflow], 
+    [vSoanThao].[Priority] AS [Priority], 
+    [vSoanThao].[sodienthoai] AS [sodienthoai], 
+    [vSoanThao].[address_name] AS [address_name], 
+    [vSoanThao].[service_name] AS [service_name], 
+    [vSoanThao].[step_name] AS [step_name], 
+    [vSoanThao].[account_name] AS [account_name], 
+    [vSoanThao].[partner_name] AS [partner_name], 
+    [vSoanThao].[customer_name] AS [customer_name], 
+    [vSoanThao].[customer_id] AS [customer_id], 
+    [vSoanThao].[address_id] AS [address_id], 
+    [vSoanThao].[step] AS [step], 
+    [vSoanThao].[account_id] AS [account_id], 
+    [vSoanThao].[partner] AS [partner], 
+    [vSoanThao].[step_code] AS [step_code], 
+    [vSoanThao].[step_color] AS [step_color], 
+    [vSoanThao].[partner_code] AS [partner_code], 
+    [vSoanThao].[link_giapha] AS [link_giapha], 
+    [vSoanThao].[message] AS [message], 
+    [vSoanThao].[type] AS [type], 
+    [vSoanThao].[service_id] AS [service_id], 
+    [vSoanThao].[soanthao] AS [soanthao]
+    FROM [dbo].[vSoanThao] AS [vSoanThao]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vStorage" EntityType="Self.vStorage" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vStorage].[id] AS [id], 
+    [vStorage].[time] AS [time], 
+    [vStorage].[exp] AS [exp], 
+    [vStorage].[status] AS [status], 
+    [vStorage].[workflow] AS [workflow], 
+    [vStorage].[Priority] AS [Priority], 
+    [vStorage].[sodienthoai] AS [sodienthoai], 
+    [vStorage].[address_name] AS [address_name], 
+    [vStorage].[service_name] AS [service_name], 
+    [vStorage].[account_name] AS [account_name], 
+    [vStorage].[partner_name] AS [partner_name], 
+    [vStorage].[customer_name] AS [customer_name], 
+    [vStorage].[customer_id] AS [customer_id], 
+    [vStorage].[address_id] AS [address_id], 
+    [vStorage].[step] AS [step], 
+    [vStorage].[account_id] AS [account_id], 
+    [vStorage].[partner] AS [partner], 
+    [vStorage].[partner_code] AS [partner_code], 
+    [vStorage].[link_giapha] AS [link_giapha], 
+    [vStorage].[message] AS [message], 
+    [vStorage].[type] AS [type], 
+    [vStorage].[service_id] AS [service_id]
+    FROM [dbo].[vStorage] AS [vStorage]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vTienDo" EntityType="Self.vTienDo" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vTienDo].[id] AS [id], 
+    [vTienDo].[time] AS [time], 
+    [vTienDo].[exp] AS [exp], 
+    [vTienDo].[status] AS [status], 
+    [vTienDo].[workflow] AS [workflow], 
+    [vTienDo].[Priority] AS [Priority], 
+    [vTienDo].[sodienthoai] AS [sodienthoai], 
+    [vTienDo].[address_name] AS [address_name], 
+    [vTienDo].[service_name] AS [service_name], 
+    [vTienDo].[step_name] AS [step_name], 
+    [vTienDo].[account_name] AS [account_name], 
+    [vTienDo].[partner_name] AS [partner_name], 
+    [vTienDo].[customer_name] AS [customer_name], 
+    [vTienDo].[customer_id] AS [customer_id], 
+    [vTienDo].[address_id] AS [address_id], 
+    [vTienDo].[step] AS [step], 
+    [vTienDo].[account_id] AS [account_id], 
+    [vTienDo].[partner] AS [partner], 
+    [vTienDo].[step_code] AS [step_code], 
+    [vTienDo].[step_color] AS [step_color], 
+    [vTienDo].[partner_code] AS [partner_code], 
+    [vTienDo].[link_giapha] AS [link_giapha], 
+    [vTienDo].[message] AS [message], 
+    [vTienDo].[type] AS [type], 
+    [vTienDo].[service_id] AS [service_id], 
+    [vTienDo].[soanthao] AS [soanthao]
+    FROM [dbo].[vTienDo] AS [vTienDo]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vTheoDoiChi" EntityType="Self.vTheoDoiChi" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vTheoDoiChi].[status] AS [status], 
+    [vTheoDoiChi].[note] AS [note], 
+    [vTheoDoiChi].[id] AS [id], 
+    [vTheoDoiChi].[inout_id] AS [inout_id], 
+    [vTheoDoiChi].[amount] AS [amount], 
+    [vTheoDoiChi].[contract_name] AS [contract_name], 
+    [vTheoDoiChi].[category_name] AS [category_name], 
+    [vTheoDoiChi].[service_name] AS [service_name], 
+    [vTheoDoiChi].[address_name] AS [address_name], 
+    [vTheoDoiChi].[category_id] AS [category_id], 
+    [vTheoDoiChi].[time] AS [time], 
+    [vTheoDoiChi].[contract_id] AS [contract_id], 
+    [vTheoDoiChi].[account_id] AS [account_id], 
+    [vTheoDoiChi].[fullname] AS [fullname]
+    FROM [dbo].[vTheoDoiChi] AS [vTheoDoiChi]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vTheoDoiTienDo" EntityType="Self.vTheoDoiTienDo" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vTheoDoiTienDo].[time] AS [time], 
+    [vTheoDoiTienDo].[partner] AS [partner], 
+    [vTheoDoiTienDo].[address_id] AS [address_id], 
+    [vTheoDoiTienDo].[name] AS [name], 
+    [vTheoDoiTienDo].[contract_id] AS [contract_id], 
+    [vTheoDoiTienDo].[id] AS [id], 
+    [vTheoDoiTienDo].[time_exp] AS [time_exp], 
+    [vTheoDoiTienDo].[account_id] AS [account_id], 
+    [vTheoDoiTienDo].[disname] AS [disname], 
+    [vTheoDoiTienDo].[service_id] AS [service_id], 
+    [vTheoDoiTienDo].[step_id] AS [step_id], 
+    [vTheoDoiTienDo].[status] AS [status]
+    FROM [dbo].[vTheoDoiTienDo] AS [vTheoDoiTienDo]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vViecPhaiLam" EntityType="Self.vViecPhaiLam" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vViecPhaiLam].[title] AS [title], 
+    [vViecPhaiLam].[id] AS [id], 
+    [vViecPhaiLam].[name] AS [name], 
+    [vViecPhaiLam].[time] AS [time], 
+    [vViecPhaiLam].[time_progress] AS [time_progress], 
+    [vViecPhaiLam].[result] AS [result], 
+    [vViecPhaiLam].[hoso_id] AS [hoso_id], 
+    [vViecPhaiLam].[hoso_name] AS [hoso_name], 
+    [vViecPhaiLam].[service_id] AS [service_id], 
+    [vViecPhaiLam].[service_name] AS [service_name], 
+    [vViecPhaiLam].[progress_type] AS [progress_type], 
+    [vViecPhaiLam].[fullname] AS [fullname], 
+    [vViecPhaiLam].[status] AS [status], 
+    [vViecPhaiLam].[account_id] AS [account_id]
+    FROM [dbo].[vViecPhaiLam] AS [vViecPhaiLam]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK__ChatFiles__ChatS__4CE05A84" Association="Self.FK__ChatFiles__ChatS__4CE05A84">
+      <End Role="ChatSessions" EntitySet="ChatSessions" />
+      <End Role="ChatFiles" EntitySet="ChatFiles" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ChatMessa__ChatS__50B0EB68" Association="Self.FK__ChatMessa__ChatS__50B0EB68">
+      <End Role="ChatSessions" EntitySet="ChatSessions" />
+      <End Role="ChatMessages" EntitySet="ChatMessages" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+      <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+      <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
