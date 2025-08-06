@@ -1,0 +1,118 @@
+﻿@model NiceHandles.Models.Progress
+@using NiceHandles.Models
+@{
+    var db = new NHModel();
+    var lstSettings = db.TaiLieux.Where(x => x.type == (Model.type + 100)).ToList();
+}
+<section id="ss_progress">
+    @using (Html.BeginForm("Setting", "Progresses"))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal" style="padding: 20px;">
+            <h4>Cấu hình</h4>
+            <hr />
+            @Html.HiddenFor(model => model.id)
+            @Html.HiddenFor(model => model.sort)
+            @Html.HiddenFor(model => model.status)
+            @Html.HiddenFor(model => model.type)
+            <div class="form-group">
+                @Html.LabelFor(model => model.title, "Tiêu đề", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.title, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.title, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.phantram, "Tiến độ (%)", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.phantram, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.phantram, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.description, "Mô tả", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.description, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.description, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.note, "Gợi ý", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.note, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.note, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Lưu lại" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+</section>
+<section id="ss_filetai">
+    <div class="form-horizontal" style="padding: 20px;">
+        <h4>Văn bản tải về</h4>
+        <hr />
+        <div class="row">
+            <div class="col-md-7">
+                <h5 class="text-primary">VĂN BẢN THEO HỒ SƠ</h5>
+                <div class="row" id="wrap_docs">
+                </div>
+            </div>
+            <div class="col-md-5" style="border: 1px solid #0094ff; border-radius: 10px;">
+                <h5 class="text-primary">VĂN BẢN MẪU TRẮNG</h5>
+                <div class="form-group">
+                    @Html.Label("lblName", "Tên mẫu", new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBox("txtName", "", new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("lblFile", "File tải", new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBox("txtLink", "", new { @class = "form-control btn btn-info", @type = "file" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="button" value="Lưu lại" onclick="SettingAddFile(@(Model.type + 100), '#txtLink');" class="btn btn-default" />
+                    </div>
+                </div>
+                <table class="table">
+                    <tr>
+                        <th>
+                            Tên file
+                        </th>
+                        <th></th>
+                    </tr>
+
+                    @foreach (var item in lstSettings)
+                    {
+                        <tr>
+                            <td>
+                                <a href="@item.link" target="_blank"> @item.name</a>
+                            </td>
+                            <td>
+                                <button class="fa fa-trash text-danger" onclick="SettingDelFile(@item.id, this)"></button>
+                            </td>
+                        </tr>
+                    }
+                </table>
+
+            </div>
+        </div>
+    </div>
+</section>
+<style>
+    #ss_filetai .fa {
+        background-color: transparent;
+        border: none;
+    }
+</style>

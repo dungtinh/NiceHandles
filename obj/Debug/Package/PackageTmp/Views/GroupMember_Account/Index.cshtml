@@ -1,0 +1,42 @@
+﻿@model IEnumerable<NiceHandles.Models.GroupMember_Account>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutSetting.cshtml";
+    var db = new NiceHandles.Models.NHModel();
+}
+
+<h2>Danh sách</h2>
+
+<p>
+    @Html.ActionLink("Thêm mới", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Nhân viên
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.GroupBy(x => x.groupmember_id))
+    {
+        var groupname = db.GroupMembers.Find(item.Key).name;
+        <tr>
+            <td colspan="2" style="text-align: center; font-weight: bolder; font-style: italic;">@groupname</td>
+        </tr>
+        foreach (var perMember in item)
+        {
+            var fullname = db.Accounts.Find(perMember.account_id).fullname;
+            <tr>
+                <td>
+                    @fullname
+                </td>
+                <td>
+                    @Html.ActionLink("Xóa", "Delete", new { id = perMember.id })
+                </td>
+            </tr>
+        }
+    }
+
+</table>

@@ -1,0 +1,364 @@
+﻿@model PagedList.IPagedList<NiceHandles.Models.DSHoSo>
+@using PagedList.Mvc;
+@using NiceHandles.Models
+
+@{
+    ViewBag.Title = "Hợp đồng";
+    var db = new NHModel();
+    var Categories = new SelectListItem[0];
+    var ADDRESS = new SelectList(db.Addresses, "id", "name");
+    var SERVICES = new SelectList(db.Services, "id", "name");
+    var PARTNER = new SelectList(db.Partners.OrderBy(x => x.sothutu), "id", "name");
+    var STATUS = new SelectList(XContract.sStatus, "Key", "Value");
+    var STEP = new SelectList(db.Steps.OrderBy(x => x.sort), "id", "name");
+    var ACCOUNTS = new SelectList(db.Accounts.Where(x => x.sta == (int)XAccount.eStatus.Processing), "id", "fullname");
+    var LOAI = new SelectList(XContract.sLoai, "Key", "Value");
+
+    var cateRose = db.Categories.Single(x => x.kind == (int)XCategory.eKind.Rose);
+    var cateDove = db.Categories.Single(x => x.kind == (int)XCategory.eKind.Dove);
+    var cateRemunerate = db.Categories.Single(x => x.kind == (int)XCategory.eKind.Remunerate);
+    var catePartner = db.Categories.Single(x => x.kind == (int)XCategory.eKind.Partner);
+    // Sum
+    var SumGiaTriHopDong = (long)ViewBag.SumGiaTriHopDong;
+    var SumDaThu = (long)ViewBag.SumDaThu;
+    var SumPhaiThu = (long)ViewBag.SumPhaiThu;
+    var SumDuChi = (long)ViewBag.SumDuChi;
+    var SumHoaHongNV = (long)ViewBag.SumHoaHongNV;
+    var SumHoaHongDT = (long)ViewBag.SumHoaHongDT;
+    var SumDaChi = (long)ViewBag.SumDaChi;
+    var SumDaThuNet = (long)ViewBag.SumDaThuNet;
+    var SumDuThuNet = (long)ViewBag.SumDuThuNet;
+    //Total
+    var summery = db.Contracts.Select(x => new { x.id, x.amount, x.consuming, x.dove, x.outrose, x.rose }).ToList();
+    var TotalGiaTriHopDong = summery.Sum(x => x.amount);
+    var summeryInout = (from s in summery
+                        join io in db.InOuts on s.id equals io.contract_id
+                        join mn in db.Moneys on io.money_code equals mn.code
+                        where io.status < (int)XInOut.eStatus.Cancel
+                        select new { mn.amount, io.type, io.category_id }).ToList();
+    var TotalDuChi = summery.Sum(x => x.consuming);
+    var TotalDaThu = summeryInout.Where(x => x.type == (int)XCategory.eType.Thu).Sum(x => x.amount);
+    var TotalPhaiThu = TotalGiaTriHopDong - TotalDaThu;
+    var TotalDaChi = summeryInout.Where(x => x.type == (int)XCategory.eType.Chi).Sum(x => x.amount);
+    var TotalDaThuNet = TotalDaThu - TotalDaChi;
+    var TotalDuThuNet = TotalGiaTriHopDong - TotalDuChi;
+}
+
+<h2>
+    Quản Lý Hợp đồng
+    @Html.ActionLink("Thêm mới", "Create", null, new { @class = "btn btn-success" })
+    @Html.ActionLink("DS chờ duyệt chi", "Index", "Payplans", null, new { @class = "btn btn-success" })
+</h2>
+
+@using (Html.BeginForm("Indexx", "Contracts", FormMethod.Get))
+{
+    <div class="row">
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-sm-1">
+                    <div class="form-group">
+                        @Html.TextBox("fromdate", ViewBag.FROMDATE as string, new { @class = "form-control datetime", placeholder = "Từ ngày", autocomplete = "off" })
+                    </div>
+                </div>
+                <div class="col-sm-1">
+                    <div class="form-group">
+                        @Html.TextBox("todate", ViewBag.TODATE as string, new { @class = "form-control datetime", placeholder = "Đến ngày", autocomplete = "off" })
+                    </div>
+                </div>
+                <div class="col-sm-1">
+                    <div class="form-group">
+                        @Html.TextBox("Search_Data", ViewBag.FilterValue as string, new { @class = "form-control", placeholder = "Tìm kiếm" })
+                    </div>
+                </div>
+                <div class="col-sm-1">
+                    <div class="form-group">
+                        @Html.DropDownList("par", PARTNER, "Đối tác", new { @class = "form-control", title = "Đối tác" })
+                    </div>
+                </div>
+                <div class="col-sm-1">
+                    <div class="form-group">
+                        @Html.DropDownList("add", ADDRESS, "Địa chỉ", new { @class = "form-control", title = "Địa chỉ" })
+                    </div>
+                </div>
+                <div class="col-sm-1">
+                    <div class="form-group">
+                        @Html.DropDownList("ste", STEP, "Bước thực hiện", new { @class = "form-control", title = "Bước thực hiện" })
+                    </div>
+                </div>
+                <div class="col-sm-1">
+                    <div class="form-group">
+                        @Html.DropDownList("ser", SERVICES, "Dịch vụ", new { @class = "form-control", title = "Dịch vụ" })
+                    </div>
+                </div>
+                <div class="col-sm-1">
+                    <div class="form-group">
+                        @Html.DropDownList("acc", ACCOUNTS, "Phụ trách", new { @class = "form-control", title = "Phụ trách" })
+                    </div>
+                </div>
+                <div class="col-sm-1">
+                    <div class="form-group">
+                        @Html.DropDownList("loai", LOAI, "Loại", new { @class = "form-control", title = "Loại" })
+                    </div>
+                </div>
+                <div class="col-lg-1">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-danger" style="height: 32px; width: 100px;">Tìm kiếm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-md-2" title="GTHĐ là tổng giá trị hợp đồng ký với khách hàng, không bao gồm thuế VAT hoặc TNCN">
+                    <label><i class="fa fa-solid fa-sigma"></i> GTHĐ: </label><br />
+                    @TotalGiaTriHopDong.ToString("N0")
+                </div>
+                <div class="col-md-2 text-success" title="Là các khoản khách hàng đã nộp tới hiện tại">
+                    <label><i class="fa fa-solid fa-sigma"></i> Đã Thu:</label> <br />
+                    @TotalDaThu.ToString("N0")
+                </div>
+                <div class="col-md-2" title="Giá trị hợp đồng - đã thu">
+                    <label><i class="fa fa-solid fa-sigma"></i> Phải thu: </label> <br />
+                    @TotalPhaiThu.ToString("N0")
+                </div>
+                <div class="col-md-2 text-danger" title="Đã chi là tổng các khoản chi cho hồ sơ đến hiện tại">
+                    <label><i class="fa fa-solid fa-sigma"></i> Đã chi: </label><br />
+                    @TotalDaChi.ToString("N0")
+                </div>
+                <div class="col-md-2 text-primary" title="Đã thu - đã chi">
+                    <label><i class="fa fa-solid fa-sigma"></i> Đã thu NET: </label><br />
+                    @TotalDaThuNet.ToString("N0")
+                </div>
+                <div class="col-md-2 text-warning" title="Giá trị hợp đồng - dự chi">
+                    <label><i class="fa fa-solid fa-sigma"></i> Dự thu NET: </label><br />
+                    @TotalDuThuNet.ToString("N0")
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<table class="table table-hover">
+    <tr>
+        <td colspan="9"></td>
+        <td>@SumGiaTriHopDong.ToString("N0")</td>
+        <td>@SumDaThu.ToString("N0")</td>
+        <td>@SumPhaiThu.ToString("N0")</td>
+        <td>@SumDuChi.ToString("N0")</td>
+        <td>@SumHoaHongNV.ToString("N0")</td>
+        <td>@SumHoaHongDT.ToString("N0")</td>
+        <td></td>
+        <td></td>
+        <td>@SumDaChi.ToString("N0")</td>
+        <td>@SumDaThuNet.ToString("N0")</td>
+        <td>@SumDuThuNet.ToString("N0")</td>
+        <td></td>
+    </tr>
+    <tr>
+        <th>Ngày ký</th>
+        <th>File hợp đồng</th>
+        <th>Tên khách hàng</th>
+        <th>Đối tác</th>
+        <th>Địa chỉ</th>
+        <th>Bước thực hiện</th>
+        <th>Dịch vụ</th>
+        <th>Phụ trách</th>
+        <th>Loại</th>
+        <th>Giá trị HĐ</th>
+        <th>Đã thu</th>
+        <th>Phải thu</th>
+        <th>Dự chi</th>
+        <th>Hoa hồng NV</th>
+        <th>Hoa hồng ĐT</th>
+        <th>ĐM Đo đạc</th>
+        <th>ĐM Thực hiện</th>
+        <th>Đã chi</th>
+        <th>Đã thu NET</th>
+        <th>Dự thu NET</th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        var temp = db.vCalculatorMoneys.Where(x => x.contract_id == item.id).ToArray();
+        var taked_amount = temp != null ? temp.Where(x => x.type == (int)XCategory.eType.Thu).Sum(x => x.amount) : 0;
+        var spent_amount = temp != null ? temp.Where(x => x.type == (int)XCategory.eType.Chi).Sum(x => x.amount) : 0;
+        var profit_amount = taked_amount - spent_amount;
+        <tr id="ctr@(item.id)">
+            <td>@item.time.ToString("dd/MM/yy")</td>
+            <td id="contract@(item.id)">
+                @if (string.IsNullOrEmpty(item.HardFileLink))
+                {
+                    <a class="view aHardFile fa fa-eye text-danger" href="#">No File</a>
+                }
+                else
+                {
+                    <a class="view aHardFile fa fa-eye" href="@item.HardFileLink" target="_blank">Xem file</a>
+                } |
+                <a class="fa fa-save" onclick="HardFileUpdate(@item.id)"> Sửa file</a>
+            </td>
+            <td>
+                @Html.ActionLink(item.customer_name, "Details", new { id = item.id })
+            </td>
+            <td>
+                @item.partner_name
+            </td>
+            <td>                @item.address_name            </td>
+            <td>                @item.step_name </td>
+            <td>                @item.service_name </td>
+            <td>                @item.fullname </td>
+            <td>                @XContract.sLoai[item.loai] </td>
+            <td>                @item.amount.ToString("N0")            </td>
+            <td class="text-success" onclick="ShowInOut(@item.id, @((int)XCategory.eType.Thu))">
+                @taked_amount.ToString("N0")
+            </td>
+            <td>                @((item.amount - taked_amount).ToString("N0"))            </td>
+            <td>                @item.consuming.ToString("N0")</td>
+            <td class="text-danger">
+                @if (item.rose > 0)
+                {
+                    @item.rose.ToString("N0")
+                    if (temp.Any(x => x.category_id == cateRose.id))
+                    {
+                        <button class="btn btn-default">Đã duyệt</button>
+                    }
+                    else
+                    {
+                        <button class="btn btn-warning" onclick="DuyetChi(@item.id,@cateRose.id);">Duyệt chi</button>
+                    }
+                }
+            </td>
+            <td class="text-danger">
+                @if (item.outrose > 0)
+                {
+                    @item.outrose.ToString("N0")
+                    if (temp.Any(x => x.category_id == catePartner.id))
+                    {
+                        <button class="btn btn-default">Đã duyệt</button>
+                    }
+                    else
+                    {
+                        <button class="btn btn-warning" onclick="DuyetChi(@item.id,@catePartner.id);">Duyệt chi</button>
+                    }
+                }
+            </td>
+            <td class="text-danger">
+                @if (item.dove > 0)
+                {
+                    @item.dove.ToString("N0")
+                    if (temp.Any(x => x.category_id == cateDove.id))
+                    {
+                        <button class="btn btn-default">Đã duyệt</button>
+                    }
+                    else
+                    {
+                        <button class="btn btn-warning" onclick="DuyetChi(@item.id,@cateDove.id);">Duyệt chi</button>
+                    }
+                }
+            </td>
+            <td class="text-danger">
+                @{
+                    var remunerate = temp.Where(x => x.category_id == cateRemunerate.id).Sum(x => x.amount);
+                }
+                @if (remunerate > 0)
+                {
+                    @remunerate
+                    <button class="btn btn-default">Đã duyệt</button>
+                }
+                else
+                {
+                    <button class="btn btn-warning" onclick="DuyetChi(@item.id,@cateRemunerate.id);">Duyệt chi</button>
+                }
+            </td>
+            <td onclick="ShowInOut(@item.id, @((int)XCategory.eType.Chi))">
+                @spent_amount.ToString("N0")
+            </td>
+            <td>
+                @profit_amount.ToString("N0")
+            </td>
+            <td>
+                @((item.amount - item.consuming).ToString("N0"))
+            </td>
+            <td>
+                @if (item.status == (int)XContract.eStatus.Processing)
+                {
+                    @Html.ActionLink("Thu chi ", "Create", "InOuts", new { id = item.id }, new { style = "background-color:aliceblue;color:deeppink;" })
+                    @Html.Raw(" |")
+                    @Html.ActionLink("Sửa", "Edit", new { id = item.id })
+                    @Html.Raw(" |")
+                    @Html.ActionLink("Xóa", "Delete", new { id = item.id })
+                }
+            </td>
+        </tr>
+    }
+</table>
+@if (Model.PageCount > 1)
+{
+    <div class="row" style="margin-top: 10px;">
+        <div class="col-sm-1">
+            Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+        </div>
+        <div class="col-sm-10">
+            @Html.PagedListPager(Model, Page_No => Url.Action("Index", new { Page_No, Filter_Value = ViewBag.FilterValue, add = ViewBag.ADD, ser = ViewBag.SER, par = ViewBag.PAR, sta = ViewBag.STA }))
+        </div>
+    </div>
+}
+@Html.Partial("../Shared/Modals/_InOutDetail")
+@Html.Partial("_ModalHardFileUpdate")
+@Html.Partial("_ModalCreateDuyetChi")
+<style>
+    table .btn {
+        padding: 4px 6px 2px;
+    }
+
+    table .form-control {
+        font-size: 12px;
+    }
+
+    .col-md-8 .col-sm-1, .col-md-4 .col-md-2 {
+        padding-right: 5px;
+        padding-left: 5px;
+    }
+</style>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/nicehandle.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(".datetime").datepicker({
+                "autoclose": true,
+                "todayHighlight": true,
+                "dateFormat": "dd/mm/yyyy",
+                "format": "dd/mm/yyyy",
+            }).datepicker();
+        });
+
+        function Print() {
+            var Search_Data = $("#Search_Data").val();
+            var account_id = $("#account_id").val();
+            var type = $("#type").val();
+            var category_id = $("#category_id").val();
+            var fromdate = $("#fromdate").val();
+            var todate = $("#todate").val();
+
+            $.ajax({
+                url: '/Inouts/BanInThuChi',
+                data: {
+                    Search_Data: Search_Data,
+                    account_id: account_id,
+                    type: type,
+                    category_id: category_id,
+                    fromdate: fromdate,
+                    todate: todate
+                },
+                type: "GET",
+                dataType: "JSON",
+                success: function (url) {
+                    document.getElementById('my_iframe').src = url;
+                }
+            });
+        }
+        function ShowInOut(contract_id, type) {
+            $("#mdInOutDetail iframe").attr("src", "/InOuts/InOutDetail?contract_id=" + contract_id + "&type=" + type);
+            $("#mdInOutDetail").modal("show");
+        }
+    </script>
+}

@@ -1,0 +1,204 @@
+﻿@model PagedList.IPagedList<NiceHandles.Models.vHoSo>
+@using PagedList.Mvc;
+@using NiceHandles.Models
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Hồ sơ đã hoàn thành";
+    var db = new NiceHandles.Models.NHModel();
+    //var accounts = db.Accounts.Where(x => x.hasNote == (int)XModels.eYesNo.Yes).ToArray();
+    int? group = null;
+    if (ViewBag.GROUP != null)
+    {
+        group = (int)ViewBag.GROUP;
+    }
+}
+<div class="row">
+    <div class="col-md-12">
+        <h3>KHO LƯU</h3>
+        <h4>
+            @Html.ActionLink(" DANH SÁCH HỒ SƠ", "index", "hosoes", new { group = group }, new { @class = "fa fa-folders", @style = "margin-right: 15px;" })
+            @Html.ActionLink(" DANH SÁCH ĐÃ NỘP 1 CỬA", "index", "di1cua", new { group = group }, new { @class = "fa fa-clipboard-list-check", @style = "margin-right: 15px;" })
+            @Html.ActionLink(" DANH SÁCH ĐÃ HOÀN THÀNH", "kholuu", "hosoes", new { group = group }, new { @class = "fa fa-archive", @style = "color: #c9302c;margin-right: 15px;" })
+            @Html.ActionLink(" DANH SÁCH ĐANG ĐƠN THƯ", "DSDonThu", "di1cua", new { group = group }, new { @class = "fa fa-volume" })
+        </h4>
+        @using (Html.BeginForm("KhoLuu", "Hosoes", FormMethod.Get))
+        {
+            @Html.Hidden("group", ViewBag.GROUP as string)
+            <div class="row">
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        @Html.TextBox("Search_Data", ViewBag.FilterValue as string, new { @class = "form-control", placeholder = "Từ khóa" })
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        @Html.DropDownList("par", ViewBag.PARTNER as SelectList, "--- Đối tác ---", new { @class = "form-control", title = "Đối tác" })
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        @Html.DropDownList("add", ViewBag.ADDRESS as SelectList, "--- Địa chỉ ---", new { @class = "form-control", title = "Địa chỉ" })
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        @Html.DropDownList("ser", ViewBag.SERVICES as SelectList, "--- Dịch vụ ---", new { @class = "form-control", title = "Dịch vụ" })
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        @Html.DropDownList("uq", ViewBag.UYQUYENS as SelectList, "--- Phụ trách ---", new { @class = "form-control", title = "Người thực hiện" })
+                    </div>
+                </div>
+                <div class="col-sm-1">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-danger fa fa-search" style="height: 32px; width: 100px;"> Tìm kiếm</button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>
+                Tên khách hàng
+            </th>
+            <th>
+                Số điện thoại
+            </th>
+            <th>
+                Địa chỉ
+            </th>
+            <th>
+                Dịch vụ
+            </th>
+            <th>
+                Phụ trách
+            </th>
+            <th class="fixicon" title="Các hàng thừa kế">
+                <i class="fa fa-sitemap"></i><br />Gia phả
+            </th>
+            <th class="fixicon" title="Mảnh trích đo địa chính">
+                <i class="fa fa-map"></i><br />Bản vẽ
+            </th>
+            <th class="fixicon" title="Giấy tờ hộ tích">
+                <i class="fa fa-passport"></i><br />Hộ tịch
+            </th>
+            <th title="Ngày tạo">
+                Ngày tạo
+            </th>
+            <th>
+                Ngày hoàn thành
+            </th>
+            <th>
+                Ngày nhận
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr id="hs@(item.id)">
+                <td>
+                    <a href='/hosoes/details?id=@(item.id)'>@item.name</a>
+                </td>
+                <td title="@item.sodienthoai_mota">
+                    @item.sodienthoai
+                </td>
+                <td>
+                    @item.address_name
+                </td>
+                <td>
+                    @item.service_name
+                </td>
+                <td>
+                    @item.account_name
+                </td>
+                <td>
+                    <a class="fa fa-file-pdf text-primary" onclick="ShowHoSoSession(@item.id, @((int)XProgress.eType.GiaPha));"></a>
+                </td>
+                <td>
+                    <a class="fa fa-file-pdf text-primary" onclick="ShowHoSoSession(@item.id, @((int)XProgress.eType.BanVe));"></a>
+                </td>
+                <td>
+                    <a class="fa fa-file-pdf text-primary" onclick="ShowHoSoSession(@item.id, @((int)XProgress.eType.GiayToHoTich));"></a>
+                </td>
+                <td>
+                    @item.time_created.ToString("dd/MM/yyyy")
+                </td>
+                <td>
+                    @Html.Raw(item.time_complete.HasValue ? item.time_complete.Value.ToString("dd/MM/yyyy") : null)
+                </td>
+                <td>
+                    @item.time.ToString("dd/MM/yy")
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@if (Model.PageCount > 1)
+{
+    <div class="row" style="margin-top: 10px;">
+        <div class="col-sm-1">
+            Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+        </div>
+        <div class="col-sm-10">
+            @Html.PagedListPager(Model, Page_No => Url.Action("KhoLuu", new { Page_No, Filter_Value = ViewBag.FilterValue, add = ViewBag.ADD, uq = ViewBag.UQ, ser = ViewBag.SER, par = ViewBag.PAR }))
+        </div>
+    </div>
+}
+
+@Html.Partial("../Shared/Modals/_ModalNH")
+<iframe id="my_iframe" style="display:none;"></iframe>
+@section Style {
+    <style>
+        .tooltip-inner {
+            min-width: 800px; /* the minimum width */
+        }
+
+        table .fa {
+            font-size: 18px;
+        }
+
+        table a.fa {
+            cursor: pointer;
+        }
+
+        .fixicon {
+            width: 80px;
+        }
+
+        td .fa {
+            width: 30px;
+            display: inline-block;
+            text-align: center
+        }
+    </style>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        var current;
+        $(document).ready(function () {
+        });
+
+        function DSCongViec() {
+            $.ajax({
+                url: '/Contracts/DSCongViec',
+                type: "POST",
+                dataType: "JSON",
+                data: {},
+                success: function (url) {
+                    document.getElementById('my_iframe').src = url;
+                },
+                error: function () {
+                    toastr.success("Phát sinh lỗi", "Không lấy được danh sách", { timeOut: 5000 });
+                }
+            });
+        }
+    </script>
+}

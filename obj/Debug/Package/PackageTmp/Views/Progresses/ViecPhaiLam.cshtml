@@ -1,0 +1,53 @@
+﻿@model NiceHandles.Models.xTemp
+@using NiceHandles.Models
+@using Microsoft.AspNet.Identity;
+@{
+    var db = new NHModel();
+    var username = User.Identity.GetUserName();
+    var us = db.Accounts.Where(x => x.UserName.Equals(username)).Single();
+    var progress = db.Progresses.FirstOrDefault(x => x.type == Model.int2);
+}
+<div class="row alarm">
+    <div class="col-md-9">
+        <div class="row form-horizontal">
+            <div class="col-md-3" style="text-align: right;">
+                <p> <i class="fa fa-alarm-clock icon"></i></p>
+            </div>
+            <div class="col-md-9">
+                <p> <strong><i>Lịch nhắc nhớ</i></strong></p>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-3">Nội dung</label>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" name="viecphailam_name" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-3">Ngày nhắc</label>
+                <div class="col-md-9">
+                    <input type="text" class="datetime form-control" autocomplete="off" name="viecphailam_time" />
+                </div>
+            </div><div class="form-group">
+                <label class="control-label col-md-3">Người thực hiện</label>
+                <div class="col-md-9">
+                    @Html.DropDownList("viecphailam_account_id", new SelectList(db.Accounts.Where(x => x.sta == (int)XAccount.eStatus.Processing), "id", "fullname", us.id), new { @class = "form-control", name = "viecphailam_account_id" })
+                </div>
+            </div><div class="form-group">
+                <label class="control-label col-md-3">Loại chuông</label>
+                <div class="col-md-9">
+                    @Html.DropDownList("viecphailam_bell_type", new SelectList(XProgress.sBellType, "Key", "Value"), new { @class = "form-control", name = "viecphailam_bell_type" })
+                </div>
+            </div>
+            <div class="col-md-offset-3 col-md-4">
+                <button class="btn btn-primary" onclick="TaoLich( @Model.int1, @(Model.int2));">Tạo lịch</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <p></p>
+        <div class="note">
+            <i class="fal fa-lightbulb-on icon" style="color: crimson;"></i>
+            <i>  @progress.note</i>
+        </div>
+    </div>
+</div>

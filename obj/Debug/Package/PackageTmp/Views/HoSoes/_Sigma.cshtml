@@ -1,0 +1,17 @@
+﻿@{
+    int chosomoi = ViewBag.chosomoi, cdonthu = ViewBag.cdonthu,
+        cbosung = ViewBag.cbosung, choanthien = ViewBag.choanthien, c1cua = ViewBag.c1cua, ctong = ViewBag.ctong;
+}
+<h3> <i class="fa fa-solid fa-sigma"></i></h3>
+<div class="row">
+    <div class="col-md-6">
+        <p> Hồ sơ mới: <b> @chosomoi </b></p>
+        <p> Hồ sơ đo vẽ:<b> @cbosung </b></p>
+        <p> Hồ sơ hoàn thiện:<b> @choanthien </b></p>
+    </div>
+    <div class="col-md-6">
+        <p> Hồ sơ nộp 1 cửa:<b> @c1cua </b></p>
+        <p> Hồ sơ đang đơn thư:<b> @cdonthu </b></p>
+        <p class="text-danger"> <b>Tổng: @ctong </b></p>
+    </div>
+</div>

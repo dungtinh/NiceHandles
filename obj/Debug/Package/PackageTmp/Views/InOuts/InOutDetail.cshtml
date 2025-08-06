@@ -1,0 +1,41 @@
+﻿@model IEnumerable<NiceHandles.Models.vInOut>
+@{
+    Layout = "~/Views/Shared/_LayoutSetting.cshtml";
+}
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>
+                Người thực hiện
+            </th>
+            <th>
+                Loại chi tiết
+            </th>
+            <th>
+                Thời gian
+            </th>
+            <th>
+                Số tiền
+            </th>
+            <th>
+                Ghi chú
+            </th>
+            <th>
+                Trạng thái
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.disname</td>
+                <td>@item.name</td>
+                <td>@item.time.ToString("dd/MM/yyyy")</td>
+                <td>@item.amount.ToString("N0")</td>
+                <td>@item.note</td>
+                <td>@NiceHandles.Models.XInOut.sStatus[item.status]</td>
+            </tr>
+        }
+    </tbody>
+</table>

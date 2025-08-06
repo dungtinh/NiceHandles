@@ -1,0 +1,475 @@
+﻿@model NiceHandles.Models.Contract
+@using NiceHandles.Models
+@{
+    ViewBag.Title = "Chi tiết";
+
+    var db = new NHModel();
+    var lstWF = db.wf_contract.Where(x => x.contract_id == Model.id).ToList();
+    var partner = db.Partners.Find(Model.partner);
+    var nguoiky = db.Accounts.Find(Model.nguoiky_id);
+    var service = db.Services.Find(Model.service_id);
+
+    //Summery
+    //Tạm ứng
+    var cateTamUng = db.Categories.Where(x => x.tamung == (int)XCategory.eTamUng.Yes).Select(x => x.id).ToArray();
+
+    var summery = (from io in db.InOuts
+                   where
+                   io.status == (int)XInOut.eStatus.DaThucHien &&
+                   io.contract_id == Model.id
+                   select new { io.amount, io.type, io.category_id });
+    var summeryInout = summery.Where(x => !cateTamUng.Contains(x.category_id)).ToList();
+    var tempTamUng = summery.Where(x => x.type == (int)XCategory.eType.Chi && cateTamUng.Contains(x.category_id));
+    var TamUng = tempTamUng.Count() > 0 ? tempTamUng.Sum(x => x.amount) : 0;
+    var tempTamUngThu = summery.Where(x => x.type == (int)XCategory.eType.Thu && cateTamUng.Contains(x.category_id));
+    var TamUngThu = tempTamUngThu.Count() > 0 ? tempTamUngThu.Sum(x => x.amount) : 0;
+
+    var TotalDaThu = summeryInout.Where(x => x.type == (int)XCategory.eType.Thu).Sum(x => x.amount);
+    var TotalPhaiThu = Model.amount - TotalDaThu;
+    var TotalDaChi = summeryInout.Where(x => x.type == (int)XCategory.eType.Chi).Sum(x => x.amount);
+    TotalDaChi -= TamUngThu;
+
+    var TotalDaThuNet = TotalDaThu - TotalDaChi;
+    var TotalDuThuNet = Model.amount - Model.consuming;
+    //
+    var hosoes = db.HoSoes.Where(x => x.contract_id == Model.id);
+    // Inout
+    var lst_xsinouts = db.InOuts.Where(x => x.contract_id == Model.id);
+    var address = db.Addresses.Find(Model.address_id);
+    // Thưởng
+    var categoryDove = db.Categories.Single(x => x.kind == (int)XCategory.eKind.Dove);
+    var thuongdove = db.InOuts.Where(x => x.category_id == categoryDove.id && x.contract_id == Model.id);
+    var categoryRe = db.Categories.Single(x => x.kind == (int)XCategory.eKind.Remunerate);
+    var thuongRe = db.InOuts.Where(x => x.category_id == categoryRe.id && x.contract_id == Model.id);
+    var doveRemain = thuongdove.Count() > 0 ? (long)Model.dove - thuongdove.Sum(x => x.amount) : (long)Model.dove;
+    var thuchienRemain = thuongRe.Count() > 0 ? (long)Model.remunerate - thuongRe.Sum(x => x.amount) : (long)Model.remunerate;
+}
+<h2 class="text-primary">@Model.name - <span class="text-danger">Mã HĐ: @Model.code</span> </h2>
+<div class="row">
+    <div class="col-md-8">
+        <div class="row">
+            <div class="col-md-6">
+                <h4 style="margin-bottom: 5px;">Hồ sơ theo hợp đồng này</h4>
+                <ul style="padding: 0; margin: 0; margin-bottom: 5px;">
+                    <li style="list-style: none;">
+                        @Html.ActionLink("Thêm mới", "create", "hosoes", new { contract_id = Model.id }, new { @style = "background-color: aliceblue;" })
+                    </li>
+                    @foreach (var hs in hosoes)
+                    {
+                        <li style="margin-left: 15px;">
+                            <hr style="margin-top: 3px; margin-bottom: 3px;" />
+                            @Html.ActionLink(hs.name, "details", "hosoes", new { id = hs.id }, new { @class = "col-md-7" })
+                            @Html.ActionLink("Sửa", "edit", "hosoes", new { id = hs.id }, null) |
+                            @Html.ActionLink("Hủy", "delete", "hosoes", new { id = hs.id }, new { @class = "text-danger" })
+                        </li>
+                    }
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <h4>Trạng thái hợp đồng: <span style="color:#222"> @XContract.sStatus[Model.status] </span></h4>
+            </div>
+        </div>
+        <div class="row" style="border: 1px solid #0094ff; border-radius: 10px;">
+            <div class="col-md-6">
+                <dl class="dl-horizontal">
+                    <dt>Khách hàng</dt>
+                    <dd>@Model.name</dd>
+                    <dt>Địa chỉ</dt>
+                    <dd>@address.name</dd>
+                    <dt>Đối tác</dt>
+                    <dd>@partner.name</dd>
+                    <dt>Người ký</dt>
+                    <dd>@nguoiky.fullname </dd>
+                    <dt>Ngày ký</dt>
+                    <dd>@Model.time.ToString("dd/MM/yyyy")</dd>
+                    <dt>Hạn hoàn thành</dt>
+                    <dd>@Model.time.AddDays(Model.time_exp).ToString("dd/MM/yyyy")</dd>
+                    <dt>Số ngày đã thực hiện</dt>
+                    <dd>@( (int)(DateTime.Now - Model.time).TotalDays)</dd>
+                    <dt>Số ngày quá hạn</dt>
+                    <dd>@Html.Raw((DateTime.Now - Model.time.AddDays(Model.time_exp)).TotalDays > 0 ? ((int)((DateTime.Now - Model.time.AddDays(Model.time_exp)).TotalDays)).ToString() : "-")</dd>
+                    <dt>Tải file hợp đồng</dt>
+                    <dd id="contract@(Model.id)">
+                        @if (string.IsNullOrEmpty(Model.HardFileLink))
+                        {
+                            <a class="aHardFile view fa fa-eye text-danger" href="#">No File</a>
+                        }
+                        else
+                        {
+                            <a class="aHardFile view fa fa-eye" href="@Model.HardFileLink" target="_blank">Xem file</a>
+                        } |
+                        <a class="fa fa-save" onclick="HardFileUpdate(@Model.id)"> Up file</a>
+                    </dd>
+                </dl>
+            </div>
+            <div class="col-md-6">
+                <dl class="dl-horizontal">
+                    <dt>Dịch vụ</dt>
+                    <dd>@service.name</dd>
+                    <dt>Mức độ ưu tiên</dt>
+                    <dd>@XContract.sPriority[Model.Priority]</dd>
+                    <dt>Giá trị hợp đồng</dt>
+                    <dd>@Model.amount.ToString("N0")</dd>
+                    <dt>Dự chi</dt>
+                    <dd>@Model.consuming.ToString("N0")</dd>
+                    <dt>Đã thu</dt>
+                    <dd>@TotalDaThu.ToString("N0")</dd>
+                    <dt>Phải thu</dt>
+                    <dd class="text-danger"><b>@(TotalPhaiThu.ToString("N0") + " + " + TamUng.ToString("N0") + " = " + (TotalPhaiThu + TamUng).ToString("N0"))</b></dd>
+                    <dt>Đã chi</dt>
+                    <dd>@TotalDaChi.ToString("N0")</dd>
+                    <dt>Đã thu NET</dt>
+                    <dd>@TotalDaThuNet.ToString("N0") </dd>
+                    <dt>Dự thu NET</dt>
+                    <dd>@TotalDuThuNet.ToString("N0")</dd>
+                </dl>
+            </div>
+
+            @if (!string.IsNullOrEmpty(Model.note))
+            {
+                <div class="col-md-12 text-danger">
+                    @Html.Raw(Model.note)
+                </div>
+            }
+
+        </div>
+        <p>
+            @Html.ActionLink("Chỉnh sửa", "Edit", new { id = Model.id }) |
+            @Html.ActionLink("Về danh sách", "Index")
+        </p>
+    </div>
+    <div class="col-md-4">
+        <div id="chartContainer" style="height: 250px; width: 100%;"></div>
+        <h4 style="text-align: center">Tiến độ thực hiện</h4>
+    </div>
+</div>
+<div class="row block">
+    <div class="col-sm-12">
+        <h4>Thu chi</h4>
+        <hr />
+        <p>
+            @*@Html.ActionLink("Thêm mới", "CreateContract", "InOuts", new { contract_id = Model.id }, new { @class = "btn btn-primary" })*@
+            <a href="#" class="btn btn btn-primary" onclick="DuyetChi(@Model.id,null);">Thêm mới</a>
+        </p>
+        <table class="table table-hover">
+            <tr>
+                <th>
+                    Loại thu chi
+                </th>
+                <th>
+                    Người thực hiện
+                </th>
+                <th>
+                    Số tiền
+                </th>
+                <th>
+                    Ghi chú
+                </th>
+                <th>
+                    Thời gian
+                </th>
+                <th>
+                    Trạng thái
+                </th>
+            </tr>
+            @foreach (var item in lst_xsinouts)
+            {
+                var category = db.Categories.Find(item.category_id);
+                var account = db.Accounts.Find(item.account_id);
+                var cls = string.Empty;
+                if (item.type == (int)XCategory.eType.Chi)
+                {
+                    cls = "text-danger";
+                    if (category.tamung == (int)XCategory.eTamUng.Yes)
+                    {
+                        cls = "text-danger bg-danger";
+                    }
+                }
+                else
+                {
+                    if (category.tamung == (int)XCategory.eTamUng.No)
+                    {
+                        cls = "bg-success";
+                    }
+                }
+                <tr class="@cls">
+                    <td>
+                        @category.name
+                    </td>
+                    <td>
+                        @account.fullname
+                    </td>
+                    <td>
+                        @item.amount.ToString("N0")
+                    </td>
+                    <td>
+                        @item.note
+                    </td>
+                    <td>
+                        @item.time.ToString("dd/MM/yyyy")
+                    </td>
+                    <td>
+                        @XInOut.sStatus[item.status]
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <h4>Thưởng đo vẽ</h4>
+        <hr />
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.Label("Người nhận", new { @class = "control-label col-md-2" })
+                <div class="col-md-8">
+                    @Html.DropDownList("tdv_account_id", new SelectList(db.Accounts.Where(x => x.sta == (int)XAccount.eStatus.Processing), "id", "fullname", 19), new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("Số tiền", new { @class = "control-label col-md-2" })
+                <div class="col-md-8">
+                    @Html.TextBox("tdv_amount", doveRemain, new { @class = "form-control numberic", style = "background-color: pink;" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-8">
+                    <input type="button" id="btnThuongDoVe" value="Thêm mới" class="btn btn-default" />
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("lblDMDV", "Định mức thưởng: " + Model.dove.ToString("N0"), new { @class = "control-label" })
+                @if (thuongdove.Count() > 0)
+                {
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>
+                                Người nhận
+                            </th>
+                            <th>
+                                Loại
+                            </th>
+                            <th>
+                                Thời gian
+                            </th>
+                            <th>
+                                Số tiền
+                            </th>
+                            <th>
+                                Trạng thái
+                            </th>
+                        </tr>
+                        @foreach (var item in thuongdove)
+                        {
+                            var accountDove = db.Accounts.Find(item.account_id);
+                            <tr>
+                                <td>
+                                    @accountDove.fullname
+                                </td>
+                                <td>
+                                    @categoryDove.name
+                                </td>
+                                <td>
+                                    @item.time.ToString("dd/MM/yyyy")
+                                </td>
+                                <td>
+                                    @item.amount.ToString("N0")
+                                </td>
+                                <td>
+                                    @XInOut.sStatus[item.status]
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <h4>Thưởng thực hiện</h4>
+        <hr />
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.Label("Người nhận", new { @class = "control-label col-md-2" })
+                <div class="col-md-8">
+                    @Html.DropDownList("tth_account_id", new SelectList(db.Accounts.Where(x => x.sta == (int)XAccount.eStatus.Processing), "id", "fullname", Model.account_id), new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("Số tiền", new { @class = "control-label col-md-2" })
+                <div class="col-md-8">
+                    @Html.TextBox("tth_amount", thuchienRemain, new { @class = "form-control numberic", style = "background-color: pink;" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-8">
+                    <input type="button" id="btnThuongThucHien" value="Thêm mới" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("lblDMTH", "Định mức thưởng: " + Model.remunerate.ToString("N0"), new { @class = "control-label" })
+            @if (thuongRe.Count() > 0)
+            {
+                <table class="table table-bordered">
+                    <tr>
+                        <th>
+                            Người nhận
+                        </th>
+                        <th>
+                            Loại
+                        </th>
+                        <th>
+                            Thời gian
+                        </th>
+                        <th>
+                            Số tiền
+                        </th>
+                        <th>
+                            Trạng thái
+                        </th>
+                    </tr>
+                    @foreach (var item in thuongRe)
+                    {
+                        var accountRe = db.Accounts.Find(item.account_id);
+                        <tr>
+                            <td>
+                                @accountRe.fullname
+                            </td>
+                            <td>
+                                @categoryRe.name
+                            </td>
+                            <td>
+                                @item.time.ToString("dd/MM/yyyy")
+                            </td>
+                            <td>
+                                @item.amount.ToString("N0")
+                            </td>
+                            <td>
+                                @XInOut.sStatus[item.status]
+                            </td>
+                        </tr>
+                    }
+                </table>
+            }
+        </div>
+    </div>
+</div>
+<div class="row block">
+    <div class="col-sm-12">
+        <h4> Quá trình </h4>
+        <hr />
+        <p>
+            @Html.ActionLink("Thêm mới", "Create", "wf_contract", new { id = Model.id }, new { @class = "btn btn-primary" })
+        </p>
+        <table class="table table-hover">
+            <tr>
+                <th>
+                    Người thực hiện
+                </th>
+                <th>
+                    Thời gian
+                </th>
+                <th>
+                    Ghi chú
+                </th>
+                <th>
+                    Trạng thái
+                </th>
+            </tr>
+            @foreach (var item in lstWF)
+            {
+                var account = db.Accounts.Find(item.account_id);
+                <tr>
+                    <td>
+                        @account.fullname
+                    </td>
+                    <td>
+                        @item.time.ToString("dd/MM/yyyy")
+                    </td>
+                    <td>
+                        @item.note
+                    </td>
+                    <td>
+                        @NiceHandles.Models.Xwf_contract.sStatus[item.status]
+                    </td>
+                </tr>
+            }
+        </table>
+
+    </div>
+</div>
+@Html.Partial("_ModalHardFileUpdate")
+@Html.Partial("_ModalCreateDuyetChi")
+<iframe id="my_iframe" style="display:none;"></iframe>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/moment.min.js"></script>
+    <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+    <script src="~/Scripts/nicehandle.js"></script>
+    <script>
+        function Download(document_id, hoso_id) {
+            $.ajax({
+                url: '/Infomations/Download',
+                data: { document_id: document_id, hoso_id: hoso_id },
+                type: "GET",
+                dataType: "JSON",
+                success: function (url) {
+                    document.getElementById('my_iframe').src = url;
+                }
+            });
+        }
+        $(document).ready(function () {
+            $("#btnThuongDoVe").click(function () {
+                var amount = $("#tdv_amount").autoNumeric('get') || 0;
+                var account_id = $("#tdv_account_id").val();
+                $.ajax({
+                    url: '/Contracts/ThuongDoVe',
+                    data: { amount: amount, account_id: account_id, contract_id: @Model.id },
+                    type: "GET",
+                    dataType: "JSON",
+                    success: function () {
+                        location.reload();
+                    }
+                });
+            });
+            $("#btnThuongThucHien").click(function () {
+                var amount = $("#tth_amount").autoNumeric('get') || 0;
+                var account_id = $("#tth_account_id").val();
+                $.ajax({
+                    url: '/Contracts/ThuongThucHien',
+                    data: { amount: amount, account_id: account_id, contract_id: @Model.id },
+                    type: "GET",
+                    dataType: "JSON",
+                    success: function () {
+                        location.reload();
+                    }
+                });
+            });
+            var chart = new CanvasJS.Chart("chartContainer", {
+                animationEnabled: true,
+                title: {
+                    /*text: "17%",*/
+                    horizontalAlign: "center",
+                },
+                data: [{
+                    type: "doughnut",
+                    startAngle: 50,
+                    innerRadius: 50,
+                    indexLabelFontSize: 17,
+                    //indexLabel: "{label} - #percent%",
+                    //toolTipContent: "<b>{label}:</b> {y} (#percent%)",
+                    dataPoints: [
+                        { y: 1, label: "" },
+                        { y: 3, label: "" },
+                    ]
+                }]
+            });
+            chart.render();
+            $('#mdlCreateDuyetChi').on('hidden.bs.modal', function () {
+                location.reload();
+            });
+        });
+    </script>
+}

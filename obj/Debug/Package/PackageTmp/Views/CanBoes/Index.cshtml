@@ -1,0 +1,61 @@
+﻿@model IEnumerable<NiceHandles.Models.CanBo>
+@using NiceHandles.Models
+@{
+    ViewBag.Title = "Danh sách cán bộ VPĐKĐĐ";
+    Layout = "~/Views/Shared/_LayoutSetting.cshtml";
+}
+
+<h2>Danh sách cán bộ VPĐKĐĐ</h2>
+
+<p>
+    @Html.ActionLink("Thêm mới", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Họ tên
+        </th>
+        <th>
+            Số điện thoại
+        </th>
+        <th>
+            Nơi phụ trách
+        </th>
+        <th>
+            Một cửa
+        </th>
+        <th>
+            Thứ tự
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        var db = ViewBag.db as NHModel;
+        var address = db.fk_CanBo_Address.Where(x => x.canbo_id == item.id).Select(x => x.address_id).ToArray();
+        var str_address = string.Join(", ", db.Addresses.Where(x => address.Contains(x.id)).Select(x => x.name));
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.phone)
+            </td>
+            <td>
+                @str_address
+            </td>
+            <td>
+                @XModels.sYesNo[item.motcua.Value]
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.thutu)
+            </td>
+            <td>
+                @Html.ActionLink("Sửa", "Edit", new { id = item.id }) |
+                @Html.ActionLink("Xóa", "Delete", new { id = item.id })
+            </td>
+        </tr>
+    }
+
+</table>

@@ -1,0 +1,39 @@
+﻿
+@model IEnumerable<NiceHandles.Models.Setting>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>List Settings</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Mã
+        </th>
+        <th>
+            Giá trị
+        </th>
+    <tr>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.code)
+            </td>
+            <td>
+                @Html.DisplayNameFor(model => model.data)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.id })
+            </td>
+        </tr>
+    }
+
+    </table>

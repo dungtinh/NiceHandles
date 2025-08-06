@@ -1,0 +1,254 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var db = new NHModel();
+    var lstCuocHop = db.CuocHops.Where(x => x.time > DateTime.Now).OrderByDescending(x => x.time).ToArray();
+    //QUÁ HẠN
+    var step = db.Steps.Single(x => x.code.Equals("NOP1CUA"));
+    var lst1cua = db.vDi1Cua.Where(x => x.ngaytra < DateTime.Now && x.status < (int)XHoSo.eStatus.Complete).OrderBy(x => x.account_id).ToArray();
+}
+@using NiceHandles.Models
+<h1 class="text-primary">PHẦN MỀM HỖ TRỢ CÔNG VIỆC</h1>
+<fieldset class="fs">
+    <legend>Lịch làm việc</legend>
+    <div class="row">
+        <div class="col-md-12">
+            <iframe src="https://calendar.google.com/calendar/embed?src=b2a72729b45a30e7e69f9e3bfe9684f97050d97c941c3b689abfa013e3e8e4af%40group.calendar.google.com&ctz=Asia%2FHo_Chi_Minh" style="border: 0" width="100%" height="800" frameborder="0" scrolling="no"></iframe>
+        </div>
+    </div>
+</fieldset>
+<fieldset class="fs">
+    <legend>GHI CHÚ VÀ BẢNG THÔNG BÁO</legend>
+    <div class="row">
+        <div class="col-md-6">
+            @Html.TextArea("txtStickey", ViewBag.NOTE as string, new { @class = "form-control summernote_save col-sm-6", @style = "resize: vertical;", @rows = 20 })
+        </div>
+        <div class="col-md-6" style="max-height: 550px; overflow-y: scroll;">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            Công việc
+                        </th>
+                        <th>
+                            Nội dung
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="notices">
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</fieldset>
+<fieldset class="fs">
+    <legend>Lịch họp</legend>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>
+                    Hồ sơ
+                </th>
+                <th>
+                    Vấn đề
+                </th>
+                <th>
+                    Thành phần
+                </th>
+                <th>
+                    Người yêu cầu
+                </th>
+                <th>
+                    Giờ họp
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < lstCuocHop.Length; i++)
+            {
+                var cuochop = lstCuocHop[i];
+                var nguoiyeucau = db.Accounts.Find(lstCuocHop[i].taoboi);
+                var thanhphan_ids = db.NguoiHops.Where(x => x.cuochop_id == cuochop.id).Select(x => x.account_id).ToArray();
+                var thanhphans = db.Accounts.Where(x => thanhphan_ids.Contains(x.id)).ToArray();
+                <tr>
+                    <td>@lstCuocHop[i].name </td>
+                    <td>@lstCuocHop[i].vande </td>
+                    <td>@string.Join(";", thanhphans.Select(x => x.fullname)) </td>
+                    <td>@nguoiyeucau.fullname </td>
+                    <td>@lstCuocHop[i].time.ToString("HH:mm dd/MM/yyyy")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</fieldset>
+
+<fieldset class="fs">
+    <legend>Hồ sơ quá hạn</legend>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>
+                    STT
+                </th>
+                <th>
+                    Hồ sơ
+                </th>
+                <th>
+                    Dịch vụ
+                </th>
+                <th>
+                    Phụ trách
+                </th>
+                <th>
+                    Quá hạn
+                </th>
+                <th>
+                    Ghi chú
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < lst1cua.Length; i++)
+            {
+                var item = lst1cua[i];
+                var quahan = (DateTime.Now - item.ngaytra).Days;
+                var service = db.Services.Find(item.service_id);
+                var account = db.Accounts.Find(item.account_id);
+                <tr>
+                    <td>
+                        @(i + 1 )
+                    </td>
+                    <td>
+                        @Html.ActionLink(item.name, "Index", "NhiemVus", new { id = item.hoso_id }, null)
+                    </td>
+                    <td>
+                        @service.name
+                    </td>
+                    <td>
+                        @Html.Raw(account.fullname.Substring(account.fullname.LastIndexOf(" "), account.fullname.Length - account.fullname.LastIndexOf(" ")))
+                    </td>
+                    <td>
+                        @Html.Raw(quahan > 0 ? quahan.ToString() : "-")
+                    </td>
+                    <td>
+                        @item.ghichu
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</fieldset>
+
+@section Style {
+    <style>
+        .fs {
+            border: 1px solid #d9534f;
+            border-radius: 10px;
+            padding: 0 10px;
+            margin-bottom: 10px;
+        }
+
+            .fs legend {
+                background-color: #d9534f;
+                padding-inline-start: 10px;
+                color: #fff;
+                text-transform: uppercase;
+                border-radius: 6px;
+                text-align: center;
+                font-size: 13pt;
+                padding: 3px;
+                margin-bottom: 0;
+            }
+
+        iframe {
+            border: none;
+        }
+    </style>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            var isTyping = false;
+            var isAutoRefresh = false;
+            $('.summernote_save').summernote({
+                height: 500,
+                fontSizes: ['8', '9', '10', '11', '12', '14', '18'],
+                //fontNames: ['Arial', 'Tahoma'],
+                toolbar: [
+                    ['style', ['bold', 'italic', 'underline']],
+                    ['fontsize', ['fontsize']],
+                    ['font', ['strikethrough']],
+                    ['para', ['ol', 'paragraph']],
+                    ['color', ['color']],
+                ],
+                callbacks: {
+                    onInit: function () {
+                        $(".note-editable").on('click', function (e) {
+                            isTyping = true;
+                        });
+                    },
+                    onBlur: function () {
+                        isTyping = false;
+                    },
+                    onChange: function (contents, $editable) {
+                        if (!isAutoRefresh) {
+                            $.ajax({
+                                url: '/Home/SendX',
+                                type: "POST",
+                                dataType: "JSON",
+                                data: { contents: contents },
+                                success: function () {
+                                    //$("#success-alert").fadeTo(2000, 500).slideUp(500, function () {
+                                    //    $("#success-alert").slideUp(500);
+                                    //});
+                                    toastr.options = {
+                                        "preventDuplicates": true,
+                                        "preventOpenDuplicates": true
+                                    };
+                                    toastr.success("Lưu tự động", "THÀNH CÔNG", { timeOut: 5000 });
+                                }
+                            });
+                        }
+                    }
+                }
+            });
+            setInterval(function () {
+                if (!isTyping) {
+                    $.ajax({
+                        url: '/Home/RefreshX',
+                        type: "POST",
+                        dataType: "JSON",
+                        success: function (txt) {
+                            isAutoRefresh = true;
+                            $(".summernote").summernote('code', txt);
+                            setTimeout(function () { isAutoRefresh = false; }, 2000);
+                        }
+                    });
+                }
+            }, 50000);
+            setTimeout(GetNotices, 100);
+        });
+        function GetNotices() {
+            $.ajax({
+                url: '/Home/GetNotice',
+                type: "POST",
+                dataType: "JSON",
+                success: function (lst) {
+                    $("#notices").html('');
+                    $(lst).each(function () {
+                        var concat = '<tr><td>';
+                        concat += this.Key + "</td><td>" + this.Value + "</td></tr>";
+                        $("#notices").append(concat);
+                    });
+                }
+            });
+        }
+
+    </script>
+}

@@ -1,0 +1,111 @@
+﻿@model NiceHandles.Models.CuocHop
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var db = new NiceHandles.Models.NHModel();
+    var lstAccounts = db.Accounts.Where(x => x.sta == (int)NiceHandles.Models.XAccount.eStatus.Processing);
+
+    var account_ids = db.NguoiHops.Where(x => x.cuochop_id == Model.id).Select(x => x.account_id).ToArray();
+    var str_account = string.Join(",", account_ids);
+}
+
+<h2>CHỈNH SỬA</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.id)
+        @Html.HiddenFor(model => model.contract_id)
+        @Html.HiddenFor(model => model.taoboi)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.name, "Hồ sơ", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.vande, "Vấn đề", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.vande, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.vande, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.time, "Thời gian", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.time, new { htmlAttributes = new { @class = "form-control datetimepicker" } })
+                @Html.ValidationMessageFor(model => model.time, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Người tham gia", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <ul style="margin: 0; padding: 0;">
+                    @foreach (var item in lstAccounts)
+                    {
+                        <li style="list-style: none;">
+                            <input style="height: 20px; width: 20px;" type="checkbox" value="@item.id" />
+                            <span style="vertical-align: super;">@item.fullname</span>
+                        </li>
+                    }
+                </ul>
+                @Html.Hidden("str_account", str_account)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Về danh sách", "Index")
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/summernote.min.js"></script>
+    <script src="~/Scripts/toastr.min.js"></script>
+    <script type="text/javascript">
+        var lst = [];
+        $(document).ready(function () {
+            $('.datetimepicker').datetimepicker();
+            lst = $("#str_account").val().split(",");
+            $(lst).each(function () {
+                var sv = this;
+                $("input:checkbox").each(function () {
+                    if (sv == $(this).val()) {
+                        $(this).prop("checked", true).trigger("change");
+                    }
+                });
+            });
+            $("input:checkbox").change(function () {
+                var x = $(this).val();
+                const index = lst.indexOf(x);
+                if (this.checked) {
+                    if (index == -1) {
+                        lst.push(x);
+                    }
+                }
+                else {
+                    if (index > -1) {
+                        lst.splice(index, 1);
+                    }
+                }
+                $("#str_account").val(lst);
+            });
+        });
+    </script>
+}

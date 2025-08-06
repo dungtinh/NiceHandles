@@ -1,0 +1,35 @@
+﻿@model NiceHandles.Models.GroupMember_Account
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutSetting.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>GroupMember_Account</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.account_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.account_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.groupmember_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.groupmember_id)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

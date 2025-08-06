@@ -1,0 +1,58 @@
+﻿@model IEnumerable<NiceHandles.Models.Partner>
+@using NiceHandles.Models
+@{
+    ViewBag.Title = "Index";
+    var db = new NHModel();
+    var lstNames = db.Accounts.Select(x => new { id = x.id, name = x.fullname }).ToArray();
+}
+
+<h2>Danh sách đối tác</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Họ tên
+        </th>
+        <th>
+            Số điện thoại
+        </th>
+        <th>
+            Người chăm sóc
+        </th>
+        <th>
+            Ngân Hàng
+        </th>
+        <th>
+            Số Tài khoản
+        </th>
+        <th>
+            Chủ tài khoản NH
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        var name = lstNames.Where(x => x.id == item.account_id).Select(x => x.name).SingleOrDefault();
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.sodienthoai)
+            </td>
+            <td>
+                @Html.Raw(name != null ? name : "Khách tự do")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.bankbrand)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.bankno)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.bankname)
+            </td>
+        </tr>
+    }
+
+</table>

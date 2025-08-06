@@ -821,8 +821,8 @@ namespace NiceHandles.Controllers
             dict.Add("dungtensmk", (!string.IsNullOrEmpty(dungtensmk.gioitinh) ? dungtensmk.gioitinh.Trim().ToUpper().Equals("NAM") ? "Ông" : "Bà" : "Ông/Bà") + " " + dungtensmk.hoten);
             dict.Add("dungtensmk1", (!string.IsNullOrEmpty(dungtensmk.gioitinh1) ? dungtensmk.gioitinh1.Trim().ToUpper().Equals("NAM") ? "Ông" : "Bà" : "Ông/Bà") + " " + dungtensmk.hoten1);
             dict.Add("vochongsmk", (!string.IsNullOrEmpty(dungtensmk.gioitinh) ? dungtensmk.gioitinh.Trim().ToUpper().Equals("NAM") ? "vợ" : "chồng" : "vợ/chồng"));
-            dict.Add("ngaysinhsmk", dungtensmk.ngaysinh.HasValue ? dungtensmk.ngaysinh.Value.ToString("dd/MM/yyyy") : "");
-            dict.Add("ngaysinhsmk1", dungtensmk.ngaysinh1.HasValue ? dungtensmk.ngaysinh1.Value.ToString("dd/MM/yyyy") : "");
+            dict.Add("ngaysinhsmk", dungtensmk.ngaysinh.HasValue ? dungtensmk.ngaysinh.Value.ToString("yyyy") : "");
+            dict.Add("ngaysinhsmk1", dungtensmk.ngaysinh1.HasValue ? dungtensmk.ngaysinh1.Value.ToString("yyyy") : "");
             dict.Add("giaytosmk", dungtensmk.sogiayto ?? "");
             dict.Add("giaytosmk1", dungtensmk.sogiayto1 ?? "");
             dict.Add("quanhesmk", "");
@@ -838,7 +838,7 @@ namespace NiceHandles.Controllers
             Row clonedRow = (Row)table.LastRow.Clone(true);
             Style style = doc.Styles.Add(StyleType.Paragraph, "MyStyle1");
             style.Font.Name = "Times New Roman";
-            //style.Font.Size = 11;
+            style.Font.Size = 14;
             style.ParagraphFormat.Alignment = ParagraphAlignment.Center;
             style.ParagraphFormat.SpaceAfter = 0;
             style.ParagraphFormat.SpaceBefore = 0;
@@ -883,7 +883,7 @@ namespace NiceHandles.Controllers
                 builder.Write(per.hoten);
                 cell = table.LastRow.Cells[2];
                 builder.MoveTo(cell.FirstParagraph);
-                builder.Write(per.ngaysinh.HasValue ? per.ngaysinh.Value.ToString("dd/MM/yyyy") : "");
+                builder.Write(per.ngaysinh.HasValue ? per.ngaysinh.Value.ToString("yyyy") : "");
                 cell = table.LastRow.Cells[3];
                 builder.MoveTo(cell.FirstParagraph);
                 builder.Write(per.sogiayto ?? "");
@@ -912,7 +912,7 @@ namespace NiceHandles.Controllers
                     builder.Write(per2.hoten);
                     cell = table.LastRow.Cells[2];
                     builder.MoveTo(cell.FirstParagraph);
-                    builder.Write(per2.ngaysinh.HasValue ? per2.ngaysinh.Value.ToString("dd/MM/yyyy") : "");
+                    builder.Write(per2.ngaysinh.HasValue ? per2.ngaysinh.Value.ToString("yyyy") : "");
                     cell = table.LastRow.Cells[3];
                     builder.MoveTo(cell.FirstParagraph);
                     builder.Write(per2.sogiayto ?? "");
@@ -956,7 +956,7 @@ namespace NiceHandles.Controllers
                 builder.Write(per.hoten);
                 cell = table.LastRow.Cells[2];
                 builder.MoveTo(cell.FirstParagraph);
-                builder.Write(per.ngaysinh.HasValue ? per.ngaysinh.Value.ToString("dd/MM/yyyy") : "");
+                builder.Write(per.ngaysinh.HasValue ? per.ngaysinh.Value.ToString("yyyy") : "");
                 cell = table.LastRow.Cells[3];
                 builder.MoveTo(cell.FirstParagraph);
                 builder.Write(per.sogiayto);
@@ -965,13 +965,23 @@ namespace NiceHandles.Controllers
             var nguoilapvanban = giapha.Where(x => !x.ngaychet.HasValue && (x.ngaysinh.HasValue ? ((DateTime.Now - x.ngaysinh.Value).TotalDays / 365 > 15) : false)).OrderBy(x => x.ngaysinh).ToList();
             table = (Table)doc.GetChild(NodeType.Table, 2, true);
             clonedRow = (Row)table.LastRow.Clone(true);
+
+            //STYLE
+            Style style2 = doc.Styles.Add(StyleType.Paragraph, "MyStyle2");
+            style2.Font.Name = "Times New Roman";
+            style2.Font.Size = 14;
+            style2.ParagraphFormat.Alignment = ParagraphAlignment.Center;
+            style2.ParagraphFormat.SpaceAfter = 20;
+            style2.ParagraphFormat.SpaceBefore = 20;
+            //style2.ParagraphFormat.LineSpacingRule = LineSpacingRule.Multiple;            
+
             foreach (Cell c in clonedRow.Cells)
             {
                 c.RemoveAllChildren();
                 c.EnsureMinimum();
                 foreach (Aspose.Words.Paragraph para in c.Paragraphs)
                 {
-                    para.ParagraphFormat.Style = style;
+                    para.ParagraphFormat.Style = style2;
                 }
             }
             buff = String.Empty;
@@ -988,7 +998,7 @@ namespace NiceHandles.Controllers
                 builder.Write(per.hoten);
                 cell = table.LastRow.Cells[2];
                 builder.MoveTo(cell.FirstParagraph);
-                builder.Write(per.ngaysinh.HasValue ? per.ngaysinh.Value.ToString("dd/MM/yyyy") : "");
+                builder.Write(per.ngaysinh.HasValue ? per.ngaysinh.Value.ToString("yyyy") : "");
                 cell = table.LastRow.Cells[3];
                 builder.MoveTo(cell.FirstParagraph);
                 builder.Write(per.sogiayto);

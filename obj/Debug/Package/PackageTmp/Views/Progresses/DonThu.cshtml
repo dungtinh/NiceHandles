@@ -1,0 +1,123 @@
+﻿@model NiceHandles.Models.HoSo
+@using NiceHandles.Models
+@{
+    ViewBag.Title = "Đơn Thư";
+    var db = new NHModel();
+    var progress = db.Progresses.FirstOrDefault(x => x.type == (int)XProgress.eType.DonThu);
+    var passvalue = new xTemp() { int1 = Model.id, int2 = progress.type };
+    var option = db.progress_file_option.FirstOrDefault(x => x.hoso_id == Model.id && x.progress_id == progress.id);
+    if (option == null)
+    {
+        option = new progress_file_option() { hoso_id = Model.id, progress_id = progress.id };
+        db.progress_file_option.Add(option);
+        db.SaveChanges();
+    }
+    var files = db.donthus.Where(x => x.hoso_id == Model.id && !x.donthu_id.HasValue);
+    var index = 0;
+}
+<section id="ss@("_" + progress.type + Model.id)" class="progressfile">
+    <fieldset>
+        <div class="progress_header">
+            <div class="row" style="margin: 0;">
+                <div class="col-sm-4 title">
+                    <span class="fa fa-letters text-danger"> @progress.sort. @progress.title </span>
+                </div>
+                <div class="col-sm-5 desc">
+                    <i>@progress.description</i>
+                </div>
+                <div class="col-sm-3 tool">
+                    <label style="font-size: 14px;"><input type="checkbox" onchange="ProgressFileStatus(@Model.id, @progress.id,@progress.type, this);" @Html.Raw(option.status == (int)XModels.eLevel.Level1 ? "" : "checked") />  Hoàn thành</label>
+                    <a onclick="ProgressDownload(@progress.id, @Model.id);"> <i class="fad fa-file-download"></i></a>
+                    @*<i class="fad fa-print"></i>*@
+                    <a onclick="ProgressSetting(@progress.id, @Model.id);"> <i class="fad fa-cogs" style="padding-right: 10px;"></i></a>
+                    <a data-toggle="collapse" href="#ss@("_" + progress.type + Model.id) .collapse" role="button" aria-expanded="false" aria-controls="#ss@("_" + progress.type + Model.id) .collapse">
+                        <i onclick="UpDownPanel(this)" class="fa fa-angle-down" style="padding-right: 10px;"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="progress_body collapse">
+            <div class="row">
+                <div class="col-sm-6">
+                    <input type="text" id="txtDonThuName" class="form-control" placeholder="Tên đơn" />
+                </div>
+                <div class="col-sm-6">
+                    <input type="text" id="txtDonThuLyDo" class="form-control" placeholder="Lý do" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <input type="file" id="txtDonThuFile" class="btn btn-info" style="width: 100%;" />
+                </div>
+                <div class="col-sm-3">
+                    @Html.DropDownList("cboDonThuLoai", new SelectList(XModels.sLoaiDonThu, "Key", "Value"), "Loại", new { @class = "form-control" })
+                </div>
+                <div class="col-sm-3">
+                    @Html.DropDownList("cboDonThuCachGui", new SelectList(XModels.sCachGui, "Key", "Value"), "Cách gửi", new { @class = "form-control" })
+                </div>
+                <div class="col-sm-2">
+                    <input type="text" id="txtDonThuNgayGui" class="form-control datetime" autocomplete="off" placeholder="Ngày gửi" />
+                </div>
+                <div class="col-sm-1" style="padding-left: 0;">
+                    <input value="Upload" type="button" onclick="UploadDonThu('#ss@("_" + progress.type + Model.id)', @(Model.id) , @(progress.type) );" class="btn btn-info" />
+                </div>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Ngày gửi
+                        </th>
+                        <th>
+                            Tên đơn
+                        </th>
+                        <th>
+                            Loại
+                        </th>
+                        @*<th>
+                                Ngày nhắc
+                            </th>*@
+                        <th>
+                            Lý do đơn
+                        </th>
+                        <th>
+                            VB hồi âm
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @*@foreach (var item in files.Where(x => !x.donthu_id.HasValue || x.donthu_id.Value == 0))
+                        {
+                            index++;
+                            var lstHoiAm = files.Where(x => x.donthu_id == item.id);
+                            <tr>
+                                <td>
+                                    @item.name
+                                </td>
+                                <td>
+                                    @XModels.sLoaiDonThu[item.type]
+                                </td>
+                                <td>
+                                    @item.alarm.ToString("dd/MM/yyyy")
+                                </td>
+                                <td>
+                                    <a href="@item.url" target="_blank"><i class="fa fa-file-download" style="font-size: 18px;"></i></a>
+                                </td>
+                                <td>
+                                    @foreach (var perHoiAm in lstHoiAm)
+                                    {
+                                        <a href="@perHoiAm.url" target="_blank"><i> @perHoiAm.name</i></a>
+                                    }
+                                    <a class="fa fa-plus" style="cursor: pointer; font-size: 18px;" onclick="DonThuAddHoiAm(@item.id);"></a>
+                                </td>
+                            </tr>
+                        }*@
+                </tbody>
+            </table>
+            <div style="background-color: aliceblue; border-radius: 10px; padding-top: 10px;">
+                @Html.Partial("../Progresses/ViecPhaiLam", passvalue)
+                @Html.Partial("../Progresses/PartNhatKyNhacNho")
+            </div>
+        </div>
+    </fieldset>
+</section>

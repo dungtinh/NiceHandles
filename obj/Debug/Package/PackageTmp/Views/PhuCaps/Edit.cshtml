@@ -1,0 +1,98 @@
+﻿@model NiceHandles.Models.PhuCap
+@using NiceHandles.Models
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var db = new NHModel();
+}
+
+<h2>Chỉnh sửa</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Phụ cấp</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.id)
+
+        <div class="form-group">
+            @Html.Label("Tài khoản", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.account_id, new SelectList(db.Accounts, "id", "fullname"), new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.account_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Tên", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ten, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ten, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Số tiền", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.sotien, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
+                @Html.ValidationMessageFor(model => model.sotien, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Loại", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.loai, new SelectList(XModels.sLoaiPhuCap, "Key", "Value"), new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.loai, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Thời gian", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ngaythang, new { htmlAttributes = new { @class = "form-control datetime" } })
+                @Html.ValidationMessageFor(model => model.ngaythang, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Trạng thái", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.trangthai, new SelectList(XModels.sStatus, "Key", "Value"), new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.trangthai, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            $(".datetime").datepicker({
+                "autoclose": true,
+                "todayHighlight": true,
+                "dateFormat": "dd/mm/yyyy",
+                "format": "dd/mm/yyyy",
+            }).datepicker();
+        });
+        $(function () {
+            $.validator.methods.date = function (value, element) {
+                return this.optional(element) || moment(value, "DD/MM/YYYY", true).isValid();
+            }
+        });
+    </script>
+}

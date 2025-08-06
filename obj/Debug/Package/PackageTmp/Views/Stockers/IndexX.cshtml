@@ -1,0 +1,210 @@
+﻿@model PagedList.IPagedList<NiceHandles.Models.Stocker>
+@using PagedList.Mvc;
+@using NiceHandles.Models
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var db = new NHModel();
+}
+
+<h2>
+    Thủ quỹ
+    <button type="button" style="float: right;" class="btn btn-info" onclick="Print();">Bản in</button>
+    @Html.ActionLink("Danh sách chờ", "GoAsyn", "InOuts", null, new { style = "float: right; margin-right: 10px;", @class = "btn btn-info" })
+</h2>
+
+<p>
+    @Html.ActionLink("Thêm mới", "Create")
+</p>
+<div class="row" style="margin: 0; margin-bottom: 15px;">
+    <div class="col-md-8">
+        <div class="row" style="border-radius: 10px; background-color: aliceblue; margin-right: 5px; padding: 15px; ">
+            <div class="col-md-5">
+                <h4>TỔNG THU CHI</h4>
+                <div class="col-sm-4">Thu: <b> @ViewBag.TONGTHU </b></div>
+                <div class="col-sm-4">Chi: <b>@ViewBag.TONGCHI </b></div>
+                <div class="col-sm-4" style="color: red;">Tồn: <b>@ViewBag.THUCHI </b></div>
+            </div>
+            <div class="col-md-5">
+                <h4>TỔNG QUỸ</h4>
+                <div class="col-sm-4">Thu: <b> @ViewBag.TONGTHU </b></div>
+                <div class="col-sm-4">Chi: <b>@ViewBag.TONGCHI </b></div>
+                <div class="col-sm-4" style="color: red;">Tồn: <b>@ViewBag.THUCHI </b></div>
+            </div>
+            <div class="col-md-2">
+                <h4>SAI SỐ</h4>
+                <div class="col-sm-4" style="color: red;"><b>@ViewBag.THUCHI </b></div>
+            </div>
+            <div class="col-md-5">
+                <h4>TỔNG THU CHI TIỀN MẶT</h4>
+                <div class="col-sm-4">Thu: <b> @ViewBag.TONGTHUTM </b></div>
+                <div class="col-sm-4">Chi: <b>@ViewBag.TONGCHITM </b></div>
+                <div class="col-sm-4" style="color: red; ">Tồn: <b>@ViewBag.THUCHITM </b></div>
+            </div>
+            <div class="col-md-5">
+                <h4>TỔNG QŨY TIỀN MẶT</h4>
+                <div class="col-sm-4">Thu: <b> @ViewBag.TONGTHUTM </b></div>
+                <div class="col-sm-4">Chi: <b>@ViewBag.TONGCHITM </b></div>
+                <div class="col-sm-4" style="color: red; ">Tồn: <b>@ViewBag.THUCHITM </b></div>
+            </div>
+            <div class="col-md-2">
+                <h4>SAI SỐ</h4>
+                <div class="col-sm-12" style="color: red;"><b>@ViewBag.THUCHI </b></div>
+            </div>
+            <div class="col-md-5">
+                <h4>TỔNG THU CHI TÀI KHOẢN</h4>
+                <div class="col-sm-4">Thu: <b> @ViewBag.TONGTHUNH </b></div>
+                <div class="col-sm-4">Chi: <b>@ViewBag.TONGCHINH </b></div>
+                <div class="col-sm-4" style="color: red; ">Tồn: <b>@ViewBag.THUCHINH </b></div>
+            </div>
+            <div class="col-md-5">
+                <h4>TỔNG QUỸ TÀI KHOẢN</h4>
+                <div class="col-sm-4">Thu: <b> @ViewBag.TONGTHUNH </b></div>
+                <div class="col-sm-4">Chi: <b>@ViewBag.TONGCHINH </b></div>
+                <div class="col-sm-4" style="color: red; ">Tồn: <b>@ViewBag.THUCHINH </b></div>
+            </div>
+            <div class="col-md-2">
+                <h4>SAI SỐ</h4>
+                <div class="col-sm-12" style="color: red;"><b>@ViewBag.THUCHI </b></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="row" style="border-radius: 10px; background-color: aliceblue; padding: 15px; ">
+            <div class="col-sm-12">Giang: <b>@ViewBag.CTGiang </b></div>
+        </div>
+    </div>
+</div>
+@using (Html.BeginForm("Index", "Stockers", FormMethod.Get))
+{
+    <div class="row">
+        <div class="col-sm-2">
+            <div class="form-group">
+                @Html.TextBox("Search_Data", ViewBag.FilterValue as string, new { @class = "form-control", placeholder = "Tìm kiếm" })
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                @Html.DropDownList("type", XCategory.sType.Select(x => new SelectListItem { Value = x.Key.ToString(), Text = x.Value }), "Loại", new { @class = "form-control", @onchange = "FillCategory()" })
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                @Html.DropDownList("currency", new SelectList(XModels.sLoaiTien, "Key", "Value"), "Loại tiền", new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="col-sm-2">
+            <div class="form-group">
+                @Html.TextBox("fromdate", ViewBag.FROMDATE as string, new { @class = "form-control datetime", placeholder = "Từ ngày", autocomplete = "off" })
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                @Html.TextBox("todate", ViewBag.TODATE as string, new { @class = "form-control datetime", placeholder = "Đến ngày", autocomplete = "off" })
+            </div>
+        </div>
+
+        <div class="col-sm-1">
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary" style="height: 32px; width: 100px;">Tìm kiếm</button>
+            </div>
+        </div>
+    </div>
+}
+<table class="table">
+    <tr>
+        <th>
+            Số tiền
+        </th>
+        <th>
+            Ghi chú
+        </th>
+        <th>
+            Loại tiền
+        </th>
+        <th>
+            Loại thu/chi
+        </th>
+        <th>
+            Thời gian
+        </th>
+        @*<th></th>*@
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr class="@(Html.Raw(item.type == (int)XCategory.eType.Chi ? "text-danger" : ""))">
+            <td>
+                @item.amount.ToString("N0")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.note)
+            </td>
+            <td class="@(Html.Raw(item.currency == (int)XModels.eLoaiTien.NganHang ? "text-primary" : ""))">
+                @Html.DisplayFor(modelItem => XModels.sLoaiTien[item.currency])
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => XCategory.sType[item.type])
+            </td>
+            <td>
+                @item.time.ToString("dd/MM/yyyy")
+            </td>
+            @*<td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.id })
+                </td>*@
+        </tr>
+    }
+</table>
+@if (Model.PageCount > 1)
+{
+    <div class="row" style="margin-top: 10px;">
+        <div class="col-sm-1">
+            Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+        </div>
+        <div class="col-sm-10">
+            @Html.PagedListPager(Model, Page_No => Url.Action("Index", new { Page_No, Filter_Value = ViewBag.FilterValue, type = ViewBag.type, currency = ViewBag.currency, fromdate = ViewBag.FROMDATE, todate = ViewBag.TODATE }))
+        </div>
+    </div>
+}
+<iframe id="my_iframe" style="display:none;"></iframe>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            $(".datetime").datepicker({
+                "autoclose": true,
+                "todayHighlight": true,
+                "dateFormat": "dd/mm/yyyy",
+                "format": "dd/mm/yyyy",
+            }).datepicker();
+        });
+        function Print() {
+            var Search_Data = $("#Search_Data").val();
+            var account_id = $("#account_id").val();
+            var type = $("#type").val();
+            var currency = $("#currency").val();
+            var category_id = $("#category_id").val();
+            var fromdate = $("#fromdate").val();
+            var todate = $("#todate").val();
+
+            $.ajax({
+                url: '/Stockers/BanInThuChi',
+                data: {
+                    Search_Data: Search_Data,
+                    type: type,
+                    currency: currency,
+                    fromdate: fromdate,
+                    todate: todate
+                },
+                type: "GET",
+                dataType: "JSON",
+                success: function (url) {
+                    document.getElementById('my_iframe').src = url;
+                }
+            });
+        }
+    </script>
+}

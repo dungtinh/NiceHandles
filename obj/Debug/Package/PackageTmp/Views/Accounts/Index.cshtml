@@ -1,0 +1,86 @@
+﻿@model IEnumerable<NiceHandles.Models.Account>
+
+@{
+    ViewBag.Title = "Index";
+}
+@using NiceHandles.Models
+<h2>Tài khoản</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Tài khoản
+        </th>
+        <th>
+            Họ và tên
+        </th>
+        <th>
+            Số điện thoại
+        </th>
+        <th>
+            Lương
+        </th>
+        <th>
+            Phụ cấp
+        </th>
+        <th>
+            STK ngân hàng
+        </th>
+        <th>
+            Ngân hàng
+        </th>
+        <th>
+            Số giấy tờ
+        </th>
+        <th>
+            Ủy quyền
+        </th>
+        <th>
+            Trạng thái
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fullname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.phoneno)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.luong)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.phucap)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.bankno)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.bank_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.sogiayto)
+            </td>
+            <td>
+                @XModels.sYesNo[item.is_uq]
+            </td>
+            <td>
+                @XAccount.sStatus[item.sta]
+            </td>
+            <td>
+                @Html.ActionLink("Chốt sổ", "ChoSo", new { id = item.id }) |
+                @Html.ActionLink("Chi tiết", "Details", new { id = item.id }) |
+                @Html.ActionLink("Sửa", "Edit", new { id = item.id }) |
+                @Html.ActionLink("Xóa", "Delete", new { id = item.id })
+            </td>
+        </tr>
+    }
+
+</table>

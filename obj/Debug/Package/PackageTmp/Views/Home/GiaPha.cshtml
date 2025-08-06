@@ -1,0 +1,560 @@
+﻿@using NiceHandles.Models
+<style>
+    #GiaPha, .form-control {
+        font-size: 12px;
+    }
+
+        #GiaPha label {
+            font-weight: normal;
+        }
+
+    .bome label {
+        color: #c9302c;
+    }
+
+    .chudat label {
+        color: deeppink;
+    }
+
+    .con label {
+        color: #337ab7;
+    }
+
+    .chau label {
+        color: green;
+    }
+
+    .form-control {
+        padding: 6px;
+        height: 30px;
+    }
+
+    .wrap {
+        margin: 0 auto;
+        width: 1200px;
+    }
+
+    td, th {
+        min-width: 220px;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    #menu1, #menu2 {
+        position: absolute;
+        border: 1px solid black;
+        background-color: green;
+    }
+
+    .menu {
+    }
+
+    .box {
+        width: 210px;
+        display: inline-block;
+    }
+
+    .info {
+        border: 1px solid;
+        border-radius: 10px;
+        padding: 20px 10px;
+    }
+
+    .phantram {
+        display: inline-block;
+        vertical-align: top;
+    }
+
+    .gachthang {
+        border-left: 1px solid;
+        width: 1px;
+        display: inline-block;
+    }
+
+    .haschild {
+        width: 50%;
+        border-right: 1px solid;
+        height: 20px;
+    }
+
+    .hasparent {
+        border-top: 1px solid;
+        height: 20px;
+    }
+
+    .center {
+        text-align: center;
+    }
+</style>
+@{
+    ViewBag.Title = "Notice";
+    var db = (NHModel)ViewBag.db;
+    var hoso_id = 2406;
+    var hoso = db.HoSoes.Find(hoso_id);
+    var contract = db.Contracts.Find(hoso.contract_id);
+    var address = db.Addresses.Find(contract.address_id);
+
+    var infomation_id = db.Infomations.Single(x => x.hoso_id == hoso_id).id;
+    var ttcns = db.ThongTinCaNhans.Where(x => x.infomation_id == infomation_id).ToArray();
+    var chudat = ttcns.Where(x => x.hangthuake == (int)XThongTinCaNhan.eHangThuaKe.ChuDat).SingleOrDefault();
+    var HTK1CHONGTREN = ttcns.Where(x => x.hangthuake == (int)XThongTinCaNhan.eHangThuaKe.HangThuaKe1 && x.quanhe == (int)XThongTinCaNhan.eQuanHe.BoMeChong);
+    var bo = HTK1CHONGTREN.SingleOrDefault(x => x.gioitinh.ToUpper().Equals("NAM"));
+    var me = HTK1CHONGTREN.SingleOrDefault(x => x.gioitinh.ToUpper().Equals("NỮ"));
+    var HTK1VOTREN = ttcns.Where(x => x.hangthuake == (int)XThongTinCaNhan.eHangThuaKe.HangThuaKe1 && x.quanhe == (int)XThongTinCaNhan.eQuanHe.BoMeVo);
+    var bo1 = HTK1VOTREN.SingleOrDefault(x => x.gioitinh.ToUpper().Equals("NAM"));
+    var me1 = HTK1VOTREN.SingleOrDefault(x => x.gioitinh.ToUpper().Equals("NỮ"));
+    if (chudat == null)
+    {
+        chudat = new ThongTinCaNhan();
+        chudat.type = (int)XThongTinCaNhan.eType.LanDau;
+        chudat.gioitinh = XModels.sGender[0];
+        chudat.gioitinh1 = XModels.sGender[1];
+        chudat.hangthuake = (int)XThongTinCaNhan.eHangThuaKe.ChuDat;
+        chudat.infomation_id = (int)infomation_id;
+        db.ThongTinCaNhans.Add(chudat);
+        db.SaveChanges();
+    }
+    if (chudat.ngaychet.HasValue && bo == null)
+    {
+        bo = new ThongTinCaNhan();
+        bo.fk_id = chudat.id;
+        bo.quanhe = (int)XThongTinCaNhan.eQuanHe.BoMeChong;
+        bo.type = (int)XThongTinCaNhan.eType.LanDau;
+        bo.gioitinh = XModels.sGender[0];
+        bo.hangthuake = (int)XThongTinCaNhan.eHangThuaKe.HangThuaKe1;
+        bo.infomation_id = chudat.infomation_id;
+        db.ThongTinCaNhans.Add(bo);
+    }
+    if (chudat.ngaychet.HasValue && me == null)
+    {
+        me = new ThongTinCaNhan();
+        me.fk_id = chudat.id;
+        me.quanhe = (int)XThongTinCaNhan.eQuanHe.BoMeChong;
+        me.type = (int)XThongTinCaNhan.eType.LanDau;
+        me.gioitinh = XModels.sGender[1];
+        me.hangthuake = (int)XThongTinCaNhan.eHangThuaKe.HangThuaKe1;
+        me.infomation_id = chudat.infomation_id;
+        db.ThongTinCaNhans.Add(me);
+    }
+    if (chudat.ngaychet1.HasValue && bo1 == null)
+    {
+        bo1 = new ThongTinCaNhan();
+        bo1.fk_id = chudat.id;
+        bo1.quanhe = (int)XThongTinCaNhan.eQuanHe.BoMeVo;
+        bo1.type = (int)XThongTinCaNhan.eType.LanDau;
+        bo1.gioitinh = XModels.sGender[0];
+        bo1.hangthuake = (int)XThongTinCaNhan.eHangThuaKe.HangThuaKe1;
+        bo1.infomation_id = chudat.infomation_id;
+        db.ThongTinCaNhans.Add(bo1);
+    }
+    if (chudat.ngaychet1.HasValue && me1 == null)
+    {
+        me1 = new ThongTinCaNhan();
+        me1.fk_id = chudat.id;
+        me1.quanhe = (int)XThongTinCaNhan.eQuanHe.BoMeVo;
+        me1.type = (int)XThongTinCaNhan.eType.LanDau;
+        me1.gioitinh = XModels.sGender[1];
+        me1.hangthuake = (int)XThongTinCaNhan.eHangThuaKe.HangThuaKe1;
+        me1.infomation_id = chudat.infomation_id;
+        db.ThongTinCaNhans.Add(me1);
+    }
+
+    db.SaveChanges();
+
+    var HTK1DUOI = ttcns.Where(x => x.hangthuake == (int)XThongTinCaNhan.eHangThuaKe.HangThuaKe1 && x.quanhe == (int)XThongTinCaNhan.eQuanHe.Con).ToList();
+    var HTK2 = ttcns.Where(x => x.hangthuake == (int)XThongTinCaNhan.eHangThuaKe.HangThuaKe2);
+    var soptcon1 = 98 / (HTK1DUOI.Count() > 0 ? HTK1DUOI.Count() : 1);
+    var sndm = HTK1DUOI.Count(x => x.ngaychet.HasValue);
+    if (sndm > 0)
+    {
+        soptcon1 = 98 / (HTK1DUOI.Count() - sndm + (HTK2.Count() == 0 ? 1 : HTK2.Count()));
+    }
+}
+<br />
+<div id="GiaPha" style="width: 1600px;">
+    <h2>GIA PHẢ</h2>
+    <dl class="dl-horizontal">
+        <dt>
+            Bộ hồ sơ:
+        </dt>
+
+        <dd>
+            @hoso.name
+        </dd>
+
+        <dt>
+            Địa chỉ:
+        </dt>
+
+        <dd>
+            @address.name
+        </dd>
+
+    </dl>
+    <hr />
+    <div class="bome">
+        <div class="phantram" style="width: 49%">
+            @if (chudat != null && chudat.ngaychet.HasValue)
+            {
+                <div class="center">
+                    <div class="box">
+                        <div class="info">
+                            <div class="form-group">
+                                <label class="col-sm-4" style="padding: 0; margin-top: 5px;">Bố chồng</label>
+                                <div class="col-sm-8" style="padding: 0;">
+                                    <input class="form-control" dataid="@bo.id" dataname="hoten" value="@bo.hoten" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4" style="padding: 0; margin-top: 5px;">Năm sinh</label>
+                                <div class="col-sm-8" style="padding: 0;">
+                                    <input class="form-control datetime" dataid="@bo.id" dataname="ngaysinh" value="@Html.Raw( bo.ngaysinh.HasValue? bo.ngaysinh.Value.ToString("dd/MM/yyyy") : null)" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4" style="padding: 0; margin-top: 5px;">Năm mất</label>
+                                <div class="col-sm-8" style="padding: 0;">
+                                    <input class="form-control datetime" dataid="@bo.id" dataname="ngaychet" value="@Html.Raw( bo.ngaychet.HasValue? bo.ngaychet.Value.ToString("dd/MM/yyyy") : null)" />
+                                </div>
+                            </div>
+                            <div class="clearfix">
+                            </div>
+                        </div>
+                        <div class="haschild">
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="info">
+                            <div class="form-group">
+                                <label class="col-sm-4" style="padding: 0; margin-top: 5px;">Mẹ chồng</label>
+                                <div class="col-sm-8" style="padding: 0;">
+                                    <input class="form-control" value="@me.hoten" dataid="@me.id" dataname="hoten" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4" style="padding: 0; margin-top: 5px;">Năm sinh</label>
+                                <div class="col-sm-8" style="padding: 0;">
+                                    <input class="form-control datetime" dataid="@me.id" dataname="ngaysinh" value="@Html.Raw( me.ngaysinh.HasValue? me.ngaysinh.Value.ToString("dd/MM/yyyy") : null)" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4" style="padding: 0; margin-top: 5px;">Năm mất</label>
+                                <div class="col-sm-8" style="padding: 0;">
+                                    <input class="form-control datetime" dataid="@me.id" dataname="ngaychet" value="@Html.Raw( me.ngaychet.HasValue? me.ngaychet.Value.ToString("dd/MM/yyyy") : null)" />
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="haschild">
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="phantram" style="width: 49%">
+            @if (chudat != null && chudat.ngaychet1.HasValue)
+            {
+                <div class="center">
+                    <div class="box">
+                        <div class="info">
+                            <div class="form-group">
+                                <label class="col-sm-4" style="padding: 0; margin-top: 5px;">Bố vợ</label>
+                                <div class="col-sm-8" style="padding: 0;">
+                                    <input class="form-control" value="@bo1.hoten" dataid="@bo1.id" dataname="hoten" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4" style="padding: 0; margin-top: 5px;">Năm sinh</label>
+                                <div class="col-sm-8" style="padding: 0;">
+                                    <input class="form-control datetime" dataid="@bo1.id" dataname="ngaysinh" value="@Html.Raw( bo1.ngaysinh.HasValue? bo1.ngaysinh.Value.ToString("dd/MM/yyyy") : null)" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4" style="padding: 0; margin-top: 5px;">Năm mất</label>
+                                <div class="col-sm-8" style="padding: 0;">
+                                    <input class="form-control datetime" dataid="@bo1.id" dataname="ngaychet" value="@Html.Raw( bo1.ngaychet.HasValue? bo1.ngaychet.Value.ToString("dd/MM/yyyy") : null)" />
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="haschild">
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="info">
+                            <div class="form-group">
+                                <label class="col-sm-4" style="padding: 0; margin-top: 5px;">Mẹ vợ</label>
+                                <div class="col-sm-8" style="padding: 0;">
+                                    <input class="form-control" dataid="@me1.id" dataname="hoten" value="@me1.hoten" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4" style="padding: 0; margin-top: 5px;">Năm sinh</label>
+                                <div class="col-sm-8" style="padding: 0;">
+                                    <input class="form-control datetime" dataid="@me1.id" dataname="ngaysinh" value="@Html.Raw( me1.ngaysinh.HasValue? me1.ngaysinh.Value.ToString("dd/MM/yyyy") : null)" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4" style="padding: 0; margin-top: 5px;">Năm mất</label>
+                                <div class="col-sm-8" style="padding: 0;">
+                                    <input class="form-control datetime" dataid="@me1.id" dataname="ngaychet" value="@Html.Raw( me1.ngaychet.HasValue? me1.ngaychet.Value.ToString("dd/MM/yyyy") : null)" />
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="haschild">
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="chudat">
+        <div class="phantram" style="width: 49%">
+            <div class="center">
+                <div class="@Html.Raw( chudat.ngaychet.HasValue? "menu1" : null) box" dataid="@chudat.id">
+                    <div class="hasparent">
+                        <div class="haschild">
+                        </div>
+                    </div>
+                    <div class="info">
+                        <div class="form-group">
+                            <label class="col-sm-4" style="padding: 0; margin-top: 5px;">Chồng</label>
+                            <div class="col-sm-8" style="padding: 0;">
+                                <input class="form-control" dataid="@chudat.id" dataname="hoten" value="@chudat.hoten" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4" style="padding: 0; margin-top: 5px;">Năm sinh</label>
+                            <div class="col-sm-8" style="padding: 0;">
+                                <input class="form-control datetime" dataid="@chudat.id" dataname="ngaysinh" value="@Html.Raw( chudat.ngaysinh.HasValue? chudat.ngaysinh.Value.ToString("dd/MM/yyyy") : null)" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4" style="padding: 0; margin-top: 5px;">Năm mất</label>
+                            <div class="col-sm-8" style="padding: 0;">
+                                <input class="form-control datetime" dataid="@chudat.id" dataname="ngaychet" value="@Html.Raw( chudat.ngaychet.HasValue? chudat.ngaychet.Value.ToString("dd/MM/yyyy") : null)" />
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="haschild">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="phantram" style="width: 49%">
+            <div class="center">
+                <div class="@Html.Raw( chudat.ngaychet1.HasValue? "menu1" : null) box" dataid="@chudat.id">
+                    <div class="hasparent">
+                        <div class="haschild">
+                        </div>
+                    </div>
+                    <div class="info">
+                        <div class="form-group">
+                            <label class="col-sm-4" style="padding: 0; margin-top: 5px;">Vợ</label>
+                            <div class="col-sm-8" style="padding: 0;">
+                                <input class="form-control" dataid="@chudat.id" dataname="hoten1" value="@chudat.hoten1" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4" style="padding: 0; margin-top: 5px;">Năm sinh</label>
+                            <div class="col-sm-8" style="padding: 0;">
+                                <input class="form-control datetime" dataid="@chudat.id" dataname="ngaysinh1" value="@Html.Raw( chudat.ngaysinh1.HasValue? chudat.ngaysinh1.Value.ToString("dd/MM/yyyy") : null)" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4" style="padding: 0; margin-top: 5px;">Năm mất</label>
+                            <div class="col-sm-8" style="padding: 0;">
+                                <input class="form-control datetime" dataid="@chudat.id" dataname="ngaychet1" value="@Html.Raw( chudat.ngaychet1.HasValue? chudat.ngaychet1.Value.ToString("dd/MM/yyyy") : null)" />
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="haschild">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*Con*@
+    <div class="con">
+        @foreach (var con in HTK1DUOI)
+        {
+            var htk2 = HTK2.Where(x => x.fk_id == con.id).ToList();
+
+            <div class="phantram" style="width: @Html.Raw( soptcon1*(htk2.Count==0 ? 1 : htk2.Count))%">
+                <div class="center">
+                    <div class="hasparent">
+                        <div class="haschild">
+                        </div>
+                    </div>
+                    <div class="@Html.Raw( con.ngaychet.HasValue? "menu2" : null) box" dataid="@con.id">
+                        <div class="info">
+                            <div class="form-group">
+                                <label class="col-sm-4" style="padding: 0; margin-top: 5px;">Quan hệ</label>
+                                <div class="col-sm-8" style="padding: 0;">
+                                    @Html.DropDownList("quanhe", new SelectList(XThongTinCaNhan.sQuanHe, "Key", "Value", con.quanhe), new { @class = "form-control", dataid = con.id, dataname = "quanhe" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4" style="padding: 0; margin-top: 5px;">Họ tên</label>
+                                <div class="col-sm-8" style="padding: 0;">
+                                    <input class="form-control" dataid="@con.id" dataname="hoten" value="@con.hoten" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4" style="padding: 0; margin-top: 5px;">Năm sinh</label>
+                                <div class="col-sm-8" style="padding: 0;">
+                                    <input class="form-control datetime" dataid="@con.id" dataname="ngaysinh" value="@Html.Raw( con.ngaysinh.HasValue? con.ngaysinh.Value.ToString("dd/MM/yyyy") : null)" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4" style="padding: 0; margin-top: 5px;">Năm mất</label>
+                                <div class="col-sm-8" style="padding: 0;">
+                                    <input class="form-control datetime" dataid="@con.id" dataname="ngaychet" value="@Html.Raw( con.ngaychet.HasValue? con.ngaychet.Value.ToString("dd/MM/yyyy") : null)" />
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                    @if (htk2.Count > 0)
+                    {
+                        <div class="haschild">
+                        </div>
+                    }
+                </div>
+                <div class="chau">
+                    @foreach (var con2 in htk2)
+                    {
+                        <div class="phantram" style="width: @Html.Raw( 98/htk2.Count())%">
+                            <div class="center">
+                                <div class="hasparent">
+                                    <div class="haschild">
+                                    </div>
+                                </div>
+                                <div class="menu box">
+                                    <div class="info">
+                                        <div class="form-group">
+                                            <label class="col-sm-4" style="padding: 0; margin-top: 5px;">Quan hệ</label>
+                                            <div class="col-sm-8" style="padding: 0;">
+                                                @Html.DropDownList("quanhe", new SelectList(XThongTinCaNhan.sQuanHe, "Key", "Value", con2.quanhe), new { @class = "form-control", dataid = con2.id, dataname = "quanhe" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-4" style="padding: 0; margin-top: 5px;">Họ tên</label>
+                                            <div class="col-sm-8" style="padding: 0;">
+                                                <input class="form-control" dataid="@con2.id" dataname="hoten" value="@con2.hoten" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-4" style="padding: 0; margin-top: 5px;">Năm sinh</label>
+                                            <div class="col-sm-8" style="padding: 0;">
+                                                <input class="form-control datetime" dataid="@con2.id" dataname="ngaysinh" value="@Html.Raw( con2.ngaysinh.HasValue? con2.ngaysinh.Value.ToString("dd/MM/yyyy") : null)" />
+                                            </div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div type="context" id="menu1" style="display: none">
+    <ul style="list-style: none; padding: 0; margin: 0;">
+        <li style="list-style: none; padding: 10px; "><a style=" color: white;" href="javascript:themqh(@((int)XThongTinCaNhan.eQuanHe.Con));">Thêm con</a></li>
+    </ul>
+</div>
+<div type="context" id="menu2" style="display: none">
+    <ul style="list-style: none; padding: 0; margin: 0;">
+        <li style="list-style: none; padding: 10px; "><a style=" color: white;" href="javascript:themqh(@((int)XThongTinCaNhan.eQuanHe.VoChong));">Thêm vợ hoặc chồng</a></li>
+        <li style="list-style: none; padding: 10px; "><a style=" color: white;" href="javascript:themqh(@((int)XThongTinCaNhan.eQuanHe.Con));">Thêm con</a></li>
+    </ul>
+</div>
+
+<div class="alert alert-success col-md-12" id="success-alert" style="display: none; margin-top: 20px;">
+    <button type="button" class="close" data-dismiss="alert">x</button>
+    <strong>Success! </strong> Đã cập nhật thành công.
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        var current;
+        var blur = false;
+        var timer = 0;
+        $(document).ready(function () {
+            setInterval(function () { timer--; }, 3);
+            $(".datetime").datepicker({
+                "autoclose": true,
+                "todayHighlight": true,
+                "dateFormat": "dd/mm/yyyy",
+                "format": "dd/mm/yyyy",
+            });
+            $(".menu1").each(function () {
+                var ctr
+                var menu = document.getElementById('menu1');
+                this.addEventListener("contextmenu", function (e) {
+                    e.preventDefault();
+                    menu.style.display = 'block';
+                    menu.style.left = e.x + 'px';
+                    menu.style.top = e.y + 'px';
+                    current = $(this).attr("dataid");
+                });
+                document.addEventListener("click", function (e) {
+                    menu.style.display = 'none';
+                });
+            });
+            $(".menu2").each(function () {
+                var menu = document.getElementById('menu2');
+                this.addEventListener("contextmenu", function (e) {
+                    e.preventDefault();
+                    menu.style.display = 'block';
+                    menu.style.left = e.x + 'px';
+                    menu.style.top = e.y + 'px';
+                    current = $(this).attr("dataid");
+                });
+                document.addEventListener("click", function (e) {
+                    menu.style.display = 'none';
+                });
+            });
+            $(":input").change(function () {
+                if (blur && timer < -5) {
+                    timer = 0;
+                    var id = $(this).attr("dataid");
+                    var val = $(this).val();
+                    var prop = $(this).attr("dataname");;
+                    $.ajax({
+                        url: '/ThongTinCaNhans/UpdateX',
+                        type: "POST",
+                        dataType: "JSON",
+                        data: { id: id, val: val, prop: prop },
+                        success: function (mess) {
+                            location.href = location.href;
+                        }
+                    });
+                }
+            });
+            $(":input").blur(function () {
+                blur = true;
+            });
+        });
+        function themqh(quanhe) {
+            var id = current;
+            $.ajax({
+                url: '/ThongTinCaNhans/InsertX',
+                type: "POST",
+                dataType: "JSON",
+                data: { id: id, quanhe: quanhe },
+                success: function (mess) {
+                    location.href = location.href;
+                }
+            });
+        }
+    </script>
+}

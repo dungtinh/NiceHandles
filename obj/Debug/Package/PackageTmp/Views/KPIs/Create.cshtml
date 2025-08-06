@@ -1,0 +1,446 @@
+﻿@model NiceHandles.Models.KPI
+@using NiceHandles.Models
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var db = new NHModel();
+    var links = db.KPILinks.Where(x => x.KPI_id == Model.id).ToArray();
+    var socials = db.Socials.Where(x => x.kpi_id == Model.id).ToArray();
+    //
+    var fbs = links.Where(x => x.type == (int)XKPI.eType.Facebook).ToArray();
+    var zls = links.Where(x => x.type == (int)XKPI.eType.Zalo).ToArray();
+    var gps = links.Where(x => x.type == (int)XKPI.eType.Group).ToArray();
+    var fps = links.Where(x => x.type == (int)XKPI.eType.Fanpage).ToArray();
+    var wbs = links.Where(x => x.type == (int)XKPI.eType.Website).ToArray();
+
+    var fb = fbs.FirstOrDefault();
+    var zl = zls.FirstOrDefault();
+    var gp = gps.FirstOrDefault();
+    var fp = fps.FirstOrDefault();
+    var wb = wbs.FirstOrDefault();
+    // kbfb =
+    var kbfb = socials.Where(x => x.type == (int)XKPI.eType.PostFacebook);
+    var kbzl = socials.Where(x => x.type == (int)XKPI.eType.PostZalo);
+    // Chỉ tiêu
+    var chitieus = db.KPIChiTieux.Where(x => x.user_id == Model.user_id);
+
+}
+
+<h2>Cập nhật KPI</h2>
+
+<h4>KPI - Ngày @DateTime.Now.ToString("dd/MM/yyyy")</h4>
+<p><i>Chỉ tiêu mỗi ngày: </i></p>
+<div class="clearfix">
+    <ul style="margin: 0; padding: 0;">
+        @foreach (var item in XKPI.sType.Select(x => new { Key = x.Key, Value = x.Value }))
+        {
+            var per = chitieus.Where(x => x.type == item.Key).SingleOrDefault();
+            <li style="list-style: none; float: left; width: 45%; height: 36px;">
+                <input style="height: 28px; width: 50px;" disabled="disabled" type="number" name="kpi" value="@(per!=null?per.chitieu : 0)" />
+                <span style="vertical-align: middle;">@item.Value</span>
+            </li>
+        }
+    </ul>
+</div>
+<hr />
+<div style="border: 1px none; border-radius: 10px; background-color: azure; padding: 10px; margin: 10px;">
+    <div class="form-horizontal">
+        <h4><i> Nhập link chia sẻ</i></h4>
+        <div id="fb">
+            <div class="form-group">
+                @Html.Label("Đăng Facebook", new { @class = "control-label col-md-2" })
+                <div class="col-md-9">
+                    <input type="text" class="form-control" value="@(fb!=null?fb.link: null)" />
+                </div>
+                <div class="col-md-1">
+                    <input type="button" name="add" class="btn btn-danger" value="Thêm" />
+                </div>
+            </div>
+            @for (int index = 1; index < fbs.Count(); index++)
+            {
+                <div class="form-group">
+                    <label class="control-label col-md-2">&nbsp; </label>
+                    <div class="col-md-9">
+                        <input type="text" name="fb" class="form-control" value="@(fbs[index] !=null?fbs[index].link: null)" />
+                    </div>
+                    <div class="col-md-1">
+                    </div>
+                </div>
+            }
+        </div>
+        <div id="zl">
+            <div class="form-group">
+                @Html.Label("Đăng Zalo", new { @class = "control-label col-md-2" })
+                <div class="col-md-9">
+                    <input type="text" class="form-control" value="@(zl!=null?zl.link: null)" />
+                </div>
+                <div class="col-md-1">
+                    <input type="button" name="add" class="btn btn-danger" value="Thêm" />
+                </div>
+            </div>
+            @for (int index = 1; index < zls.Count(); index++)
+            {
+                <div class="form-group">
+                    <label class="control-label col-md-2">&nbsp; </label>
+                    <div class="col-md-9">
+                        <input type="text" name="zl" class="form-control" value="@(zls[index] !=null?zls[index].link: null)" />
+                    </div>
+                    <div class="col-md-1">
+                    </div>
+                </div>
+            }
+        </div>
+        <div id="gp">
+            <div class="form-group">
+                @Html.Label("Đăng Group FB", new { @class = "control-label col-md-2" })
+                <div class="col-md-9">
+                    <input type="text" class="form-control" value="@(gp!=null?gp.link: null)" />
+                </div>
+                <div class="col-md-1">
+                    <input type="button" name="add" class="btn btn-danger" value="Thêm" />
+                </div>
+            </div>
+            @for (int index = 1; index < gps.Count(); index++)
+            {
+                <div class="form-group">
+                    <label class="control-label col-md-2">&nbsp; </label>
+                    <div class="col-md-9">
+                        <input type="text" name="gp" class="form-control" value="@(gps[index] !=null?gps[index].link: null)" />
+                    </div>
+                    <div class="col-md-1">
+                    </div>
+                </div>
+            }
+        </div>
+        <div id="fp">
+            <div class="form-group">
+                @Html.Label("Đăng Fanpage FB", new { @class = "control-label col-md-2" })
+                <div class="col-md-9">
+                    <input type="text" class="form-control" value="@(fp!=null?fp.link: null)" />
+                </div>
+                <div class="col-md-1">
+                    <input type="button" name="add" class="btn btn-danger" value="Thêm" />
+                </div>
+            </div>
+            @for (int index = 1; index < fps.Count(); index++)
+            {
+                <div class="form-group">
+                    <label class="control-label col-md-2">&nbsp; </label>
+                    <div class="col-md-9">
+                        <input type="text" name="fp" class="form-control" value="@(fps[index] !=null?fps[index].link: null)" />
+                    </div>
+                    <div class="col-md-1">
+                    </div>
+                </div>
+            }
+        </div>
+        <div id="wb">
+            <div class="form-group">
+                @Html.Label("Đăng Website", new { @class = "control-label col-md-2" })
+                <div class="col-md-9">
+                    <input type="text" name="wb" class="form-control" value="@(wb!=null?wb.link: null)" />
+                </div>
+                <div class="col-md-1">
+                    <input type="button" name="add" class="btn btn-danger" value="Thêm" />
+                </div>
+            </div>
+            @for (int index = 1; index < wbs.Count(); index++)
+            {
+                <div class="form-group">
+                    <label class="control-label col-md-2">&nbsp; </label>
+                    <div class="col-md-9">
+                        <input type="text" name="wb" class="form-control" value="@(wbs[index] !=null?wbs[index].link: null)" />
+                    </div>
+                    <div class="col-md-1">
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<div style="border: 1px none; border-radius: 10px; background-color: aliceblue; padding: 10px; margin: 10px;" id="kbzl">
+    <div class="form-horizontal">
+        <h4><i> Nhập danh sách kết bạn Zalo</i></h4>
+        <div class="form-group">
+            @Html.Label("Họ tên", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="text" name="hoten" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("ID/SĐT", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="text" name="iden" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Nghề nghiệp", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="text" name="nghenghiep" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Ghi chú", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="text" name="ghichu" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label(" ", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="button" class="btn btn-primary" name="addkb" pid="kbzl" value="Thêm" />
+            </div>
+        </div>
+
+        <table class="table">
+            <tr>
+                <th>
+                    Họ tên
+                </th>
+                <th>
+                    ID/SĐT
+                </th>
+                <th>
+                    Nghề nghiệp
+                </th>
+                <th>
+                    Ghi chú
+                </th>
+                <th>
+                </th>
+            </tr>
+            @foreach (var item in kbzl)
+            {
+                <tr>
+                    <td>@item.name</td>
+                    <td>@item.id_no</td>
+                    <td>@item.nghenghiep</td>
+                    <td>@item.note</td>
+                    <td><button class="btn btn-danger" onclick="del(this);">Xóa</button></td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+<div style="border: 1px none; border-radius: 10px; background-color: whitesmoke; padding: 10px; margin: 10px;" id="kbfb">
+    <div class="form-horizontal">
+        <h4><i> Nhập danh sách kết bạn Facebook</i></h4>
+        <div class="form-group">
+            @Html.Label("Họ tên", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="text" name="hoten" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("ID/SĐT", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="text" name="iden" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Nghề nghiệp", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="text" name="nghenghiep" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Ghi chú", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="text" name="ghichu" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label(" ", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="button" class="btn btn-primary" name="addkb" pid="kbfb" value="Thêm" />
+            </div>
+        </div>
+
+        <table class="table">
+            <tr>
+                <th>
+                    Họ tên
+                </th>
+                <th>
+                    ID/SĐT
+                </th>
+                <th>
+                    Nghề nghiệp
+                </th>
+                <th>
+                    Ghi chú
+                </th>
+                <th>
+                </th>
+            </tr>
+            @foreach (var item in kbfb)
+            {
+                <tr>
+                    <td>@item.name</td>
+                    <td>@item.id_no</td>
+                    <td>@item.nghenghiep</td>
+                    <td>@item.note</td>
+                    <td><button class="btn btn-danger" onclick="del(this);">Xóa</button></td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+
+<div class="form-horizontal">
+    <div class="form-group">
+        @Html.Label("Báo cáo", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <textarea type="text" name="report" class="form-control" rows="5" id="report">@Model.ghichu</textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="button" value="Cập nhật lên hệ thống" class="btn btn-danger" onclick="AddKPI();" />
+        </div>
+    </div>
+
+</div>
+
+<div>
+    @Html.ActionLink("Về danh sách", "Index")
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            $("[name='add']").click(function () {
+                $('<div class="form-group">' +
+                    '<label class="control-label col-md-2" >&nbsp; </label>' +
+                    '<div class="col-md-9">' +
+                    '<input type="text" name="fb" class="form-control">' +
+                    '</div>' +
+                    '<div class= "col-md-1" > ' +
+                    '</div > ' +
+                    '</div>').insertAfter($(this).parent().parent());
+            });
+            $("[name='addkb']").click(function () {
+                var type = $(this).attr("pid");
+                var hoten = $("#" + type + " [name='hoten']").val();
+                var iden = $("#" + type + " [name='iden']").val();
+                var nghenghiep = $("#" + type + " [name='nghenghiep']").val();
+                var ghichu = $("#" + type + " [name='ghichu']").val();
+                if (!hoten || !iden) {
+                    alert("Yêu cầu nhập đầy đủ thông tin");
+                    return;
+                }
+                $("#" + type + " table").append('<tr>' +
+                    '<td>' + hoten + '</td>' +
+                    '<td>' + iden + '</td>' +
+                    '<td>' + nghenghiep + '</td>' +
+                    '<td>' + ghichu + '</td>' +
+                    '<td><button class="btn btn-danger" onclick="del(this);">Xóa</button></td>' +
+                    '</tr>'
+                );
+            });
+        });
+        function del(ctr) {
+            $(ctr).parent().parent().remove();
+        }
+        function AddKPI() {
+            var lstFB = [], lstZL = [], lstGP = [], lstFP = [], lstWB = [], lstKBZL = [], lstKBFB = [];
+            var report = $("#report").val();
+            $("#fb [type='text']").each(function () {
+                var fb = $(this).val();
+                if (fb) {
+                    var KPILink = new Object();
+                    KPILink.type = @((int)XKPI.eType.Facebook);
+                    KPILink.link = fb;
+                    lstFB.push(KPILink);
+                }
+            });
+            $("#zl [type='text']").each(function () {
+                var fb = $(this).val();
+                if (fb) {
+                    var KPILink = new Object();
+                    KPILink.type = @((int)XKPI.eType.Zalo);
+                    KPILink.link = fb;
+                    lstZL.push(KPILink);
+                }
+            });
+            $("#gp [type='text']").each(function () {
+                var fb = $(this).val();
+                if (fb) {
+                    var KPILink = new Object();
+                    KPILink.type = @((int)XKPI.eType.Group);
+                    KPILink.link = fb;
+                    lstGP.push(KPILink);
+                }
+            });
+            $("#fp [type='text']").each(function () {
+                var fb = $(this).val();
+                if (fb) {
+                    var KPILink = new Object();
+                    KPILink.type = @((int)XKPI.eType.Fanpage);
+                    KPILink.link = fb;
+                    lstFP.push(KPILink);
+                }
+            });
+            $("#wb [type='text']").each(function () {
+                var fb = $(this).val();
+                if (fb) {
+                    var KPILink = new Object();
+                    KPILink.type = @((int)XKPI.eType.Website);
+                    KPILink.link = fb;
+                    lstWB.push(KPILink);
+                }
+            });
+            // KBZL
+            var st = 0;
+            $("#kbzl table tr").each(function () {
+                st++;
+                if (st > 0) {
+                    var obj = new Object();
+                    obj.type = @((int)XKPI.eType.PostZalo);
+                    obj.name = $("td", this).eq(0).text();
+                    obj.id_no = $("td", this).eq(1).text();
+                    obj.nghenghiep = $("td", this).eq(2).text();
+                    obj.note = $("td", this).eq(3).text();
+                    if (obj.name && obj.id_no)
+                        lstKBZL.push(obj);
+                }
+
+            });
+            // KBFB
+            st = 0;
+            $("#kbfb table tr").each(function () {
+                st++;
+                if (st > 0) {
+                    var obj = new Object();
+                    obj.type = @((int)XKPI.eType.PostFacebook);
+                    obj.name = $("td", this).eq(0).text();
+                    obj.id_no = $("td", this).eq(1).text();
+                    obj.nghenghiep = $("td", this).eq(2).text();
+                    obj.note = $("td", this).eq(3).text();
+                    if (obj.name && obj.id_no)
+                        lstKBFB.push(obj);
+                }
+
+            });
+            $.ajax({
+                url: '/KPIs/Submit',
+                data: {
+                    report: report,
+                    lstFB: lstFB,
+                    lstZL: lstZL,
+                    lstGP: lstGP,
+                    lstFP: lstFP,
+                    lstWB: lstWB,
+                    lstKBZL: lstKBZL,
+                    lstKBFB: lstKBFB
+                },
+                type: "POST",
+                dataType: "JSON",
+                success: function (url) {
+                    location.pathname = url;
+                }
+            });
+        }
+    </script>
+}

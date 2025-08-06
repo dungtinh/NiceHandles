@@ -1,0 +1,24 @@
+﻿<h2>Nếu file không tự động tải xuống, vui lòng nhấp vào link bên dưới</h2>
+<a href="@ViewBag.GoogleLink" target="_blank">Nhấp vào đây để tải file đo vẽ</a>
+<h2>Hoặc copy lại đường dẫn sau đó dán vào trình duyệt</h2>
+<div class="row">
+    <label class="col-sm-2" style="text-align: right;margin-top: 5px;">Đường dẫn: </label>
+    <div class="col-sm-10">
+        <input type="text" readonly="readonly" id="txtLink" value="@ViewBag.GoogleLink" class="form-control" />
+    </div>
+</div>
+
+<iframe id="my_iframe" style="display:none;"></iframe>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#txtLink").click(function () {
+                $("#txtLink").select();
+                document.execCommand("copy");
+            });
+            setTimeout(function () {
+                document.getElementById('my_iframe').src = "@ViewBag.GoogleLink";
+            }, 1000);
+        });
+    </script>
+}

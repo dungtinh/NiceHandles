@@ -1,0 +1,107 @@
+﻿@model NiceHandles.Models.dovelichsu
+@using NiceHandles.Models
+@{
+    var db = new NiceHandles.Models.NHModel();
+    var lstNhatKy = db.dovelichsus.Where(x => x.hoso_id == Model.hoso_id).OrderByDescending(x => x.time);
+    var dove = db.Doves.FirstOrDefault(x => x.hoso_id == Model.hoso_id);
+    if (dove == null)
+    {
+        dove = new Dove();
+        dove.hoso_id = Model.id;
+        dove.time = DateTime.Now;
+        dove.status = (int)XModels.eStatus.Processing;
+        dove.note = string.Empty;
+        dove.account_id = lstNhatKy.Count() > 0 ? lstNhatKy.First().dove_account : 2;
+        db.Doves.Add(dove);
+        db.SaveChanges();
+    }
+}
+@using (Html.BeginForm("CreateNhatKy", "Doves", FormMethod.Post, new { role = "form", enctype = "multipart/form-data", id = "createdovenhatky" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.hoso_id)
+
+
+        <div class="form-group" style="background-color: deepskyblue; padding: 10px;">
+            <div class="col-sm-2" style="text-align: right;">
+                Thông tin hiện trạng
+            </div>
+            <div class="col-md-8">
+                <textarea id="txtDoveNote" class="form-control" rows="1">@dove.note</textarea>
+            </div>
+            <div class="col-sm-2">
+                <button class="btn btn-warning" type="button" onclick="LuuDoveNote(@dove.id,'#createdovenhatky #txtDoveNote');">Cập nhật</button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.name, "Người thực hiện", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.dove_account, new SelectList(db.Accounts.Where(x => x.sta == (int)XAccount.eStatus.Processing).ToArray(), "id", "fullname"), null, new { @class = "form-control", autocomplete = "off" })
+                @Html.ValidationMessageFor(model => model.dove_account, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.name, "Lời nhắn", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control", autocomplete = "off" } })
+                @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.url, "File đính kèm", new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.TextBox("flLink", "", new { @class = "form-control btn btn-info", @type = "file" })
+                @Html.ValidationMessageFor(model => model.url, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.time_exp, "Hạn thực hiện", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.EditorFor(model => model.time_exp, new { htmlAttributes = new { @class = "form-control datetime", autocomplete = "off" } })
+                @Html.ValidationMessageFor(model => model.time_exp, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Thực hiện" class="btn btn-primary" onclick="SubmitNhatKyDoVe()" />
+            </div>
+        </div>
+    </div>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>Người giao</th>
+            <th>Người thực hiện</th>
+            <th>Ngày nhắn</th>
+            <th>Ngày hạn</th>
+            <th>Nội dung</th>
+            <th style="text-align:center;">Đính kèm</th>
+        </tr>
+    </thead>
+    @foreach (var item in lstNhatKy)
+    {
+        var acc = db.Accounts.Find(item.account_id);
+        var accTH = db.Accounts.Find(item.dove_account);
+        <tr>
+            <td>@acc.fullname</td>
+            <td>@accTH.fullname</td>
+            <td>@item.time.ToString("dd/MM/yyyy")</td>
+            <td>@Html.Raw(item.time_exp.HasValue ? item.time_exp.Value.ToString("dd/MM/yyyy") : "")</td>
+            <td>@item.name</td>
+            @if (!string.IsNullOrEmpty(item.url))
+            {
+                <td style="text-align: center; padding: 0; font-size: 24px;"><a href="@item.url" target="_blank"> <i class="fa fa-file-download"></i></a></td>
+            }
+            else
+            {
+                <td style="text-align: center;"><i>---</i></td>
+            }
+        </tr>
+    }
+</table>

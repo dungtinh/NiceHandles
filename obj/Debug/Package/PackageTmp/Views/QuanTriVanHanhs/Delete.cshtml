@@ -1,0 +1,57 @@
+﻿@model NiceHandles.Models.QuanTriVanHanh
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>QuanTriVanHanh</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.plans)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.plans)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.workflows)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.workflows)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.reports)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.reports)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.no)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.no)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

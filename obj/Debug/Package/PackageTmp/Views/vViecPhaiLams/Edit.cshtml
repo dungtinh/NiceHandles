@@ -1,0 +1,60 @@
+﻿@model NiceHandles.Models.vViecPhaiLam
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>vViecPhaiLam</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.title)
+
+        @Html.HiddenFor(model => model.id)
+
+        @Html.HiddenFor(model => model.name)
+
+        @Html.HiddenFor(model => model.time)
+
+        @Html.HiddenFor(model => model.time_progress)
+
+        @Html.HiddenFor(model => model.hoso_id)
+
+        @Html.HiddenFor(model => model.hoso_name)
+
+        @Html.HiddenFor(model => model.service_id)
+
+        @Html.HiddenFor(model => model.service_name)
+
+        @Html.HiddenFor(model => model.progress_type)
+
+        @Html.HiddenFor(model => model.account_id)
+
+        @Html.HiddenFor(model => model.fullname)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.result, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.result, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.result, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

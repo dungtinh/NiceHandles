@@ -1231,5 +1231,97 @@ namespace NiceHandles.Controllers
             }
             return RedirectToAction("CongNo");
         }
+        // Thêm action để lấy thông tin thu chi theo hợp đồng
+        [HttpGet]
+        public JsonResult GetContractFinancialInfo(int contractId)
+        {
+            try
+            {
+                var contract = db.Contracts.Find(contractId);
+                if (contract == null)
+                {
+                    return Json(new { success = false, message = "Không tìm thấy hợp đồng" }, JsonRequestBehavior.AllowGet);
+                }
+
+                // Lấy tổng thu từ hợp đồng
+                var totalThu = db.vInOuts.Where(x => x.contract_id == contractId && x.type == (int)XCategory.eType.Thu)
+                                         .Sum(x => (long?)x.amount) ?? 0;
+
+                // Lấy tổng chi từ hợp đồng
+                var totalChi = db.vInOuts.Where(x => x.contract_id == contractId && x.type == (int)XCategory.eType.Chi)
+                                         .Sum(x => (long?)x.amount) ?? 0;
+
+                // Lấy chi tiết các khoản chi theo loại
+                var chiHoaHongDoiTac = db.vInOuts.Where(x => x.contract_id == contractId &&
+                                                           x.type == (int)XCategory.eType.Chi &&
+                                                           x.name.Contains("hoa hồng đối tác"))
+                                                .Sum(x => (long?)x.amount) ?? 0;
+
+                var chiHoaHongNhanVien = db.vInOuts.Where(x => x.contract_id == contractId &&
+                                                             x.type == (int)XCategory.eType.Chi &&
+                                                             x.name.Contains("hoa hồng nhân viên"))
+                                                  .Sum(x => (long?)x.amount) ?? 0;
+
+                var dmThucHien = db.vInOuts.Where(x => x.contract_id == contractId &&
+                                                     x.type == (int)XCategory.eType.Chi &&
+                                                     x.name.Contains("ĐM thực hiện"))
+                                          .Sum(x => (long?)x.amount) ?? 0;
+
+                var tienDoVe = db.vInOuts.Where(x => x.contract_id == contractId &&
+                                                   x.type == (int)XCategory.eType.Chi &&
+                                                   x.name.Contains("đo vẽ"))
+                                         .Sum(x => (long?)x.amount) ?? 0;
+
+                // Lấy danh sách thu chi trong hợp đồng (10 giao dịch gần nhất)
+                var transactions = db.vInOuts.Where(x => x.contract_id == contractId)
+                                            .OrderByDescending(x => x.time)
+                                            .Take(10)
+                                            .Select(x => new {
+                                                id = x.id,
+                                                time = x.time,
+                                                type = x.type,
+                                                typeName = x.type == (int)XCategory.eType.Thu ? "Thu" : "Chi",
+                                                amount = x.amount,
+                                                note = x.note,
+                                                categoryName = x.name,
+                                                status = x.status,
+                                                statusName = x.status == (int)XInOut.eStatus.ChoDuyet ? "Chờ duyệt" :
+                                                           x.status == (int)XInOut.eStatus.DaDuyet ? "Đã duyệt" : "Hoàn thành"
+                                            }).ToList();
+
+                var result = new
+                {
+                    success = true,
+                    contractInfo = new
+                    {
+                        id = contract.id,
+                        name = contract.name,
+                        amount = contract.amount,
+                        consuming = contract.consuming,
+                        outrose = contract.outrose,
+                        rose = contract.rose,
+                        dove = contract.dove,
+                        remunerate = contract.remunerate
+                    },
+                    summary = new
+                    {
+                        totalThu = totalThu,
+                        totalChi = totalChi,
+                        conLai = totalThu - totalChi,
+                        chiHoaHongDoiTac = chiHoaHongDoiTac,
+                        chiHoaHongNhanVien = chiHoaHongNhanVien,
+                        dmThucHien = dmThucHien,
+                        tienDoVe = tienDoVe
+                    },
+                    transactions = transactions
+                };
+
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

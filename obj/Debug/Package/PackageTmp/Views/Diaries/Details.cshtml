@@ -1,0 +1,42 @@
+﻿@model NiceHandles.Models.Diary
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Diary</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ngaythang)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ngaythang)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.noidung)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.noidung)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.account_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.account_id)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

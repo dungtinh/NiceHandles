@@ -1,0 +1,81 @@
+﻿@model PagedList.IPagedList<NiceHandles.Models.thuchi>
+@using PagedList.Mvc;
+@using NiceHandles.Models
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Quỹ chi tiêu</h2>
+
+<p>
+    @Html.ActionLink("Thêm mới", "Create", null, new { @class = "btn btn-primary" })
+</p>
+
+@using (Html.BeginForm("Index", "thuchis", FormMethod.Get))
+{
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="form-group">
+                @Html.TextBox("Search_Data", ViewBag.FilterValue as string, new { @class = "form-control", placeholder = "Tìm kiếm" })
+            </div>
+        </div>
+        <div class="col-lg-2 col-sm-2 ">
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary" style="height: 28px; width: 100px;">Tìm kiếm</button>
+            </div>
+        </div>
+    </div>
+}
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>
+                Thời gian
+            </th>
+            <th>
+                Số tiền
+            </th>
+            <th>
+                Ghi chú
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            var temp = Model[i].account_id;
+            NiceHandles.Models.NHModel db = ViewBag.db;
+            <tr style="color: @(Model[i].loai == (int)XCategory.eType.Thu  ? "Blue":null );">
+                <td>@Model[i].thoigian.ToString("dd/MM/yyyy")</td>
+                <td>@(Model[i].sotien.ToString("N0"))</td>
+                <td>@Model[i].lydo</td>
+                <td>
+                    @if (Model[i].trangthai == (int)XModels.eStatus.Processing)
+                    {
+                        @Html.ActionLink("Sửa", "Edit", new { id = Model[i].id })
+                        @Html.Raw(" | ")
+                        @Html.ActionLink("Xóa", "Delete", new { id = Model[i].id })
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<p style="background-color: aliceblue; text-align: right; padding: 7px;">
+    <span style="margin: 5px; color: blue;">TỔNG THU: @ViewBag.TongThu</span>
+    <span style="margin: 5px;">TỔNG CHI: @ViewBag.TongChi</span>
+    <span style="margin: 5px; font-weight: 600">THU-CHI: @ViewBag.ThuChi</span>
+</p>
+@if (Model.PageCount > 1)
+{
+    <div class="row" style="margin-top: 10px;">
+        <div class="col-sm-1">
+            Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+        </div>
+        <div class="col-sm-10">
+            @Html.PagedListPager(Model, Page_No => Url.Action("Index", new { Page_No, Filter_Value = ViewBag.FilterValue }))
+        </div>
+    </div>
+}

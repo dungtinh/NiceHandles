@@ -1,0 +1,524 @@
+﻿@model IEnumerable<NiceHandles.Models.DSMotCua>
+@using NiceHandles.Models
+@{
+    ViewBag.Title = "Index";
+    var db = new NHModel();
+    var services = db.Services.Select(x => new { name = x.name, nhacnho = x.nhacnho, phananh = x.phananh, tocao = x.tocao }).ToArray();
+}
+
+<h2>DANH SÁCH HỢP ĐỒNG ĐI 1 CỬA</h2>
+
+<p>
+    @Html.ActionLink("DS cán bộ VPĐKĐĐ", "Index", "Canboes", null, new { @class = "btn btn-danger" })
+    <a href="https://dichvucong.haiphong.gov.vn/Trang-chu/moduleId/398/controller/TTHC/action/KetQuaTraCuuHoSo" target="_blank" class="btn btn-warning fa fa-search">Dịch vụ công</a>
+    <a href="https://hph.mplis.gov.vn/og/" target="_blank" class="btn btn-warning fa fa-search">Mplis HP</a>
+
+    <button onclick="SelectAccount()" class="btn btn-info" style="float: right;">Bản in</button>
+</p>
+<div class="row">
+    @foreach (var acc in Common.cAccounts())
+    {
+        var total = Model.Count(x => x.e_hoten != null && x.e_hoten.Equals(acc.fullname));
+        var slow = Model.Count(x => x.e_hoten != null && x.e_hoten.Equals(acc.fullname) && x.ngaytra < DateTime.Now);
+        <div class="col-md-2">
+            <label> @acc.fullname</label>: <label class="text-danger">@slow</label>/<label>@total</label>
+        </div>
+    }
+</div>
+@using (Html.BeginForm("Index", "di1cua", FormMethod.Get))
+{
+    <div class="row">
+        <div class="col-sm-1">
+            <div class="form-group">
+                @Html.TextBox("Search_Data", ViewBag.FilterValue as string, new { @class = "form-control", placeholder = "Tìm kiếm" })
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                @Html.DropDownList("uq", ViewBag.UYQUYENS as SelectList, "--- Phụ trách ---", new { @class = "form-control", title = "Người thực hiện" })
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                @Html.DropDownList("canbo", ViewBag.CANBOES as SelectList, "--- Thụ lý ---", new { @class = "form-control", title = "Cán bộ thụ lý" })
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                @Html.DropDownList("add", ViewBag.ADDRESS as SelectList, "--- Địa chỉ ---", new { @class = "form-control", title = "Địa chỉ" })
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                @Html.DropDownList("ser", ViewBag.SERVICES as SelectList, "--- Dịch vụ ---", new { @class = "form-control", title = "Dịch vụ" })
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                @Html.DropDownList("par", ViewBag.PARTNER as SelectList, "--- Đối tác ---", new { @class = "form-control", title = "Đối tác" })
+            </div>
+        </div>
+        <div class="col-sm-1">
+            <div class="form-group">
+                <button type="submit" class="btn btn-danger" style="height: 32px; width: 100px;">Tìm kiếm</button>
+            </div>
+        </div>
+    </div>
+}
+<table class="table sortTable">
+    <tr>
+        <th>
+            Hợp đồng
+        </th>
+        <th>
+            Dịch vụ
+        </th>
+        <th>
+            Địa chỉ
+        </th>
+        <th>
+            Cán bộ thụ lý
+        </th>
+        @*<th>
+                Cán bộ 1 cửa
+            </th>*@
+        <th>
+            Mã phiếu hẹn
+        </th>
+        @*<th>
+                Số HD UQ
+            </th>*@
+        <th>
+            Người được UQ
+        </th>
+
+        <th>
+            Ngày nộp
+        </th>
+        <th>
+            Ngày trả
+        </th>
+        <th class="number">
+            T.gian nhận hs
+        </th>
+        <th class="number">
+            Quá hạn DV
+        </th>
+        <th class="number">
+            Quá hạn MC
+        </th>
+        <th>
+            Cảnh báo
+        </th>
+        <th>
+            Trạng thái
+        </th>
+        <th title="Văn bản đến">
+            VB đến
+        </th>
+        <th title="Văn bản đi">
+            VB đi
+        </th>
+        <th>
+            Ghi chú
+        </th>
+        <th width="80px"></th>
+    </tr>
+    @{ int index = 0; }
+    @foreach (var item in Model)
+    {
+        index++;
+        var quahan = (DateTime.Now - item.ngaytra).Days;
+        var canhbao = string.Empty;
+        var service = services.Single(x => x.name.Equals(item.service_name));
+        if (quahan < 0 - service.nhacnho)
+        {
+            canhbao = Xdi1cua.sCanhBaoColor[(int)Xdi1cua.eCanhBao.Khong];
+        }
+        else if (quahan < service.phananh)
+        {
+            canhbao = Xdi1cua.sCanhBaoColor[(int)Xdi1cua.eCanhBao.NhacNho];
+        }
+        else if (quahan < service.tocao)
+        {
+            canhbao = Xdi1cua.sCanhBaoColor[(int)Xdi1cua.eCanhBao.PhanAnh];
+        }
+        else
+        {
+            canhbao = Xdi1cua.sCanhBaoColor[(int)Xdi1cua.eCanhBao.ToCao];
+        }
+        var hasVBDI = db.OneDoorFiles.Any(x => x.contract_id == item.contract_id && x.type == (int)Xdi1cua.eFileType.DDN);
+        var hasVBDEN = db.OneDoorFiles.Any(x => x.contract_id == item.contract_id && x.type == (int)Xdi1cua.eFileType.TBVPDK);
+
+        var NgayTH = (int)(DateTime.Now - item.time).TotalDays;
+        var QH = string.Empty;
+        if (item.exp.HasValue && item.exp.Value < DateTime.Now)
+        {
+            QH = ((int)(DateTime.Now - item.exp.Value).TotalDays).ToString();
+        }
+
+        <tr id="@item.contract_id">
+            <td>
+                @Html.ActionLink(item.customer_name, "Index", "NhiemVus", new { id = item.contract_id, step = item.step }, null)
+            </td>
+            <td>
+                @item.service_name
+            </td>
+            <td>
+                @item.c_xa
+            </td>
+            <td>
+                @item.canbo_name
+            </td>
+            @*<td>
+                    @item.motcua.name
+                </td>*@
+
+            <td>
+                @item.maphieuhen
+            </td>
+            @*<td>
+                    @item.e_giayuyquyenso
+                </td>*@
+            <td>
+                @Html.Raw(String.IsNullOrEmpty(item.e_hoten) ? "" : item.e_hoten.Substring(item.e_hoten.LastIndexOf(" "), item.e_hoten.Length - item.e_hoten.LastIndexOf(" ")))
+            </td>
+            <td>
+                @item.ngaynop.ToString("dd/MM/yyyy")
+            </td>
+            <td>
+                @item.ngaytra.ToString("dd/MM/yyyy")
+            </td>
+            <td>
+                @NgayTH
+            </td>
+            <td>
+                @QH
+            </td>
+            <td>
+                @Html.Raw(quahan > 0 ? quahan.ToString() : "-")
+            </td>
+            <td>
+                @Html.Raw(canhbao)
+            </td>
+            <td>
+                @Html.Raw(Xdi1cua.sStatusColor[item.trangthai])
+            </td>
+            <td>
+                <a href="#" class="@Html.Raw(hasVBDEN? "":"text-danger")" onclick="mdlUpload( @((int)Xdi1cua.eFileType.TBVPDK) ,@item.contract_id);">Xem/Tải lên</a>
+            </td>
+            <td>
+                <a href="#" class="@Html.Raw( hasVBDI? "":"text-danger")" onclick="mdlUpload(@((int)Xdi1cua.eFileType.DDN),@item.contract_id);">Xem/Tải lên</a>
+            </td>
+            <td>
+                @item.ghichu
+            </td>
+            <td>
+                @*@Html.ActionLink("Chuyển trạng thái", null, null, new { onclick = "changestatus(@item.obj.id); return false;" })*@
+                @Html.ActionLink("Sửa", "Edit", new { id = item.id }) |
+                @Html.ActionLink("Xóa", "Delete", new { id = item.id })
+            </td>
+        </tr>
+    }
+
+</table>
+
+<div id="mdlViewDown" class="modal" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="font-size: 16px; color: deeppink; text-align: center;">Xem/Tải lên</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+
+                        <div class="form-horizontal">
+                            <ul id="lstFile">
+                                <li>
+                                    Chưa có tài liệu nào...
+                                </li>
+                            </ul>
+                            <div class="form-group">
+                                <label class="col-sm-2"> </label>
+                                <form id="frmUpload" class="col-sm-10">
+                                    <input id="hdId" type="hidden" />
+                                    <input id="hdType" type="hidden" />
+                                    <input id="flUpload" type="file" style="display: inline-block;" class="btn btn-primary" />
+                                    <input type="submit" value="Upload" class="btn btn-primary" />
+                                </form>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng lại</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="font-size: 16px; color: deeppink; text-align: center;">CHUYỂN TRẠNG THÁI</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Trạng thái</label>
+                                <div class="col-md-10">
+                                    @Html.DropDownList("trangthai", new SelectList(Xdi1cua.sStatus, "Key", "Value"), new { @class = "form-control" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Ghi chú</label>
+                                <div class="col-md-10">
+                                    @Html.TextBox("ghichu", null, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="UpdateStatus();">Chấp nhận</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" role="dialog" id="mdlNguoiUyQuyen" tabindex="-1">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="font-size: 16px; color: deeppink; text-align: center;">IN DANH SÁCH HỒ SƠ</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="control-label col-md-3">Người phụ trách</label>
+                                <div class="col-md-9">
+                                    @Html.DropDownList("selected_account_id", new SelectList(db.Accounts.Where(x => x.is_uq == (int)XModels.eYesNo.Yes), "id", "fullname"), " --- Chọn người phụ trách --- ", new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="PrintDS();">Chấp nhận</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="password" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="float: left;">Nhập mật khẩu xóa</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Để chắc chắn rằng mình muốn xóa, vui lòng nhập mật khẩu</p>
+                <input type="password" class="form-control" id="txtPassword" />
+                <i id="lblWrongPass" class="text-danger hide">Sai mật khẩu</i>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="confirmed()">Chấp nhận</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<iframe id="my_iframe" style="display:none;"></iframe>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $(".datetime").datepicker({
+                "autoclose": true,
+                "todayHighlight": true,
+                "dateFormat": "dd/mm/yyyy",
+                "format": "dd/mm/yyyy",
+            });
+
+            $('#frmUpload').on("submit", function (event) {
+                var frm = this;
+                var t = $("#hdType").val();
+                var id = $("#hdId").val();
+                var formdata = new FormData(); //FormData object
+                var fileInput = $(':file', this)[0];
+                for (i = 0; i < fileInput.files.length; i++) {
+                    formdata.append(fileInput.files[i].name, fileInput.files[i]);
+                }
+                formdata.append("id", id);
+                formdata.append("t", t);
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '/di1cua/Upload');
+                xhr.send(formdata);
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        $.ajax({
+                            url: '/di1cua/ViewDown',
+                            type: "POST",
+                            dataType: "JSON",
+                            data: { id: id, t: t },
+                            success: function (data) {
+                                $("#lstFile").html(data);
+                            }
+                        });
+                    }
+                }
+                event.preventDefault();
+            });
+            $(".canhbao").click(function () {
+                var id = $(this).parent().parent().attr("id");
+                $.ajax({
+                    url: '/di1cua/PrintWarning',
+                    data: { id: id },
+                    type: "GET",
+                    dataType: "JSON",
+                    success: function (url) {
+                        document.getElementById('my_iframe').src = url;
+                    }
+                });
+            });
+
+        });
+        function delFile(ctr) {
+            currentDelCtr = ctr;
+            $("#password").modal("show");
+        }
+        var currentDelCtr = null;
+        function confirmed() {
+            var pass = $("#txtPassword").val();
+            if (pass == "@Html.Raw(NiceHandles.Models.XModels.Password)") {
+                var id = currentDelCtr.id;
+                $.ajax({
+                    url: '/di1cua/DelFile',
+                    type: "POST",
+                    dataType: "JSON",
+                    data: { id: id },
+                    success: function () {
+                        $(currentDelCtr).parent().remove();
+                    }
+                });
+                $("#password").modal("hide");
+            }
+            else { $("#lblWrongPass").removeClass("hide"); }
+        }
+        function mdlUpload(t, id) {
+            $("#hdId").val(id);
+            $("#hdType").val(t);
+            $.ajax({
+                url: '/di1cua/ViewDown',
+                type: "POST",
+                dataType: "JSON",
+                data: { id: id, t: t },
+                success: function (data) {
+                    $("#lstFile").html(data);
+                }
+            });
+            $("#mdlViewDown").modal("show");
+        }
+        var current_id = 0;
+        function changestatus(id) {
+            current_id = id;
+            $(".modal").modal("show");
+        }
+        function UpdateStatus() {
+            $.ajax({
+                url: '/di1cua/UpdateStatus',
+                type: "POST",
+                dataType: "JSON",
+                data: { id: current_id, trangthai: $("#trangthai").val(), ghichu: $("#ghichu").val() },
+                success: function () {
+                    location.href = location.href;
+                }
+            });
+        }
+        function TraCuuTTHS(pSoBienNhan, pSoGiayTo, pSoDienThoai) {
+            pSoBienNhan = "000.00.13.H24-221021-0164";
+            pSoGiayTo = "";
+            pSoDienThoai = "";
+            var ThongTin = { SoBienNhan: pSoBienNhan, SoGiayTo: pSoGiayTo, SoDienThoai: pSoDienThoai };
+            var data = new FormData();
+            data.append('ThongTin', JSON.stringify(ThongTin));
+            moduleId = 398;
+            tabId = 32;
+            rvtoken = null;
+
+            $.ajax({
+                type: 'GET',
+                contentType: false,
+                url: 'https://dichvucong.haiphong.gov.vn/DesktopModules/MVC/Congdan/TTHC/TraCuuTTHSClick',
+                headers: {
+                    "ModuleId": moduleId,
+                    "TabId": tabId,
+                    "RequestVerificationToken": rvtoken,
+                },
+                data: data,
+                dataType: 'jsonp',
+                processData: false,
+                success: function (response) {
+                    //console.log(response);
+                    //console.log("first: " + response.data); //SelectDanhSachHoSoResult
+                    var result = JSON.parse(response.data);
+                    if (result == "-1") {
+                        msgDanger("Lỗi trong quá trình tra cứu", 3000);
+                    } else {
+                        setTimeout(function () {
+                            ReloadDSHoSo(result.SelectDanhSachHoSoResult);
+                            $(".loadingModal").fadeOut("fast");
+                        }, 500);
+                    }
+
+                },
+                error: function (data) {
+                    msgDanger('Lỗi trong quá trình tra cứu', 3000)
+                    $(".loadingModal").fadeOut("fast");
+                }
+            });
+        }
+        function PrintDS() {
+            var selected_account_id = $("#selected_account_id").val();
+            $.ajax({
+                url: '/di1cua/PrintDS',
+                data: { account_id: selected_account_id },
+                type: "GET",
+                dataType: "JSON",
+                success: function (url) {
+                    document.getElementById('my_iframe').src = url;
+                }
+            });
+        }
+        function SelectAccount() {
+            $("#mdlNguoiUyQuyen").modal("show");
+        }
+    </script>
+    <script src="~/Scripts/myscripts.js"></script>
+}

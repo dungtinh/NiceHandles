@@ -1,0 +1,121 @@
+﻿@model NiceHandles.Models.InOutChoDuyet
+@using NiceHandles.Models;
+@{
+    Layout = "~/Views/Shared/_LayoutEmpty.cshtml";
+    ViewBag.Title = "Duyệt";
+    var db = new NHModel();
+    var lstDuyet = db.InOuts.Where(x => x.inoutchoduyet_id == Model.id);
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.id)
+    @Html.HiddenFor(model => model.time)
+    @Html.HiddenFor(model => model.status)
+    <div class="row" style="margin: 0 0 15px;">
+        @Html.LabelFor(model => model.note, "Ghi chú", htmlAttributes: new { @class = "control-label col-md-1" })
+        <div class="col-md-10">
+            @Html.TextAreaFor(model => model.note, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.note, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <table class="table">
+        <tr>
+            <th style="width: 20px;"><input type="checkbox" checked id="cboAll" /></th>
+            <th>
+                Hợp đồng
+            </th>
+            <th>
+                Người thực hiện
+            </th>
+            <th>
+                Loại
+            </th>
+            <th>
+                Số tiền
+            </th>
+            <th>
+                Ghi chú
+            </th>
+        </tr>
+
+        @foreach (var item in lstDuyet)
+        {
+            var acc = db.Accounts.Find(item.account_id);
+            var cate = db.Categories.Find(item.category_id);
+            var contract_name = string.Empty;
+            if (item.contract_id.HasValue)
+            {
+                contract_name = db.Contracts.Find(item.contract_id).name;
+            }
+            <tr>
+                <td>
+                    <input type="checkbox" checked id="io@(item.id)" />
+                </td>
+                <td>
+                    @contract_name
+                </td>
+                <td>
+                    @acc.fullname
+                </td>
+                <td>
+                    @cate.name
+                </td>
+                <td>
+                    @item.amount.ToString("N0")
+                </td>
+                <td>
+                    @item.note
+                </td>
+            </tr>
+        }
+    </table>
+
+    <div class="col-md-offset-2 col-md-10">
+        @if (Model.status == (int)XInOutChoDuyet.eStatus.Processing)
+        {
+            <input type="submit" value="Thực hiện" onclick="setCheckedIds();" class="btn btn-success" />
+        }
+        <input type="button" onclick="Print(@Model.id)" value=" Bản in" class="btn btn-default" />
+    </div>
+    @Html.Hidden("checkedids")
+}
+<iframe id="my_iframe" style="display:none;"></iframe>
+<style>
+    body {
+        padding-top: 10px;
+    }
+</style>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            $("#cboAll").click(function () {
+                $('.table input:checkbox').not(this).prop('checked', this.checked);
+            });
+        });
+        function setCheckedIds() {
+            var lst = "";
+            $("td input:checked").each(function () {
+                lst += $(this).attr("id") + ",";
+            });
+            $("#checkedids").val(lst);
+            var koduyet = $("td input:checkbox:not(:checked)").length;
+        }
+        function Print(id) {
+            $.ajax({
+                url: '/InoutChoDuyets/InOutChoDuyetPrint',
+                data: {
+                    id: id
+                },
+                type: "GET",
+                dataType: "JSON",
+                success: function (url) {
+                    document.getElementById('my_iframe').src = url;
+                }
+            });
+        }
+    </script>
+}

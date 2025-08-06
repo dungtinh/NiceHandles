@@ -1,0 +1,43 @@
+﻿@model NiceHandles.Models.NhiemVu
+@using NiceHandles.Models
+<hr />
+<dt class="text-danger">
+    Upload scan ban đầu
+</dt>
+<dd>
+    @using (Html.BeginForm("UploadX", "NhiemVus", FormMethod.Post, new { role = "form", enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.Hidden("code", Model.id)
+        @Html.Hidden("type", (int)XFile.eType.HSTiepNhan)
+        @Html.TextBox("files", null, new { @class = "btn btn-danger", @type = "file", style = "display: inline-block;" })
+        <input type="submit" value="Upload" class="btn btn-danger" />
+    }
+</dd>
+<dt class="text-success">
+    Upload scan hoàn thiện
+</dt>
+<dd>
+    <form id="uplHoSoHoanThien">
+        <input id="flHoSoHoanThien" type="file" style="display: inline-block;" class="btn btn-success" />
+        <input type="submit" value="Upload" class="btn btn-success" />
+    </form>
+</dd>
+<dt>
+    Upload TKTTHC đã điền
+</dt>
+<dd>
+    <form id="uplHoSo1Cua">
+        <input id="flHoSo1Cua" type="file" style="display: inline-block;" class="btn btn-info" />
+        <input type="submit" value="Upload" class="btn btn-info" />
+    </form>
+</dd>
+<style>
+    .dl-horizontal dt {
+        width: 220px;
+    }
+
+    .dl-horizontal dd {
+        margin-left: 250px;
+    }
+</style>

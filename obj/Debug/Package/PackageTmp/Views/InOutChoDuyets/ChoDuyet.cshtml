@@ -1,0 +1,576 @@
+﻿@model IEnumerable<NiceHandles.Models.InOut>
+@using NiceHandles.Models
+@using Microsoft.AspNet.Identity;
+@{
+    var styleEmpty = "";
+    if (Request["l"] != null)
+    {
+        styleEmpty = "width: 95%;";
+        Layout = "~/Views/Shared/_LayoutEmpty.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+    ViewBag.Title = "Chờ duyệt";
+    var db = new NHModel();
+    var types = new SelectList(XCategory.sType, "Key", "Value");
+    var username = User.Identity.GetUserName();
+    var us = db.Accounts.Where(x => x.UserName.Equals(username)).Single();
+    var lstInOutDaDuyet = Model.Where(x => x.status == (int)XInOut.eStatus.DaDuyet).ToArray();
+    var SumAllDaDuyet = lstInOutDaDuyet.Length > 0 ? lstInOutDaDuyet.Sum(x => x.amount) : 0;
+    var accs = db.Accounts.ToArray();
+
+    var lstInOutChoDuyet = Model.Where(x => x.status == (int)XInOut.eStatus.ChoDuyet && !x.contract_id.HasValue && x.unlock == 0).ToArray();
+    var lstInOutChoDuyetTrongHD = Model.Where(x => x.status == (int)XInOut.eStatus.ChoDuyet && x.contract_id.HasValue && x.unlock == 0).ToArray();
+    var index = 0;
+}
+<div style="position: absolute; top: 60px; right: 20px; font-size: small;" class="text-muted"><b>Ghi chú: </b><i style="background-color: khaki;"> -Hồ sơ nền vàng là đã chi quá dự chi</i></div>
+<h3>
+    DANH SÁCH CHỜ DUYỆT | @Html.ActionLink("DUYỆT THEO HỒ SƠ", "duyettheohoso") | @Html.ActionLink("DANH SÁCH CHỜ XEM XÉT", "choxemxet") | @Html.ActionLink("THEO DÕI THỰC HIỆN", "theodoichi", null, new { @target = "_blank" })
+</h3>
+@using (Html.BeginForm("ChoDuyet", "InOutChoDuyets", FormMethod.Get))
+{
+    <div class="row" style="@styleEmpty">
+        <div class="col-sm-1">
+            <div class="form-group">
+                @Html.TextBox("fromdate", ViewBag.FROMDATE as string, new { @class = "form-control datetime", placeholder = "Từ ngày", autocomplete = "off" })
+            </div>
+        </div>
+        <div class="col-sm-1">
+            <div class="form-group">
+                @Html.TextBox("todate", ViewBag.TODATE as string, new { @class = "form-control datetime", placeholder = "Đến ngày", autocomplete = "off" })
+            </div>
+        </div>
+        <div class="col-sm-1">
+            <div class="form-group">
+                @Html.DropDownList("s_account_id", new SelectList(accs.Where(x => x.sta == (int)XAccount.eStatus.Processing), "id", "fullname"), "Tài khoản", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-sm-1">
+            <div class="form-group">
+                @Html.DropDownList("s_type", XCategory.sType.Select(x => new SelectListItem { Value = x.Key.ToString(), Text = x.Value }), "Loại", new { @class = "form-control", @onchange = "s_FillCategory()" })
+            </div>
+        </div>
+        <div class="col-sm-1">
+            <div class="form-group">
+                @Html.DropDownList("s_category_id", new SelectListItem[0], "Loại chi tiết", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-sm-1">
+            <div class="form-group">
+                @Html.DropDownList("s_currency", new SelectList(XModels.sLoaiTien, "Key", "Value"), "TM/CK", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-sm-1">
+            <div class="form-group">
+                @Html.TextBox("Search_Data", ViewBag.FilterValue as string, new { @class = "form-control", placeholder = "Tìm kiếm" })
+            </div>
+        </div>
+        <div class="col-sm-1">
+            <div class="form-group">
+                <button type="submit" class="btn btn-info" style="height: 32px; width: 100px;"><i class="fa fa-search"></i> Tìm kiếm</button>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <button class="btn btn-danger" onclick="InDSChoDuyet()" style="width:100px; float: right;" type="button">In danh sách</button>
+            </div>
+        </div>
+    </div>
+}
+<div style="padding: 10px; background-color: aliceblue;">
+    <h4 class="fa fa-list"> DANH SÁCH CHI TRONG HỢP ĐỒNG CHỜ LÃNH ĐẠO DUYỆT</h4>
+    <table class="table table-hover table-striped">
+        <thead>
+            <tr>
+                <th>
+                    STT
+                </th>
+                <th>
+                    Hợp đồng
+                </th>
+                <th>
+                    Địa chỉ
+                </th>
+                <th>
+                    Dịch vụ
+                </th>
+                <th>
+                    Giá trị HĐ
+                </th>
+                <th>
+                    Đã thu
+                </th>
+                <th>
+                    Phải thu
+                </th>
+                <th>
+                    Dự chi
+                </th>
+                <th>
+                    Đã chi
+                </th>
+                @*<th>
+                        Ngày ký
+                    </th>*@
+                @*<th>
+                        Ngày nộp 1c
+                    </th>*@
+                <th>Họp nguồn gốc</th>
+                <th>Họp tổ đo</th>
+                <th>
+                    Người lĩnh/TH
+                </th>
+                <th>
+                    Loại chi tiết
+                </th>
+                <th>
+                    Số tiền
+                </th>
+                <th>
+                    Ghi chú
+                </th>
+                <th>
+                    <button class="btn btn-danger" onclick="DuyetAllTrongHD()" style="width:80px">Duyệt All</button>
+                </th>
+                <th>
+                    Xem xét
+                </th>
+                <th>
+                    Tác vụ
+                </th>
+            </tr>
+        </thead>
+        <tbody id="ioinct">
+            @foreach (var item in lstInOutChoDuyetTrongHD)
+            {
+                var contract = db.Contracts.Find(item.contract_id.Value);
+                var address = db.Addresses.Find(contract.address_id);
+                var service = db.Services.Find(contract.service_id);
+                string NgayNop1Cua = string.Empty;
+                string giapha = string.Empty;
+                string nguongoc = string.Empty;
+                var todo = string.Empty;
+                var hoso = db.HoSoes.FirstOrDefault(x => x.service_id == contract.service_id && x.contract_id == contract.id);
+                if (hoso != null)
+                {
+                    var di1cua = db.di1cua.Where(x => x.hoso_id == hoso.id).OrderByDescending(x => x.ngaynop).FirstOrDefault();
+                    if (di1cua != null)
+                    {
+                        NgayNop1Cua = di1cua.ngaynop.ToString("dd/MM/yyyy");
+                    }
+                    //var progressGiaPha = db.Progresses.First(x => x.type == (int)XProgress.eType.GiaPha);
+                    //var lstGiaPha = db.progress_file.Where(x => x.hoso_id == hoso.id && x.progress_id == progressGiaPha.id).ToArray();
+                    //foreach (var perGiaPha in lstGiaPha)
+                    //{
+                    //    giapha += "<a href='" + perGiaPha.url + "' target='_blank'>" + perGiaPha.name + "</a>";
+                    //}
+                    var cuochopnguongoc = db.CuocHops.Where(x => x.hoso_id == hoso.id && x.type == (int)XCuocHop.eLoai.HopNguonGoc);
+                    if (cuochopnguongoc.Count() == 0)
+                    {
+                        nguongoc = "<i class='text-primary'>Chưa tạo</i>";
+                    }
+                    else
+                    {
+                        var dachot = cuochopnguongoc.Where(x => x.status == (int)XCuocHop.eStatus.HoiDong);
+                        if (dachot.Count() > 0)
+                        {
+                            var duyet = dachot.OrderByDescending(x => x.time_duyet).First();
+                            nguongoc = "<a target='_blank' href='/cuochops/details/" + duyet.id + "'><i class='text-primary fa fa-eye'> Đã duyệt</i></a>";
+                        }
+                        else
+                        {
+                            var choduyet = cuochopnguongoc.OrderByDescending(x => x.time).First();
+                            nguongoc = "<a target='_blank' href='/cuochops/details/" + choduyet.id + "'><i class='text-primary fa fa-eye'> Chưa duyệt</i></a>";
+                        }
+                    }
+                    var cuochoptodo = db.CuocHops.Where(x => x.hoso_id == hoso.id && x.type == (int)XCuocHop.eLoai.HopToDo);
+                    if (cuochoptodo.Count() == 0)
+                    {
+                        todo = "<i class='text-primary'>Chưa tạo</i>";
+                    }
+                    else
+                    {
+                        var dachot = cuochoptodo.Where(x => x.status == (int)XCuocHop.eStatus.HoiDong);
+                        if (dachot.Count() > 0)
+                        {
+                            var duyet = dachot.OrderByDescending(x => x.time_duyet).First();
+                            todo = "<a target='_blank' href='/cuochops/details/" + duyet.id + "'><i class='text-primary fa fa-eye'> Đã duyệt</i></a>";
+                        }
+                        else
+                        {
+                            var choduyet = cuochoptodo.OrderByDescending(x => x.time).First();
+                            todo = "<a target='_blank' href='/cuochops/details/" + choduyet.id + "'><i class='text-primary fa fa-eye'> Chưa duyệt</i></a>";
+                        }
+                    }
+                }
+                var acc = accs.Single(x => x.id == item.account_id);
+                var cate = db.Categories.Find(item.category_id);
+
+                var summeryInout = (from io in db.InOuts
+                                    where io.status == (int)XInOut.eStatus.DaThucHien && io.contract_id == contract.id
+                                    select new { io.amount, io.type, io.category_id }).ToList();
+                var TotalDaThu = summeryInout.Where(x => x.type == (int)XCategory.eType.Thu).Sum(x => x.amount);
+                var TotalPhaiThu = contract.amount - TotalDaThu;
+                var TotalDaChi = summeryInout.Where(x => x.type == (int)XCategory.eType.Chi).Sum(x => x.amount);
+                index++;
+                <tr id="@("ioinct" + item.id)" style="background-color: @(contract.consuming < TotalDaChi ? "khaki" : "none");">
+                    <td style="text-align: center;">@index</td>
+                    <td>@Html.ActionLink(@contract.name, "details", "contracts", new { id = item.contract_id }, null)</td>
+                    <td>@address.name</td>
+                    <td>@service.name</td>
+                    <td style="text-align: right;">@contract.amount.ToString("N0")</td>
+                    <td style="text-align: right;">@TotalDaThu.ToString("N0")</td>
+                    <td style="text-align: right;">@TotalPhaiThu.ToString("N0")</td>
+                    <td style="text-align: right;">@contract.consuming.ToString("N0")</td>
+                    <td style="text-align: right;" onclick="ShowInOut(@item.contract_id, @((int)XCategory.eType.Chi))">@TotalDaChi.ToString("N0")</td>
+
+                    @*<td>@contract.time.ToString("dd/MM/yyyy")</td>
+                        <td>@NgayNop1Cua</td>*@
+
+                    <td>@Html.Raw(nguongoc)</td>
+                    <td>
+                        @Html.Raw(todo)
+                    </td>
+                    <td>@acc.disname</td>
+                    <td>@(cate != null ? cate.name : "Danh mục đã bị xóa")</td>
+                    <td style="text-align: right;">@((item.type == (int)XCategory.eType.Chi ? "-" : null) + item.amount.ToString("N0"))</td>
+                    <td>@item.note</td>
+                    <td>
+                        @Html.ActionLink("Duyệt", "Duyet", "InOuts", new { id = item.id }, new { @class = "btn btn-primary", @style = "width:80px" })
+                    </td>
+                    <td>
+                        @Html.ActionLink("Chuyển", "ChuyenXemXet", "InOuts", new { id = item.id }, new { @class = "btn btn-warning" })
+                    </td>
+                    <td>
+                        @Html.ActionLink("Hủy", "Cancel", "InOuts", new { id = item.id, ac = "ChoDuyet", con = "InOutChoDuyets" }, new { @class = "text-danger" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div style="padding: 10px; background-color: antiquewhite;">
+    <h4 class="fa fa-list"> DANH SÁCH CHI NGOÀI HỢP ĐỒNG CHỜ LÃNH ĐẠO DUYỆT</h4>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>
+                    STT
+                </th>
+                <th>
+                    Người lĩnh/TH
+                </th>
+                <th>
+                    Loại chi tiết
+                </th>
+                <th>
+                    Số tiền
+                </th>
+                <th>
+                    Ghi chú
+                </th>
+                <th>
+                    <button class="btn btn-danger" onclick="DuyetAllNgoaiHD()" style="width:80px">Duyệt All</button>
+                </th>
+                <th>
+                    Xem xét
+                </th>
+                <th>
+                    Tác vụ
+                </th>
+            </tr>
+        </thead>
+        <tbody id="iooutct">
+            @{ index = 0;}
+            @foreach (var item in lstInOutChoDuyet)
+            {
+                index++;
+                string contract_name = string.Empty;
+                var acc = accs.Single(x => x.id == item.account_id);
+                var cate = db.Categories.Find(item.category_id);
+                <tr id="@("iooutct" + item.id)">
+                    <td style="text-align: center;">@index</td>
+                    <td>@acc.fullname</td>
+                    <td>@(cate!=null? cate.name : "Danh mục đã bị xóa")</td>
+                    <td style="text-align: right;">@((item.type==(int)XCategory.eType.Chi ? "-" : null) + item.amount.ToString("N0"))</td>
+                    <td>@item.note</td>
+                    <td>
+                        @Html.ActionLink("Duyệt", "Duyet", "InOuts", new { id = item.id }, new { @class = "btn btn-primary", @style = "width:80px" })
+                    </td>
+                    <td>
+                        @Html.ActionLink("Chuyển", "ChuyenXemXet", "InOuts", new { id = item.id }, new { @class = "btn btn-warning" })
+                    </td>
+                    <td>
+                        @Html.ActionLink("Hủy", "Cancel", "InOuts", new { id = item.id, ac = "ChoDuyet", con = "InOutChoDuyets" }, new { @class = "text-danger" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div style="padding: 10px; background-color: azure;">
+    <h4 class="fa fa-list"> DANH SÁCH CHỜ THỰC HIỆN</h4>
+    <div>
+        <label style="float:left; line-height: 32px;">Ghi chú</label>
+        <div class="col-md-6">
+            <input type="text" id="txtNote" class="form-control" autocomplete="off" value="&nbsp;" />
+        </div>
+        <button type="button" onclick="ThucHien();" class="btn btn-success">Thực hiện</button> <span style="margin-left: 30px;">TỔNG SỐ TIỀN ĐANG CHỜ THỰC HIỆN: <strong class="text-danger">@SumAllDaDuyet.ToString("N0")</strong> </span>
+    </div>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th style="width: 20px;">
+                    <input type="checkbox" id="cboAll" />
+                </th>
+                <th>
+                    Hợp đồng
+                </th>
+                <th>
+                    Người lĩnh/TH
+                </th>
+                <th>
+                    Loại chi tiết
+                </th>
+                <th>
+                    Loại tiền
+                </th>
+                <th>
+                    Số tiền
+                </th>
+                <th>
+                    Ghi chú
+                </th>
+                <th>
+                    Tác vụ
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in lstInOutDaDuyet)
+            {
+                string contract_name = string.Empty;
+                if (item.contract_id.HasValue)
+                {
+                    var contract = db.Contracts.Find(item.contract_id.Value);
+                    contract_name = contract.name;
+                }
+                var acc = accs.Single(x => x.id == item.account_id);
+                var cate = db.Categories.Find(item.category_id);
+                <tr class="@(item.type==(int)XCategory.eType.Chi ? "text-danger" : null )">
+                    <td><input type="checkbox" id="io@(item.id)" /></td>
+                    <td>@contract_name</td>
+                    <td>@acc.fullname</td>
+                    <td>@(cate!=null? cate.name : "Danh mục đã bị xóa")</td>
+                    <td style="padding: 5px;">
+                        @Html.DropDownList("cboCurrency", new SelectList(XModels.sLoaiTien, "Key", "Value", item.currency),
+                       new
+                       {
+                           @style = "padding: 4px; border-radius: 4px;",
+                           @class = item.currency == (int)XModels.eLoaiTien.NganHang ? "text-success" : "text-danger",
+                           @onchange = "{$(this).toggleClass('text-success text-danger');}"
+                       })
+                    </td>
+                    <td style="text-align: right;">@((item.type==(int)XCategory.eType.Chi ? "-" : null) + item.amount.ToString("N0"))</td>
+                    <td>@item.note</td>
+                    <td>
+                        @Html.ActionLink("Hủy", "Cancel", "InOuts", new { id = item.id, ac = "ChoDuyet", con = "InOutChoDuyets" }, new { @class = "text-danger" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<iframe src="/inoutchoduyets/" width="100%" style="border: none;height: 600px;"></iframe>
+<div id="password" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="float: left;">Nhập mật khẩu</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Yêu cầu xác nhận hành động, vui lòng nhập mật khẩu</p>
+                <input type="password" class="form-control" id="txtPassword" />
+                <i class="text-danger hide forPassword">Sai mật khẩu</i>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="confirmed()">Chấp nhận</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+@Html.Partial("../Shared/Modals/_InOutDetail")
+<iframe id="my_iframe" style="display:none; padding: 10px;"></iframe>
+@if (Request["l"] != null)
+{
+    <style>
+        body {
+            padding-top: 15px;
+        }
+    </style>
+}
+@section Style {
+    @* .tableFixHead          { overflow: auto; height: 100px; }
+        .tableFixHead thead th { position: sticky; top: 0; z-index: 1; }
+
+        /* Just common table stuff. Really. */
+        table  { border-collapse: collapse; width: 100%; }
+        th, td { padding: 8px 16px; }
+        th     { background:#eee; } *@
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            $(".datetime").datepicker({
+                "autoclose": true,
+                "todayHighlight": true,
+                "dateFormat": "dd/mm/yyyy",
+                "format": "dd/mm/yyyy",
+            }).datepicker();
+            $("#cboAll").click(function () {
+                $('.table input:checkbox').not(this).prop('checked', this.checked);
+            });
+        });
+        function setCheckedIds() {
+            var lst = "";
+            $("td input:checked").each(function () {
+                lst += $(this).attr("id") + ",";
+            });
+            $("#checkedids").val(lst);
+        }
+        function ThucHien() {
+            if ($("td input:checked").length == 0) {
+                toastr.error("Chưa chọn bản ghi nào", "Lỗi thực hiện", { timeOut: 5000 });
+            }
+            else {
+                $("#password").modal("show");
+            }
+            return false;
+        }
+        function confirmed() {
+            var pass = $("#txtPassword").val();
+            if (pass == "@Html.Raw(NiceHandles.Models.XModels.Password)") {
+                var lst = [];
+                $("td input:checked").each(function () {
+                    var obj = new Object();
+                    var currenry = $("#cboCurrency", $(this).parent().parent()).val();
+                    obj.id = $(this).attr("id").replace("io", "");
+                    obj.currency = currenry;
+                    lst.push(obj);
+                });
+                var note = $("#txtNote").val();
+                var objP = new Object();
+                objP.note = note;
+                $.ajax({
+                    url: '/InOutChoDuyets/CreatePhieuThuChi',
+                    type: "POST",
+                    dataType: "JSON",
+                    data: { inOutChoDuyet: objP, lstInOuts: lst },
+                    success: function (id) {
+                        location.reload();
+                    }
+                });
+                $("#password").modal("hide");
+            } else {
+                $(".forPassword").removeClass("hide");
+            }
+        }
+        function FillCategory() {
+            var cate = $('#type').val();
+            if (!cate || cate == "") {
+                $("#category_id").html($('<option></option>').val("").html("Loại chi tiết"));
+            }
+            else {
+                $.ajax({
+                    url: '/Categories/FillCategory',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: { cate: cate },
+                    success: function (categories) {
+                        $("#category_id").html(""); // clear before appending new list
+                        $("#category_id").append(
+                            $('<option></option>').val("").html("Loại chi tiết"));
+                        $.each(categories, function (i, cate) {
+                            $("#category_id").append(
+                                $('<option></option>').val(cate.id).html(cate.name));
+                        });
+                    }
+                });
+            }
+        }
+        function s_FillCategory() {
+            var cate = $('#s_type').val();
+            if (!cate || cate == "") {
+                $("#s_category_id").html($('<option></option>').val("").html("Loại chi tiết"));
+            }
+            else {
+                $.ajax({
+                    url: '/Categories/FillCategory',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: { cate: cate },
+                    success: function (categories) {
+                        $("#s_category_id").html(""); // clear before appending new list
+                        $("#s_category_id").append(
+                            $('<option></option>').val("").html("Loại chi tiết"));
+                        $.each(categories, function (i, cate) {
+                            $("#s_category_id").append(
+                                $('<option></option>').val(cate.id).html(cate.name));
+                        });
+                    }
+                });
+            }
+        }
+        function DuyetAllTrongHD() {
+            var lstioinct = [];
+            $("#ioinct tr").each(function () {
+                var per = this.id.replace("ioinct", "");
+                lstioinct.push(per);
+            });
+            $.ajax({
+                url: '/InOuts/DuyetAll',
+                type: "POST",
+                dataType: "JSON",
+                data: { ids: lstioinct },
+                success: function (b) {
+                    document.location.reload();
+                }
+            });
+        }
+        function DuyetAllNgoaiHD() {
+            var lstioinct = [];
+            $("#iooutct tr").each(function () {
+                var per = this.id.replace("iooutct", "");
+                lstioinct.push(per);
+            });
+            $.ajax({
+                url: '/InOuts/DuyetAll',
+                type: "POST",
+                dataType: "JSON",
+                data: { ids: lstioinct },
+                success: function (b) {
+                    document.location.reload();
+                }
+            });
+        }
+        function InDSChoDuyet() {
+            $.ajax({
+                url: '/InoutChoDuyets/InDSChoDuyet',
+                data: {
+                },
+                type: "GET",
+                dataType: "JSON",
+                success: function (url) {
+                    document.getElementById('my_iframe').src = url;
+                }
+            });
+        }
+    </script>
+}
