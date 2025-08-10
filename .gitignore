@@ -6,3 +6,6 @@ App_Data/
 /obj
 /bin
 /obj
+/.vs
+/packages
+/Properties

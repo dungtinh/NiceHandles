@@ -12,6 +12,7 @@
     ViewBag.ACCOUNTS = db.Accounts.Where(x => x.sta == (int)XAccount.eStatus.Processing);
 }
 <link href="~/Content/inouts-style.css" rel="stylesheet" />
+<link href="~/Content/contractselect2.css" rel="stylesheet" />
 <h2>
     <i class="fa fa-coins"></i> Quản lý thu chi
 </h2>
@@ -497,6 +498,7 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/contractselect2.js"></script>
     <script>
         var currentDelCtr = null;
 
@@ -509,33 +511,7 @@
             });
 
             // Khởi tạo select2 cho hợp đồng
-            $(".select2-contract").select2({
-                ajax: {
-                    url: "/Jobs/GetContract",
-                    dataType: 'json',
-                    delay: 250,
-                    data: function (params) {
-                        return {
-                            term: params.term,
-                            page: params.page
-                        };
-                    },
-                    processResults: function (data, params) {
-                        params.page = params.page || 1;
-                        return {
-                            results: data.items,
-                            pagination: {
-                                more: (params.page * 30) < data.total_count
-                            }
-                        };
-                    },
-                    cache: true
-                },
-                placeholder: "-- Chọn hợp đồng --",
-                minimumInputLength: 0,
-                templateResult: formatContract,
-                templateSelection: formatContractSelection
-            });
+            
 
             // Khởi tạo autoNumeric cho input tiền
             $('.money-input').autoNumeric('init', {

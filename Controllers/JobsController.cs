@@ -416,7 +416,7 @@ namespace NiceHandles.Controllers
         public JsonResult GetContract(string term, int? page, string _type)
         {
             int p = page ?? 0;
-            int ps = 10;
+            int ps = 25;
             var lstCT = (from ct in db.Contracts
                          join add in db.Addresses on ct.address_id equals add.id
                          where ct.status == (int)XContract.eStatus.Processing && (ct.name.ToUpper().Contains(String.IsNullOrEmpty(term) ? ct.name.ToUpper() : term))

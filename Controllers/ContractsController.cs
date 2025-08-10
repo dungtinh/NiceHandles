@@ -7,6 +7,7 @@ using System.Data.Entity.Core.Common.CommandTrees;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Runtime.Caching;
 using System.Runtime.ConstrainedExecution;
 using System.Security.Cryptography;
 using System.Security.Policy;
@@ -25,6 +26,7 @@ namespace NiceHandles.Controllers
     [Authorize(Roles = "SuperAdmin,Manager,Member")]
     public class ContractsController : Controller
     {
+        private static readonly MemoryCache _cache = MemoryCache.Default;
         private NHModel db = new NHModel();
 
         // GET: Contracts        
@@ -1525,6 +1527,510 @@ namespace NiceHandles.Controllers
             var contract = db.Contracts.Find(id);
             return View(contract);
         }
+
+        #region GetContract Select2
+        private class ContractQueryResult
+        {
+            public Contract ct { get; set; }
+            public Address add { get; set; }
+            public Service ser { get; set; }
+            public Partner par { get; set; }
+            public Account acc { get; set; }
+        }
+
+        [HttpGet]
+        public JsonResult GetContractAdvanced(ContractSearchRequest request)
+        {
+            try
+            {
+                // Validate request
+                if (request == null)
+                {
+                    request = new ContractSearchRequest();
+                }
+
+                // Get fresh data (simplified for now, add caching back later)
+                var response = SearchContractsInternal(request);
+
+                return Json(response, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new ContractSearchResponse
+                {
+                    Success = false,
+                    Message = "Có lỗi xảy ra: " + ex.Message,
+                    Items = new List<ContractItemDto>(),
+                    TotalCount = 0,
+                    Pagination = new PaginationInfo()
+                }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        private ContractSearchResponse SearchContractsInternal(ContractSearchRequest request)
+        {
+            // Normalize search term
+            string searchTerm = string.IsNullOrWhiteSpace(request.Term) ? "" : request.Term.Trim().ToUpper();
+
+            // Build base query - KHÔNG DÙNG DYNAMIC
+            IQueryable<ContractQueryResult> query = from ct in db.Contracts
+                                                    join add in db.Addresses on ct.address_id equals add.id
+                                                    join ser in db.Services on ct.service_id equals ser.id into serJoin
+                                                    from ser in serJoin.DefaultIfEmpty()
+                                                    join par in db.Partners on ct.partner equals par.id into parJoin
+                                                    from par in parJoin.DefaultIfEmpty()
+                                                    join acc in db.Accounts on ct.account_id equals acc.id into accJoin
+                                                    from acc in accJoin.DefaultIfEmpty()
+                                                    where ct.status != (int)XContract.eStatus.Cancel
+                                                    select new ContractQueryResult
+                                                    {
+                                                        ct = ct,
+                                                        add = add,
+                                                        ser = ser,
+                                                        par = par,
+                                                        acc = acc
+                                                    };
+
+            // Apply filters
+            query = ApplyFilters(query, request, searchTerm);
+
+            // Get total count before pagination
+            int totalCount = query.Count();
+
+            // Calculate pagination info
+            var pagination = CalculatePagination(totalCount, request.Page, request.PageSize);
+
+            // Apply sorting
+            query = ApplySorting(query, request.SortBy, request.SortOrder);
+
+            // Apply pagination and get data
+            var pagedData = query
+                .Skip(request.Page * request.PageSize)
+                .Take(request.PageSize)
+                .ToList();
+
+            // Transform to DTOs
+            var items = pagedData.Select(x => MapToDto(x.ct, x.add, x.ser, x.par, x.acc)).ToList();
+
+            // Load financial summary if needed (optional)
+            if (request.LoadFinancialInfo)
+            {
+                var contractIds = items.Select(i => i.Id).ToList();
+                var financialData = GetFinancialSummary(contractIds);
+
+                foreach (var item in items)
+                {
+                    if (financialData.ContainsKey(item.Id))
+                    {
+                        var financial = financialData[item.Id];
+                        item.TotalThu = financial.TotalThu;
+                        item.TotalChi = financial.TotalChi;
+                        item.Balance = financial.TotalThu - financial.TotalChi;
+                    }
+                }
+            }
+
+            return new ContractSearchResponse
+            {
+                Items = items,
+                TotalCount = totalCount,
+                Pagination = pagination,
+                Success = true
+            };
+        }
+
+        // Apply filters - Updated to use concrete type
+        private IQueryable<ContractQueryResult> ApplyFilters(
+            IQueryable<ContractQueryResult> query,
+            ContractSearchRequest request,
+            string searchTerm)
+        {
+            // Text search
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                query = query.Where(x =>
+                    x.ct.name.ToUpper().Contains(searchTerm) ||
+                    x.ct.code.ToUpper().Contains(searchTerm) ||
+                    x.add.name.ToUpper().Contains(searchTerm) ||
+                    (x.ct.sodienthoai != null && x.ct.sodienthoai.Contains(searchTerm))
+                );
+            }
+
+            // Status filter
+            if (request.Status.HasValue)
+            {
+                query = query.Where(x => x.ct.status == request.Status.Value);
+            }
+            else
+            {
+                // Default: only processing contracts
+                query = query.Where(x => x.ct.status == (int)XContract.eStatus.Processing);
+            }
+
+            // Type filter
+            if (!string.IsNullOrEmpty(request.Type))
+            {
+                if (request.Type.ToLower() == "normal")
+                {
+                    query = query.Where(x => x.ct.type == (int)XContract.eType.Normal);
+                }
+                else if (request.Type.ToLower() == "p4")
+                {
+                    query = query.Where(x => x.ct.type == (int)XContract.eType.P4);
+                }
+            }
+
+            // Address filter
+            if (request.AddressId.HasValue)
+            {
+                query = query.Where(x => x.ct.address_id == request.AddressId.Value);
+            }
+
+            // Partner filter
+            if (request.PartnerId.HasValue)
+            {
+                query = query.Where(x => x.ct.partner == request.PartnerId.Value);
+            }
+
+            // Service filter
+            if (request.ServiceId.HasValue)
+            {
+                query = query.Where(x => x.ct.service_id == request.ServiceId.Value);
+            }
+
+            // Account filter
+            if (request.AccountId.HasValue)
+            {
+                query = query.Where(x => x.ct.account_id == request.AccountId.Value);
+            }
+
+            // Date range filter
+            if (request.FromDate.HasValue)
+            {
+                query = query.Where(x => x.ct.time >= request.FromDate.Value);
+            }
+
+            if (request.ToDate.HasValue)
+            {
+                var toDate = request.ToDate.Value.AddDays(1);
+                query = query.Where(x => x.ct.time < toDate);
+            }
+
+            return query;
+        }
+
+        // Apply sorting - Updated to use concrete type
+        private IQueryable<ContractQueryResult> ApplySorting(
+            IQueryable<ContractQueryResult> query,
+            string sortBy,
+            string sortOrder)
+        {
+            bool isDescending = sortOrder?.ToLower() == "desc";
+
+            switch (sortBy?.ToLower())
+            {
+                case "date":
+                    query = isDescending ?
+                        query.OrderByDescending(x => x.ct.time) :
+                        query.OrderBy(x => x.ct.time);
+                    break;
+                case "amount":
+                    query = isDescending ?
+                        query.OrderByDescending(x => x.ct.amount) :
+                        query.OrderBy(x => x.ct.amount);
+                    break;
+                case "priority":
+                    query = query.OrderByDescending(x => x.ct.Priority)
+                                .ThenByDescending(x => x.ct.time);
+                    break;
+                case "name":
+                default:
+                    query = isDescending ?
+                        query.OrderByDescending(x => x.ct.name) :
+                        query.OrderBy(x => x.ct.name);
+                    break;
+            }
+
+            return query;
+        }
+
+        // ===== SIMPLE VERSION - Dùng nếu version trên vẫn lỗi =====
+        [HttpGet]
+        public JsonResult GetContractSimple(string term, int? page, string _type)
+        {
+            try
+            {
+                int p = page ?? 0;
+                int ps = 25;
+
+                // Normalize search term
+                string searchTerm = string.IsNullOrEmpty(term) ? "" : term.Trim().ToUpper();
+
+                // Query cơ bản - không join nhiều bảng
+                var baseQuery = db.Contracts
+                    .Where(x => x.status == (int)XContract.eStatus.Processing);
+
+                // Apply search if term provided
+                if (!string.IsNullOrEmpty(searchTerm))
+                {
+                    baseQuery = baseQuery.Where(x =>
+                        x.name.ToUpper().Contains(searchTerm) ||
+                        (x.code != null && x.code.ToUpper().Contains(searchTerm))
+                    );
+                }
+
+                // Apply type filter
+                if (!string.IsNullOrEmpty(_type))
+                {
+                    if (_type == "normal")
+                        baseQuery = baseQuery.Where(x => x.type == (int)XContract.eType.Normal);
+                    else if (_type == "p4")
+                        baseQuery = baseQuery.Where(x => x.type == (int)XContract.eType.P4);
+                }
+
+                // Get total count
+                int totalCount = baseQuery.Count();
+
+                // Get paged data với Select projection
+                var contracts = baseQuery
+                    .OrderBy(x => x.name)
+                    .Skip(p * ps)
+                    .Take(ps)
+                    .Select(x => new
+                    {
+                        x.id,
+                        x.code,
+                        x.name,
+                        x.address_id,
+                        x.service_id,
+                        x.partner,
+                        x.amount,
+                        x.time,
+                        x.status,
+                        x.type,
+                        x.Priority
+                    })
+                    .ToList();
+
+                // Load related data separately
+                var addressIds = contracts.Select(c => c.address_id).Distinct().ToList();
+                var serviceIds = contracts.Select(c => c.service_id).Distinct().ToList();
+                var partnerIds = contracts.Select(c => c.partner).Distinct().ToList();
+
+                var addresses = db.Addresses.Where(a => addressIds.Contains(a.id))
+                    .ToDictionary(a => a.id, a => a.name);
+                var services = db.Services.Where(s => serviceIds.Contains(s.id))
+                    .ToDictionary(s => s.id, s => s.name);                
+
+                // Build response
+                var items = contracts.Select(c => new
+                {
+                    id = c.id,
+                    name = c.name,
+                    text = addresses.ContainsKey(c.address_id) ? addresses[c.address_id] : "",
+                    code = c.code,
+                    address = addresses.ContainsKey(c.address_id) ? addresses[c.address_id] : "",
+                    service = services.ContainsKey(c.service_id) ? services[c.service_id] : "",                    
+                    amount = c.amount,
+                    formattedAmount = c.amount.ToString("N0") + " VNĐ",
+                    date = c.time.ToString("dd/MM/yyyy"),
+                    priority = c.Priority
+                }).ToList();
+
+                return Json(new
+                {
+                    items = items,
+                    total_count = totalCount,
+                    pagination = new
+                    {
+                        more = (p + 1) * ps < totalCount
+                    }
+                }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    items = new List<object>(),
+                    total_count = 0,
+                    error = ex.Message
+                }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        // Helper methods remain the same
+        private ContractItemDto MapToDto(Contract ct, Address add, Service ser, Partner par, Account acc)
+        {
+            if (ct == null) return null;
+
+            return new ContractItemDto
+            {
+                Id = ct.id,
+                Code = ct.code ?? "",
+                Name = ct.name,
+                Text = add?.name ?? "",
+                DisplayText = $"{ct.name} - {add?.name ?? ""}",
+                Address = add?.name ?? "",
+                AddressId = ct.address_id,
+                Service = ser?.name ?? "",
+                ServiceId = ct.service_id,
+                Partner = par?.name ?? "",
+                PartnerId = ct.partner,
+                Amount = ct.amount,
+                FormattedAmount = ct.amount.ToString("N0") + " VNĐ",
+                Consuming = ct.consuming,
+                FormattedConsuming = ct.consuming.ToString("N0") + " VNĐ",
+                Time = ct.time,
+                FormattedDate = ct.time.ToString("dd/MM/yyyy"),
+                Status = ct.status,
+                StatusText = GetStatusText(ct.status),
+                StatusClass = GetStatusClass(ct.status),
+                Type = ct.type,
+                TypeText = GetTypeText(ct.type),
+                AccountName = acc?.fullname ?? "",
+                Priority = ct.Priority,
+                Note = ct.note ?? "",
+                Html = GenerateHtmlDisplay(ct, add, ser)
+            };
+        }
+
+        private string GenerateHtmlDisplay(Contract ct, Address add, Service ser)
+        {
+            string statusClass = GetStatusClass(ct.status);
+            string statusText = GetStatusText(ct.status);
+            string priorityIcon = ct.Priority > 0 ? "<i class='fa fa-star text-warning'></i> " : "";
+
+            return $@"
+                <div class='contract-select-item'>
+                    <div class='contract-main'>
+                        {priorityIcon}<strong>{ct.name}</strong> 
+                        <span class='label label-{statusClass}'>{statusText}</span>
+                    </div>
+                    <div class='contract-details'>
+                        <small class='text-muted'>
+                            <i class='fa fa-map-marker'></i> {add?.name ?? ""} | 
+                            <i class='fa fa-briefcase'></i> {ser?.name ?? ""} | 
+                            <i class='fa fa-calendar'></i> {ct.time.ToString("dd/MM/yyyy")}
+                        </small>
+                    </div>
+                    <div class='contract-amount'>
+                        <small class='text-info'>
+                            <i class='fa fa-coins'></i> {ct.amount.ToString("N0")} VNĐ
+                        </small>
+                    </div>
+                </div>";
+        }
+
+        private Dictionary<int, FinancialSummary> GetFinancialSummary(List<int> contractIds)
+        {
+            var result = new Dictionary<int, FinancialSummary>();
+
+            if (contractIds == null || !contractIds.Any())
+                return result;
+
+            // Query riêng biệt để tránh lỗi
+            var thuData = db.InOuts
+                .Where(x => x.contract_id.HasValue &&
+                           contractIds.Contains(x.contract_id.Value) &&
+                           x.status != (int)XInOut.eStatus.Huy &&
+                           x.type == (int)XCategory.eType.Thu)
+                .GroupBy(x => x.contract_id.Value)
+                .Select(g => new { ContractId = g.Key, Total = g.Sum(x => x.amount) })
+                .ToList();
+
+            var chiData = db.InOuts
+                .Where(x => x.contract_id.HasValue &&
+                           contractIds.Contains(x.contract_id.Value) &&
+                           x.status != (int)XInOut.eStatus.Huy &&
+                           x.type == (int)XCategory.eType.Chi)
+                .GroupBy(x => x.contract_id.Value)
+                .Select(g => new { ContractId = g.Key, Total = g.Sum(x => x.amount) })
+                .ToList();
+
+            foreach (var contractId in contractIds)
+            {
+                var thu = thuData.FirstOrDefault(x => x.ContractId == contractId)?.Total ?? 0;
+                var chi = chiData.FirstOrDefault(x => x.ContractId == contractId)?.Total ?? 0;
+
+                result[contractId] = new FinancialSummary
+                {
+                    TotalThu = thu,
+                    TotalChi = chi
+                };
+            }
+
+            return result;
+        }
+
+        // Other helper methods...
+        private PaginationInfo CalculatePagination(int totalCount, int currentPage, int pageSize)
+        {
+            int totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+            int from = (currentPage * pageSize) + 1;
+            int to = Math.Min((currentPage + 1) * pageSize, totalCount);
+
+            return new PaginationInfo
+            {
+                More = (currentPage + 1) * pageSize < totalCount,
+                CurrentPage = currentPage,
+                PageSize = pageSize,
+                TotalPages = totalPages,
+                TotalRecords = totalCount,
+                From = totalCount > 0 ? from : 0,
+                To = to
+            };
+        }
+
+        private string GetStatusText(int status)
+        {
+            switch (status)
+            {
+                case (int)XContract.eStatus.Processing:
+                    return "Đang xử lý";
+                case (int)XContract.eStatus.Complete:
+                    return "Hoàn thành";
+                case (int)XContract.eStatus.Cancel:
+                    return "Đã hủy";
+                default:
+                    return "Không xác định";
+            }
+        }
+
+        private string GetStatusClass(int status)
+        {
+            switch (status)
+            {
+                case (int)XContract.eStatus.Processing:
+                    return "warning";
+                case (int)XContract.eStatus.Complete:
+                    return "success";
+                case (int)XContract.eStatus.Cancel:
+                    return "danger";
+                default:
+                    return "default";
+            }
+        }
+
+        private string GetTypeText(int type)
+        {
+            switch (type)
+            {
+                case (int)XContract.eType.Normal:
+                    return "Thường";
+                case (int)XContract.eType.P4:
+                    return "Trang 4";
+                default:
+                    return "";
+            }
+        }
+
+        // Inner classes
+        private class FinancialSummary
+        {
+            public long TotalThu { get; set; }
+            public long TotalChi { get; set; }
+        }
+        #endregion
 
     }
 
