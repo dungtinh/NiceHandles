@@ -25,9 +25,6 @@ namespace NiceHandles.Models
         public string FullName { get; set; }
         public Nullable<System.DateTime> BirthDate { get; set; }
         public string Gender { get; set; }
-        public string Hamlet { get; set; }
-        public string Ward { get; set; }
-        public string Province { get; set; }
         public string DocumentType { get; set; }
         public string DocumentNumber { get; set; }
         public Nullable<System.DateTime> IssueDate { get; set; }
@@ -36,7 +33,9 @@ namespace NiceHandles.Models
         public Nullable<System.DateTime> DeathDate { get; set; }
         public string DeathDocument { get; set; }
         public Nullable<int> HeirId { get; set; }
+        public Nullable<int> address_id { get; set; }
     
+        public virtual Address Address { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HoSoPerson> HoSoPersons { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -163,8 +163,8 @@ namespace NiceHandles.Models
         public virtual DbSet<vViecPhaiLam> vViecPhaiLams { get; set; }
         public virtual DbSet<HoSoPerson> HoSoPersons { get; set; }
         public virtual DbSet<LandParcel> LandParcels { get; set; }
-        public virtual DbSet<PersonInfo> PersonInfoes { get; set; }
         public virtual DbSet<VariationInfo> VariationInfoes { get; set; }
+        public virtual DbSet<PersonInfo> PersonInfoes { get; set; }
     
         public virtual ObjectResult<Test_Result> Test()
         {

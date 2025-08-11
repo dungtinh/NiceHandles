@@ -18,6 +18,7 @@ namespace NiceHandles.Models
         public Address()
         {
             this.LandParcels = new HashSet<LandParcel>();
+            this.PersonInfoes = new HashSet<PersonInfo>();
         }
     
         public int id { get; set; }
@@ -27,5 +28,7 @@ namespace NiceHandles.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LandParcel> LandParcels { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PersonInfo> PersonInfoes { get; set; }
     }
 }

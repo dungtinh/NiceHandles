@@ -17,7 +17,7 @@ namespace NiceHandles.Models
         public int Id { get; set; }
         public int HoSoId { get; set; }
         public int PersonInfoId { get; set; }
-        public string Role { get; set; }
+        public int Role { get; set; }
         public bool IsPrimary { get; set; }
         public bool IsCertificateHolder { get; set; }
     
