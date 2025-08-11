@@ -1,0 +1,67 @@
+﻿@model NiceHandles.Models.PersonInfo
+@{
+    var prefix = ViewData["prefix"] as string ?? "";
+}
+<div class="card mb-3">
+    <div class="card-header">Thông tin cá nhân</div>
+    <div class="card-body">
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <label>Họ tên</label>
+                <input name="@($"{prefix}.FullName")" value="@Model.FullName" class="form-control" />
+            </div>
+            <div class="form-group col-md-4">
+                <label>Ngày sinh</label>
+                <input name="@($"{prefix}.BirthDate")" value="@(Model.BirthDate?.ToString("yyyy-MM-dd"))" type="date" class="form-control" />
+            </div>
+            <div class="form-group col-md-4">
+                <label>Giới tính</label>
+                <input name="@($"{prefix}.Gender")" value="@Model.Gender" class="form-control" />
+            </div>
+            <div class="form-group col-md-4">
+                <label>Thôn</label>
+                <input name="@($"{prefix}.Hamlet")" value="@Model.Hamlet" class="form-control" />
+            </div>
+            <div class="form-group col-md-4">
+                <label>Xã</label>
+                <input name="@($"{prefix}.Ward")" value="@Model.Ward" class="form-control" />
+            </div>
+            <div class="form-group col-md-4">
+                <label>Tỉnh</label>
+                <input name="@($"{prefix}.Province")" value="@Model.Province" class="form-control" />
+            </div>
+            <div class="form-group col-md-4">
+                <label>Loại giấy tờ</label>
+                <input name="@($"{prefix}.DocumentType")" value="@Model.DocumentType" class="form-control" />
+            </div>
+            <div class="form-group col-md-4">
+                <label>Số giấy tờ</label>
+                <input name="@($"{prefix}.DocumentNumber")" value="@Model.DocumentNumber" class="form-control" />
+            </div>
+            <div class="form-group col-md-4">
+                <label>Ngày cấp</label>
+                <input name="@($"{prefix}.IssueDate")" value="@(Model.IssueDate?.ToString("yyyy-MM-dd"))" type="date" class="form-control" />
+            </div>
+            <div class="form-group col-md-4">
+                <label>Nơi cấp</label>
+                <input name="@($"{prefix}.Issuer")" value="@Model.Issuer" class="form-control" />
+            </div>
+            <div class="form-group col-md-4">
+                <label>Mã số thuế</label>
+                <input name="@($"{prefix}.TaxCode")" value="@Model.TaxCode" class="form-control" />
+            </div>
+            <div class="form-group col-md-4">
+                <label>Ngày mất</label>
+                <input name="@($"{prefix}.DeathDate")" value="@(Model.DeathDate?.ToString("yyyy-MM-dd"))" type="date" class="form-control" />
+            </div>
+            <div class="form-group col-md-4">
+                <label>Giấy chứng tử</label>
+                <input name="@($"{prefix}.DeathDocument")" value="@Model.DeathDocument" class="form-control" />
+            </div>
+            <div class="form-group col-md-4">
+                <label>Id thừa kế</label>
+                <input name="@($"{prefix}.HeirId")" value="@(Model.HeirId?.ToString() ?? "")" class="form-control" />
+            </div>
+        </div>
+    </div>
+</div>

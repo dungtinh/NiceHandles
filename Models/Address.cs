@@ -14,9 +14,18 @@ namespace NiceHandles.Models
     
     public partial class Address
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Address()
+        {
+            this.LandParcels = new HashSet<LandParcel>();
+        }
+    
         public int id { get; set; }
         public string name { get; set; }
         public string code { get; set; }
         public Nullable<int> parent_id { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<LandParcel> LandParcels { get; set; }
     }
 }

@@ -14,6 +14,12 @@ namespace NiceHandles.Models
     
     public partial class Contract
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Contract()
+        {
+            this.HoSoes = new HashSet<HoSo>();
+        }
+    
         public int id { get; set; }
         public string code { get; set; }
         public string name { get; set; }
@@ -42,5 +48,8 @@ namespace NiceHandles.Models
         public int nguoiky_id { get; set; }
         public int nguoitheodoi_id { get; set; }
         public string googlemap { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<HoSo> HoSoes { get; set; }
     }
 }

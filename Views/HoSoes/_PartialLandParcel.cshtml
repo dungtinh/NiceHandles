@@ -1,0 +1,47 @@
+﻿@model NiceHandles.Models.LandParcel
+@{
+    var prefix = ViewData["prefix"] as string ?? "";
+}
+<div class="card mb-3">
+    <div class="card-header">Thông tin thửa đất</div>
+    <div class="card-body">
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <label>Số giấy chứng nhận</label>
+                <input name="@($"{prefix}.CertificateNumber")" value="@Model.CertificateNumber" class="form-control" />
+            </div>
+            <div class="form-group col-md-4">
+                <label>Số thửa</label>
+                <input name="@($"{prefix}.ParcelNumber")" value="@Model.ParcelNumber" class="form-control" />
+            </div>
+            <div class="form-group col-md-4">
+                <label>Tờ bản đồ</label>
+                <input name="@($"{prefix}.MapSheet")" value="@Model.MapSheet" class="form-control" />
+            </div>          
+            <div class="form-group col-md-4">
+                <label>Diện tích thực tế</label>
+                <input name="@($"{prefix}.ActualArea")" value="@(Model.ActualArea?.ToString() ?? "")" class="form-control" />
+            </div>
+            <div class="form-group col-md-4">
+                <label>Diện tích trên giấy</label>
+                <input name="@($"{prefix}.CertifiedArea")" value="@(Model.CertifiedArea?.ToString() ?? "")" class="form-control" />
+            </div>
+            <div class="form-group col-md-4">
+                <label>Mục đích sử dụng</label>
+                <input name="@($"{prefix}.UsagePurpose")" value="@Model.UsagePurpose" class="form-control" />
+            </div>
+            <div class="form-group col-md-4">
+                <label>Ngày cấp</label>
+                <input name="@($"{prefix}.IssueDate")" value="@(Model.IssueDate?.ToString("yyyy-MM-dd"))" type="date" class="form-control" />
+            </div>
+            <div class="form-group col-md-4">
+                <label>Nơi cấp</label>
+                <input name="@($"{prefix}.Issuer")" value="@Model.Issuer" class="form-control" />
+            </div>
+            <div class="form-group col-md-4">
+                <label>Số vào sổ</label>
+                <input name="@($"{prefix}.BookNumber")" value="@Model.BookNumber" class="form-control" />
+            </div>
+        </div>
+    </div>
+</div>

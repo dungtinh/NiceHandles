@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="67bb9a21b8bd48a7bcdd4afa9ba23522" Name="Diagram1">
+      <Diagram DiagramId="67bb9a21b8bd48a7bcdd4afa9ba23522" Name="Diagram1" ZoomLevel="60">
         <EntityTypeShape EntityType="NiceHandleModel.C__MigrationHistory" Width="1.5" PointX="5.75" PointY="6.75" IsExpanded="true" />
         <EntityTypeShape EntityType="NiceHandleModel.Account" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="NiceHandleModel.Address" Width="1.5" PointX="7.75" PointY="7.75" IsExpanded="true" />
@@ -144,6 +144,18 @@
         <AssociationConnector Association="NiceHandleModel.FK__ChatFiles__ChatS__4CE05A84" ManuallyRouted="false" />
         <AssociationConnector Association="NiceHandleModel.FK__ChatMessa__ChatS__50B0EB68" ManuallyRouted="false" />
         <AssociationConnector Association="NiceHandleModel.AspNetUserRoles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="NiceHandleModel.HoSoPerson" Width="1.5" PointX="5.375" PointY="35.75" />
+        <AssociationConnector Association="NiceHandleModel.FK_HoSoPerson_HoSo" />
+        <AssociationConnector Association="NiceHandleModel.FK_HoSo_Contract" />
+        <AssociationConnector Association="NiceHandleModel.FK_HoSo_Service" />
+        <EntityTypeShape EntityType="NiceHandleModel.LandParcel" Width="1.5" PointX="10" PointY="40" />
+        <AssociationConnector Association="NiceHandleModel.FK_LandParcels_Address" />
+        <AssociationConnector Association="NiceHandleModel.FK_HoSo_LandParcel" />
+        <EntityTypeShape EntityType="NiceHandleModel.PersonInfo" Width="1.5" PointX="27.375" PointY="36" />
+        <AssociationConnector Association="NiceHandleModel.FK_HoSoPerson_PersonInfo" />
+        <AssociationConnector Association="NiceHandleModel.FK_PersonInfo_Heir" />
+        <EntityTypeShape EntityType="NiceHandleModel.VariationInfo" Width="1.5" PointX="29.375" PointY="36" />
+        <AssociationConnector Association="NiceHandleModel.FK_HoSo_VariationInfo" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

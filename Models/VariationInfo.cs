@@ -12,25 +12,22 @@ namespace NiceHandles.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Service
+    public partial class VariationInfo
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Service()
+        public VariationInfo()
         {
             this.HoSoes = new HashSet<HoSo>();
         }
     
-        public int id { get; set; }
-        public string code { get; set; }
-        public string name { get; set; }
-        public Nullable<long> amount { get; set; }
-        public Nullable<int> stt { get; set; }
-        public string trainning { get; set; }
-        public int thoihan { get; set; }
-        public int nhacnho { get; set; }
-        public int phananh { get; set; }
-        public int tocao { get; set; }
-        public Nullable<int> reward { get; set; }
+        public int Id { get; set; }
+        public string VariationType { get; set; }
+        public string ContractNumber { get; set; }
+        public string NotaryOffice { get; set; }
+        public Nullable<System.DateTime> NotaryDate { get; set; }
+        public Nullable<decimal> ContractAmount { get; set; }
+        public string TaxReductionReason { get; set; }
+        public string LandPosition { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HoSo> HoSoes { get; set; }

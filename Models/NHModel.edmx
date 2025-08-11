@@ -619,6 +619,8 @@
           <Property Name="status" Type="int" Nullable="false" />
           <Property Name="ngoaigiao" Type="int" />
           <Property Name="light" Type="int" />
+          <Property Name="LandParcelId" Type="int" />
+          <Property Name="VariationInfoId" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'NiceHandle.dbo.Hoso_Step' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -627,6 +629,17 @@ warning 6002: The table/view 'NiceHandle.dbo.Hoso_Step' does not have a primary 
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="HoSoPerson">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="HoSoId" Type="int" Nullable="false" />
+          <Property Name="PersonInfoId" Type="int" Nullable="false" />
+          <Property Name="Role" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="IsPrimary" Type="bit" Nullable="false" />
+          <Property Name="IsCertificateHolder" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Infomation">
           <Key>
@@ -839,6 +852,22 @@ warning 6002: The table/view 'NiceHandle.dbo.Hoso_Step' does not have a primary 
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="di1cua_id" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="LandParcels">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CertificateNumber" Type="nvarchar" MaxLength="64" />
+          <Property Name="ParcelNumber" Type="nvarchar" MaxLength="32" />
+          <Property Name="MapSheet" Type="nvarchar" MaxLength="32" />
+          <Property Name="ActualArea" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="CertifiedArea" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="UsagePurpose" Type="nvarchar" MaxLength="128" />
+          <Property Name="IssueDate" Type="date" />
+          <Property Name="Issuer" Type="nvarchar" MaxLength="128" />
+          <Property Name="BookNumber" Type="nvarchar" MaxLength="32" />
+          <Property Name="address_id" Type="int" />
+        </EntityType>
         <EntityType Name="Money">
           <Key>
             <PropertyRef Name="id" />
@@ -941,6 +970,26 @@ warning 6002: The table/view 'NiceHandle.dbo.Hoso_Step' does not have a primary 
           <Property Name="time" Type="datetime" Nullable="false" />
           <Property Name="contract_id" Type="int" />
           <Property Name="status" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PersonInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FullName" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="BirthDate" Type="date" />
+          <Property Name="Gender" Type="nvarchar" MaxLength="16" />
+          <Property Name="Hamlet" Type="nvarchar" MaxLength="128" />
+          <Property Name="Ward" Type="nvarchar" MaxLength="128" />
+          <Property Name="Province" Type="nvarchar" MaxLength="128" />
+          <Property Name="DocumentType" Type="nvarchar" MaxLength="32" />
+          <Property Name="DocumentNumber" Type="nvarchar" MaxLength="32" Nullable="false" />
+          <Property Name="IssueDate" Type="date" />
+          <Property Name="Issuer" Type="nvarchar" MaxLength="128" />
+          <Property Name="TaxCode" Type="nvarchar" MaxLength="32" />
+          <Property Name="DeathDate" Type="date" />
+          <Property Name="DeathDocument" Type="nvarchar" MaxLength="128" />
+          <Property Name="HeirId" Type="int" />
         </EntityType>
         <EntityType Name="PriceByArea">
           <Key>
@@ -1522,6 +1571,19 @@ warning 6002: The table/view 'NiceHandle.dbo.Hoso_Step' does not have a primary 
           <Property Name="contract_id" Type="int" Nullable="false" />
           <Property Name="field_id" Type="int" Nullable="false" />
           <Property Name="value" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="VariationInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VariationType" Type="nvarchar" MaxLength="128" />
+          <Property Name="ContractNumber" Type="nvarchar" MaxLength="64" />
+          <Property Name="NotaryOffice" Type="nvarchar" MaxLength="128" />
+          <Property Name="NotaryDate" Type="date" />
+          <Property Name="ContractAmount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="TaxReductionReason" Type="nvarchar" MaxLength="256" />
+          <Property Name="LandPosition" Type="nvarchar" MaxLength="64" />
         </EntityType>
         <EntityType Name="ViecPhaiLam">
           <Key>
@@ -2629,6 +2691,110 @@ warning 6002: The table/view 'NiceHandle.dbo.vViecPhaiLam' does not have a prima
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_HoSo_Contract">
+          <End Role="Contract" Type="Self.Contract" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="HoSo" Type="Self.HoSo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contract">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="HoSo">
+              <PropertyRef Name="contract_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HoSo_LandParcel">
+          <End Role="LandParcels" Type="Self.LandParcels" Multiplicity="0..1" />
+          <End Role="HoSo" Type="Self.HoSo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LandParcels">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="HoSo">
+              <PropertyRef Name="LandParcelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HoSo_Service">
+          <End Role="Service" Type="Self.Service" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="HoSo" Type="Self.HoSo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Service">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="HoSo">
+              <PropertyRef Name="service_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HoSo_VariationInfo">
+          <End Role="VariationInfo" Type="Self.VariationInfo" Multiplicity="0..1" />
+          <End Role="HoSo" Type="Self.HoSo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VariationInfo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="HoSo">
+              <PropertyRef Name="VariationInfoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HoSoPerson_HoSo">
+          <End Role="HoSo" Type="Self.HoSo" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="HoSoPerson" Type="Self.HoSoPerson" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HoSo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="HoSoPerson">
+              <PropertyRef Name="HoSoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HoSoPerson_PersonInfo">
+          <End Role="PersonInfo" Type="Self.PersonInfo" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="HoSoPerson" Type="Self.HoSoPerson" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PersonInfo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="HoSoPerson">
+              <PropertyRef Name="PersonInfoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LandParcels_Address">
+          <End Role="Address" Type="Self.Address" Multiplicity="0..1" />
+          <End Role="LandParcels" Type="Self.LandParcels" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="LandParcels">
+              <PropertyRef Name="address_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PersonInfo_Heir">
+          <End Role="PersonInfo" Type="Self.PersonInfo" Multiplicity="0..1" />
+          <End Role="PersonInfo1" Type="Self.PersonInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PersonInfo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PersonInfo1">
+              <PropertyRef Name="HeirId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="Test" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="NiceHandleModelStoreContainer">
           <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
@@ -2682,6 +2848,7 @@ warning 6002: The table/view 'NiceHandle.dbo.vViecPhaiLam' does not have a prima
           <EntitySet Name="GiaoNhanGiayTo" EntityType="Self.GiaoNhanGiayTo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Holiday" EntityType="Self.Holiday" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HoSo" EntityType="Self.HoSo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HoSoPerson" EntityType="Self.HoSoPerson" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Infomation" EntityType="Self.Infomation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InOut" EntityType="Self.InOut" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InOutChoDuyet" EntityType="Self.InOutChoDuyet" Schema="dbo" store:Type="Tables" />
@@ -2691,6 +2858,7 @@ warning 6002: The table/view 'NiceHandle.dbo.vViecPhaiLam' does not have a prima
           <EntitySet Name="KPILink" EntityType="Self.KPILink" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LanDau" EntityType="Self.LanDau" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="landau_quytrinh" EntityType="Self.landau_quytrinh" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LandParcels" EntityType="Self.LandParcels" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Money" EntityType="Self.Money" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Notice" EntityType="Self.Notice" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NguoiHop" EntityType="Self.NguoiHop" Schema="dbo" store:Type="Tables" />
@@ -2700,6 +2868,7 @@ warning 6002: The table/view 'NiceHandle.dbo.vViecPhaiLam' does not have a prima
           <EntitySet Name="Page4" EntityType="Self.Page4" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Partner" EntityType="Self.Partner" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PayPlan" EntityType="Self.PayPlan" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PersonInfo" EntityType="Self.PersonInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PriceByArea" EntityType="Self.PriceByArea" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Progress" EntityType="Self.Progress" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Progress_Document" EntityType="Self.Progress_Document" Schema="dbo" store:Type="Tables" />
@@ -2730,6 +2899,7 @@ warning 6002: The table/view 'NiceHandle.dbo.vViecPhaiLam' does not have a prima
           <EntitySet Name="TruLuong" EntityType="Self.TruLuong" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Val" EntityType="Self.Val" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VariationInfo" EntityType="Self.VariationInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ViecPhaiLam" EntityType="Self.ViecPhaiLam" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="wf_contract" EntityType="Self.wf_contract" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="wf_hoso" EntityType="Self.wf_hoso" Schema="dbo" store:Type="Tables" />
@@ -3328,6 +3498,38 @@ warning 6002: The table/view 'NiceHandle.dbo.vViecPhaiLam' does not have a prima
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
           </AssociationSet>
+          <AssociationSet Name="FK_HoSo_Contract" Association="Self.FK_HoSo_Contract">
+            <End Role="Contract" EntitySet="Contract" />
+            <End Role="HoSo" EntitySet="HoSo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HoSo_LandParcel" Association="Self.FK_HoSo_LandParcel">
+            <End Role="LandParcels" EntitySet="LandParcels" />
+            <End Role="HoSo" EntitySet="HoSo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HoSo_Service" Association="Self.FK_HoSo_Service">
+            <End Role="Service" EntitySet="Service" />
+            <End Role="HoSo" EntitySet="HoSo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HoSo_VariationInfo" Association="Self.FK_HoSo_VariationInfo">
+            <End Role="VariationInfo" EntitySet="VariationInfo" />
+            <End Role="HoSo" EntitySet="HoSo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HoSoPerson_HoSo" Association="Self.FK_HoSoPerson_HoSo">
+            <End Role="HoSo" EntitySet="HoSo" />
+            <End Role="HoSoPerson" EntitySet="HoSoPerson" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HoSoPerson_PersonInfo" Association="Self.FK_HoSoPerson_PersonInfo">
+            <End Role="PersonInfo" EntitySet="PersonInfo" />
+            <End Role="HoSoPerson" EntitySet="HoSoPerson" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LandParcels_Address" Association="Self.FK_LandParcels_Address">
+            <End Role="Address" EntitySet="Address" />
+            <End Role="LandParcels" EntitySet="LandParcels" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PersonInfo_Heir" Association="Self.FK_PersonInfo_Heir">
+            <End Role="PersonInfo" EntitySet="PersonInfo" />
+            <End Role="PersonInfo1" EntitySet="PersonInfo" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -3379,6 +3581,7 @@ warning 6002: The table/view 'NiceHandle.dbo.vViecPhaiLam' does not have a prima
           <Property Name="name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="parent_id" Type="Int32" />
+          <NavigationProperty Name="LandParcels" Relationship="NiceHandleModel.FK_LandParcels_Address" FromRole="Address" ToRole="LandParcel" />
         </EntityType>
         <EntityType Name="AspNetRole">
           <Key>
@@ -3532,6 +3735,7 @@ warning 6002: The table/view 'NiceHandle.dbo.vViecPhaiLam' does not have a prima
           <Property Name="nguoiky_id" Type="Int32" Nullable="false" />
           <Property Name="nguoitheodoi_id" Type="Int32" Nullable="false" />
           <Property Name="googlemap" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="HoSoes" Relationship="NiceHandleModel.FK_HoSo_Contract" FromRole="Contract" ToRole="HoSo" />
         </EntityType>
         <EntityType Name="CongViec">
           <Key>
@@ -3949,6 +4153,13 @@ warning 6002: The table/view 'NiceHandle.dbo.vViecPhaiLam' does not have a prima
           <Property Name="status" Type="Int32" Nullable="false" />
           <Property Name="ngoaigiao" Type="Int32" />
           <Property Name="light" Type="Int32" />
+          <Property Name="LandParcelId" Type="Int32" />
+          <NavigationProperty Name="HoSoPersons" Relationship="NiceHandleModel.FK_HoSoPerson_HoSo" FromRole="HoSo" ToRole="HoSoPerson" />
+          <NavigationProperty Name="Contract" Relationship="NiceHandleModel.FK_HoSo_Contract" FromRole="HoSo" ToRole="Contract" />
+          <NavigationProperty Name="Service" Relationship="NiceHandleModel.FK_HoSo_Service" FromRole="HoSo" ToRole="Service" />
+          <NavigationProperty Name="LandParcel" Relationship="NiceHandleModel.FK_HoSo_LandParcel" FromRole="HoSo" ToRole="LandParcel" />
+          <Property Name="VariationInfoId" Type="Int32" />
+          <NavigationProperty Name="VariationInfo" Relationship="NiceHandleModel.FK_HoSo_VariationInfo" FromRole="HoSo" ToRole="VariationInfo" />
         </EntityType>
         <EntityType Name="Infomation">
           <Key>
@@ -4393,6 +4604,7 @@ warning 6002: The table/view 'NiceHandle.dbo.vViecPhaiLam' does not have a prima
           <Property Name="phananh" Type="Int32" Nullable="false" />
           <Property Name="tocao" Type="Int32" Nullable="false" />
           <Property Name="reward" Type="Int32" />
+          <NavigationProperty Name="HoSoes" Relationship="NiceHandleModel.FK_HoSo_Service" FromRole="Service" ToRole="HoSo" />
         </EntityType>
         <EntityType Name="service_step_day">
           <Key>
@@ -6031,6 +6243,42 @@ warning 6002: The table/view 'NiceHandle.dbo.vViecPhaiLam' does not have a prima
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
           <FunctionImport Name="Test" ReturnType="Collection(NiceHandleModel.Test_Result)" />
+          <EntitySet Name="HoSoPersons" EntityType="NiceHandleModel.HoSoPerson" />
+          <AssociationSet Name="FK_HoSoPerson_HoSo" Association="NiceHandleModel.FK_HoSoPerson_HoSo">
+            <End Role="HoSo" EntitySet="HoSoes" />
+            <End Role="HoSoPerson" EntitySet="HoSoPersons" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HoSo_Contract" Association="NiceHandleModel.FK_HoSo_Contract">
+            <End Role="Contract" EntitySet="Contracts" />
+            <End Role="HoSo" EntitySet="HoSoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HoSo_Service" Association="NiceHandleModel.FK_HoSo_Service">
+            <End Role="Service" EntitySet="Services" />
+            <End Role="HoSo" EntitySet="HoSoes" />
+          </AssociationSet>
+          <EntitySet Name="LandParcels" EntityType="NiceHandleModel.LandParcel" />
+          <AssociationSet Name="FK_LandParcels_Address" Association="NiceHandleModel.FK_LandParcels_Address">
+            <End Role="Address" EntitySet="Addresses" />
+            <End Role="LandParcel" EntitySet="LandParcels" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HoSo_LandParcel" Association="NiceHandleModel.FK_HoSo_LandParcel">
+            <End Role="LandParcel" EntitySet="LandParcels" />
+            <End Role="HoSo" EntitySet="HoSoes" />
+          </AssociationSet>
+          <EntitySet Name="PersonInfoes" EntityType="NiceHandleModel.PersonInfo" />
+          <AssociationSet Name="FK_HoSoPerson_PersonInfo" Association="NiceHandleModel.FK_HoSoPerson_PersonInfo">
+            <End Role="PersonInfo" EntitySet="PersonInfoes" />
+            <End Role="HoSoPerson" EntitySet="HoSoPersons" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PersonInfo_Heir" Association="NiceHandleModel.FK_PersonInfo_Heir">
+            <End Role="PersonInfo" EntitySet="PersonInfoes" />
+            <End Role="PersonInfo1" EntitySet="PersonInfoes" />
+          </AssociationSet>
+          <EntitySet Name="VariationInfoes" EntityType="NiceHandleModel.VariationInfo" />
+          <AssociationSet Name="FK_HoSo_VariationInfo" Association="NiceHandleModel.FK_HoSo_VariationInfo">
+            <End Role="VariationInfo" EntitySet="VariationInfoes" />
+            <End Role="HoSo" EntitySet="HoSoes" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="Test_Result">
           <Property Type="Int32" Name="id" Nullable="false" />
@@ -6038,6 +6286,178 @@ warning 6002: The table/view 'NiceHandle.dbo.vViecPhaiLam' does not have a prima
           <Property Type="String" Name="code" Nullable="true" MaxLength="50" />
           <Property Type="Int32" Name="parent_id" Nullable="true" />
         </ComplexType>
+        <EntityType Name="HoSoPerson">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="HoSoId" Type="Int32" Nullable="false" />
+          <Property Name="PersonInfoId" Type="Int32" Nullable="false" />
+          <Property Name="Role" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="IsPrimary" Type="Boolean" Nullable="false" />
+          <Property Name="IsCertificateHolder" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="HoSo" Relationship="NiceHandleModel.FK_HoSoPerson_HoSo" FromRole="HoSoPerson" ToRole="HoSo" />
+          <NavigationProperty Name="PersonInfo" Relationship="NiceHandleModel.FK_HoSoPerson_PersonInfo" FromRole="HoSoPerson" ToRole="PersonInfo" />
+        </EntityType>
+        <Association Name="FK_HoSoPerson_HoSo">
+          <End Type="NiceHandleModel.HoSo" Role="HoSo" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="NiceHandleModel.HoSoPerson" Role="HoSoPerson" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HoSo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="HoSoPerson">
+              <PropertyRef Name="HoSoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HoSo_Contract">
+          <End Type="NiceHandleModel.Contract" Role="Contract" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="NiceHandleModel.HoSo" Role="HoSo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contract">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="HoSo">
+              <PropertyRef Name="contract_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HoSo_Service">
+          <End Type="NiceHandleModel.Service" Role="Service" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="NiceHandleModel.HoSo" Role="HoSo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Service">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="HoSo">
+              <PropertyRef Name="service_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="LandParcel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CertificateNumber" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="ParcelNumber" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Name="MapSheet" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Name="ActualArea" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="CertifiedArea" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="UsagePurpose" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="IssueDate" Type="DateTime" Precision="0" />
+          <Property Name="Issuer" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="BookNumber" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Name="address_id" Type="Int32" />
+          <NavigationProperty Name="Address" Relationship="NiceHandleModel.FK_LandParcels_Address" FromRole="LandParcel" ToRole="Address" />
+          <NavigationProperty Name="HoSoes" Relationship="NiceHandleModel.FK_HoSo_LandParcel" FromRole="LandParcel" ToRole="HoSo" />
+        </EntityType>
+        <Association Name="FK_LandParcels_Address">
+          <End Type="NiceHandleModel.Address" Role="Address" Multiplicity="0..1" />
+          <End Type="NiceHandleModel.LandParcel" Role="LandParcel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="LandParcel">
+              <PropertyRef Name="address_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HoSo_LandParcel">
+          <End Type="NiceHandleModel.LandParcel" Role="LandParcel" Multiplicity="0..1" />
+          <End Type="NiceHandleModel.HoSo" Role="HoSo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LandParcel">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="HoSo">
+              <PropertyRef Name="LandParcelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="PersonInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FullName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="BirthDate" Type="DateTime" Precision="0" />
+          <Property Name="Gender" Type="String" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Name="Hamlet" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Ward" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Province" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="DocumentType" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Name="DocumentNumber" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Name="IssueDate" Type="DateTime" Precision="0" />
+          <Property Name="Issuer" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="TaxCode" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Name="DeathDate" Type="DateTime" Precision="0" />
+          <Property Name="DeathDocument" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="HeirId" Type="Int32" />
+          <NavigationProperty Name="HoSoPersons" Relationship="NiceHandleModel.FK_HoSoPerson_PersonInfo" FromRole="PersonInfo" ToRole="HoSoPerson" />
+          <NavigationProperty Name="PersonInfo1" Relationship="NiceHandleModel.FK_PersonInfo_Heir" FromRole="PersonInfo" ToRole="PersonInfo1" />
+          <NavigationProperty Name="PersonInfo2" Relationship="NiceHandleModel.FK_PersonInfo_Heir" FromRole="PersonInfo1" ToRole="PersonInfo" />
+        </EntityType>
+        <Association Name="FK_HoSoPerson_PersonInfo">
+          <End Type="NiceHandleModel.PersonInfo" Role="PersonInfo" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="NiceHandleModel.HoSoPerson" Role="HoSoPerson" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PersonInfo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="HoSoPerson">
+              <PropertyRef Name="PersonInfoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PersonInfo_Heir">
+          <End Type="NiceHandleModel.PersonInfo" Role="PersonInfo" Multiplicity="0..1" />
+          <End Type="NiceHandleModel.PersonInfo" Role="PersonInfo1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PersonInfo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PersonInfo1">
+              <PropertyRef Name="HeirId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="VariationInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VariationType" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ContractNumber" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="NotaryOffice" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="NotaryDate" Type="DateTime" Precision="0" />
+          <Property Name="ContractAmount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TaxReductionReason" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="LandPosition" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="HoSoes" Relationship="NiceHandleModel.FK_HoSo_VariationInfo" FromRole="VariationInfo" ToRole="HoSo" />
+        </EntityType>
+        <Association Name="FK_HoSo_VariationInfo">
+          <End Type="NiceHandleModel.VariationInfo" Role="VariationInfo" Multiplicity="0..1" />
+          <End Type="NiceHandleModel.HoSo" Role="HoSo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VariationInfo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="HoSo">
+              <PropertyRef Name="VariationInfoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -6675,6 +7095,8 @@ warning 6002: The table/view 'NiceHandle.dbo.vViecPhaiLam' does not have a prima
           <EntitySetMapping Name="HoSoes">
             <EntityTypeMapping TypeName="NiceHandleModel.HoSo">
               <MappingFragment StoreEntitySet="HoSo">
+                <ScalarProperty Name="VariationInfoId" ColumnName="VariationInfoId" />
+                <ScalarProperty Name="LandParcelId" ColumnName="LandParcelId" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="contract_id" ColumnName="contract_id" />
                 <ScalarProperty Name="name" ColumnName="name" />
@@ -8368,6 +8790,70 @@ warning 6002: The table/view 'NiceHandle.dbo.vViecPhaiLam' does not have a prima
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="HoSoPersons">
+            <EntityTypeMapping TypeName="NiceHandleModel.HoSoPerson">
+              <MappingFragment StoreEntitySet="HoSoPerson">
+                <ScalarProperty Name="IsCertificateHolder" ColumnName="IsCertificateHolder" />
+                <ScalarProperty Name="IsPrimary" ColumnName="IsPrimary" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="PersonInfoId" ColumnName="PersonInfoId" />
+                <ScalarProperty Name="HoSoId" ColumnName="HoSoId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LandParcels">
+            <EntityTypeMapping TypeName="NiceHandleModel.LandParcel">
+              <MappingFragment StoreEntitySet="LandParcels">
+                <ScalarProperty Name="address_id" ColumnName="address_id" />
+                <ScalarProperty Name="BookNumber" ColumnName="BookNumber" />
+                <ScalarProperty Name="Issuer" ColumnName="Issuer" />
+                <ScalarProperty Name="IssueDate" ColumnName="IssueDate" />
+                <ScalarProperty Name="UsagePurpose" ColumnName="UsagePurpose" />
+                <ScalarProperty Name="CertifiedArea" ColumnName="CertifiedArea" />
+                <ScalarProperty Name="ActualArea" ColumnName="ActualArea" />
+                <ScalarProperty Name="MapSheet" ColumnName="MapSheet" />
+                <ScalarProperty Name="ParcelNumber" ColumnName="ParcelNumber" />
+                <ScalarProperty Name="CertificateNumber" ColumnName="CertificateNumber" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PersonInfoes">
+            <EntityTypeMapping TypeName="NiceHandleModel.PersonInfo">
+              <MappingFragment StoreEntitySet="PersonInfo">
+                <ScalarProperty Name="HeirId" ColumnName="HeirId" />
+                <ScalarProperty Name="DeathDocument" ColumnName="DeathDocument" />
+                <ScalarProperty Name="DeathDate" ColumnName="DeathDate" />
+                <ScalarProperty Name="TaxCode" ColumnName="TaxCode" />
+                <ScalarProperty Name="Issuer" ColumnName="Issuer" />
+                <ScalarProperty Name="IssueDate" ColumnName="IssueDate" />
+                <ScalarProperty Name="DocumentNumber" ColumnName="DocumentNumber" />
+                <ScalarProperty Name="DocumentType" ColumnName="DocumentType" />
+                <ScalarProperty Name="Province" ColumnName="Province" />
+                <ScalarProperty Name="Ward" ColumnName="Ward" />
+                <ScalarProperty Name="Hamlet" ColumnName="Hamlet" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VariationInfoes">
+            <EntityTypeMapping TypeName="NiceHandleModel.VariationInfo">
+              <MappingFragment StoreEntitySet="VariationInfo">
+                <ScalarProperty Name="LandPosition" ColumnName="LandPosition" />
+                <ScalarProperty Name="TaxReductionReason" ColumnName="TaxReductionReason" />
+                <ScalarProperty Name="ContractAmount" ColumnName="ContractAmount" />
+                <ScalarProperty Name="NotaryDate" ColumnName="NotaryDate" />
+                <ScalarProperty Name="NotaryOffice" ColumnName="NotaryOffice" />
+                <ScalarProperty Name="ContractNumber" ColumnName="ContractNumber" />
+                <ScalarProperty Name="VariationType" ColumnName="VariationType" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

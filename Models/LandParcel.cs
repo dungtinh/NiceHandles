@@ -12,26 +12,27 @@ namespace NiceHandles.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Service
+    public partial class LandParcel
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Service()
+        public LandParcel()
         {
             this.HoSoes = new HashSet<HoSo>();
         }
     
-        public int id { get; set; }
-        public string code { get; set; }
-        public string name { get; set; }
-        public Nullable<long> amount { get; set; }
-        public Nullable<int> stt { get; set; }
-        public string trainning { get; set; }
-        public int thoihan { get; set; }
-        public int nhacnho { get; set; }
-        public int phananh { get; set; }
-        public int tocao { get; set; }
-        public Nullable<int> reward { get; set; }
+        public int Id { get; set; }
+        public string CertificateNumber { get; set; }
+        public string ParcelNumber { get; set; }
+        public string MapSheet { get; set; }
+        public Nullable<decimal> ActualArea { get; set; }
+        public Nullable<decimal> CertifiedArea { get; set; }
+        public string UsagePurpose { get; set; }
+        public Nullable<System.DateTime> IssueDate { get; set; }
+        public string Issuer { get; set; }
+        public string BookNumber { get; set; }
+        public Nullable<int> address_id { get; set; }
     
+        public virtual Address Address { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HoSo> HoSoes { get; set; }
     }

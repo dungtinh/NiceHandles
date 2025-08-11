@@ -530,6 +530,10 @@
     <Compile Include="Models\HoSo.cs">
       <DependentUpon>NHModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\HoSoPerson.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HoSoPersonRole.cs" />
     <Compile Include="Models\Hoso_Step.cs">
       <DependentUpon>NHModel.tt</DependentUpon>
     </Compile>
@@ -537,6 +541,7 @@
     <Compile Include="Models\Infomation.cs">
       <DependentUpon>NHModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\InfomationEditViewModel.cs" />
     <Compile Include="Models\InOut.cs">
       <DependentUpon>NHModel.tt</DependentUpon>
     </Compile>
@@ -559,6 +564,9 @@
       <DependentUpon>NHModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\landau_quytrinh.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LandParcel.cs">
       <DependentUpon>NHModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ManageViewModels.cs" />
@@ -605,6 +613,9 @@
       <DependentUpon>NHModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PayPlan.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PersonInfo.cs">
       <DependentUpon>NHModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PhuCap.cs">
@@ -698,6 +709,9 @@
       <DependentUpon>NHModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Val.cs">
+      <DependentUpon>NHModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\VariationInfo.cs">
       <DependentUpon>NHModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\vCalculatorMoney.cs">
@@ -1612,6 +1626,10 @@
     <Content Include="Views\Holiday\Index.cshtml" />
     <Content Include="Views\Chat\Index.cshtml" />
     <Content Include="Views\Chat\Chat.cshtml" />
+    <Content Include="Views\HoSoes\ImportData.cshtml" />
+    <Content Include="Views\HoSoes\_PartialPersonInfo.cshtml" />
+    <Content Include="Views\HoSoes\_PartialLandParcel.cshtml" />
+    <Content Include="Views\HoSoes\_PartialVariationInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\uploads\" />

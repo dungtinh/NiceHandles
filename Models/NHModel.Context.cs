@@ -161,6 +161,10 @@ namespace NiceHandles.Models
         public virtual DbSet<vTheoDoiChi> vTheoDoiChis { get; set; }
         public virtual DbSet<vTheoDoiTienDo> vTheoDoiTienDoes { get; set; }
         public virtual DbSet<vViecPhaiLam> vViecPhaiLams { get; set; }
+        public virtual DbSet<HoSoPerson> HoSoPersons { get; set; }
+        public virtual DbSet<LandParcel> LandParcels { get; set; }
+        public virtual DbSet<PersonInfo> PersonInfoes { get; set; }
+        public virtual DbSet<VariationInfo> VariationInfoes { get; set; }
     
         public virtual ObjectResult<Test_Result> Test()
         {

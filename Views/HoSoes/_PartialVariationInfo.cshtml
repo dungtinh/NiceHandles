@@ -1,0 +1,39 @@
+﻿@model NiceHandles.Models.VariationInfo
+@{
+    var prefix = ViewData["prefix"] as string ?? "";
+}
+<div class="card mb-3">
+    <div class="card-header">Thông tin biến động</div>
+    <div class="card-body">
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <label>Loại biến động</label>
+                <input name="@($"{prefix}.VariationType")" value="@Model.VariationType" class="form-control" />
+            </div>
+            <div class="form-group col-md-4">
+                <label>Số hợp đồng công chứng</label>
+                <input name="@($"{prefix}.ContractNumber")" value="@Model.ContractNumber" class="form-control" />
+            </div>
+            <div class="form-group col-md-4">
+                <label>Nơi công chứng</label>
+                <input name="@($"{prefix}.NotaryOffice")" value="@Model.NotaryOffice" class="form-control" />
+            </div>
+            <div class="form-group col-md-4">
+                <label>Ngày công chứng</label>
+                <input name="@($"{prefix}.NotaryDate")" value="@(Model.NotaryDate?.ToString("yyyy-MM-dd"))" type="date" class="form-control" />
+            </div>
+            <div class="form-group col-md-4">
+                <label>Tiền hợp đồng</label>
+                <input name="@($"{prefix}.ContractAmount")" value="@(Model.ContractAmount?.ToString() ?? "")" class="form-control" />
+            </div>
+            <div class="form-group col-md-4">
+                <label>Lý do miễn/giảm thuế</label>
+                <input name="@($"{prefix}.TaxReductionReason")" value="@Model.TaxReductionReason" class="form-control" />
+            </div>
+            <div class="form-group col-md-4">
+                <label>Vị trí thửa đất</label>
+                <input name="@($"{prefix}.LandPosition")" value="@Model.LandPosition" class="form-control" />
+            </div>
+        </div>
+    </div>
+</div>

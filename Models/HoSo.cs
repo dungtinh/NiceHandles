@@ -14,6 +14,12 @@ namespace NiceHandles.Models
     
     public partial class HoSo
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public HoSo()
+        {
+            this.HoSoPersons = new HashSet<HoSoPerson>();
+        }
+    
         public int id { get; set; }
         public int contract_id { get; set; }
         public string name { get; set; }
@@ -34,5 +40,14 @@ namespace NiceHandles.Models
         public int status { get; set; }
         public Nullable<int> ngoaigiao { get; set; }
         public Nullable<int> light { get; set; }
+        public Nullable<int> LandParcelId { get; set; }
+        public Nullable<int> VariationInfoId { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<HoSoPerson> HoSoPersons { get; set; }
+        public virtual Contract Contract { get; set; }
+        public virtual Service Service { get; set; }
+        public virtual LandParcel LandParcel { get; set; }
+        public virtual VariationInfo VariationInfo { get; set; }
     }
 }
