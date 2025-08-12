@@ -1,0 +1,45 @@
+﻿@model NiceHandles.Models.Infomation
+@using NiceHandles.Models
+
+<div class="row">
+    <br />
+    <div class="form-group">
+        @Html.Label("Loại đơn vị hành chính", new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.c_xaphuong, new { @class = "lblKey" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.c_xaphuong, XInfomation.sXaPhuong.Select(x => new SelectListItem() { Text = x, Value = x }), new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.c_xaphuong, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("Xã, phường", new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.c_xa, new { @class = "lblKey" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.c_xa, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.c_xa, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Báo cáo về việc", new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.c_baocao_veviec, new { @class = "lblKey" })
+        <div class="col-md-10">
+            @Html.TextAreaFor(model => model.c_baocao_veviec, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.c_baocao_veviec, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("Nội dung đơn đề nghị ", new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.c_dondenghi_noidung, new { @class = "lblKey" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.c_dondenghi_noidung, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.c_dondenghi_noidung, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("Nhân bản từ hồ sơ khác", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("hoso_id", new SelectList(new HoSo[] { }, "hoso_id", "name", null), "Chọn hồ sơ", new { @class = "form-control", style = "width: 100%;" })
+        </div>
+    </div>
+</div>

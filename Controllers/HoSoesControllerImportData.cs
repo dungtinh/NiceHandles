@@ -23,11 +23,12 @@ using static NiceHandles.Models.XHoSo;
 namespace NiceHandles.Controllers
 {
     [Authorize(Roles = "SuperAdmin,Manager,Member")]
-    public partial class HoSoesController 
+    public partial class HoSoesController
     {
         public ActionResult ImportData(int id)
         {
             var hoso = db.HoSoes
+                .Include(h => h.Service)
                 .Include(h => h.LandParcel)
                 .Include(h => h.HoSoPersons.Select(hp => hp.PersonInfo))
                 .Include(h => h.VariationInfo)
@@ -38,16 +39,23 @@ namespace NiceHandles.Controllers
                 return HttpNotFound();
             }
 
-            // Lấy danh sách Owners (Role = 0)
+            // Lấy danh sách Owners - Chủ đất (Role = 0)
             var owners = hoso.HoSoPersons
-                .Where(hp => hp.Role == 0) // Role = 0 for Owners
+                .Where(hp => hp.Role == (int)HoSoPersonRole.Owner)
                 .OrderBy(hp => hp.Id)
                 .Select(hp => hp.PersonInfo)
                 .ToList();
 
-            // Lấy danh sách BuyersOrSellers (Role = 1)
-            var buyersOrSellers = hoso.HoSoPersons
-                .Where(hp => hp.Role == 1) // Role = 1 for BuyersOrSellers
+            // Lấy danh sách Buyers - Người mua (Role = 1)
+            var buyers = hoso.HoSoPersons
+                .Where(hp => hp.Role == (int)HoSoPersonRole.Buyer)
+                .OrderBy(hp => hp.Id)
+                .Select(hp => hp.PersonInfo)
+                .ToList();
+
+            // Lấy danh sách Heirs - Người nhận thừa kế (Role = 2)
+            var heirs = hoso.HoSoPersons
+                .Where(hp => hp.Role == (int)HoSoPersonRole.Heir)
                 .OrderBy(hp => hp.Id)
                 .Select(hp => hp.PersonInfo)
                 .ToList();
@@ -56,10 +64,15 @@ namespace NiceHandles.Controllers
             {
                 HoSo = hoso,
                 Owners = owners.Any() ? owners : new List<PersonInfo> { new PersonInfo() },
-                BuyersOrSellers = buyersOrSellers,
+                Buyers = buyers,
+                Heirs = heirs,
                 LandParcel = hoso.LandParcel ?? new LandParcel(),
-                VariationInfo = hoso.VariationInfo ?? new VariationInfo()
+                VariationInfo = hoso.VariationInfo ?? new VariationInfo(),
+                ServiceCode = hoso.Service?.code ?? ""
             };
+
+            ViewBag.ServiceCode = hoso.Service?.code ?? "";
+            ViewBag.Addresses = new SelectList(db.Addresses.OrderBy(a => a.name), "id", "name");
 
             return View(viewModel);
         }
@@ -74,6 +87,7 @@ namespace NiceHandles.Controllers
                 try
                 {
                     var hoso = db.HoSoes
+                        .Include(h => h.Service)
                         .Include(h => h.LandParcel)
                         .Include(h => h.HoSoPersons.Select(hp => hp.PersonInfo))
                         .Include(h => h.VariationInfo)
@@ -95,7 +109,7 @@ namespace NiceHandles.Controllers
                         db.HoSoPersons.Remove(oldHP);
                     }
 
-                    // Thêm Owners mới
+                    // Thêm Owners mới - Chủ đất (Role = 0)
                     if (model.Owners != null)
                     {
                         foreach (var owner in model.Owners.Where(o => !string.IsNullOrEmpty(o.FullName)))
@@ -106,11 +120,11 @@ namespace NiceHandles.Controllers
                                 DocumentType = owner.DocumentType ?? "---",
                                 DocumentNumber = owner.DocumentNumber ?? "---",
                                 BirthDate = owner.BirthDate,
-                                Gender = owner.Gender ?? "---",                                                                
-                                Address = owner.Address,
+                                Gender = owner.Gender ?? "---",
+                                address_id = owner.address_id,
                                 IssueDate = owner.IssueDate,
                                 Issuer = owner.Issuer ?? "---",
-                                TaxCode = owner.TaxCode ?? "---",                                
+                                TaxCode = owner.TaxCode ?? "---",
                                 DeathDate = owner.DeathDate,
                                 DeathDocument = owner.DeathDocument,
                                 HeirId = owner.HeirId
@@ -122,32 +136,32 @@ namespace NiceHandles.Controllers
                             {
                                 HoSoId = hoso.id,
                                 PersonInfo = personInfo,
-                                Role = 0 // Owner
+                                Role = (int)HoSoPersonRole.Owner // Chủ đất
                             };
 
                             db.HoSoPersons.Add(hosoPerson);
                         }
                     }
 
-                    // Thêm BuyersOrSellers mới
-                    if (model.BuyersOrSellers != null)
+                    // Thêm Buyers mới - Người mua (Role = 1)
+                    if (model.Buyers != null)
                     {
-                        foreach (var buyerSeller in model.BuyersOrSellers.Where(bs => !string.IsNullOrEmpty(bs.FullName)))
+                        foreach (var buyer in model.Buyers.Where(b => !string.IsNullOrEmpty(b.FullName)))
                         {
                             var personInfo = new PersonInfo
                             {
-                                FullName = buyerSeller.FullName ?? "---",
-                                DocumentType = buyerSeller.DocumentType ?? "---",
-                                DocumentNumber = buyerSeller.DocumentNumber ?? "---",
-                                BirthDate = buyerSeller.BirthDate,
-                                Gender = buyerSeller.Gender ?? "---",
-                                Address = buyerSeller.Address,                                
-                                IssueDate = buyerSeller.IssueDate,
-                                Issuer = buyerSeller.Issuer ?? "---",
-                                TaxCode = buyerSeller.TaxCode ?? "---",                                
-                                DeathDate = buyerSeller.DeathDate,
-                                DeathDocument = buyerSeller.DeathDocument,
-                                HeirId = buyerSeller.HeirId
+                                FullName = buyer.FullName ?? "---",
+                                DocumentType = buyer.DocumentType ?? "---",
+                                DocumentNumber = buyer.DocumentNumber ?? "---",
+                                BirthDate = buyer.BirthDate,
+                                Gender = buyer.Gender ?? "---",
+                                address_id = buyer.address_id,
+                                IssueDate = buyer.IssueDate,
+                                Issuer = buyer.Issuer ?? "---",
+                                TaxCode = buyer.TaxCode ?? "---",
+                                DeathDate = buyer.DeathDate,
+                                DeathDocument = buyer.DeathDocument,
+                                HeirId = buyer.HeirId
                             };
 
                             db.PersonInfoes.Add(personInfo);
@@ -156,7 +170,41 @@ namespace NiceHandles.Controllers
                             {
                                 HoSoId = hoso.id,
                                 PersonInfo = personInfo,
-                                Role = 1 // BuyerOrSeller
+                                Role = (int)HoSoPersonRole.Buyer // Người mua
+                            };
+
+                            db.HoSoPersons.Add(hosoPerson);
+                        }
+                    }
+
+                    // Thêm Heirs mới - Người nhận thừa kế (Role = 2)
+                    if (model.Heirs != null)
+                    {
+                        foreach (var heir in model.Heirs.Where(h => !string.IsNullOrEmpty(h.FullName)))
+                        {
+                            var personInfo = new PersonInfo
+                            {
+                                FullName = heir.FullName ?? "---",
+                                DocumentType = heir.DocumentType ?? "---",
+                                DocumentNumber = heir.DocumentNumber ?? "---",
+                                BirthDate = heir.BirthDate,
+                                Gender = heir.Gender ?? "---",
+                                address_id = heir.address_id,
+                                IssueDate = heir.IssueDate,
+                                Issuer = heir.Issuer ?? "---",
+                                TaxCode = heir.TaxCode ?? "---",
+                                DeathDate = heir.DeathDate,
+                                DeathDocument = heir.DeathDocument,
+                                HeirId = heir.HeirId
+                            };
+
+                            db.PersonInfoes.Add(personInfo);
+
+                            var hosoPerson = new HoSoPerson
+                            {
+                                HoSoId = hoso.id,
+                                PersonInfo = personInfo,
+                                Role = (int)HoSoPersonRole.Heir // Người nhận thừa kế
                             };
 
                             db.HoSoPersons.Add(hosoPerson);
@@ -178,10 +226,10 @@ namespace NiceHandles.Controllers
                         hoso.LandParcel.Address = model.LandParcel.Address;
                         hoso.LandParcel.ActualArea = model.LandParcel.ActualArea;
                         hoso.LandParcel.CertifiedArea = model.LandParcel.CertifiedArea;
-                        hoso.LandParcel.UsagePurpose = model.LandParcel.UsagePurpose ?? "---";
+                        hoso.LandParcel.UsagePurpose = model.LandParcel.UsagePurpose ?? "---";                     
                         hoso.LandParcel.IssueDate = model.LandParcel.IssueDate;
                         hoso.LandParcel.Issuer = model.LandParcel.Issuer ?? "---";
-                        hoso.LandParcel.BookNumber = model.LandParcel.BookNumber ?? "---";                        
+                        hoso.LandParcel.BookNumber = model.LandParcel.BookNumber ?? "---";
                     }
 
                     // Update hoặc tạo mới VariationInfo
@@ -193,13 +241,13 @@ namespace NiceHandles.Controllers
                             db.VariationInfoes.Add(hoso.VariationInfo);
                         }
 
-                        hoso.VariationInfo.VariationType = model.VariationInfo.VariationType ?? "---";                        
+                        hoso.VariationInfo.VariationType = model.VariationInfo.VariationType ?? "---";
                         hoso.VariationInfo.ContractNumber = model.VariationInfo.ContractNumber ?? "---";
                         hoso.VariationInfo.NotaryOffice = model.VariationInfo.NotaryOffice ?? "---";
                         hoso.VariationInfo.NotaryDate = model.VariationInfo.NotaryDate;
                         hoso.VariationInfo.ContractAmount = model.VariationInfo.ContractAmount;
                         hoso.VariationInfo.TaxReductionReason = model.VariationInfo.TaxReductionReason ?? "---";
-                        hoso.VariationInfo.LandPosition = model.VariationInfo.LandPosition ?? "---";                        
+                        hoso.VariationInfo.LandPosition = model.VariationInfo.LandPosition ?? "---";
                     }
 
                     db.SaveChanges();
@@ -212,62 +260,28 @@ namespace NiceHandles.Controllers
                 {
                     transaction.Rollback();
                     ModelState.AddModelError("", "Lỗi khi lưu dữ liệu: " + ex.Message);
+
+                    // Reload data for view
+                    ViewBag.ServiceCode = db.HoSoes.Find(id)?.Service?.code ?? "";
+                    ViewBag.Addresses = new SelectList(db.Addresses.OrderBy(a => a.name), "id", "name");
+
                     return View(model);
                 }
             }
         }
 
-        // AJAX: Load dữ liệu từ bảng Infomation cũ
-        [HttpGet]
-        public JsonResult DupplicateInfomation(int id)
+        // API: Get addresses for Select2
+        public JsonResult GetAddresses(string q = "")
         {
-            try
-            {
-                var hoso = db.HoSoes.Find(id);
-                if (hoso == null)
-                {
-                    return Json(new { error = "Không tìm thấy hồ sơ" }, JsonRequestBehavior.AllowGet);
-                }
+            var addresses = db.Addresses
+                .Where(a => a.name.Contains(q))
+                .OrderBy(a => a.name)
+                .Select(a => new { id = a.id, text = a.name })
+                .Take(20)
+                .ToList();
 
-                var info = db.Infomations.FirstOrDefault(x => x.hoso_id == hoso.id);
-                if (info == null)
-                {
-                    return Json(new { error = "Không tìm thấy dữ liệu Infomation" }, JsonRequestBehavior.AllowGet);
-                }
-
-                // Return full Infomation object
-                return Json(info, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                return Json(new { error = ex.Message }, JsonRequestBehavior.AllowGet);
-            }
-        }
-      
-        // Helper methods cho parsing
-        private DateTime? ParseDate(string dateStr)
-        {
-            if (string.IsNullOrEmpty(dateStr))
-                return null;
-
-            DateTime result;
-            if (DateTime.TryParse(dateStr, out result))
-                return result;
-
-            return null;
+            return Json(addresses, JsonRequestBehavior.AllowGet);
         }
 
-        private decimal? ParseDecimal(string value)
-        {
-            if (string.IsNullOrEmpty(value))
-                return null;
-
-            decimal result;
-            if (decimal.TryParse(value, out result))
-                return result;
-
-            return null;
-        }
-      
     }
 }

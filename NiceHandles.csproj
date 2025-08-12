@@ -1633,6 +1633,17 @@
     <Content Include="Views\HoSoes\_PartialPersonInfo.cshtml" />
     <Content Include="Views\HoSoes\_PartialLandParcel.cshtml" />
     <Content Include="Views\HoSoes\_PartialVariationInfo.cshtml" />
+    <Content Include="Views\Infomations\_PartialChuSoHuu.cshtml" />
+    <Content Include="Views\Infomations\_PartialThuaDat.cshtml" />
+    <Content Include="Views\Infomations\_PartialUyQuyen.cshtml" />
+    <Content Include="Views\Infomations\_PartialThongTinThem.cshtml" />
+    <Content Include="Views\Infomations\_PartialChuyenNhuong.cshtml" />
+    <Content Include="Views\Infomations\_PartialCapDoi.cshtml" />
+    <Content Include="Views\Infomations\_PartialCapLai.cshtml" />
+    <Content Include="Views\Infomations\_PartialDinhChinh.cshtml" />
+    <Content Include="Views\Infomations\_PartialChuyenVuon.cshtml" />
+    <Content Include="Views\Infomations\_PartialDownload.cshtml" />
+    <Content Include="Views\Infomations\_PartialScripts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\uploads\" />

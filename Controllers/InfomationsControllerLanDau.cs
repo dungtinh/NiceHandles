@@ -818,6 +818,9 @@ namespace NiceHandles.Controllers
             var giapha = db.ThongTinCaNhans.Where(x => x.infomation_id == info.id && x.hangthuake.HasValue).ToList();
             var dungtensmk = giapha.Where(x => x.hangthuake == (int)XThongTinCaNhan.eHangThuaKe.ChuDat).SingleOrDefault();
 
+            var nguoidungten = new List<ThongTinCaNhan>();
+            var nguoilapvanban = new List<ThongTinCaNhan>();
+
             dict.Add("dungtensmk", (!string.IsNullOrEmpty(dungtensmk.gioitinh) ? dungtensmk.gioitinh.Trim().ToUpper().Equals("NAM") ? "Ông" : "Bà" : "Ông/Bà") + " " + dungtensmk.hoten);
             dict.Add("dungtensmk1", (!string.IsNullOrEmpty(dungtensmk.gioitinh1) ? dungtensmk.gioitinh1.Trim().ToUpper().Equals("NAM") ? "Ông" : "Bà" : "Ông/Bà") + " " + dungtensmk.hoten1);
             dict.Add("vochongsmk", (!string.IsNullOrEmpty(dungtensmk.gioitinh) ? dungtensmk.gioitinh.Trim().ToUpper().Equals("NAM") ? "vợ" : "chồng" : "vợ/chồng"));
@@ -830,6 +833,28 @@ namespace NiceHandles.Controllers
             dict.Add("songchetsmk", (dungtensmk.ngaychet.HasValue ? "Đã chết" : ""));
             dict.Add("songchetsmk1", (dungtensmk.ngaychet1.HasValue ? "Đã chết" : ""));
 
+            if (!dungtensmk.ngaychet.HasValue)
+            {
+                nguoilapvanban.Add(dungtensmk);
+                //nguoidungten.Add(dungtensmk);
+            }
+            if (!dungtensmk.ngaychet1.HasValue)
+            {
+                var smk1 = new ThongTinCaNhan
+                {
+                    id = dungtensmk.id,
+                    hoten = dungtensmk.hoten1,
+                    gioitinh = dungtensmk.gioitinh1,
+                    ngaysinh = dungtensmk.ngaysinh1,
+                    sogiayto = dungtensmk.sogiayto1,
+                    noicap_gt = dungtensmk.noicap_gt1,
+                    ngaycap_gt = dungtensmk.ngaycap_gt1,
+                    marker = (int)XModels.eYesNo.Yes,
+                    quanhe = (int)XThongTinCaNhan.eQuanHe.VoChong
+                };
+                nguoilapvanban.Add(smk1);
+                //nguoidungten.Add(smk1);
+            }
 
             var hangthuake1 = giapha.Where(x => x.hangthuake == (int)XThongTinCaNhan.eHangThuaKe.HangThuaKe1).OrderBy(x => x.ngaysinh).ToList();
             dict.Add("soconruot", "0" + hangthuake1.Count().ToString());
@@ -896,10 +921,19 @@ namespace NiceHandles.Controllers
                 builder.Write(per.songtrendat.HasValue ? (per.songtrendat.Value == (int)XModels.eYesNo.Yes ? "Ở trên đất" : "Không ở trên đất") : "Không ở trên đất");
                 cell = table.LastRow.Cells[6];
                 builder.MoveTo(cell.FirstParagraph);
-                builder.Write(per.ngaychet.HasValue ? "Đã chết" : (per.ngaysinh.HasValue ? ((DateTime.Now - per.ngaysinh.Value).TotalDays / 365 > 15 ? "" : "Dưới 15 tuổi") : ""));
+                builder.Write(per.ngaychet.HasValue ? "Đã chết" : (per.ngaysinh.HasValue ? ((DateTime.Now - per.ngaysinh.Value).TotalDays / 365 > 15 ? "Còn sống" : "Dưới 15 tuổi") : "Còn sống"));
 
                 var hangthuake2 = giapha.Where(x => x.fk_id == per.id).OrderBy(x => x.ngaysinh).ToList();
                 index2 = 1;
+                // Người lập văn bản là người thừa kế còn sống và trên 15 tuổi 
+                if (!per.ngaychet.HasValue)
+                {
+                    nguoilapvanban.Add(per);
+                }
+                if (per.marker == (int)XModels.eYesNo.Yes)
+                {
+                    nguoidungten.Add(per);
+                }
                 foreach (var per2 in hangthuake2)
                 {
                     index2++;
@@ -925,11 +959,18 @@ namespace NiceHandles.Controllers
                     builder.Write(per2.songtrendat.HasValue ? (per2.songtrendat.Value == (int)XModels.eYesNo.Yes ? "Ở trên đất" : "Không ở trên đất") : "Không ở trên đất");
                     cell = table.LastRow.Cells[6];
                     builder.MoveTo(cell.FirstParagraph);
-                    builder.Write(per2.ngaychet.HasValue ? "Đã chết" : (per2.ngaysinh.HasValue ? ((DateTime.Now - per2.ngaysinh.Value).TotalDays / 365 > 15 ? "" : "Dưới 15 tuổi") : ""));
+                    builder.Write(per2.ngaychet.HasValue ? "Đã chết" : (per2.ngaysinh.HasValue ? ((DateTime.Now - per2.ngaysinh.Value).TotalDays / 365 > 15 ? "Còn sống" : "Dưới 15 tuổi") : "Còn sống"));
+
+                    if (!per2.ngaychet.HasValue)
+                    {
+                        nguoilapvanban.Add(per2);
+                    }
+                    if (per2.marker == (int)XModels.eYesNo.Yes)
+                    {
+                        nguoidungten.Add(per2);
+                    }
                 }
             }
-            // Người Đứng tên
-            var nguoidungten = giapha.Where(x => x.marker == (int)XModels.eYesNo.Yes).OrderBy(x => x.ngaysinh).ToList();
             dict.Add("songuoidungten", "0" + nguoidungten.Count().ToString());
             table = (Table)doc.GetChild(NodeType.Table, 1, true);
             clonedRow = (Row)table.LastRow.Clone(true);
@@ -961,8 +1002,6 @@ namespace NiceHandles.Controllers
                 builder.MoveTo(cell.FirstParagraph);
                 builder.Write(per.sogiayto);
             }
-            // Người lập văn bản
-            var nguoilapvanban = giapha.Where(x => !x.ngaychet.HasValue && (x.ngaysinh.HasValue ? ((DateTime.Now - x.ngaysinh.Value).TotalDays / 365 > 15) : false)).OrderBy(x => x.ngaysinh).ToList();
             table = (Table)doc.GetChild(NodeType.Table, 2, true);
             clonedRow = (Row)table.LastRow.Clone(true);
 

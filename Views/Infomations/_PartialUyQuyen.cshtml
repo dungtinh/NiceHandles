@@ -1,0 +1,119 @@
+﻿@model NiceHandles.Models.Infomation
+@using NiceHandles.Models
+@{
+    var db = ViewBag.Database as NHModel;
+}
+
+<br />
+<div class="row">
+    <div class="form-group">
+        @Html.Label("Chọn người được ủy quyền", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.e_account, new SelectList(db.Accounts.Where(x => x.is_uq == (int)XModels.eYesNo.Yes).ToArray(), "id", "fullname"), "--Chọn--", new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Họ tên", new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.e_hoten, new { @class = "lblKey" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.e_hoten, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.e_hoten, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Ngày sinh", new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.e_ngaysinh, new { @class = "lblKey" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.e_ngaysinh, new { htmlAttributes = new { @class = "form-control datetime", autocomplete = "off", Value = Html.Raw(Model.e_ngaysinh.HasValue ? Model.e_ngaysinh.Value.ToString("dd/MM/yyyy") : null) } })
+            @Html.ValidationMessageFor(model => model.e_ngaysinh, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Giới tính", new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.e_gioitinh, new { @class = "lblKey" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.e_gioitinh, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.e_gioitinh, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group" style="display: none;">
+        @Html.Label("Quốc tịch", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.e_quoctich, new { htmlAttributes = new { @class = "form-control", @Value = "Việt Nam" } })
+            @Html.ValidationMessageFor(model => model.e_quoctich, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group" style="display: none;">
+        @Html.Label("Nguyên quán", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.e_nguyenquan, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.e_nguyenquan, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Thường trú", htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.e_hktt, new { @class = "lblKey" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.e_hktt, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.e_hktt, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("CCCD/CC/SĐD/CMND", new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.e_sogiayto, new { @class = "lblKey" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.e_sogiayto, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.e_sogiayto, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Ngày cấp", new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.e_ngaycap_gt, new { @class = "lblKey" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.e_ngaycap_gt, new { htmlAttributes = new { @class = "form-control datetime", autocomplete = "off", Value = Html.Raw(Model.e_ngaycap_gt.HasValue ? Model.e_ngaycap_gt.Value.ToString("dd/MM/yyyy") : null) } })
+            @Html.ValidationMessageFor(model => model.e_ngaycap_gt, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Nơi cấp", new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.e_noicap_gt, new { @class = "lblKey" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.e_noicap_gt, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.e_noicap_gt, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group" style="display: none;">
+        @Html.Label("Mã số thuế", new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.e_masothue, new { @class = "lblKey" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.e_masothue, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.e_masothue, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Giấy ủy quyền số", new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.e_giayuyquyenso, new { @class = "lblKey" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.e_giayuyquyenso, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.e_giayuyquyenso, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("Ngày ủy quyền", new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.e_ngayuyquyen, new { @class = "lblKey" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.e_ngayuyquyen, new { htmlAttributes = new { @class = "form-control datetime", autocomplete = "off" } })
+            @Html.ValidationMessageFor(model => model.e_ngayuyquyen, "", new { @class = "text-danger" })
+        </div>
+    </div>
+</div>

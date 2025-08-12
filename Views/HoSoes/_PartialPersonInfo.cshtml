@@ -1,55 +1,86 @@
 ﻿@model NiceHandles.Models.PersonInfo
 @{
     var prefix = ViewData["prefix"] as string ?? "";
+    var index = ViewData["index"] ?? 0;
+    var db = new NiceHandles.Models.NHModel();
+    var addresses = db.Addresses.OrderBy(a => a.name).ToList();
 }
-<div class="card mb-3">
-    <div class="card-header">Thông tin cá nhân</div>
-    <div class="card-body">
-        <div class="form-row">
-            <div class="form-group col-md-4">
-                <label>Họ tên</label>
-                <input name="@($"{prefix}.FullName")" value="@Model.FullName" class="form-control" />
-            </div>
-            <div class="form-group col-md-4">
-                <label>Ngày sinh</label>
-                <input name="@($"{prefix}.BirthDate")" value="@(Model.BirthDate?.ToString("yyyy-MM-dd"))" type="date" class="form-control" />
-            </div>
-            <div class="form-group col-md-4">
-                <label>Giới tính</label>
-                <input name="@($"{prefix}.Gender")" value="@Model.Gender" class="form-control" />
-            </div>         
-            <div class="form-group col-md-4">
-                <label>Loại giấy tờ</label>
-                <input name="@($"{prefix}.DocumentType")" value="@Model.DocumentType" class="form-control" />
-            </div>
-            <div class="form-group col-md-4">
-                <label>Số giấy tờ</label>
-                <input name="@($"{prefix}.DocumentNumber")" value="@Model.DocumentNumber" class="form-control" />
-            </div>
-            <div class="form-group col-md-4">
-                <label>Ngày cấp</label>
-                <input name="@($"{prefix}.IssueDate")" value="@(Model.IssueDate?.ToString("yyyy-MM-dd"))" type="date" class="form-control" />
-            </div>
-            <div class="form-group col-md-4">
-                <label>Nơi cấp</label>
-                <input name="@($"{prefix}.Issuer")" value="@Model.Issuer" class="form-control" />
-            </div>
-            <div class="form-group col-md-4">
-                <label>Mã số thuế</label>
-                <input name="@($"{prefix}.TaxCode")" value="@Model.TaxCode" class="form-control" />
-            </div>
-            <div class="form-group col-md-4">
-                <label>Ngày mất</label>
-                <input name="@($"{prefix}.DeathDate")" value="@(Model.DeathDate?.ToString("yyyy-MM-dd"))" type="date" class="form-control" />
-            </div>
-            <div class="form-group col-md-4">
-                <label>Giấy chứng tử</label>
-                <input name="@($"{prefix}.DeathDocument")" value="@Model.DeathDocument" class="form-control" />
-            </div>
-            <div class="form-group col-md-4">
-                <label>Id thừa kế</label>
-                <input name="@($"{prefix}.HeirId")" value="@(Model.HeirId?.ToString() ?? "")" class="form-control" />
-            </div>
-        </div>
+
+<div class="form-row">
+    <div class="form-group col-md-4">
+        <label>Loại giấy tờ</label>
+        @Html.TextBoxFor(m => m.DocumentType, new { @class = "form-control", @name = $"{prefix}.DocumentType" })
     </div>
+    <div class="form-group col-md-4">
+        <label>Số giấy tờ</label>
+        @Html.TextBoxFor(m => m.DocumentNumber, new { @class = "form-control", @name = $"{prefix}.DocumentNumber" })
+    </div>
+    <div class="form-group col-md-4">
+        <label>Họ và tên <span class="required-field">*</span></label>
+        @Html.TextBoxFor(m => m.FullName, new { @class = "form-control", @name = $"{prefix}.FullName", @required = "required" })
+    </div>
+    <div class="form-group col-md-4">
+        <label>Ngày sinh</label>
+        @Html.TextBoxFor(m => m.BirthDate, new { @class = "form-control", @type = "date", @name = $"{prefix}.BirthDate", @Value = Model.BirthDate?.ToString("yyyy-MM-dd") })
+    </div>
+    <div class="form-group col-md-4">
+        <label>Giới tính</label>
+        @Html.DropDownListFor(m => m.Gender,
+            new SelectList(new[] {
+                new { Value = "", Text = "-- Chọn --" },
+                new { Value = "Nam", Text = "Nam" },
+                new { Value = "Nữ", Text = "Nữ" }
+            }, "Value", "Text", Model.Gender),
+            new { @class = "form-control", @name = $"{prefix}.Gender" })
+    </div>
+    <div class="form-group col-md-4">
+        <label>Địa chỉ</label>
+        @Html.DropDownListFor(m => m.address_id,
+            new SelectList(addresses, "id", "name", Model.address_id),
+            "-- Chọn địa chỉ --",
+            new { @class = "form-control select2", @name = $"{prefix}.address_id" })
+    </div>
+    <div class="form-group col-md-4">
+        <label>Ngày cấp GT</label>
+        @Html.TextBoxFor(m => m.IssueDate, new { @class = "form-control", @type = "date", @name = $"{prefix}.IssueDate", @Value = Model.IssueDate?.ToString("yyyy-MM-dd") })
+    </div>
+    <div class="form-group col-md-4">
+        <label>Nơi cấp GT</label>
+        @Html.TextBoxFor(m => m.Issuer, new { @class = "form-control", @name = $"{prefix}.Issuer" })
+    </div>
+    <div class="form-group col-md-4">
+        <label>Mã số thuế</label>
+        @Html.TextBoxFor(m => m.TaxCode, new { @class = "form-control", @name = $"{prefix}.TaxCode" })
+    </div>
+
+    @if (prefix.Contains("VariationPersons"))
+    {
+        <!-- Additional fields for variation persons -->
+        <div class="form-group col-md-4">
+            <label>Ngày mất</label>
+            @Html.TextBoxFor(m => m.DeathDate, new { @class = "form-control", @type = "date", @name = $"{prefix}.DeathDate", @Value = Model.DeathDate?.ToString("yyyy-MM-dd") })
+        </div>
+        <div class="form-group col-md-4">
+            <label>Giấy chứng tử</label>
+            @Html.TextBoxFor(m => m.DeathDocument, new { @class = "form-control", @name = $"{prefix}.DeathDocument" })
+        </div>
+        <div class="form-group col-md-4">
+            <label>ID người thừa kế</label>
+            @Html.TextBoxFor(m => m.HeirId, new { @class = "form-control", @type = "number", @name = $"{prefix}.HeirId" })
+        </div>
+    }
 </div>
+
+@if (!ViewContext.ViewData.TemplateInfo.HtmlFieldPrefix.Contains("Template"))
+{
+    <script>
+        $(document).ready(function() {
+            // Initialize Select2 for address dropdown
+            $('.select2').select2({
+                placeholder: "-- Chọn địa chỉ --",
+                allowClear: true,
+                width: '100%'
+            });
+        });
+    </script>
+}

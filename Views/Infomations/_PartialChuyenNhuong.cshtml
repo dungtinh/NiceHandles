@@ -1,0 +1,303 @@
+﻿@model NiceHandles.Models.Infomation
+@using NiceHandles.Models
+
+<br />
+<div class="row">
+    <div class="col-md-6">
+        <div class="row">
+            <fieldset>
+                <legend>
+                    Người nhận tặng cho/ chuyển nhượng (thông tin trên CMND/CCCD)
+                    @Html.RadioButtonFor(model => model.e_doituong, (int)XInfomation.eDoiTuong.D, new
+                    {
+                        @style = "margin-left: 10px; position: absolute; margin-top: 5px;",
+                        title = "Nếu chọn người này sẽ được lấy thông tin làm ủy quyền và nộp thuế"
+                    })
+                </legend>
+                <div id="cshm1">
+                    <div class="form-group">
+                        <input type="file" id="inputFile3" accept=".jpg,.jpeg,.png,.pdf" style="margin-bottom: 10px;" />
+                        <button type="button" id="uploadButton3">Quét CCCD</button>
+                        <div id="loading3" style="display:none;">Loading...</div>
+                        <div id="results3"></div>
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Họ tên", htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.d_hoten, new { @class = "lblKey" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.d_hoten, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.d_hoten, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Ngày sinh", new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.d_ngaysinh, new { @class = "lblKey" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.d_ngaysinh, new { htmlAttributes = new { @class = "form-control datetime", autocomplete = "off", Value = Html.Raw(Model.d_ngaysinh.HasValue ? Model.d_ngaysinh.Value.ToString("dd/MM/yyyy") : null) } })
+                            @Html.ValidationMessageFor(model => model.d_ngaysinh, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Giới tính", new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.d_gioitinh, new { @class = "lblKey" })
+                        <div class="col-md-10">
+                            @Html.RadioButtonFor(model => model.d_gioitinh, "Nam", new { @class = "btn-check", autocomplete = "off", @checked = true, id = "d_gioitinh_1" })
+                            <label class="btn btn-outline-primary" for="d_gioitinh_1">Nam</label>
+                            @Html.RadioButtonFor(model => model.d_gioitinh, "Nữ", new { @class = "btn-check", autocomplete = "off", id = "d_gioitinh_2" })
+                            <label class="btn btn-outline-primary" for="d_gioitinh_2">Nữ</label>
+                            @Html.ValidationMessageFor(model => model.d_gioitinh, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="display: none;">
+                        @Html.Label("Quốc tịch", new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.d_quoctich, new { htmlAttributes = new { @class = "form-control", @Value = "Việt Nam" } })
+                            @Html.ValidationMessageFor(model => model.d_quoctich, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="display: none;">
+                        @Html.Label("Nguyên quán", new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.d_nguyenquan, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.d_nguyenquan, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Thường trú", new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.d_hktt, new { @class = "lblKey" })
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.d_hktt, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.d_hktt, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Loại giấy tờ", new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.d_loaigiayto, new { @class = "lblKey" })
+                        <div class="col-md-10">
+                            @Html.RadioButtonFor(model => model.d_loaigiayto, "CCCD", new { @class = "btn-check", autocomplete = "off", @checked = true, id = "d_loaigiayto_1" })
+                            <label class="btn btn-outline-primary" for="d_loaigiayto_1">CCCD</label>
+                            @Html.RadioButtonFor(model => model.d_loaigiayto, "Căn Cước", new { @class = "btn-check", autocomplete = "off", id = "d_loaigiayto_2" })
+                            <label class="btn btn-outline-primary" for="d_loaigiayto_2">CC</label>
+                            @Html.RadioButtonFor(model => model.d_loaigiayto, "SĐD", new { @class = "btn-check", autocomplete = "off", id = "d_loaigiayto_3" })
+                            <label class="btn btn-outline-primary" for="d_loaigiayto_3">SĐD</label>
+                            @Html.RadioButtonFor(model => model.d_loaigiayto, "CMND", new { @class = "btn-check", autocomplete = "off", id = "d_loaigiayto_4" })
+                            <label class="btn btn-outline-primary" for="d_loaigiayto_4">CMND</label>
+                            @Html.ValidationMessageFor(model => model.d_loaigiayto, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("CCCD/CC/SĐD/CMND", new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.d_sogiayto, new { @class = "lblKey" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.d_sogiayto, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.d_sogiayto, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Ngày cấp", new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.d_ngaycap_gt, new { @class = "lblKey" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.d_ngaycap_gt, new { htmlAttributes = new { @class = "form-control datetime", autocomplete = "off", Value = Html.Raw(Model.d_ngaycap_gt.HasValue ? Model.d_ngaycap_gt.Value.ToString("dd/MM/yyyy") : null) } })
+                            @Html.ValidationMessageFor(model => model.d_ngaycap_gt, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Nơi cấp", new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.d_noicap_gt, new { @class = "lblKey" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.d_noicap_gt, new { htmlAttributes = new { @class = "form-control", rel = "noicap" } })
+                            @Html.ValidationMessageFor(model => model.d_noicap_gt, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Mã số thuế", new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.d_masothue, new { @class = "lblKey" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.d_masothue, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.d_masothue, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="row">
+            <fieldset>
+                <legend class="_cshm2">Chủ sở hữu mới 2 (nhấp vào để ẩn hiện)</legend>
+                <div id="_cshm2">
+                    <div class="form-group">
+                        <input type="file" id="inputFile4" accept=".jpg,.jpeg,.png,.pdf" style="margin-bottom: 10px;" />
+                        <button type="button" id="uploadButton4">Quét CCCD</button>
+                        <div id="loading4" style="display:none;">Loading...</div>
+                        <div id="results4"></div>
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Họ tên", htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.d_hoten1, new { @class = "lblKey_r" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.d_hoten1, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.d_hoten1, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Ngày sinh", new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.d_ngaysinh1, new { @class = "lblKey_r" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.d_ngaysinh1, new { htmlAttributes = new { @class = "form-control datetime", autocomplete = "off", Value = Html.Raw(Model.d_ngaysinh1.HasValue ? Model.d_ngaysinh1.Value.ToString("dd/MM/yyyy") : null) } })
+                            @Html.ValidationMessageFor(model => model.d_ngaysinh1, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Giới tính", new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.d_gioitinh1, new { @class = "lblKey_r" })
+                        <div class="col-md-10">
+                            @Html.RadioButtonFor(model => model.d_gioitinh1, "Nam", new { @class = "btn-check", autocomplete = "off", @checked = true, id = "d_gioitinh1_1" })
+                            <label class="btn btn-outline-primary" for="d_gioitinh1_1">Nam</label>
+                            @Html.RadioButtonFor(model => model.d_gioitinh1, "Nữ", new { @class = "btn-check", autocomplete = "off", id = "d_gioitinh1_2" })
+                            <label class="btn btn-outline-primary" for="d_gioitinh1_2">Nữ</label>
+                            @Html.ValidationMessageFor(model => model.d_gioitinh1, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Thường trú", new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.d_hktt1, new { @class = "lblKey_r" })
+                        <div class="col-md-2"><button type="button" id="d_cboSameAdress" class="btn btn-primary"> Như trên </button></div>
+                        <div class="col-md-8">
+                            @Html.TextAreaFor(model => model.d_hktt1, new { @class = "form-control", rel = "hktt" })
+                            @Html.ValidationMessageFor(model => model.d_hktt1, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Loại giấy tờ", new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.d_loaigiayto1, new { @class = "lblKey_r" })
+                        <div class="col-md-10">
+                            @Html.RadioButtonFor(model => model.d_loaigiayto1, "CCCD", new { @class = "btn-check", autocomplete = "off", @checked = true, id = "d_loaigiayto1_1" })
+                            <label class="btn btn-outline-primary" for="d_loaigiayto1_1">Căn cước công dân</label>
+                            @Html.RadioButtonFor(model => model.d_loaigiayto1, "Căn Cước", new { @class = "btn-check", autocomplete = "off", id = "d_loaigiayto1_2" })
+                            <label class="btn btn-outline-primary" for="d_loaigiayto1_2">CC</label>
+                            @Html.RadioButtonFor(model => model.d_loaigiayto1, "SĐD", new { @class = "btn-check", autocomplete = "off", id = "d_loaigiayto1_3" })
+                            <label class="btn btn-outline-primary" for="d_loaigiayto1_3">SĐD</label>
+                            @Html.RadioButtonFor(model => model.d_loaigiayto1, "CMND", new { @class = "btn-check", autocomplete = "off", id = "d_loaigiayto1_4" })
+                            <label class="btn btn-outline-primary" for="d_loaigiayto1_4">CMND</label>
+                            @Html.ValidationMessageFor(model => model.d_loaigiayto1, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("CCCD/CC/SĐD/CMND", new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.d_sogiayto1, new { @class = "lblKey_r" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.d_sogiayto1, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.d_sogiayto1, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Ngày cấp", new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.d_ngaycap_gt1, new { @class = "lblKey_r" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.d_ngaycap_gt1, new { htmlAttributes = new { @class = "form-control datetime", autocomplete = "off", Value = Html.Raw(Model.d_ngaycap_gt1.HasValue ? Model.d_ngaycap_gt1.Value.ToString("dd/MM/yyyy") : null) } })
+                            @Html.ValidationMessageFor(model => model.d_ngaycap_gt1, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Nơi cấp", new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.d_noicap_gt1, new { @class = "lblKey_r" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.d_noicap_gt1, new { htmlAttributes = new { @class = "form-control", rel = "noicap" } })
+                            @Html.ValidationMessageFor(model => model.d_noicap_gt1, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Quan hệ", new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.d_quanhe, new { @class = "lblKey_r" })
+                        <div class="col-md-10">
+                            @Html.RadioButtonFor(model => model.d_quanhe, true, new { @class = "btn-check", autocomplete = "off", @checked = true, id = "d_quanhe_1" })
+                            <label class="btn btn-outline-primary" for="d_quanhe_1">Vợ chồng</label>
+                            @Html.RadioButtonFor(model => model.d_quanhe, false, new { @class = "btn-check", autocomplete = "off", id = "d_quanhe_2" })
+                            <label class="btn btn-outline-primary" for="d_quanhe_2">Sử dụng chung</label>
+                            @Html.ValidationMessageFor(model => model.d_quanhe, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="form-group" style="display: none;">
+        @Html.Label("Loại biến động", new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.d_loaibiendong, new { @class = "lblKey" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.d_loaibiendong, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.d_loaibiendong, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("Lý do biến động", new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.d_lydobiendong, new { @class = "lblKey" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.d_lydobiendong, new SelectList(XInfomation.sLydobiendong), new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.d_lydobiendong, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("Loại hợp đồng", new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.d_loaihopdong, new { @class = "lblKey" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.d_loaihopdong, new SelectList(XInfomation.sLoaiHopDong), new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.d_loaihopdong, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("Số hợp đồng công chứng", new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.d_sohopdong, new { @class = "lblKey" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.d_sohopdong, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.d_sohopdong, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("Nơi công chứng", new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.d_noicongchung, new { @class = "lblKey" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.d_noicongchung, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.d_noicongchung, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("Ngày công chứng", new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.d_ngaycongchung, new { @class = "lblKey" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.d_ngaycongchung, new { htmlAttributes = new { @class = "form-control datetime", autocomplete = "off", Value = Html.Raw(Model.d_ngaycongchung.HasValue ? Model.d_ngaycongchung.Value.ToString("dd/MM/yyyy") : null) } })
+            @Html.ValidationMessageFor(model => model.d_ngaycongchung, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("Tiền hợp đồng", new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.d_tienhopdong, new { @class = "lblKey" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.d_tienhopdong, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.d_tienhopdong, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("Lý do miễn giảm thuế", new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.d_lydomiengiamthue, new { @class = "lblKey" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.d_lydomiengiamthue, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.d_lydomiengiamthue, "", new { @class = "text-danger" })
+        </div>
+    </div>
+</div>

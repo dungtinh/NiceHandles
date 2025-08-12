@@ -1,0 +1,38 @@
+﻿@model NiceHandles.Models.Infomation
+@using NiceHandles.Models
+@{
+    var db = ViewBag.Database as NHModel;
+    var hoso = ViewBag.HoSo as HoSo;
+}
+
+<br />
+<div class="col-sm-4 col-sm-offset-8">
+    <select class="form-control" id="service" onchange="OnServiceChange(this)">
+        <option>Tất cả các mẫu</option>
+        @foreach (var s in db.Services as IQueryable<Service>)
+        {
+            <option @Html.Raw(s.id == hoso.service_id ? "selected" : "") value="@s.id">@s.name</option>
+        }
+    </select>
+</div>
+<ul id="lstDocuments">
+    @foreach (var t in XDocument.sType)
+    {
+        <li>
+            <label style="color: deeppink; text-transform: uppercase;">@t.Value</label>
+            <ul>
+                @foreach (var item in db.Documents.Where(x => x.type == t.Key))
+                {
+                    <li><a href="javascript:Download(@item.id,@Model.hoso_id)">@item.name</a></li>
+                }
+            </ul>
+        </li>
+    }
+</ul>
+
+<script>
+    function Download(documentId, hosoId) {
+        // Gọi action download document
+        window.location.href = '/Documents/Download?id=' + documentId + '&hoso_id=' + hosoId;
+    }
+</script>

@@ -1,5 +1,5 @@
 ﻿// import-data-handler.js
-// Script xử lý cho ImportData View
+// Script xử lý cho ImportData View - chỉ dùng các bảng mới
 
 (function ($) {
     'use strict';
@@ -7,6 +7,8 @@
     // Global variables
     var ownerIndex = 0;
     var buyerSellerIndex = 0;
+    var variationPersonIndex = 0;
+    var serviceCode = '';
 
     // Initialize on document ready
     $(document).ready(function () {
@@ -17,6 +19,9 @@
 
     // Initialize form
     function initializeForm() {
+        // Get service code
+        serviceCode = $('#ServiceCode').val() || $('[name="ServiceCode"]').val() || '';
+
         // Initialize datepickers if available
         if ($.fn.datepicker) {
             $('input[type="date"]').datepicker({
@@ -31,9 +36,18 @@
         if ($.fn.tooltip) {
             $('[data-toggle="tooltip"]').tooltip();
         }
+
+        // Initialize Select2 if available
+        if ($.fn.select2) {
+            $('.select2').select2({
+                placeholder: "-- Chọn địa chỉ --",
+                allowClear: true,
+                width: '100%'
+            });
+        }
     }
 
-    // Initialize existing data indexes
+    // Initialize existing data indexes from server-rendered forms
     function initializeExistingData() {
         // Count existing owners
         $('#owners-container .person-info-card').each(function () {
@@ -51,14 +65,19 @@
             }
         });
 
-        console.log('Initialized - Owners: ' + ownerIndex + ', BuyersSellers: ' + buyerSellerIndex);
+        // Count existing variation persons
+        $('#variation-persons-container .person-info-card').each(function () {
+            var idx = parseInt($(this).data('index'));
+            if (idx >= variationPersonIndex) {
+                variationPersonIndex = idx + 1;
+            }
+        });
+
+        console.log('Initialized - Owners: ' + ownerIndex + ', BuyersSellers: ' + buyerSellerIndex + ', VariationPersons: ' + variationPersonIndex);
     }
 
     // Bind all events
     function bindEvents() {
-        // Load from Infomation button
-        $('#btnLoadFromInfomation').on('click', loadFromInfomation);
-
         // Add owner button
         $('#btnAddOwner').on('click', function () {
             addPersonForm('owner');
@@ -67,6 +86,11 @@
         // Add buyer/seller button
         $('#btnAddBuyerSeller').on('click', function () {
             addPersonForm('buyerSeller');
+        });
+
+        // Add variation person button (chỉ khi service code là chuyennhuong)
+        $('#btnAddVariationPerson').on('click', function () {
+            addPersonForm('variationPerson');
         });
 
         // Remove person handler
@@ -98,51 +122,9 @@
         });
     }
 
-    // Load data from Infomation table
-    function loadFromInfomation() {
-        var hosoId = $('[name="HoSo.id"]').val();
-
-        if (!hosoId) {
-            showNotification('error', 'Không tìm thấy ID hồ sơ!');
-            return;
-        }
-
-        if (!confirm('Load dữ liệu từ bảng Infomation sẽ GHI ĐÈ dữ liệu hiện tại. Bạn có chắc chắn?')) {
-            return;
-        }
-
-        $.ajax({
-            url: '/HoSoes/DupplicateInfomation',
-            type: 'GET',
-            data: { id: hosoId },
-            dataType: 'json',
-            beforeSend: function () {
-                $('#btnLoadFromInfomation').prop('disabled', true).text('Đang tải...');
-            },
-            success: function (response) {
-                if (response.error) {
-                    showNotification('error', response.error);
-                } else if (response) {
-                    processInfomationData(response);
-                    showNotification('success', 'Đã load dữ liệu từ bảng Infomation thành công!');
-                } else {
-                    showNotification('warning', 'Không tìm thấy dữ liệu trong bảng Infomation!');
-                }
-            },
-            error: function (xhr, status, error) {
-                showNotification('error', 'Lỗi khi load dữ liệu: ' + error);
-            },
-            complete: function () {
-                $('#btnLoadFromInfomation').prop('disabled', false)
-                    .html('<i class="fa fa-download"></i> Load từ Infomation cũ');
-            }
-        });
-    }
-    
-
-    // Add person form
+    // Add person form dynamically
     function addPersonForm(type, data) {
-        var template = $('#person-info-template').html();
+        var template = getPersonTemplate(type);
         var index, prefix, title, container;
 
         if (type === 'owner') {
@@ -150,15 +132,20 @@
             prefix = 'Owners';
             title = 'Chủ sở hữu #' + (index + 1);
             container = '#owners-container';
-        } else {
+        } else if (type === 'buyerSeller') {
             index = buyerSellerIndex++;
             prefix = 'BuyersOrSellers';
             title = 'Bên liên quan #' + (index + 1);
             container = '#buyers-sellers-container';
+        } else if (type === 'variationPerson') {
+            index = variationPersonIndex++;
+            prefix = 'VariationPersons';
+            title = 'Người nhận chuyển nhượng #' + (index + 1);
+            container = '#variation-persons-container';
         }
 
         // Replace placeholders
-        template = template.replace(/{role}/g, type === 'owner' ? 'Owner' : 'BuyerOrSeller')
+        template = template.replace(/{role}/g, type)
             .replace(/{index}/g, index)
             .replace(/{prefix}/g, prefix)
             .replace(/{title}/g, title);
@@ -166,13 +153,100 @@
         // Append to container
         $(container).append(template);
 
+        // Initialize Select2 for new form
+        $(container).find('.person-info-card:last').find('.select2').select2({
+            placeholder: "-- Chọn địa chỉ --",
+            allowClear: true,
+            width: '100%'
+        });
+
         // Fill data if provided
         if (data) {
             fillPersonData(prefix, index, data);
         }
     }
 
-    // Fill person data
+    // Get person form template
+    function getPersonTemplate(type) {
+        var template = `
+            <div class="person-info-card" data-role="{role}" data-index="{index}">
+                <div class="card-header">
+                    <span>{title}</span>
+                    <button type="button" class="btn btn-sm btn-danger remove-person" data-index="{index}">
+                        <i class="fa fa-times"></i> Xóa
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label>Loại giấy tờ</label>
+                            <input name="{prefix}[{index}].DocumentType" class="form-control" />
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label>Số giấy tờ</label>
+                            <input name="{prefix}[{index}].DocumentNumber" class="form-control" />
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label>Họ và tên <span class="required-field">*</span></label>
+                            <input name="{prefix}[{index}].FullName" class="form-control" required />
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label>Ngày sinh</label>
+                            <input name="{prefix}[{index}].BirthDate" type="date" class="form-control" />
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label>Giới tính</label>
+                            <select name="{prefix}[{index}].Gender" class="form-control">
+                                <option value="">-- Chọn --</option>
+                                <option value="Nam">Nam</option>
+                                <option value="Nữ">Nữ</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label>Địa chỉ</label>
+                            <select name="{prefix}[{index}].address_id" class="form-control select2">
+                                <option value="">-- Chọn địa chỉ --</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label>Ngày cấp GT</label>
+                            <input name="{prefix}[{index}].IssueDate" type="date" class="form-control" />
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label>Nơi cấp GT</label>
+                            <input name="{prefix}[{index}].Issuer" class="form-control" />
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label>Mã số thuế</label>
+                            <input name="{prefix}[{index}].TaxCode" class="form-control" />
+                        </div>`;
+
+        // Add additional fields for variation persons
+        if (type === 'variationPerson') {
+            template += `
+                        <div class="form-group col-md-4">
+                            <label>Ngày mất</label>
+                            <input name="{prefix}[{index}].DeathDate" type="date" class="form-control" />
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label>Giấy chứng tử</label>
+                            <input name="{prefix}[{index}].DeathDocument" class="form-control" />
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label>ID người thừa kế</label>
+                            <input name="{prefix}[{index}].HeirId" type="number" class="form-control" />
+                        </div>`;
+        }
+
+        template += `
+                    </div>
+                </div>
+            </div>`;
+
+        return template;
+    }
+
+    // Fill person data into form
     function fillPersonData(prefix, index, data) {
         $.each(data, function (key, value) {
             var selector = '[name="' + prefix + '[' + index + '].' + key + '"]';
@@ -180,7 +254,6 @@
         });
     }
 
-   
     // Remove person form
     function removePersonForm(button) {
         var card = button.closest('.person-info-card');
@@ -190,12 +263,15 @@
         card.remove();
 
         // Reindex remaining forms
-        if (role === 'Owner') {
+        if (role === 'owner') {
             reindexForms('#owners-container', 'Owners', 'Chủ sở hữu');
             ownerIndex = $('#owners-container .person-info-card').length;
-        } else {
+        } else if (role === 'buyerSeller') {
             reindexForms('#buyers-sellers-container', 'BuyersOrSellers', 'Bên liên quan');
             buyerSellerIndex = $('#buyers-sellers-container .person-info-card').length;
+        } else if (role === 'variationPerson') {
+            reindexForms('#variation-persons-container', 'VariationPersons', 'Người nhận chuyển nhượng');
+            variationPersonIndex = $('#variation-persons-container .person-info-card').length;
         }
     }
 
@@ -221,8 +297,10 @@
     function clearAllForms() {
         $('#owners-container').empty();
         $('#buyers-sellers-container').empty();
+        $('#variation-persons-container').empty();
         ownerIndex = 0;
         buyerSellerIndex = 0;
+        variationPersonIndex = 0;
 
         // Add one empty owner form
         addPersonForm('owner');
@@ -263,24 +341,25 @@
         return true;
     }
 
-    // Format date helper
-    function formatDate(jsonDate) {
-        if (!jsonDate) return '';
+    // Load addresses for select2 dropdown
+    function loadAddresses() {
+        $.ajax({
+            url: '/api/addresses', // Update với endpoint thực tế
+            type: 'GET',
+            dataType: 'json',
+            success: function (addresses) {
+                var options = '<option value="">-- Chọn địa chỉ --</option>';
+                $.each(addresses, function (index, address) {
+                    options += '<option value="' + address.id + '">' + address.name + '</option>';
+                });
 
-        // Handle /Date(123456789)/ format
-        if (typeof jsonDate === 'string' && jsonDate.indexOf('/Date(') === 0) {
-            var timestamp = parseInt(jsonDate.replace('/Date(', '').replace(')/', ''));
-            var date = new Date(timestamp);
-            return date.toISOString().split('T')[0];
-        }
-
-        // Handle Date object
-        if (jsonDate instanceof Date) {
-            return jsonDate.toISOString().split('T')[0];
-        }
-
-        // Return as is if already formatted
-        return jsonDate;
+                // Update all address dropdowns
+                $('.select2[name$=".address_id"]').each(function () {
+                    var currentValue = $(this).val();
+                    $(this).html(options).val(currentValue);
+                });
+            }
+        });
     }
 
     // Show notification
@@ -303,5 +382,13 @@
             });
         }, 5000);
     }
+
+    // Export functions for external use
+    window.ImportDataHandler = {
+        addPersonForm: addPersonForm,
+        clearAllForms: clearAllForms,
+        validateForm: validateForm,
+        loadAddresses: loadAddresses
+    };
 
 })(jQuery);

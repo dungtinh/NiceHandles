@@ -1,0 +1,38 @@
+﻿@model NiceHandles.Models.Infomation
+@using NiceHandles.Models
+
+<br />
+<fieldset>
+    <legend>
+        Cấp đổi
+    </legend>
+
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.Label("Lý do", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.f_lydo10, new SelectList(XInfomation.sLydo10.Select(x => new { name = x }), "name", "name"), new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.f_lydo10, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Nội dung biến động", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.d_noidungbiendong, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.d_noidungbiendong, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Số thửa mới", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.f_sothua, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Số tờ bản đồ", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.f_tobando, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+    </div>
+</fieldset>
