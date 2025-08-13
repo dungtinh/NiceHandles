@@ -1398,3 +1398,37 @@
             });
         }
 </script>
+<script>
+    $(document).ready(function () {
+        // Toggle show/hide cho chủ sở hữu 2
+        $('._csh2').click(function () {
+            $('#_csh2').toggle('slide');
+        });
+
+        // Copy địa chỉ từ chủ sở hữu 1
+        $('#cboSameAdress').click(function () {
+            var address = $('#a_hktt').val();
+            $('[rel="hktt"]').val(address);
+        });
+
+        // Xử lý quét CCCD
+        $('#uploadButton1, #uploadButton2').click(function () {
+            var buttonId = $(this).attr('id');
+            var fileInputId = buttonId.replace('uploadButton', 'inputFile');
+            var loadingId = buttonId.replace('uploadButton', 'loading');
+            var resultsId = buttonId.replace('uploadButton', 'results');
+
+            var fileInput = $('#' + fileInputId)[0];
+            if (fileInput.files.length > 0) {
+                $('#' + loadingId).show();
+                // Xử lý upload và OCR ở đây
+                setTimeout(function () {
+                    $('#' + loadingId).hide();
+                    $('#' + resultsId).html('<div class="alert alert-success">Quét thành công!</div>');
+                }, 2000);
+            } else {
+                alert('Vui lòng chọn file ảnh CCCD');
+            }
+        });
+    });
+</script>

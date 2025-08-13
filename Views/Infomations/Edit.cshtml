@@ -1,4 +1,5 @@
-﻿@model NiceHandles.Models.Infomation
+﻿<!-- Views/Infomations/Edit.cshtml ĐẦY ĐỦ -->
+@model NiceHandles.Models.Infomation
 @using NiceHandles.Models
 
 @{
@@ -18,34 +19,103 @@
 }
 
 <style type="text/css">
+    /* Improved Styles - Xóa lblKey và lblKey_r */
     legend {
-        color: red;
-        font-style: italic;
-        font-size: 16px;
-        background-color: antiquewhite;
+        color: #2c3e50;
+        font-weight: 600;
+        font-size: 18px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        margin-bottom: 20px;
     }
 
     .showhide:hover {
         cursor: pointer;
-    }
-
-    .lblKey {
-        position: absolute;
-        left: -200px;
-        top: 7px;
-        font-weight: normal;
-    }
-
-    .lblKey_r {
-        position: absolute;
-        right: -200px;
-        top: 7px;
-        font-weight: normal;
+        transition: all 0.3s ease;
     }
 
     .form-group {
-        position: relative;
+        margin-bottom: 20px;
+        padding: 10px;
+        border-radius: 5px;
+        transition: all 0.3s ease;
     }
+
+        .form-group:hover {
+            background-color: #f8f9fa;
+        }
+
+    .form-control {
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+        padding: 8px 12px;
+        transition: border-color 0.3s ease;
+    }
+
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+
+    .control-label {
+        font-weight: 500;
+        color: #495057;
+        margin-bottom: 5px;
+    }
+
+    .nav-tabs {
+        border-bottom: 2px solid #667eea;
+        margin-bottom: 20px;
+    }
+
+        .nav-tabs > li > a {
+            color: #495057;
+            border: none;
+            padding: 10px 15px;
+            transition: all 0.3s ease;
+            border-radius: 5px 5px 0 0;
+        }
+
+            .nav-tabs > li > a:hover {
+                background-color: #f8f9fa;
+            }
+
+        .nav-tabs > li.active > a {
+            color: white;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+        }
+
+    .btn-check:checked + .btn-outline-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-color: #667eea;
+    }
+
+    fieldset {
+        border: 1px solid #dee2e6;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+
+    .tab-content {
+        padding: 20px;
+        background-color: #f8f9fa;
+        border-radius: 0 0 8px 8px;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        padding: 10px 20px;
+        font-weight: 500;
+    }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
 </style>
 
 <h2>@hoso.name</h2>
@@ -56,18 +126,18 @@
 
     <div class="form-horizontal">
         <h4>@service.name</h4>
-        <p>@address.name</p>
+        <p class="text-muted">@address.name</p>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.id)
         @Html.HiddenFor(model => model.hoso_id)
 
         <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#chusohuu">Người đứng tên bìa (hoặc người đại diện) (a)</a></li>
-            <li><a data-toggle="tab" href="#dat">Thửa đất(b)</a></li>
-            <li><a data-toggle="tab" href="#uyquyen">Người được ủy quyền(e)</a></li>
-            <li><a data-toggle="tab" href="#thongtinthem">Thông tin thêm(c)</a></li>
-            <li class="hide"><a data-toggle="tab" href="#chuyennhuong">Biến động (Mua bán - Tặng cho)(d)</a></li>
+            <li class="active"><a data-toggle="tab" href="#chusohuu">Người đứng tên bìa (a)</a></li>
+            <li><a data-toggle="tab" href="#dat">Thửa đất (b)</a></li>
+            <li><a data-toggle="tab" href="#uyquyen">Người được ủy quyền (e)</a></li>
+            <li><a data-toggle="tab" href="#thongtinthem">Thông tin thêm (c)</a></li>
+            <li class="hide"><a data-toggle="tab" href="#chuyennhuong">Biến động (d)</a></li>
             <li class="hide"><a data-toggle="tab" href="#landau">Cấp lần đầu (f)</a></li>
             <li class="hide"><a data-toggle="tab" href="#caplai">Cấp lại (g)</a></li>
             <li class="hide"><a data-toggle="tab" href="#capdoi">Cấp đổi (h)</a></li>
@@ -75,9 +145,6 @@
             <li class="hide"><a data-toggle="tab" href="#tachthua">Tách thửa (k)</a></li>
             <li class="hide"><a data-toggle="tab" href="#dinhchinh">Đính chính (l)</a></li>
             <li class="hide"><a data-toggle="tab" href="#chuyenvuon">Chuyển vườn (m)</a></li>
-            <li class="hide"><a data-toggle="tab" href="#chuyenmucdich">Chuyển mục đích SDĐ (n)</a></li>
-            <li class="hide"><a data-toggle="tab" href="#thuake">Thừa kế (o)</a></li>
-            <li class="hide"><a data-toggle="tab" href="#huygcn">Huỷ GCN (p)</a></li>
             <li><a data-toggle="tab" href="#download">Tải tài liệu</a></li>
         </ul>
 
@@ -151,21 +218,19 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group mt-4">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Lưu lại" class="btn btn-default" onclick="BonusSave()" />
+                <input type="submit" value="Lưu lại" class="btn btn-primary" onclick="BonusSave()" />
+                @Html.ActionLink("Về danh sách", "Details", "Hosoes", new { id = Model.hoso_id }, new { @class = "btn btn-secondary ml-2" })
             </div>
         </div>
     </div>
 }
 
 <iframe id="my_iframe" style="display:none;"></iframe>
-<div>
-    @Html.ActionLink("Về danh sách", "Details", "Hosoes", new { id = Model.hoso_id }, null)
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    <script src="~/Scripts/moment.min.js"></script>    
+    <script src="~/Scripts/moment.min.js"></script>
     @Html.Partial("_PartialScripts", service.code)
 }
