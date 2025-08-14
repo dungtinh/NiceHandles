@@ -22,19 +22,19 @@ namespace NiceHandles.Models
         }
     
         public int Id { get; set; }
-        public string FullName { get; set; }
-        public Nullable<System.DateTime> BirthDate { get; set; }
-        public string Gender { get; set; }
-        public string DocumentType { get; set; }
-        public string DocumentNumber { get; set; }
-        public Nullable<System.DateTime> IssueDate { get; set; }
-        public string Issuer { get; set; }
-        public string TaxCode { get; set; }
-        public Nullable<System.DateTime> DeathDate { get; set; }
-        public string DeathDocument { get; set; }
-        public Nullable<int> HeirId { get; set; }
-        public Nullable<int> address_id { get; set; }
-    
+        public string FullName { get; set; } //a_hoten
+        public Nullable<System.DateTime> BirthDate { get; set; } //a_ngaysinh
+        public string Gender { get; set; } // a_gioitinh
+        public string DocumentType { get; set; } // a_loaigiayto
+        public string DocumentNumber { get; set; } // a_sogiayto
+        public Nullable<System.DateTime> IssueDate { get; set; } // a_ngaycap_gt
+        public string Issuer { get; set; } // a_noicap_gt
+        public string TaxCode { get; set; } // a_masothue
+        public Nullable<System.DateTime> DeathDate { get; set; } // a_ngaymat
+        public string DeathDocument { get; set; } 
+        public Nullable<int> HeirId { get; set; } 
+        public Nullable<int> address_id { get; set; } // a_hktt 
+
         public virtual Address Address { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HoSoPerson> HoSoPersons { get; set; }
