@@ -121,7 +121,7 @@ namespace NiceHandles.Controllers
                                 DocumentNumber = owner.DocumentNumber ?? "---",
                                 BirthDate = owner.BirthDate,
                                 Gender = owner.Gender ?? "---",
-                                address_id = owner.address_id,
+                                AddressId = owner.AddressId,
                                 IssueDate = owner.IssueDate,
                                 Issuer = owner.Issuer ?? "---",
                                 TaxCode = owner.TaxCode ?? "---",
@@ -155,7 +155,7 @@ namespace NiceHandles.Controllers
                                 DocumentNumber = buyer.DocumentNumber ?? "---",
                                 BirthDate = buyer.BirthDate,
                                 Gender = buyer.Gender ?? "---",
-                                address_id = buyer.address_id,
+                                AddressId = buyer.AddressId,
                                 IssueDate = buyer.IssueDate,
                                 Issuer = buyer.Issuer ?? "---",
                                 TaxCode = buyer.TaxCode ?? "---",
@@ -189,7 +189,7 @@ namespace NiceHandles.Controllers
                                 DocumentNumber = heir.DocumentNumber ?? "---",
                                 BirthDate = heir.BirthDate,
                                 Gender = heir.Gender ?? "---",
-                                address_id = heir.address_id,
+                                AddressId = heir.AddressId,
                                 IssueDate = heir.IssueDate,
                                 Issuer = heir.Issuer ?? "---",
                                 TaxCode = heir.TaxCode ?? "---",
@@ -226,7 +226,7 @@ namespace NiceHandles.Controllers
                         hoso.LandParcel.Address = model.LandParcel.Address;
                         hoso.LandParcel.ActualArea = model.LandParcel.ActualArea;
                         hoso.LandParcel.CertifiedArea = model.LandParcel.CertifiedArea;
-                        hoso.LandParcel.UsagePurpose = model.LandParcel.UsagePurpose ?? "---";                     
+                        hoso.LandParcel.UsagePurpose = model.LandParcel.UsagePurpose ?? "---";
                         hoso.LandParcel.IssueDate = model.LandParcel.IssueDate;
                         hoso.LandParcel.Issuer = model.LandParcel.Issuer ?? "---";
                         hoso.LandParcel.BookNumber = model.LandParcel.BookNumber ?? "---";

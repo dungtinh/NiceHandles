@@ -408,14 +408,14 @@
     <Compile Include="Models\ChatFile.cs">
       <DependentUpon>NHModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ChatMessagePartial.cs" />
     <Compile Include="Models\ChatMessage.cs">
       <DependentUpon>NHModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ChatSessionPartial.cs" />
+    <Compile Include="Models\ChatMessagePartial.cs" />
     <Compile Include="Models\ChatSession.cs">
       <DependentUpon>NHModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ChatSessionPartial.cs" />
     <Compile Include="Models\chotso.cs">
       <DependentUpon>NHModel.tt</DependentUpon>
     </Compile>
@@ -543,6 +543,7 @@
       <DependentUpon>NHModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\InfomationEditViewModel.cs" />
+    <Compile Include="Models\InfomationViewModel.cs" />
     <Compile Include="Models\InOut.cs">
       <DependentUpon>NHModel.tt</DependentUpon>
     </Compile>
@@ -851,6 +852,7 @@
     <Content Include="Content\bootstrap-table-sticky-header.css" />
     <Content Include="Content\contractselect2.css" />
     <Content Include="Content\css\importdata.css" />
+    <Content Include="Content\css\info-chusohuu.css" />
     <Content Include="Content\datepicker3.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\inouts-style.css" />

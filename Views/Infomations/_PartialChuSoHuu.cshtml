@@ -1,339 +1,448 @@
-﻿@model NiceHandles.Models.Infomation
+﻿@model List<NiceHandles.Models.PersonInfo>
 @using NiceHandles.Models
+
 <link href="~/Content/css/info-chusohuu.css" rel="stylesheet" />
 
 <div class="container-fluid">
     <div class="row">
-        <!-- Chủ sở hữu 1 -->
-        <div class="col-md-6">
-            <div class="owner-section">
-                <fieldset>
-                    <legend class="_csh1">
-                        <i class="fa fa-user"></i> Chủ sở hữu 1
-                    </legend>
-                    <div id="_csh1">
-                        <!-- Scan CCCD Section -->
-                        <div class="scan-section">
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <input type="file" id="inputFile1" accept=".jpg,.jpeg,.png,.pdf" class="form-control" />
-                                </div>
-                                <div class="col-md-4">
-                                    <button type="button" id="uploadButton" class="btn btn-scan">
-                                        <i class="fa fa-camera"></i> Quét CCCD
-                                    </button>
-                                </div>
-                            </div>
-                            <div id="loading1" style="display:none;" class="mt-2">
-                                <div class="spinner-border text-primary" role="status">
-                                    <span class="sr-only">Đang xử lý...</span>
-                                </div>
-                            </div>
-                            <div id="results1" class="mt-2"></div>
-                        </div>
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <i class="fa fa-users"></i> Thông tin chủ sở hữu
+                        <button type="button" class="btn btn-sm btn-primary pull-right" id="btnAddOwner">
+                            <i class="fa fa-plus"></i> Thêm chủ sở hữu
+                        </button>
+                    </h4>
+                </div>
+                <div class="panel-body">
+                    <div id="ownersList">
+                      
+                        @for (int i = 0; i < Model.Count; i++)
+                        {
+                            var owner = Model[i];
+                            var index = i;
 
-                        <!-- Thông tin cá nhân -->
-                        <div class="form-group">
-                            @Html.Label("Họ và tên", new { @class = "control-label col-md-3" })
-                            <div class="col-md-9">
-                                @Html.EditorFor(model => model.a_hoten, new { htmlAttributes = new { @class = "form-control", placeholder = "Nhập họ tên đầy đủ" } })
-                                @Html.ValidationMessageFor(model => model.a_hoten, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
+                            <div class="owner-item" data-index="@index">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <fieldset>
+                                            <legend class="owner-legend">
+                                                <i class="fa fa-user"></i> Chủ sở hữu @(index + 1)
+                                                @if (index > 0)
+                                                {
+                                                    <button type="button" class="btn btn-sm btn-danger pull-right btn-remove-owner" data-index="@index">
+                                                        <i class="fa fa-trash"></i> Xóa
+                                                    </button>
+                                                }
+                                            </legend>
 
-                        <div class="form-group">
-                            @Html.Label("Ngày sinh", new { @class = "control-label col-md-3" })
-                            <div class="col-md-9">
-                                @Html.TextBoxFor(model => model.a_ngaysinh, Model.a_ngaysinh.HasValue ? Model.a_ngaysinh.Value.ToString("dd/MM/yyyy") : null, new
+                                            <!-- Scan CCCD Section -->
+                                            <div class="scan-section">
+                                                <div class="row">
+                                                    <div class="col-md-8">
+                                                        <input type="file" id="inputFile_@index" accept=".jpg,.jpeg,.png,.pdf" class="form-control scan-input" data-index="@index" />
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <button type="button" class="btn btn-scan btn-upload-cccd" data-index="@index" id="uploadButton">
+                                                            <i class="fa fa-camera"></i> Quét CCCD
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div id="loading_@index" style="display:none;" class="mt-2">
+                                                    <div class="spinner-border text-primary" role="status">
+                                                        <span class="sr-only">Đang xử lý...</span>
+                                                    </div>
+                                                </div>
+                                                <div id="results_@index" class="mt-2"></div>
+                                            </div>
+
+                                            <!-- Thông tin cá nhân -->
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Họ và tên</label>
+                                                <div class="col-md-9">
+                                                    <input type="text"
+                                                           name="PersonInfos[@index].FullName"
+                                                           value="@owner.FullName"
+                                                           class="form-control"
+                                                           placeholder="Nhập họ tên đầy đủ" />
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Ngày sinh</label>
+                                                <div class="col-md-9">
+                                                    <input type="text"
+                                                           name="PersonInfos[@index].BirthDate"
+                                                           value="@(owner.BirthDate?.ToString("dd/MM/yyyy"))"
+                                                           class="form-control datetime"
+                                                           placeholder="dd/MM/yyyy" />
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Giới tính</label>
+                                                <div class="col-md-9">
+                                                    <div class="btn-group" role="group">
+                                                        <input type="radio"
+                                                               class="btn-check"
+                                                               name="PersonInfos[@index].Gender"
+                                                               value="Nam"
+                                                               id="gender_@(index)_nam"
+                                                               @(owner.Gender == "Nam" ? "checked" : "")
+                                                               style="display: none;" />
+                                                        <label class="btn btn-outline-primary" for="gender_@(index)_nam">Nam</label>
+
+                                                        <input type="radio"
+                                                               class="btn-check"
+                                                               name="PersonInfos[@index].Gender"
+                                                               value="Nữ"
+                                                               id="gender_@(index)_nu"
+                                                               @(owner.Gender == "Nữ" ? "checked" : "")
+                                                               style="display: none;" />
+                                                        <label class="btn btn-outline-primary" for="gender_@(index)_nu">Nữ</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Địa chỉ thường trú</label>
+                                                <div class="col-md-9">
+                                                    <textarea name="PersonInfos[@index].DocumentAddress"
+                                                              class="form-control"
+                                                              rows="3"
+                                                              placeholder="Nhập địa chỉ thường trú đầy đủ">@(owner.DocumentAddress)</textarea>
+                                                    @if (index > 0)
+                                                    {
+                                                        <button type="button" class="btn btn-sm btn-info btn-same-address mt-2" data-index="@index">
+                                                            <i class="fa fa-copy"></i> Như người thứ nhất
+                                                        </button>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <fieldset>
+                                            <legend>Giấy tờ tùy thân</legend>
+
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Loại giấy tờ</label>
+                                                <div class="col-md-9">
+                                                    <div class="btn-group" role="group">
+                                                        @{
+                                                            var docTypes = new[] {
+                                                                new { Value = "CCCD", Text = "CCCD" },
+                                                                new { Value = "Căn Cước", Text = "Căn cước" },
+                                                                new { Value = "Số định danh", Text = "SĐD" },
+                                                                new { Value = "CMND", Text = "CMND" }
+                                                            };
+                                                        }
+                                                        @foreach (var dt in docTypes)
+                                                        {
+                                                            var dtId = $"doctype_{index}_{dt.Value}";
+                                                            <input type="radio"
+                                                                   class="btn-check"
+                                                                   name="PersonInfos[@index].DocumentType"
+                                                                   value="@dt.Value"
+                                                                   id="@dtId"
+                                                                   @(owner.DocumentType == dt.Value ? "checked" : "")
+                                                                   style="display: none;" />
+                                                            <label class="btn btn-outline-primary" for="@dtId">@dt.Text</label>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Số giấy tờ</label>
+                                                <div class="col-md-9">
+                                                    <input type="text"
+                                                           name="PersonInfos[@index].DocumentNumber"
+                                                           value="@owner.DocumentNumber"
+                                                           class="form-control"
+                                                           placeholder="Nhập số CCCD/CMND" />
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Ngày cấp</label>
+                                                <div class="col-md-9">
+                                                    <input type="text"
+                                                           name="PersonInfos[@index].IssueDate"
+                                                           value="@(owner.IssueDate?.ToString("dd/MM/yyyy"))"
+                                                           class="form-control datetime"
+                                                           placeholder="dd/MM/yyyy" />
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Nơi cấp</label>
+                                                <div class="col-md-9">
+                                                    <input type="text"
+                                                           name="PersonInfos[@index].Issuer"
+                                                           value="@owner.Issuer"
+                                                           class="form-control"
+                                                           placeholder="Cục Cảnh sát QLHC về TTXH" />
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Mã số thuế</label>
+                                                <div class="col-md-9">
+                                                    <input type="text"
+                                                           name="PersonInfos[@index].TaxCode"
+                                                           value="@owner.TaxCode"
+                                                           class="form-control"
+                                                           placeholder="Nhập mã số thuế (nếu có)" />
+                                                </div>
+                                            </div>
+
+                                            @if (index > 0)
+                                            {
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3">Quan hệ với CSH 1</label>
+                                                    <div class="col-md-9">
+                                                        <select name="PersonInfos[@index].RelationshipType" class="form-control">
+                                                            <option value="">-- Chọn quan hệ --</option>
+                                                            <option value="VoChong">Vợ/Chồng</option>
+                                                            <option value="ConCai">Con cái</option>
+                                                            <option value="BoMe">Bố/Mẹ</option>
+                                                            <option value="AnhChiEm">Anh/Chị/Em</option>
+                                                            <option value="SuDungChung">Sử dụng chung</option>
+                                                            <option value="Khac">Khác</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            }
+
+                                            <!-- Hidden fields for PersonInfo Id -->
+                                            <input type="hidden" name="PersonInfos[@index].Id" value="@owner.Id" />
+                                        </fieldset>
+                                    </div>
+                                </div>
+                                @if (i < Model.Count - 1)
                                 {
-                                    @class = "form-control datetime",
-                                    autocomplete = "off",
-                                    placeholder = "dd/MM/yyyy",
-                                    @type = "text",
-                                })
-                                @Html.ValidationMessageFor(model => model.a_ngaysinh, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.Label("Giới tính", new { @class = "control-label col-md-3" })
-                            <div class="col-md-9">
-                                <div class="btn-group" role="group">
-                                    @Html.RadioButtonFor(model => model.a_gioitinh, "Nam", new { @class = "btn-check", autocomplete = "off", @checked = true, id = "a_gioitinh_1", style = "display: none;" })
-                                    <label class="btn btn-outline-primary" for="a_gioitinh_1">Nam</label>
-                                    @Html.RadioButtonFor(model => model.a_gioitinh, "Nữ", new { @class = "btn-check", autocomplete = "off", id = "a_gioitinh_2", style = "display: none;" })
-                                    <label class="btn btn-outline-primary" for="a_gioitinh_2">Nữ</label>
-                                </div>
-                                @Html.ValidationMessageFor(model => model.a_gioitinh, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.Label("Quốc tịch", new { @class = "control-label col-md-3" })
-                            <div class="col-md-9">
-                                @Html.EditorFor(model => model.a_quoctich, new { htmlAttributes = new { @class = "form-control", placeholder = "Việt Nam", Value = "Việt Nam" } })
-                                @Html.ValidationMessageFor(model => model.a_quoctich, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group" style="display: none;">
-                            @Html.Label("Nguyên quán", new { @class = "control-label col-md-3" })
-                            <div class="col-md-9">
-                                @Html.EditorFor(model => model.a_nguyenquan, new { htmlAttributes = new { @class = "form-control", placeholder = "Nhập nguyên quán" } })
-                                @Html.ValidationMessageFor(model => model.a_nguyenquan, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.Label("Địa chỉ thường trú", new { @class = "control-label col-md-3" })
-                            <div class="col-md-9">
-                                @Html.TextAreaFor(model => model.a_hktt, new { @class = "form-control", rows = 3, placeholder = "Nhập địa chỉ thường trú đầy đủ" })
-                                @Html.ValidationMessageFor(model => model.a_hktt, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <!-- Giấy tờ tùy thân -->
-                        <div class="form-group">
-                            @Html.Label("Loại giấy tờ", new { @class = "control-label col-md-3" })
-                            <div class="col-md-9">
-
-                                @{
-                                    var opta_loaigiayto = new[] {
-                                    new { Value = "CCCD", Text = "CCCD", Id = "a_loaigiayto_1" },
-                                    new { Value = "Căn Cước", Text = "Căn cước", Id = "a_loaigiayto_2" },
-                                    new { Value = "Số định danh", Text = "SĐD", Id = "a_loaigiayto_3" },
-                                    new { Value = "CMND", Text = "CMND", Id = "a_loaigiayto_4" },
-    };
+                                    <hr class="owner-separator" />
                                 }
-                                <div class="btn-group" role="group" aria-label="Loại giấy tờ">
-                                    @foreach (var opt in opta_loaigiayto)
-                                    {
-                                        <input type="radio"
-                                               class="btn-check"
-                                               name="a_loaigiayto"
-                                               id="@opt.Id"
-                                               value="@opt.Value"
-                                               autocomplete="off"
-                                               style="display: none;"
-                                               @(Model.a_loaigiayto == opt.Value ? "checked" : "") />
-                                        <label class="btn btn-outline-primary" for="@opt.Id">@opt.Text</label>
-                                    }
-                                </div>
-
-
-                                @Html.ValidationMessageFor(model => model.a_loaigiayto, "", new { @class = "text-danger" })
                             </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.Label("Số giấy tờ", new { @class = "control-label col-md-3" })
-                            <div class="col-md-9">
-                                @Html.EditorFor(model => model.a_sogiayto, new { htmlAttributes = new { @class = "form-control", placeholder = "Nhập số CCCD/CMND" } })
-                                @Html.ValidationMessageFor(model => model.a_sogiayto, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.Label("Ngày cấp", new { @class = "control-label col-md-3" })
-                            <div class="col-md-9">
-                                @Html.TextBoxFor(model => model.a_ngaycap_gt, Model.a_ngaycap_gt.HasValue ? Model.a_ngaycap_gt.Value.ToString("dd/MM/yyyy") : null, new
-                           {
-                               @class = "form-control datetime",
-                               autocomplete = "off",
-                               placeholder = "dd/MM/yyyy",
-                               @type = "text",
-                           })
-                                @Html.ValidationMessageFor(model => model.a_ngaycap_gt, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.Label("Nơi cấp", new { @class = "control-label col-md-3" })
-                            <div class="col-md-9">
-                                @Html.EditorFor(model => model.a_noicap_gt, new { htmlAttributes = new { @class = "form-control", rel = "noicap", placeholder = "Cục Cảnh sát QLHC về TTXH" } })
-                                @Html.ValidationMessageFor(model => model.a_noicap_gt, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.Label("Mã số thuế", new { @class = "control-label col-md-3" })
-                            <div class="col-md-9">
-                                @Html.EditorFor(model => model.a_masothue, new { htmlAttributes = new { @class = "form-control", placeholder = "Nhập mã số thuế (nếu có)" } })
-                                @Html.ValidationMessageFor(model => model.a_masothue, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
+                        }
                     </div>
-                </fieldset>
-            </div>
-        </div>
-
-        <!-- Chủ sở hữu 2 -->
-        <div class="col-md-6">
-            <div class="owner-section">
-                <fieldset>
-                    <legend class="_csh2">
-                        <i class="fa fa-user"></i> Chủ sở hữu 2 (nhấp để ẩn/hiện)
-                    </legend>
-                    <div id="_csh2">
-                        <!-- Scan CCCD Section -->
-                        <div class="scan-section">
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <input type="file" id="inputFile2" accept=".jpg,.jpeg,.png,.pdf" class="form-control" />
-                                </div>
-                                <div class="col-md-4">
-                                    <button type="button" id="uploadButton1" class="btn btn-scan">
-                                        <i class="fa fa-camera"></i> Quét CCCD
-                                    </button>
-                                </div>
-                            </div>
-                            <div id="loading2" style="display:none;" class="mt-2">
-                                <div class="spinner-border text-primary" role="status">
-                                    <span class="sr-only">Đang xử lý...</span>
-                                </div>
-                            </div>
-                            <div id="results2" class="mt-2"></div>
-                        </div>
-
-                        <!-- Thông tin cá nhân -->
-                        <div class="form-group">
-                            @Html.Label("Họ và tên", new { @class = "control-label col-md-3" })
-                            <div class="col-md-9">
-                                @Html.EditorFor(model => model.a_hoten1, new { htmlAttributes = new { @class = "form-control", placeholder = "Nhập họ tên đầy đủ" } })
-                                @Html.ValidationMessageFor(model => model.a_hoten1, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.Label("Ngày sinh", new { @class = "control-label col-md-3" })
-                            <div class="col-md-9">
-                                @Html.TextBoxFor(model => model.a_ngaysinh1, Model.a_ngaysinh1.HasValue ? Model.a_ngaysinh1.Value.ToString("dd/MM/yyyy") : null, new
-                           {
-                               @class = "form-control datetime",
-                               autocomplete = "off",
-                               placeholder = "dd/MM/yyyy",
-                               @type = "text",
-                           })
-                                @Html.ValidationMessageFor(model => model.a_ngaysinh1, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.Label("Giới tính", new { @class = "control-label col-md-3" })
-                            <div class="col-md-9">
-                                <div class="btn-group" role="group">
-                                    @Html.RadioButtonFor(model => model.a_gioitinh1, "Nam", new { @class = "btn-check", autocomplete = "off", @checked = true, id = "a_gioitinh1_1", style = "display: none;" })
-                                    <label class="btn btn-outline-primary" for="a_gioitinh1_1">Nam</label>
-                                    @Html.RadioButtonFor(model => model.a_gioitinh1, "Nữ", new { @class = "btn-check", autocomplete = "off", id = "a_gioitinh1_2", style = "display: none;" })
-                                    <label class="btn btn-outline-primary" for="a_gioitinh1_2">Nữ</label>
-                                </div>
-                                @Html.ValidationMessageFor(model => model.a_gioitinh1, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.Label("Quốc tịch", new { @class = "control-label col-md-3" })
-                            <div class="col-md-9">
-                                @Html.EditorFor(model => model.a_quoctich1, new { htmlAttributes = new { @class = "form-control", placeholder = "Việt Nam", Value = "Việt Nam" } })
-                                @Html.ValidationMessageFor(model => model.a_quoctich1, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group" style="display: none;">
-                            @Html.Label("Nguyên quán", new { @class = "control-label col-md-3" })
-                            <div class="col-md-9">
-                                @Html.EditorFor(model => model.a_nguyenquan1, new { htmlAttributes = new { @class = "form-control", placeholder = "Nhập nguyên quán" } })
-                                @Html.ValidationMessageFor(model => model.a_nguyenquan1, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.Label("Địa chỉ thường trú", new { @class = "control-label col-md-3" })
-                            <div class="col-md-9">
-                                @Html.TextAreaFor(model => model.a_hktt1, new { @class = "form-control", rel = "hktt", rows = 3, placeholder = "Nhập địa chỉ thường trú đầy đủ" })
-                                @Html.ValidationMessageFor(model => model.a_hktt1, "", new { @class = "text-danger" })
-                            </div>
-                            <div>
-                                <button type="button" id="cboSameAdress" class="btn btn-same-address">
-                                    <i class="fa fa-copy"></i> Như trên
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Giấy tờ tùy thân -->
-                        <div class="form-group">
-                            @Html.Label("Loại giấy tờ", new { @class = "control-label col-md-3" })
-                            <div class="col-md-9">
-                                @{
-                                    var optionsa_loaigiayto1 = new[] {
-                                        new { Value = "CCCD", Text = "CCCD", Id = "a_loaigiayto1_1"},
-                                        new { Value = "Căn Cước", Text = "Căn cước", Id = "a_loaigiayto1_2"},
-                                        new { Value = "Số định danh cá nhân", Text = "SĐD", Id = "a_loaigiayto1_3"},
-                                        new { Value = "CMND", Text = "CMND", Id = "a_loaigiayto1_4"},
-                                    };
-                                }
-                                <div class="btn-group" role="group" aria-label="Loại giấy tờ">
-                                    @foreach (var opt in optionsa_loaigiayto1)
-                                    {
-                                        <input type="radio" class="btn-check" name="a_loaigiayto1" style="display: none;"
-                                               id="@opt.Id" autocomplete="off"
-                                               value="@opt.Value"
-                                               @(Model.a_loaigiayto1 == opt.Value ? "checked" : "") />
-                                        <label class="btn btn-outline-primary" for="@opt.Id">@opt.Text</label>
-                                    }
-                                </div>
-                                @Html.ValidationMessageFor(model => model.a_loaigiayto1, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.Label("Số giấy tờ", new { @class = "control-label col-md-3" })
-                            <div class="col-md-9">
-                                @Html.EditorFor(model => model.a_sogiayto1, new { htmlAttributes = new { @class = "form-control", placeholder = "Nhập số CCCD/CMND" } })
-                                @Html.ValidationMessageFor(model => model.a_sogiayto1, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            @Html.Label("Ngày cấp", new { @class = "control-label col-md-3" })
-                            <div class="col-md-9">
-                                @Html.TextBoxFor(model => model.a_ngaycap_gt1, Model.a_ngaycap_gt1.HasValue ? Model.a_ngaycap_gt1.Value.ToString("dd/MM/yyyy") : null, new
-                                {
-                                    @class = "form-control datetime",
-                                    autocomplete = "off",
-                                    placeholder = "dd/MM/yyyy",
-                                    @type = "text",
-                                })
-                                @Html.ValidationMessageFor(model => model.a_ngaycap_gt1, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.Label("Nơi cấp", new { @class = "control-label col-md-3" })
-                            <div class="col-md-9">
-                                @Html.EditorFor(model => model.a_noicap_gt1, new { htmlAttributes = new { @class = "form-control", rel = "noicap", placeholder = "Cục Cảnh sát QLHC về TTXH" } })
-                                @Html.ValidationMessageFor(model => model.a_noicap_gt1, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.Label("Quan hệ", new { @class = "control-label col-md-3" })
-                            <div class="col-md-9">
-                                <div class="btn-group" role="group">
-                                    @Html.RadioButtonFor(model => model.a_quanhe, true, new { @class = "btn-check", autocomplete = "off", @checked = true, id = "a_quanhe_1", style = "display: none;" })
-                                    <label class="btn btn-outline-primary" for="a_quanhe_1">
-                                        <i class="fa fa-heart"></i> Vợ chồng
-                                    </label>
-                                    @Html.RadioButtonFor(model => model.a_quanhe, false, new { @class = "btn-check", autocomplete = "off", id = "a_quanhe_2", style = "display: none;" })
-                                    <label class="btn btn-outline-primary" for="a_quanhe_2">
-                                        <i class="fa fa-users"></i> Sử dụng chung
-                                    </label>
-                                </div>
-                                @Html.ValidationMessageFor(model => model.a_quanhe, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                    </div>
-                </fieldset>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Template for new owner (hidden) -->
+<script type="text/html" id="ownerTemplate">
+    <div class="owner-item" data-index="{{index}}">
+        <div class="row">
+            <div class="col-md-6">
+                <fieldset>
+                    <legend class="owner-legend">
+                        <i class="fa fa-user"></i> Chủ sở hữu {{displayIndex}}
+                        <button type="button" class="btn btn-sm btn-danger pull-right btn-remove-owner" data-index="{{index}}">
+                            <i class="fa fa-trash"></i> Xóa
+                        </button>
+                    </legend>
+
+                    <!-- Scan CCCD Section -->
+                    <div class="scan-section">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <input type="file" id="inputFile_{{index}}" accept=".jpg,.jpeg,.png,.pdf" class="form-control scan-input" data-index="{{index}}" />
+                            </div>
+                            <div class="col-md-4">
+                                <button type="button" class="btn btn-scan btn-upload-cccd" data-index="{{index}}">
+                                    <i class="fa fa-camera"></i> Quét CCCD
+                                </button>
+                            </div>
+                        </div>
+                        <div id="loading_{{index}}" style="display:none;" class="mt-2">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="sr-only">Đang xử lý...</span>
+                            </div>
+                        </div>
+                        <div id="results_{{index}}" class="mt-2"></div>
+                    </div>
+
+                    <!-- Thông tin cá nhân -->
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Họ và tên</label>
+                        <div class="col-md-9">
+                            <input type="text" name="PersonInfos[{{index}}].FullName" class="form-control" placeholder="Nhập họ tên đầy đủ" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Ngày sinh</label>
+                        <div class="col-md-9">
+                            <input type="text" name="PersonInfos[{{index}}].BirthDate" class="form-control datetime" placeholder="dd/MM/yyyy" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Giới tính</label>
+                        <div class="col-md-9">
+                            <div class="btn-group" role="group">
+                                <input type="radio" class="btn-check" name="PersonInfos[{{index}}].Gender" value="Nam" id="gender_{{index}}_nam" checked style="display: none;" />
+                                <label class="btn btn-outline-primary" for="gender_{{index}}_nam">Nam</label>
+                                <input type="radio" class="btn-check" name="PersonInfos[{{index}}].Gender" value="Nữ" id="gender_{{index}}_nu" style="display: none;" />
+                                <label class="btn btn-outline-primary" for="gender_{{index}}_nu">Nữ</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Địa chỉ thường trú</label>
+                        <div class="col-md-9">
+                            <textarea name="PersonInfos[{{index}}].Address.FullAddress" class="form-control" rows="3" placeholder="Nhập địa chỉ thường trú đầy đủ"></textarea>
+                            <button type="button" class="btn btn-sm btn-info btn-same-address mt-2" data-index="{{index}}">
+                                <i class="fa fa-copy"></i> Như người thứ nhất
+                            </button>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+
+            <div class="col-md-6">
+                <fieldset>
+                    <legend>Giấy tờ tùy thân</legend>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Loại giấy tờ</label>
+                        <div class="col-md-9">
+                            <div class="btn-group" role="group">
+                                <input type="radio" class="btn-check" name="PersonInfos[{{index}}].DocumentType" value="CCCD" id="doctype_{{index}}_CCCD" checked style="display: none;" />
+                                <label class="btn btn-outline-primary" for="doctype_{{index}}_CCCD">CCCD</label>
+                                <input type="radio" class="btn-check" name="PersonInfos[{{index}}].DocumentType" value="Căn Cước" id="doctype_{{index}}_CC" style="display: none;" />
+                                <label class="btn btn-outline-primary" for="doctype_{{index}}_CC">Căn cước</label>
+                                <input type="radio" class="btn-check" name="PersonInfos[{{index}}].DocumentType" value="Số định danh" id="doctype_{{index}}_SDD" style="display: none;" />
+                                <label class="btn btn-outline-primary" for="doctype_{{index}}_SDD">SĐD</label>
+                                <input type="radio" class="btn-check" name="PersonInfos[{{index}}].DocumentType" value="CMND" id="doctype_{{index}}_CMND" style="display: none;" />
+                                <label class="btn btn-outline-primary" for="doctype_{{index}}_CMND">CMND</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Số giấy tờ</label>
+                        <div class="col-md-9">
+                            <input type="text" name="PersonInfos[{{index}}].DocumentNumber" class="form-control" placeholder="Nhập số CCCD/CMND" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Ngày cấp</label>
+                        <div class="col-md-9">
+                            <input type="text" name="PersonInfos[{{index}}].IssueDate" class="form-control datetime" placeholder="dd/MM/yyyy" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Nơi cấp</label>
+                        <div class="col-md-9">
+                            <input type="text" name="PersonInfos[{{index}}].Issuer" class="form-control" placeholder="Cục Cảnh sát QLHC về TTXH" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Mã số thuế</label>
+                        <div class="col-md-9">
+                            <input type="text" name="PersonInfos[{{index}}].TaxCode" class="form-control" placeholder="Nhập mã số thuế (nếu có)" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Quan hệ với CSH 1</label>
+                        <div class="col-md-9">
+                            <select name="PersonInfos[{{index}}].RelationshipType" class="form-control">
+                                <option value="">-- Chọn quan hệ --</option>
+                                <option value="VoChong">Vợ/Chồng</option>
+                                <option value="ConCai">Con cái</option>
+                                <option value="BoMe">Bố/Mẹ</option>
+                                <option value="AnhChiEm">Anh/Chị/Em</option>
+                                <option value="SuDungChung">Sử dụng chung</option>
+                                <option value="Khac">Khác</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="PersonInfos[{{index}}].Id" value="0" />
+                </fieldset>
+            </div>
+        </div>
+        <hr class="owner-separator" />
+    </div>
+</script>
+
+
+
+<style>
+    .owner-item {
+        margin-bottom: 20px;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+    }
+
+    .owner-legend {
+        font-size: 18px;
+        font-weight: bold;
+        color: #337ab7;
+        border-bottom: 2px solid #337ab7;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+    }
+
+    .owner-separator {
+        border-top: 2px solid #ddd;
+        margin: 20px 0;
+    }
+
+    .btn-same-address {
+        margin-top: 5px;
+    }
+
+    .scan-section {
+        margin-bottom: 20px;
+        padding: 10px;
+        background-color: #f0f0f0;
+        border-radius: 5px;
+    }
+
+    .btn-scan {
+        background-color: #5cb85c;
+        color: white;
+        border: none;
+    }
+
+        .btn-scan:hover {
+            background-color: #449d44;
+        }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .control-label {
+        font-weight: bold;
+    }
+
+    fieldset {
+        border: 1px solid #ddd;
+        padding: 15px;
+        border-radius: 5px;
+    }
+
+    legend {
+        width: auto;
+        padding: 0 10px;
+        margin-bottom: 10px;
+        font-size: 16px;
+        font-weight: bold;
+    }
+</style>

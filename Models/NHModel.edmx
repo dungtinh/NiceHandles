@@ -987,7 +987,8 @@ warning 6002: The table/view 'NiceHandle.dbo.Hoso_Step' does not have a primary 
           <Property Name="DeathDate" Type="date" />
           <Property Name="DeathDocument" Type="nvarchar" MaxLength="128" />
           <Property Name="HeirId" Type="int" />
-          <Property Name="address_id" Type="int" />
+          <Property Name="AddressId" Type="int" />
+          <Property Name="DocumentAddress" Type="nvarchar" MaxLength="250" />
         </EntityType>
         <EntityType Name="PriceByArea">
           <Key>
@@ -2789,7 +2790,7 @@ warning 6002: The table/view 'NiceHandle.dbo.vViecPhaiLam' does not have a prima
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="PersonInfo">
-              <PropertyRef Name="address_id" />
+              <PropertyRef Name="AddressId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3597,7 +3598,7 @@ warning 6002: The table/view 'NiceHandle.dbo.vViecPhaiLam' does not have a prima
           <Property Name="parent_id" Type="Int32" />
           <NavigationProperty Name="LandParcels" Relationship="NiceHandleModel.FK_LandParcels_Address" FromRole="Address" ToRole="LandParcel" />
           <NavigationProperty Name="PersonInfoes" Relationship="NiceHandleModel.FK_Persion_Address" FromRole="Address" ToRole="PersonInfo" />
-        </EntityType>
+          </EntityType>
         <EntityType Name="AspNetRole">
           <Key>
             <PropertyRef Name="Id" />
@@ -6298,7 +6299,7 @@ warning 6002: The table/view 'NiceHandle.dbo.vViecPhaiLam' does not have a prima
             <End Role="PersonInfo" EntitySet="PersonInfoes" />
             <End Role="PersonInfo1" EntitySet="PersonInfoes" />
           </AssociationSet>
-        </EntityContainer>
+          </EntityContainer>
         <ComplexType Name="Test_Result">
           <Property Type="Int32" Name="id" Nullable="false" />
           <Property Type="String" Name="name" Nullable="false" MaxLength="150" />
@@ -6444,7 +6445,8 @@ warning 6002: The table/view 'NiceHandle.dbo.vViecPhaiLam' does not have a prima
           <Property Name="DeathDate" Type="DateTime" Precision="0" />
           <Property Name="DeathDocument" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="HeirId" Type="Int32" />
-          <Property Name="address_id" Type="Int32" />
+          <Property Name="AddressId" Type="Int32" />
+          <Property Name="DocumentAddress" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Address" Relationship="NiceHandleModel.FK_Persion_Address" FromRole="PersonInfo" ToRole="Address" />
           <NavigationProperty Name="HoSoPersons" Relationship="NiceHandleModel.FK_HoSoPerson_PersonInfo" FromRole="PersonInfo" ToRole="HoSoPerson" />
           <NavigationProperty Name="PersonInfo1" Relationship="NiceHandleModel.FK_PersonInfo_Heir" FromRole="PersonInfo" ToRole="PersonInfo1" />
@@ -6458,7 +6460,7 @@ warning 6002: The table/view 'NiceHandle.dbo.vViecPhaiLam' does not have a prima
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="PersonInfo">
-              <PropertyRef Name="address_id" />
+              <PropertyRef Name="AddressId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -6488,7 +6490,7 @@ warning 6002: The table/view 'NiceHandle.dbo.vViecPhaiLam' does not have a prima
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -8866,7 +8868,8 @@ warning 6002: The table/view 'NiceHandle.dbo.vViecPhaiLam' does not have a prima
           <EntitySetMapping Name="PersonInfoes">
             <EntityTypeMapping TypeName="NiceHandleModel.PersonInfo">
               <MappingFragment StoreEntitySet="PersonInfo">
-                <ScalarProperty Name="address_id" ColumnName="address_id" />
+                <ScalarProperty Name="DocumentAddress" ColumnName="DocumentAddress" />
+                <ScalarProperty Name="AddressId" ColumnName="AddressId" />
                 <ScalarProperty Name="HeirId" ColumnName="HeirId" />
                 <ScalarProperty Name="DeathDocument" ColumnName="DeathDocument" />
                 <ScalarProperty Name="DeathDate" ColumnName="DeathDate" />

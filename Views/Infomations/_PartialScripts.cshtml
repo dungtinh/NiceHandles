@@ -1432,3 +1432,139 @@
         });
     });
 </script>
+
+@*-- Chủ sở hữu*@
+<script>
+$(document).ready(function() {
+    var ownerIndex = @ViewBag.OwnerIndex;
+
+    // Add new owner
+    $('#btnAddOwner').click(function() {
+        var template = $('#ownerTemplate').html();
+        template = template.replace(/{{index}}/g, ownerIndex);
+        template = template.replace(/{{displayIndex}}/g, ownerIndex + 1);
+
+        $('#ownersList').append(template);
+
+        // Re-initialize datetime pickers for new elements
+        $('.datetime').datepicker({
+            format: 'dd/mm/yyyy',
+            autoclose: true,
+            todayHighlight: true
+        });
+
+        ownerIndex++;
+    });
+
+    // Remove owner
+    $(document).on('click', '.btn-remove-owner', function() {
+        if (confirm('Bạn có chắc chắn muốn xóa chủ sở hữu này?')) {
+            $(this).closest('.owner-item').remove();
+            // Re-index remaining owners
+            reindexOwners();
+        }
+    });
+
+    // Copy address from first owner
+    $(document).on('click', '.btn-same-address', function() {
+        var firstAddress = $('[name="PersonInfos[0].Address.FullAddress"]').val();
+        var currentIndex = $(this).data('index');
+        $('[name="PersonInfos[' + currentIndex + '].Address.FullAddress"]').val(firstAddress);
+    });
+
+    // CCCD Scan handler
+    $(document).on('click', '.btn-upload-cccd', function() {
+        var index = $(this).data('index');
+        $('#inputFile_' + index).click();
+    });
+
+    $(document).on('change', '.scan-input', function() {
+        var index = $(this).data('index');
+        var file = this.files[0];
+
+        if (file) {
+            var formData = new FormData();
+            formData.append('file', file);
+
+            $('#loading_' + index).show();
+            $('#results_' + index).empty();
+
+            $.ajax({
+                url: '/api/ocr/scan-cccd',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(data) {
+                    $('#loading_' + index).hide();
+
+                    // Fill form fields with OCR data
+                    if (data.success) {
+                        $('[name="PersonInfos[' + index + '].FullName"]').val(data.fullName);
+                        $('[name="PersonInfos[' + index + '].BirthDate"]').val(data.birthDate);
+                        $('[name="PersonInfos[' + index + '].Gender"][value="' + data.gender + '"]').prop('checked', true);
+                        $('[name="PersonInfos[' + index + '].DocumentNumber"]').val(data.documentNumber);
+                        $('[name="PersonInfos[' + index + '].IssueDate"]').val(data.issueDate);
+                        $('[name="PersonInfos[' + index + '].Issuer"]').val(data.issuer);
+                        $('[name="PersonInfos[' + index + '].Address.FullAddress"]').val(data.address);
+
+                        $('#results_' + index).html('<div class="alert alert-success">Quét CCCD thành công!</div>');
+                    } else {
+                        $('#results_' + index).html('<div class="alert alert-danger">Lỗi: ' + data.message + '</div>');
+                    }
+                },
+                error: function() {
+                    $('#loading_' + index).hide();
+                    $('#results_' + index).html('<div class="alert alert-danger">Có lỗi xảy ra khi quét CCCD</div>');
+                }
+            });
+        }
+    });
+
+    // Function to reindex owners after deletion
+    function reindexOwners() {
+        $('.owner-item').each(function(idx) {
+            $(this).attr('data-index', idx);
+            $(this).find('.owner-legend').html('<i class="fa fa-user"></i> Chủ sở hữu ' + (idx + 1) +
+                (idx > 0 ? '<button type="button" class="btn btn-sm btn-danger pull-right btn-remove-owner" data-index="' + idx + '"><i class="fa fa-trash"></i> Xóa</button>' : ''));
+
+            // Update all input names
+            $(this).find('input, select, textarea').each(function() {
+                var name = $(this).attr('name');
+                if (name) {
+                    name = name.replace(/PersonInfos\[\d+\]/, 'PersonInfos[' + idx + ']');
+                    $(this).attr('name', name);
+                }
+
+                // Update IDs for radio buttons and labels
+                var id = $(this).attr('id');
+                if (id) {
+                    id = id.replace(/_\d+_/, '_' + idx + '_');
+                    $(this).attr('id', id);
+                }
+            });
+
+            // Update labels for radio buttons
+            $(this).find('label[for]').each(function() {
+                var forAttr = $(this).attr('for');
+                if (forAttr) {
+                    forAttr = forAttr.replace(/_\d+_/, '_' + idx + '_');
+                    $(this).attr('for', forAttr);
+                }
+            });
+
+            // Update data-index attributes
+            $(this).find('[data-index]').attr('data-index', idx);
+        });
+
+        ownerIndex = $('.owner-item').length;
+    }
+
+    // Initialize datetime pickers
+    $('.datetime').datepicker({
+        format: 'dd/mm/yyyy',
+        autoclose: true,
+        todayHighlight: true
+    });
+});
+</script>
