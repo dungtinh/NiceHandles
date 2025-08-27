@@ -31,7 +31,6 @@ using NiceHandles.Models;
 using PdfiumViewer;
 using static NiceHandles.Models.XHoSo;
 using System.Drawing.Imaging;
-using DocumentFormat.OpenXml.EMMA;
 
 namespace NiceHandles.Controllers
 {
@@ -134,13 +133,8 @@ namespace NiceHandles.Controllers
         // GET: Infomations/Edit/5
         public ActionResult Edit(int hoso_id)
         {
-            var hoso = db.HoSoes
-                       .Include(x => x.HoSoPersons.Select(hp => hp.PersonInfo))
-                       .Where(x => x.id == hoso_id)
-                       .SingleOrDefault();
-
+            var hoso = db.HoSoes.Find(hoso_id);
             Infomation infomation = db.Infomations.SingleOrDefault(x => x.hoso_id == hoso_id);
-
             if (infomation == null)
             {
                 infomation = new Infomation();
@@ -149,18 +143,6 @@ namespace NiceHandles.Controllers
                 infomation.e_account = hoso.account_id;
                 db.SaveChanges();
             }
-
-            var service = db.Services.Find(hoso.service_id);
-            var contract = db.Contracts.Find(hoso.contract_id);
-            var address = db.Addresses.Find(contract.address_id);
-
-            // Pass data to ViewBag for partial views
-            ViewBag.HoSo = hoso;
-            ViewBag.Service = service;
-            ViewBag.Contract = contract;
-            ViewBag.Address = address;
-            ViewBag.Database = db;
-
             return View(infomation);
         }
         // POST: Infomations/Edit/5
@@ -337,7 +319,7 @@ namespace NiceHandles.Controllers
                         break;
                     case "LanDau_6VBTuThoaThuan":
                         LanDau_6VBTuThoaThuan(info, doc, dict);
-                        break;
+                        break;                        
                     // END lần đầu 
                     #endregion
                     case "HDDD":
@@ -1097,33 +1079,6 @@ namespace NiceHandles.Controllers
             return Json(acc, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpPost]
-        public ActionResult SaveInfomation(InfomationViewModel model)
-        {
-            // model.PersonInfos sẽ chứa danh sách chủ sở hữu
-            foreach (var person in model.PersonInfos)
-            {
-                // Lưu vào database
-                var personInfo = new PersonInfo
-                {
-                    FullName = person.FullName,
-                    BirthDate = person.BirthDate,
-                    Gender = person.Gender,
-                    DocumentType = person.DocumentType,
-                    DocumentNumber = person.DocumentNumber,
-                    IssueDate = person.IssueDate,
-                    Issuer = person.Issuer,
-                    TaxCode = person.TaxCode,
-                    // Xử lý Address nếu cần
-                    //address_id = SaveAddress(person.Address)
-                };
-
-                db.PersonInfoes.Add(personInfo);
-            }
-
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
     }
     sealed class sAccount
     {

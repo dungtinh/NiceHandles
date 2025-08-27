@@ -4,10 +4,18 @@
 
 @{
     ViewBag.Title = "Edit";
-    var hoso = ViewBag.HoSo as NiceHandles.Models.HoSo;
-    var service = ViewBag.Service as NiceHandles.Models.Service;
-    var contract = ViewBag.Contract as NiceHandles.Models.Contract;
-    var address = ViewBag.Address as NiceHandles.Models.Address;
+    var db = new NHModel();
+    var hoso = db.HoSoes.Find(Model.hoso_id);
+    var service = db.Services.Find(hoso.service_id);
+    var contract = db.Contracts.Find(hoso.contract_id);
+    var address = db.Addresses.Find(contract.address_id);
+
+    // Pass data to ViewBag for partial views
+    ViewBag.HoSo = hoso;
+    ViewBag.Service = service;
+    ViewBag.Contract = contract;
+    ViewBag.Address = address;
+    ViewBag.Database = db;
 }
 
 <style type="text/css">
@@ -143,31 +151,7 @@
         <div class="tab-content">
             <!-- Tab Chủ sở hữu -->
             <div id="chusohuu" class="tab-pane fade in active">
-                @{
-                    // Lấy PersonInfo từ HoSoPerson
-                    var personInfoList = new List<PersonInfo>();
-
-                    if (hoso.HoSoPersons != null && hoso.HoSoPersons.Any())
-                    {
-                        foreach (var hoSoPerson in hoso.HoSoPersons)
-                        {
-                            // HoSoPerson đã có navigation property PersonInfo
-                            if (hoSoPerson.PersonInfo != null)
-                            {
-                                personInfoList.Add(hoSoPerson.PersonInfo);
-                            }
-                        }
-                    }
-
-                    // Nếu không có dữ liệu, thêm một PersonInfo rỗng
-                    if (!personInfoList.Any())
-                    {
-                        personInfoList.Add(new PersonInfo());
-                    }
-                    ViewBag.OwnerIndex = personInfoList.Count;
-                }
-
-                @Html.Partial("_PartialChuSoHuu", personInfoList)
+                @Html.Partial("_PartialChuSoHuu", Model)
             </div>
 
             <!-- Tab Thửa đất -->
