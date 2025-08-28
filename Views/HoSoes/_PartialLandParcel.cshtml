@@ -1,47 +1,93 @@
-﻿@model NiceHandles.Models.LandParcel
-@{
-    var prefix = ViewData["prefix"] as string ?? "";
-}
-<div class="card mb-3">
-    <div class="card-header">Thông tin thửa đất</div>
-    <div class="card-body">
-        <div class="form-row">
-            <div class="form-group col-md-4">
-                <label>Số giấy chứng nhận</label>
-                <input name="@($"{prefix}.CertificateNumber")" value="@Model.CertificateNumber" class="form-control" />
+﻿@model NiceHandles.Models.LandParcelDto
+@using (Html.BeginForm("SaveLandParcel", "HoSoes", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="tab-pane active" id="landparcel">
+        <div class="form-section">
+            <h4 class="section-title">Thông tin giấy chứng nhận</h4>
+
+            @Html.HiddenFor(m => m.Id)
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.CertificateNumber, new { @class = "control-label" })
+                        @Html.TextBoxFor(m => m.CertificateNumber, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.CertificateNumber)
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.BookNumber, new { @class = "control-label" })
+                        @Html.TextBoxFor(m => m.BookNumber, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.IssueDate, new { @class = "control-label" })
+                        @Html.TextBoxFor(m => m.IssueDate, "{0:dd/MM/yyyy}", new { @class = "form-control datepicker" })
+                    </div>
+                </div>
             </div>
-            <div class="form-group col-md-4">
-                <label>Số thửa</label>
-                <input name="@($"{prefix}.ParcelNumber")" value="@Model.ParcelNumber" class="form-control" />
+
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Issuer, new { @class = "control-label" })
+                        @Html.TextBoxFor(m => m.Issuer, new { @class = "form-control", placeholder = "VD: UBND huyện An Dương" })
+                    </div>
+                </div>
             </div>
-            <div class="form-group col-md-4">
-                <label>Tờ bản đồ</label>
-                <input name="@($"{prefix}.MapSheet")" value="@Model.MapSheet" class="form-control" />
-            </div>          
-            <div class="form-group col-md-4">
-                <label>Diện tích thực tế</label>
-                <input name="@($"{prefix}.ActualArea")" value="@(Model.ActualArea?.ToString() ?? "")" class="form-control" />
+
+            <h4 class="section-title">Thông tin thửa đất</h4>
+
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.ParcelNumber, new { @class = "control-label" })
+                        @Html.TextBoxFor(m => m.ParcelNumber, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.MapSheet, new { @class = "control-label" })
+                        @Html.TextBoxFor(m => m.MapSheet, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.ActualArea, new { @class = "control-label" })
+                        @Html.TextBoxFor(m => m.ActualArea, new { @class = "form-control", type = "number", step = "0.01" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.CertifiedArea, new { @class = "control-label" })
+                        @Html.TextBoxFor(m => m.CertifiedArea, new { @class = "form-control", type = "number", step = "0.01" })
+                    </div>
+                </div>
             </div>
-            <div class="form-group col-md-4">
-                <label>Diện tích trên giấy</label>
-                <input name="@($"{prefix}.CertifiedArea")" value="@(Model.CertifiedArea?.ToString() ?? "")" class="form-control" />
-            </div>
-            <div class="form-group col-md-4">
-                <label>Mục đích sử dụng</label>
-                <input name="@($"{prefix}.UsagePurpose")" value="@Model.UsagePurpose" class="form-control" />
-            </div>
-            <div class="form-group col-md-4">
-                <label>Ngày cấp</label>
-                <input name="@($"{prefix}.IssueDate")" value="@(Model.IssueDate?.ToString("yyyy-MM-dd"))" type="date" class="form-control" />
-            </div>
-            <div class="form-group col-md-4">
-                <label>Nơi cấp</label>
-                <input name="@($"{prefix}.Issuer")" value="@Model.Issuer" class="form-control" />
-            </div>
-            <div class="form-group col-md-4">
-                <label>Số vào sổ</label>
-                <input name="@($"{prefix}.BookNumber")" value="@Model.BookNumber" class="form-control" />
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.UsagePurpose, new { @class = "control-label" })
+                        @Html.DropDownListFor(m => m.UsagePurpose, Model.UsagePurposes, "-- Chọn --", new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Address, new { @class = "control-label" })
+                        @Html.TextAreaFor(m => m.Address, new { @class = "form-control", rows = 2 })
+                    </div>
+                </div>
             </div>
         </div>
+        <div class="form-group mt-4">
+            <button type="submit" class="btn btn-primary btn-lg">
+                <i class="fa fa-save"></i> Lưu thông tin
+            </button>
+        </div>
     </div>
-</div>
+}

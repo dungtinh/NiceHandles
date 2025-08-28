@@ -1,0 +1,143 @@
+﻿@model NiceHandles.Models.PersonInfoDto
+@{
+    var index = ViewData["Index"] ?? 0;
+    var prefix = "Persons[" + index + "]";
+}
+
+<div class="person-card-header">
+    <h5>
+        <span class="badge badge-primary">Người @((int)index + 1)</span>
+        @if (Model.IsPrimary)
+        {
+            <span class="badge badge-success">Người chính</span>
+        }
+        @if (Model.IsCertificateHolder)
+        {
+            <span class="badge badge-info">Đứng tên GCN</span>
+        }
+    </h5>
+    <button type="button" class="btn btn-danger btn-sm btn-delete-person">
+        <i class="fa fa-trash"></i> Xóa
+    </button>
+</div>
+
+@Html.Hidden(prefix + ".Id", Model.Id)
+@Html.Hidden(prefix + ".IsNew", Model.IsNew)
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="form-group">
+            <label class="control-label required-field">Họ và tên</label>
+            @Html.TextBox(prefix + ".FullName", Model.FullName, new { @class = "form-control", required = "required" })
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label class="control-label">Ngày sinh</label>
+            @Html.TextBox(prefix + ".BirthDate", Model.BirthDate?.ToString("dd/MM/yyyy"), new { @class = "form-control datepicker" })
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label class="control-label">Giới tính</label>
+            @Html.DropDownList(prefix + ".Gender", new SelectList(new[] {
+                new { Value = "Nam", Text = "Nam" },
+                new { Value = "Nữ", Text = "Nữ" }
+            }, "Value", "Text", Model.Gender), new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="form-group">
+            <label class="control-label required-field">Vai trò</label>
+            @Html.DropDownList(prefix + ".Role", new SelectList(new[] {
+                new { Value = 0, Text = "Chủ sở hữu" },
+                new { Value = 1, Text = "Người mua/nhận" },
+                new { Value = 2, Text = "Người thừa kế" },
+                new { Value = 3, Text = "Thành viên hộ gia đình" },
+                new { Value = 99, Text = "Khác" }
+            }, "Value", "Text", Model.Role), new { @class = "form-control" })
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group">
+            <label class="control-label">Loại giấy tờ</label>
+            @Html.DropDownList(prefix + ".DocumentType", new SelectList(new[] {
+                new { Value = "CCCD", Text = "CCCD" },
+                new { Value = "CMND", Text = "CMND" },
+                new { Value = "Căn cước", Text = "Căn cước" },
+                new { Value = "Số định danh", Text = "SĐD" }
+            }, "Value", "Text", Model.DocumentType), "-- Chọn --", new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label class="control-label">Số giấy tờ</label>
+            @Html.TextBox(prefix + ".DocumentNumber", Model.DocumentNumber, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label class="control-label">Ngày cấp</label>
+            @Html.TextBox(prefix + ".IssueDate", Model.IssueDate?.ToString("dd/MM/yyyy"), new { @class = "form-control datepicker" })
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label class="control-label">Nơi cấp</label>
+            @Html.TextBox(prefix + ".Issuer", Model.Issuer, new { @class = "form-control", placeholder = "VD: Cục CS QLHC về TTXH" })
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="form-group">
+            <label class="control-label">Địa chỉ thường trú</label>
+            @Html.TextArea(prefix + ".PermanentAddress", Model.DocumentAddress, new { @class = "form-control", rows = 2 })
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="form-group">
+            <label class="control-label">Mã số thuế</label>
+            @Html.TextBox(prefix + ".TaxCode", Model.TaxCode, new { @class = "form-control" })
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-check form-check-inline">
+            @Html.CheckBox(prefix + ".IsPrimary", Model.IsPrimary)
+            <label class="form-check-label">
+                Là người chính
+            </label>
+        </div>
+        <div class="form-check form-check-inline ml-3">
+            @Html.CheckBox(prefix + ".IsCertificateHolder", Model.IsCertificateHolder)
+            <label class="form-check-label">
+                Đứng tên trên GCN
+            </label>
+        </div>
+    </div>
+</div>
+
+@if (Model.Role == 2) // Người thừa kế
+{
+    <div class="row mt-3">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">Ngày mất</label>
+                @Html.TextBox(prefix + ".DeathDate", Model.DeathDate?.ToString("dd/MM/yyyy"), new { @class = "form-control datepicker" })
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="form-group">
+                <label class="control-label">Giấy tờ chứng tử</label>
+                @Html.TextBox(prefix + ".DeathDocument", Model.DeathDocument, new { @class = "form-control", placeholder = "VD: Trích lục khai tử số 123 do UBND xã ABC cấp ngày 01/01/2020" })
+            </div>
+        </div>
+    </div>
+}

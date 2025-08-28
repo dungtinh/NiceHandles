@@ -13,17 +13,17 @@ using System.Web;
 using System.Web.Mvc;
 using Antlr.Runtime.Misc;
 using Aspose.Words.Drawing;
+using DocumentFormat.OpenXml.Office2010.Excel;
 using FlexCel.Report;
 using Microsoft.AspNet.Identity;
 using NiceHandles.Models;
-using NiceHandles.ViewModels;
 using PagedList;
 using static NiceHandles.Models.XHoSo;
 
 namespace NiceHandles.Controllers
 {
     [Authorize(Roles = "SuperAdmin,Manager,Member")]
-    public partial class HoSoesController : Controller
+    public class HoSoesController : Controller
     {
         private NHModel db = new NHModel();
 
@@ -1135,7 +1135,347 @@ namespace NiceHandles.Controllers
             hoso.light = (hoso.light.HasValue && hoso.light == 1) ? 0 : 1;
             db.SaveChanges();
             return Json(hoso.light.Value, JsonRequestBehavior.AllowGet);
-        }      
+        }
+
+        [HttpGet]
+        public JsonResult DupplicateInfomation(int id)
+        {
+            var hoso = db.HoSoes.Find(id);
+            var info = db.Infomations.FirstOrDefault(x => x.hoso_id == hoso.id);
+            return Json(info, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult Input(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            HoSo hoso = db.HoSoes.Find(id);
+            if (hoso == null)
+            {
+                return HttpNotFound();
+            }
+
+            var viewModel = new HoSoInputViewModel
+            {
+                HoSoId = hoso.id,
+                HoSoName = hoso.name,
+                ServiceId = hoso.service_id,
+                ServiceName = hoso.Service?.name,
+                ContractName = hoso.Contract?.name,
+                AddressName = GetAddressName(hoso.Contract?.address_id)
+            };
+
+
+            var landParcel = db.LandParcels.SingleOrDefault(l => l.HosoId == hoso.id);
+            if (landParcel != null)
+            {
+                viewModel.LandParcel = new LandParcelDto
+                {
+                    Id = landParcel.Id,
+                    CertificateNumber = landParcel.CertificateNumber,
+                    ParcelNumber = landParcel.ParcelNumber,
+                    MapSheet = landParcel.MapSheet,
+                    ActualArea = landParcel.ActualArea,
+                    CertifiedArea = landParcel.CertifiedArea,
+                    UsagePurpose = landParcel.UsagePurpose,
+                    IssueDate = landParcel.IssueDate,
+                    Issuer = landParcel.Issuer,
+                    BookNumber = landParcel.BookNumber,
+                };
+            }
+
+
+            // Load VariationInfo
+            var variation = db.VariationInfoes.SingleOrDefault(x => x.HosoId == hoso.id);
+            if (variation != null)
+            {
+                viewModel.VariationInfo = new VariationInfoDto
+                {
+                    Id = variation.Id,
+                    VariationType = variation.VariationType,
+                    ContractNumber = variation.ContractNumber,
+                    NotaryOffice = variation.NotaryOffice,
+                    NotaryDate = variation.NotaryDate,
+                    ContractAmount = variation.ContractAmount,
+                    TaxReductionReason = variation.TaxReductionReason,
+                    LandPosition = variation.LandPosition
+                };
+            }
+
+
+            viewModel.Persons = db.PersonInfoes.Where(x => x.HosoId == hoso.id).Select(hp => new PersonInfoDto
+            {
+                Id = hp.Id,
+                FullName = hp.FullName,
+                BirthDate = hp.BirthDate,
+                Gender = hp.Gender,
+                DocumentType = hp.DocumentType,
+                DocumentNumber = hp.DocumentNumber,
+                IssueDate = hp.IssueDate,
+                Issuer = hp.Issuer,
+                TaxCode = hp.TaxCode,
+                //DocumentAddress = GetAddressName(hp.AddressId),
+                DeathDate = hp.DeathDate,
+                DeathDocument = hp.DeathDocument,
+                HeirId = hp.HeirId,
+                Role = hp.PersonRole,
+                IsNew = false
+            }).ToList();
+
+            return View(viewModel);
+        }
+
+        // POST: HoSoes/Edit
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Input(HoSoInputViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(viewModel);
+            }
+
+            using (var transaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    var hoso = db.HoSoes.Find(viewModel.HoSoId);
+                    if (hoso == null)
+                    {
+                        return HttpNotFound();
+                    }
+
+                    // Handle PersonInfo updates
+
+
+                    db.SaveChanges();
+                    transaction.Commit();
+
+                    TempData["Success"] = "Lưu thông tin hồ sơ thành công!";
+                    return RedirectToAction("Details", new { id = hoso.id });
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    ModelState.AddModelError("", "Có lỗi xảy ra: " + ex.Message);
+                    return View(viewModel);
+                }
+            }
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SaveLandParcel(LandParcelDto viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(viewModel);
+            }
+
+            using (var transaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    // Update or Create LandParcel
+                    if (viewModel != null)
+                    {
+                        LandParcel landParcel;
+                        if (viewModel.Id > 0)
+                        {
+                            landParcel = db.LandParcels.Find(viewModel.Id);
+                        }
+                        else
+                        {
+                            landParcel = new LandParcel();
+                            db.LandParcels.Add(landParcel);
+                        }
+                        landParcel.CertificateNumber = viewModel.CertificateNumber;
+                        landParcel.ParcelNumber = viewModel.ParcelNumber;
+                        landParcel.MapSheet = viewModel.MapSheet;
+                        landParcel.ActualArea = viewModel.ActualArea;
+                        landParcel.CertifiedArea = viewModel.CertifiedArea;
+                        landParcel.UsagePurpose = viewModel.UsagePurpose;
+                        landParcel.IssueDate = viewModel.IssueDate;
+                        landParcel.Issuer = viewModel.Issuer;
+                        landParcel.BookNumber = viewModel.BookNumber;
+                        db.SaveChanges();
+                    }
+                    transaction.Commit();
+
+                    TempData["Success"] = "Lưu thông tin hồ sơ thành công!";
+                    return View(viewModel);
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    ModelState.AddModelError("", "Có lỗi xảy ra: " + ex.Message);
+                    return View(viewModel);
+                }
+            }
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SaveVariationInfo(VariationInfoDto viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(viewModel);
+            }
+
+            using (var transaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    // Update or Create LandParcel
+                    if (viewModel != null)
+                    {
+
+                        VariationInfo variation;
+                        if (viewModel.Id > 0)
+                        {
+                            variation = db.VariationInfoes.Find(viewModel.Id);
+                        }
+                        else
+                        {
+                            variation = new VariationInfo();
+                            db.VariationInfoes.Add(variation);
+                        }
+                        variation.VariationType = viewModel.VariationType;
+                        variation.ContractNumber = viewModel.ContractNumber;
+                        variation.NotaryOffice = viewModel.NotaryOffice;
+                        variation.NotaryDate = viewModel.NotaryDate;
+                        variation.ContractAmount = viewModel.ContractAmount;
+                        variation.TaxReductionReason = viewModel.TaxReductionReason;
+                        variation.LandPosition = viewModel.LandPosition;
+                        db.SaveChanges();
+
+                    }
+                    transaction.Commit();
+
+                    TempData["Success"] = "Lưu thông tin hồ sơ thành công!";
+                    return View(viewModel);
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    ModelState.AddModelError("", "Có lỗi xảy ra: " + ex.Message);
+                    return View(viewModel);
+                }
+            }
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SaveVariationInfo(List<PersonInfoDto> viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(viewModel);
+            }
+
+            using (var transaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    // Update or Create LandParcel
+                    if (viewModel != null)
+                    {
+
+                        foreach (var personDto in viewModel)
+                        {
+                            PersonInfo person;
+
+                            if (personDto.Id > 0 && !personDto.IsNew)
+                            {
+                                // Update existing person
+                                person = db.PersonInfoes.Find(personDto.Id);
+                            }
+                            else
+                            {
+                                // Create new person
+                                person = new PersonInfo();
+                                db.PersonInfoes.Add(person);
+                            }
+
+                            // Update PersonInfo
+                            person.FullName = personDto.FullName;
+                            person.BirthDate = personDto.BirthDate;
+                            person.Gender = personDto.Gender;
+                            person.DocumentType = personDto.DocumentType;
+                            person.DocumentNumber = personDto.DocumentNumber;
+                            person.IssueDate = personDto.IssueDate;
+                            person.Issuer = personDto.Issuer;
+                            person.TaxCode = personDto.TaxCode;
+                            person.DeathDate = personDto.DeathDate;
+                            person.DeathDocument = personDto.DeathDocument;
+                            person.HeirId = personDto.HeirId;
+                            db.SaveChanges();
+                        }
+
+                    }
+                    transaction.Commit();
+
+                    TempData["Success"] = "Lưu thông tin hồ sơ thành công!";
+                    return View(viewModel);
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    ModelState.AddModelError("", "Có lỗi xảy ra: " + ex.Message);
+                    return View(viewModel);
+                }
+            }
+        }
+
+        // AJAX: Add new person row
+        [HttpPost]
+        public ActionResult AddPersonRow()
+        {
+            var person = new PersonInfoDto
+            {
+                Id = 0,
+                IsNew = true,
+                Gender = "Nam",
+                DocumentType = "CCCD",
+                Role = 0
+            };
+
+            ViewBag.Index = Request["index"] ?? "0";
+            return PartialView("_PersonRow", person);
+        }
+
+        // AJAX: Delete person
+        [HttpPost]
+        public JsonResult DeletePerson(int id)
+        {
+            try
+            {
+                var personInfo = db.PersonInfoes.Find(id);
+                if (personInfo != null)
+                {
+                    db.PersonInfoes.Remove(personInfo);
+                    db.SaveChanges();
+                    return Json(new { success = true });
+                }
+                else
+                    return Json(new { success = false, message = "Không tìm thấy người này" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+
+        // Helper methods
+        private string GetAddressName(int? addressId)
+        {
+            if (!addressId.HasValue) return "";
+            var address = db.Addresses.Find(addressId.Value);
+            return address?.name ?? "";
+        }
 
     }
 }

@@ -80,7 +80,7 @@
       <HintPath>packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="FlexCel">
-      <HintPath>bin\ref\FlexCel.dll</HintPath>
+      <HintPath>..\..\Publish\NiceHandles\bin\FlexCel.dll</HintPath>
     </Reference>
     <Reference Include="HtmlAgilityPack, Version=1.11.70.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <HintPath>packages\HtmlAgilityPack.1.11.70\lib\Net45\HtmlAgilityPack.dll</HintPath>
@@ -274,7 +274,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
-    <Compile Include="Controllers\HoSoesControllerImportData.cs" />
     <Compile Include="Hubs\ChatHub.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -408,14 +407,14 @@
     <Compile Include="Models\ChatFile.cs">
       <DependentUpon>NHModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ChatMessagePartial.cs" />
     <Compile Include="Models\ChatMessage.cs">
       <DependentUpon>NHModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ChatSessionPartial.cs" />
+    <Compile Include="Models\ChatMessagePartial.cs" />
     <Compile Include="Models\ChatSession.cs">
       <DependentUpon>NHModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ChatSessionPartial.cs" />
     <Compile Include="Models\chotso.cs">
       <DependentUpon>NHModel.tt</DependentUpon>
     </Compile>
@@ -529,9 +528,6 @@
       <DependentUpon>NHModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\HoSo.cs">
-      <DependentUpon>NHModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\HoSoPerson.cs">
       <DependentUpon>NHModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\HoSoPersonRole.cs" />
@@ -754,6 +750,7 @@
     <Compile Include="Models\ViecPhaiLam.cs">
       <DependentUpon>NHModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewModels\HoSoInputViewModel.cs" />
     <Compile Include="Models\ViewModels\MonthlyAttendanceViewModel.cs" />
     <Compile Include="Models\ViewModels\AttendanceInputModel.cs" />
     <Compile Include="Models\vInOut.cs">
@@ -1644,6 +1641,8 @@
     <Content Include="Views\Infomations\_PartialChuyenVuon.cshtml" />
     <Content Include="Views\Infomations\_PartialDownload.cshtml" />
     <Content Include="Views\Infomations\_PartialScripts.cshtml" />
+    <Content Include="Views\HoSoes\Input.cshtml" />
+    <Content Include="Views\HoSoes\_PersonForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\uploads\" />
