@@ -169,9 +169,9 @@
                 <th>Giá trị HĐ</th>
                 <th>Đã thu</th>
                 <th>Phải thu</th>
-                <th>Dự chi</th>
-                <th>HH NV</th>
-                <th>HH ĐT</th>
+                @*<th>Dự chi</th>
+                    <th>HH NV</th>
+                    <th>HH ĐT</th>*@
                 @*<th>ĐM Đo đạc</th>
                     <th>ĐM T.Hiện</th>*@
                 <th>Đã chi</th>
@@ -219,75 +219,75 @@
                         @taked_amount.ToString("N0")
                     </td>
                     <td style="text-align: right;">                @((item.amount - taked_amount).ToString("N0"))            </td>
-                    <td style="text-align: right;">
-                        @item.consuming.ToString("N0")
-                        <br />
-                        @Html.ActionLink("Trình duyệt", "TrinhDuyetChi", new { id = item.id }, new { @class = "btn btn-warning", @target = "_blank" })
-                    </td>
-                    <td class="text-danger" style="text-align: right;">
-                        @if (item.rose > 0)
-                        {
-                            var inouts = inoutsInContract.Where(x => x.category_id == cateRose.id);
-                            if (inouts.Count() > 0)
+                    @*<td style="text-align: right;">
+                            @item.consuming.ToString("N0")
+                            <br />
+                            @Html.ActionLink("Trình duyệt", "TrinhDuyetChi", new { id = item.id }, new { @class = "btn btn-warning", @target = "_blank" })
+                        </td>
+                        <td class="text-danger" style="text-align: right;">
+                            @if (item.rose > 0)
                             {
-                                var sum = inouts.Sum(x => x.amount);
-                                @sum.ToString("N0")
-                                <br />
-                                if (inouts.Any(x => x.status == (int)XInOut.eStatus.ChoDuyet))
+                                var inouts = inoutsInContract.Where(x => x.category_id == cateRose.id);
+                                if (inouts.Count() > 0)
                                 {
-                                    <button class="btn btn-info">Chờ duyệt</button>
-                                }
-                                else if (inouts.Any(x => x.status == (int)XInOut.eStatus.DaDuyet))
-                                {
-                                    <button class="btn btn-primary">Đã duyệt</button>
+                                    var sum = inouts.Sum(x => x.amount);
+                                    @sum.ToString("N0")
+                                    <br />
+                                    if (inouts.Any(x => x.status == (int)XInOut.eStatus.ChoDuyet))
+                                    {
+                                        <button class="btn btn-info">Chờ duyệt</button>
+                                    }
+                                    else if (inouts.Any(x => x.status == (int)XInOut.eStatus.DaDuyet))
+                                    {
+                                        <button class="btn btn-primary">Đã duyệt</button>
+                                    }
+                                    else
+                                    {
+                                        <button class="btn btn-default">Đã thực hiện</button>
+                                    }
                                 }
                                 else
                                 {
-                                    <button class="btn btn-default">Đã thực hiện</button>
+                                    @item.rose.ToString("N0")
+                                    <br />
+                                    <button class="btn btn-warning" onclick="TrinhDuyet(@item.id,@cateRose.id);">Trình duyệt</button>
                                 }
                             }
-                            else
+                        </td>
+                        <td class="text-danger" style="text-align: right;">
+                            @if (item.outrose > 0)
                             {
-                                @item.rose.ToString("N0")
-                                <br />
-                                <button class="btn btn-warning" onclick="TrinhDuyet(@item.id,@cateRose.id);">Trình duyệt</button>
-                            }
-                        }
-                    </td>
-                    <td class="text-danger" style="text-align: right;">
-                        @if (item.outrose > 0)
-                        {
-                            var inouts = inoutsInContract.Where(x => x.category_id == catePartner.id);
-                            if (inouts.Count() > 0)
-                            {
-                                var sum = inouts.Sum(x => x.amount);
-                                @sum.ToString("N0")
-                                <br />
-                                if (inouts.Any(x => x.status == (int)XInOut.eStatus.ChoDuyet))
+                                var inouts = inoutsInContract.Where(x => x.category_id == catePartner.id);
+                                if (inouts.Count() > 0)
                                 {
-                                    <button class="btn btn-info">Chờ duyệt</button>
-                                }
-                                else if (inouts.Any(x => x.status == (int)XInOut.eStatus.DaDuyet))
-                                {
-                                    <button class="btn btn-primary">Đã duyệt</button>
-                                }
-                                else if (sum < item.outrose)
-                                {
-                                    <button class="btn btn-warning" onclick="TrinhDuyet(@item.id,@catePartner.id);">T.Duyệt L2</button>
+                                    var sum = inouts.Sum(x => x.amount);
+                                    @sum.ToString("N0")
+                                    <br />
+                                    if (inouts.Any(x => x.status == (int)XInOut.eStatus.ChoDuyet))
+                                    {
+                                        <button class="btn btn-info">Chờ duyệt</button>
+                                    }
+                                    else if (inouts.Any(x => x.status == (int)XInOut.eStatus.DaDuyet))
+                                    {
+                                        <button class="btn btn-primary">Đã duyệt</button>
+                                    }
+                                    else if (sum < item.outrose)
+                                    {
+                                        <button class="btn btn-warning" onclick="TrinhDuyet(@item.id,@catePartner.id);">T.Duyệt L2</button>
+                                    }
+                                    else
+                                    {
+                                        <button class="btn btn-default">Đã thực hiện</button>
+                                    }
                                 }
                                 else
                                 {
-                                    <button class="btn btn-default">Đã thực hiện</button>
+                                    @item.outrose.ToString("N0")
+                                    <br />
+                                    <button class="btn btn-warning" onclick="TrinhDuyet(@item.id,@catePartner.id);">Trình duyệt</button>
                                 }
                             }
-                            else
-                            {
-                                @item.outrose.ToString("N0")
-                                <br />
-                                <button class="btn btn-warning" onclick="TrinhDuyet(@item.id,@catePartner.id);">Trình duyệt</button>
-                            }
-                        }
-                    </td>
+                        </td>*@
                     @*<td class="text-danger" style="text-align: right;">
                             @if (item.dove > 0)
                             {
@@ -373,6 +373,14 @@
                         @((item.amount - item.consuming).ToString("N0"))
                     </td>
                     <td>
+                        <label>
+                            @XContract.sStatus[(int)item.status]
+                        </label>
+                        <br />
+                        <button class="btn btn-success" type="button" onclick="FinishClx('@((int)item.id)')"> Hoàn thành </button>
+                        @Html.Raw(" |")
+                        <button class="btn btn-danger" type="button" onclick="CancelClx('@((int)item.id)')"> Hủy </button>
+                        @Html.Raw(" |")
                         @if (item.status == (int)XContract.eStatus.Processing)
                         {
                             <a href="#" style="background-color: aliceblue; color: deeppink;" onclick="DuyetChi(@item.id,null);">Thu chi</a>
@@ -395,19 +403,19 @@
         </div>
         <div class="col-sm-10">
             @Html.PagedListPager(Model, Page_No => Url.Action("Index", new
-       {
-           Page_No,
-           Filter_Value = ViewBag.FilterValue,
-           add = ViewBag.ADD,
-           acc = ViewBag.ACC,
-           ser = ViewBag.SER,
-           par = ViewBag.PAR,
-           sta = ViewBag.STA,
-           loai = ViewBag.LOAI,
-           hh = ViewBag.HH,
-           fromdate = ViewBag.FROMDATE,
-           todate = ViewBag.TODATE
-       }))
+            {
+                Page_No,
+                Filter_Value = ViewBag.FilterValue,
+                add = ViewBag.ADD,
+                acc = ViewBag.ACC,
+                ser = ViewBag.SER,
+                par = ViewBag.PAR,
+                sta = ViewBag.STA,
+                loai = ViewBag.LOAI,
+                hh = ViewBag.HH,
+                fromdate = ViewBag.FROMDATE,
+                todate = ViewBag.TODATE
+            }))
         </div>
     </div>
 }
@@ -476,6 +484,28 @@
                 data: { contract_id: contract_id, category_id: category_id },
                 success: function (id) {
                     location.reload();
+                }
+            });
+        }
+        function FinishClx(contract_id) {
+            $.ajax({
+                url: '/Contracts/Finish',
+                type: "POST",
+                dataType: "JSON",
+                data: { id: contract_id },
+                success: function (mess) {
+                    alert(mess);
+                }
+            });
+        }
+        function CancelClx(contract_id) {
+            $.ajax({
+                url: '/Contracts/Cancel',
+                type: "POST",
+                dataType: "JSON",
+                data: { id: contract_id },
+                success: function (mess) {
+                    alert(mess);
                 }
             });
         }

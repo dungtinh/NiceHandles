@@ -161,7 +161,7 @@ h4 {
 
     .progressfile fieldset {
         border: 1px solid #0094ff;
-        border-radius: 10px;        
+        border-radius: 10px;
     }
 
     .progressfile .progress_header {
@@ -228,4 +228,8 @@ h4 {
 .fixicon {
     width: 80px;
     text-align: center;
+}
+
+.container {
+    width: 2000px !important;
 }

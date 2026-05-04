@@ -68,10 +68,9 @@ namespace NiceHandles.Controllers
                           (hh.HasValue ? partners.Contains(io.partner) : true) &&
                           io.time >= FromDate &&
                           io.time < ToDate &&
-                          io.status < (int)XContract.eStatus.Cancel &&
                           io.name.ToUpper().Contains((!string.IsNullOrEmpty(Search_Data) ? Search_Data.ToUpper() : io.name.ToUpper())
                           ))
-                          orderby io.time descending
+                          orderby io.address_name, io.name
                           select io;
             ViewBag.db = db;
             int Size_Of_Page = 30;
@@ -1528,6 +1527,49 @@ namespace NiceHandles.Controllers
             return View(contract);
         }
 
+        [Authorize(Roles = "SuperAdmin")]
+        public JsonResult Finish(int id)
+        {
+            Contract contract = db.Contracts.Find(id);
+            var username = User.Identity.GetUserName();
+            var us = db.Accounts.Where(x => x.UserName.Equals(username)).Single();
+            var wf = new wf_contract();
+            wf.account_id = us.id;
+            wf.time = DateTime.Now;
+            wf.status = (int)Xwf_contract.eStatus.Complete;
+            wf.contract_id = contract.id;
+            wf.note = us.fullname + " hoàn tất hồ sơ từ trạng thái " + XContract.sStatus[contract.status];
+            var backWF = db.wf_contract.Where(x => x.contract_id == id).OrderByDescending(x => x.time).FirstOrDefault();
+            wf.step_id = backWF.step_id;
+            wf.from_id = backWF.from_id;
+            db.wf_contract.Add(wf);
+            contract.account_id = us.id;
+            contract.status = (int)XContract.eStatus.Complete;
+            db.SaveChanges();
+            return Json("", JsonRequestBehavior.AllowGet);
+        }
+        [Authorize(Roles = "SuperAdmin")]
+        public JsonResult Cancel(int id)
+        {
+            Contract contract = db.Contracts.Find(id);
+            var username = User.Identity.GetUserName();
+            var us = db.Accounts.Where(x => x.UserName.Equals(username)).Single();
+            var wf = new wf_contract();
+            wf.account_id = us.id;
+            wf.time = DateTime.Now;
+            wf.status = (int)Xwf_contract.eStatus.Complete;
+            wf.contract_id = contract.id;
+            wf.note = us.fullname + " hủy hồ sơ từ trạng thái " + XContract.sStatus[contract.status];
+            var backWF = db.wf_contract.Where(x => x.contract_id == id).OrderByDescending(x => x.time).FirstOrDefault();
+            wf.step_id = backWF.step_id;
+            wf.from_id = backWF.from_id;
+            db.wf_contract.Add(wf);
+            contract.account_id = us.id;
+            contract.status = (int)XContract.eStatus.Cancel;
+            db.SaveChanges();
+            return Json("", JsonRequestBehavior.AllowGet);
+        }
+
         #region GetContract Select2
         private class ContractQueryResult
         {
@@ -1820,7 +1862,7 @@ namespace NiceHandles.Controllers
                 var addresses = db.Addresses.Where(a => addressIds.Contains(a.id))
                     .ToDictionary(a => a.id, a => a.name);
                 var services = db.Services.Where(s => serviceIds.Contains(s.id))
-                    .ToDictionary(s => s.id, s => s.name);                
+                    .ToDictionary(s => s.id, s => s.name);
 
                 // Build response
                 var items = contracts.Select(c => new
@@ -1830,7 +1872,7 @@ namespace NiceHandles.Controllers
                     text = addresses.ContainsKey(c.address_id) ? addresses[c.address_id] : "",
                     code = c.code,
                     address = addresses.ContainsKey(c.address_id) ? addresses[c.address_id] : "",
-                    service = services.ContainsKey(c.service_id) ? services[c.service_id] : "",                    
+                    service = services.ContainsKey(c.service_id) ? services[c.service_id] : "",
                     amount = c.amount,
                     formattedAmount = c.amount.ToString("N0") + " VNĐ",
                     date = c.time.ToString("dd/MM/yyyy"),
